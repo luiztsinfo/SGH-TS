@@ -1,0 +1,41 @@
+inherited frmBase2: TfrmBase2
+  Caption = 'frmBase2'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    inherited TbShConsulta: TTabSheet
+      inherited PnFiltro: TPanel
+        inherited Label4: TLabel
+          Left = 119
+          ExplicitLeft = 119
+        end
+        inherited CbxConsulta: TComboBox
+          Width = 105
+          ExplicitWidth = 105
+        end
+        inherited BtnConsultar: TBitBtn
+          Left = 525
+          Width = 98
+          ExplicitLeft = 525
+          ExplicitWidth = 98
+        end
+        inherited CbxOrdenarPor: TComboBox
+          Left = 119
+          Width = 106
+          ExplicitLeft = 119
+          ExplicitWidth = 106
+        end
+        inherited GrpBxDadoConsulta: TGroupBox
+          Left = 235
+          Width = 283
+          ExplicitLeft = 235
+          ExplicitWidth = 283
+          inherited edtConsulta: TEdit
+            Width = 265
+            ExplicitWidth = 265
+          end
+        end
+      end
+    end
+  end
+end

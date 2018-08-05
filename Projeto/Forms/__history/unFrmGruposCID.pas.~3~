@@ -1,0 +1,93 @@
+unit unFrmGruposCID;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.GrupoCID;
+
+type
+  TfrmGruposCID = class(TfrmBase)
+    edtID: TEdit;
+    edtDescricao: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+  private
+    FControllerGrupoCID: TControllerGrupoCID;
+  public
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmGruposCID: TfrmGruposCID;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmGruposCID }
+
+procedure TfrmGruposCID.alimentaModel;
+begin
+  inherited;
+  FControllerGrupoCID.Model.Descricao := edtDescricao.Text;
+end;
+
+procedure TfrmGruposCID.alterar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmGruposCID.carregarCampos;
+begin
+  inherited;
+
+end;
+
+procedure TfrmGruposCID.carregarModel;
+begin
+  inherited;
+
+end;
+
+procedure TfrmGruposCID.consultar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmGruposCID.excluir;
+begin
+  inherited;
+
+end;
+
+function TfrmGruposCID.existeRegistro: boolean;
+begin
+
+end;
+
+procedure TfrmGruposCID.incluir;
+begin
+  inherited;
+
+end;
+
+procedure TfrmGruposCID.mostrarTodosDados;
+begin
+  inherited;
+
+end;
+
+end.

@@ -1,0 +1,391 @@
+object DMRel: TDMRel
+  OldCreateOrder = False
+  Height = 154
+  Width = 394
+  object Con: TFDConnection
+    Params.Strings = (
+      'Database=tshosp'
+      'User_Name=postgres'
+      'Password=Teste123'
+      'Server=127.0.0.1'
+      'DriverID=PG')
+    Connected = True
+    Left = 40
+    Top = 16
+  end
+  object qryPrincipal: TFDQuery
+    Active = True
+    Connection = Con
+    SQL.Strings = (
+      
+        'SELECT he.*, pac.nome As NomePaciente, enf.nome As NomeEnfermeir' +
+        'o,'
+      'pac.nascimento, rel.descricao, '
+      
+        'ap.quantidade, ap.frequencia, ap.tempoconsumo, ap.tempoquimioter' +
+        'apia,'
+      'ap.data_registro, ap.temporadioterapia, ap.obs_geral, '
+      'ant.id AS IdAntecedente, ant.descricao AS Antecedente,'
+      'ia.*, hom.*, mu.*, sv.*, cg.*, an.*, af.*, p.*, cc.*,'
+      ''
+      'CASE '
+      'WHEN cc.lesoes = 1 THEN '#39'N'#227'o'#39
+      'WHEN cc.lesoes = 2 THEN '#39'Sim'#39
+      'END AS lesoes,'
+      ''
+      'CASE '
+      'WHEN cc.pediculose = 1 THEN '#39'N'#227'o'#39
+      'WHEN cc.pediculose = 2 THEN '#39'Sim'#39
+      'END AS pediculose,'
+      ''
+      'CASE '
+      'WHEN cc.sujidade = 1 THEN '#39'N'#227'o'#39
+      'WHEN cc.sujidade = 2 THEN '#39'Sim'#39
+      'END AS sujidade,'
+      ''
+      'CASE '
+      'WHEN cc.desmatites = 1 THEN '#39'N'#227'o'#39
+      'WHEN cc.desmatites = 2 THEN '#39'Sim'#39
+      'END AS desmatites,'
+      ''
+      'CASE '
+      'WHEN cc.seborreia = 1 THEN '#39'N'#227'o'#39
+      'WHEN cc.seborreia = 2 THEN '#39'Sim'#39
+      'END AS seborreia,'
+      ''
+      'CASE'
+      'WHEN p.vesiculas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.vesiculas = 2 THEN '#39'Sim'#39
+      'END AS vesiculas,'
+      ''
+      'CASE'
+      'WHEN p.bolhas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.bolhas = 2 THEN '#39'Sim'#39
+      'END AS bolhas,'
+      ''
+      'CASE'
+      'WHEN p.pustulas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.pustulas = 2 THEN '#39'Sim'#39
+      'END AS pustulas,'
+      ''
+      'CASE'
+      'WHEN p.abscessos = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.abscessos = 2 THEN '#39'Sim'#39
+      'END AS abscessos,'
+      ''
+      'CASE'
+      'WHEN p.nodulos = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.nodulos = 2 THEN '#39'Sim'#39
+      'END AS nodulos,'
+      ''
+      'CASE'
+      'WHEN p.tumor = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.tumor = 2 THEN '#39'Sim'#39
+      'END AS tumor,'
+      ''
+      'CASE'
+      'WHEN p.papulas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.papulas = 2 THEN '#39'Sim'#39
+      'END AS papulas,'
+      ''
+      'CASE'
+      'WHEN p.urticarias = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.urticarias = 2 THEN '#39'Sim'#39
+      'END AS urticarias,'
+      ''
+      'CASE'
+      'WHEN p.hematomas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.hematomas = 2 THEN '#39'Sim'#39
+      'END AS hematomas,'
+      ''
+      'CASE'
+      'WHEN p.exantemas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.exantemas = 2 THEN '#39'Sim'#39
+      'END AS exantemas,'
+      ''
+      'CASE'
+      'WHEN p.eritemas = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.eritemas = 2 THEN '#39'Sim'#39
+      'END AS eritemas,'
+      ''
+      'CASE'
+      'WHEN p.petequias = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.petequias = 2 THEN '#39'Sim'#39
+      'END AS petequias,'
+      ''
+      'CASE'
+      'WHEN p.equimose = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.equimose = 2 THEN '#39'Sim'#39
+      'END AS equimose,'
+      ''
+      'CASE'
+      'WHEN p.torgor_diminuido = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.torgor_diminuido = 2 THEN '#39'Sim'#39
+      'END AS torgor_diminuido,'
+      ''
+      'CASE'
+      'WHEN p.torgor_normal = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.torgor_normal = 2 THEN '#39'Sim'#39
+      'END AS torgor_normal,'
+      ''
+      'CASE'
+      'WHEN p.deformidades = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.deformidades = 2 THEN '#39'Sim'#39
+      'END AS deformidades,'
+      ''
+      'CASE'
+      'WHEN p.prurido = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.prurido = 2 THEN '#39'Sim'#39
+      'END AS prurido,'
+      ''
+      'CASE'
+      'WHEN p.palidez = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.palidez = 2 THEN '#39'Sim'#39
+      'END AS palidez,'
+      ''
+      'CASE'
+      'WHEN p.cianose = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.cianose = 2 THEN '#39'Sim'#39
+      'END AS cianose,'
+      ''
+      'CASE'
+      'WHEN p.hiperemia = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.hiperemia = 2 THEN '#39'Sim'#39
+      'END AS hiperemia,'
+      ''
+      'CASE'
+      'WHEN p.integra = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.integra = 2 THEN '#39'Sim'#39
+      'END AS integra,'
+      ''
+      'CASE'
+      'WHEN p.lesionada = 1 THEN '#39'N'#227'o'#39
+      'WHEN p.lesionada = 2 THEN '#39'Sim'#39
+      'END AS lesionada,'
+      ''
+      'CASE'
+      'WHEN af.repouso_absoluto = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.repouso_absoluto = 2 THEN '#39'Sim'#39
+      'END AS repouso_absoluto,'
+      ''
+      'CASE'
+      'WHEN af.acamado = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.acamado = 2 THEN '#39'Sim'#39
+      'END AS acamado,'
+      ''
+      'CASE'
+      'WHEN af.cadeira_rodas = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.cadeira_rodas = 2 THEN '#39'Sim'#39
+      'END AS cadeira_rodas,'
+      ''
+      'CASE'
+      'WHEN af.deambula_sem_auxilio = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.deambula_sem_auxilio = 2 THEN '#39'Sim'#39
+      'END AS deambula_sem_auxilio,'
+      ''
+      'CASE'
+      'WHEN af.deambula_auxilio = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.deambula_auxilio = 2 THEN '#39'Sim'#39
+      'END AS deambula_auxilio,'
+      ''
+      'CASE'
+      'WHEN af.ausencia_forca = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.ausencia_forca = 2 THEN '#39'Sim'#39
+      'END AS ausencia_forca,'
+      ''
+      'CASE'
+      'WHEN af.forca_muscular = 1 THEN '#39'N'#227'o'#39
+      'WHEN af.forca_muscular = 2 THEN '#39'Sim'#39
+      'END AS forca_muscular,'
+      ''
+      'CASE'
+      'WHEN an.sonolencia = 1 THEN '#39'N'#227'o'#39
+      'WHEN an.sonolencia = 2 THEN '#39'Sim'#39
+      'END AS sonolencia,'
+      ''
+      'CASE'
+      'WHEN an.torpor = 1 THEN '#39'N'#227'o'#39
+      'WHEN an.torpor = 2 THEN '#39'Sim'#39
+      'END AS torpor,'
+      ''
+      'CASE'
+      'WHEN an.agitado = 1 THEN '#39'N'#227'o'#39
+      'WHEN an.agitado = 2 THEN '#39'Sim'#39
+      'END AS agitado,'
+      ''
+      'CASE'
+      'WHEN an.desorientado = 1 THEN '#39'N'#227'o'#39
+      'WHEN an.desorientado = 2 THEN '#39'Sim'#39
+      'END AS desorientado,'
+      ''
+      'CASE'
+      'WHEN an.orientado = 1 THEN '#39'N'#227'o'#39
+      'WHEN an.orientado = 2 THEN '#39'Sim'#39
+      'END AS orientado,'
+      ''
+      'CASE'
+      'WHEN cg.beg = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.beg = 2 THEN '#39'Sim'#39
+      'END AS beg,'
+      ''
+      'CASE'
+      'WHEN cg.reg = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.reg = 2 THEN '#39'Sim'#39
+      'END AS reg,'
+      ''
+      'CASE'
+      'WHEN cg.meg = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.meg = 2 THEN '#39'Sim'#39
+      'END AS mag,'
+      ''
+      'CASE '
+      'WHEN cg.apatico = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.apatico = 2 THEN '#39'Sim'#39
+      'END AS apatico,'
+      ''
+      'CASE '
+      'WHEN cg.cianotico = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.cianotico = 2 THEN '#39'Sim'#39
+      'END AS cianotico,'
+      ''
+      'CASE '
+      'WHEN cg.icterico = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.icterico = 2 THEN '#39'Sim'#39
+      'END AS icterico,'
+      ''
+      'CASE '
+      'WHEN cg.desidratado = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.desidratado = 2 THEN '#39'Sim'#39
+      'END AS desidratado,'
+      ''
+      'CASE '
+      'WHEN cg.dispneico = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.dispneico = 2 THEN '#39'Sim'#39
+      'END AS dispneico,'
+      ''
+      'CASE '
+      'WHEN cg.sudoretico = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.sudoretico = 2 THEN '#39'Sim'#39
+      'END AS sudoretico,'
+      ''
+      'CASE '
+      'WHEN cg.edema = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.edema = 2 THEN '#39'Sim'#39
+      'END AS edema,'
+      ''
+      'CASE '
+      'WHEN cg.palidez_cutanea = 1 THEN '#39'N'#227'o'#39
+      'WHEN cg.palidez_cutanea = 2 THEN '#39'Sim'#39
+      'END AS palidez_cutanea,'
+      ''
+      'CASE'
+      'WHEN mu.g =  1 THEN '#39'Sim'#39
+      'WHEN mu.g =  2 THEN '#39'N'#227'o'#39
+      'END AS g,'
+      ''
+      'CASE'
+      'WHEN mu.p = 1 THEN '#39'Sim'#39
+      'WHEN mu.p = 2 THEN '#39'N'#227'o'#39
+      'END AS p,'
+      ''
+      'CASE'
+      'WHEN mu.a =  1 THEN '#39'Sim'#39
+      'WHEN mu.a =  2 THEN '#39'N'#227'o'#39
+      'END AS a,'
+      ''
+      'CASE'
+      'WHEN mu.autoexame_mama =  1 THEN '#39'Sim'#39
+      'WHEN mu.autoexame_mama =  2 THEN '#39'N'#227'o'#39
+      'END AS autoexame_mama,'
+      ''
+      'CASE '
+      'WHEN hom.atividade_sexual = 1 THEN '#39'Sim'#39
+      'WHEN hom.atividade_sexual = 2 THEN '#39'N'#227'o'#39
+      'END AS atividade_sexual,'
+      ''
+      'CASE '
+      'WHEN ap.tipo_antecedente = 1 THEN '#39'Familiar'#39
+      'WHEN ap.tipo_antecedente = 2 THEN '#39'Pessoal'#39
+      'END AS tipo_antecedente,'
+      ''
+      'CASE '
+      'WHEN pac.sexo = 1 THEN '#39'Feminino'#39
+      'WHEN pac.sexo = 2 THEN '#39'Masculino'#39' '
+      'END AS sexo,'
+      ''
+      'CASE'
+      'WHEN pac.escolaridade = 1 THEN '#39'ENSINO FUNDAMENTAL'#39
+      'WHEN pac.escolaridade = 2 THEN '#39'ENSINO M'#201'DIO COMPLETO'#39
+      'WHEN pac.escolaridade = 3 THEN '#39'ENSINO M'#201'DIO INCOMPLETO'#39
+      'WHEN pac.escolaridade = 4 THEN '#39'ENSINO SUPERIOR COMPLETO'#39
+      'WHEN pac.escolaridade = 5 THEN '#39'ENSINO SUPERIOR INCOMPLETO'#39
+      'END AS escolaridade,'
+      ''
+      'CASE'
+      'WHEN pac.cor = 1 THEN '#39'BRANCO'#39
+      'WHEN pac.cor = 2 THEN '#39'PARDO'#39
+      'WHEN pac.cor = 3 THEN '#39'NEGRO'#39
+      'END AS cor,'
+      ''
+      'CASE'
+      'WHEN pac.estado_civil = 1 THEN '#39'SOLTEIRO(A)'#39
+      'WHEN pac.estado_civil = 2 THEN '#39'CASADO(A)'#39
+      'WHEN pac.estado_civil = 3 THEN '#39'DIVORCIADO(A)'#39
+      'WHEN pac.estado_civil = 4 THEN '#39'VIUVO(A)'#39
+      'END AS estado_civil,'
+      ''
+      'CASE'
+      'WHEN ap.tratado = 1 THEN '#39'Sim'#39
+      'WHEN ap.tratado = 2 THEN '#39'N'#227'o'#39
+      'END AS Tratado, '
+      ''
+      'CASE'
+      'WHEN ap.tratamento = 1 THEN '#39'Sim'#39
+      'WHEN ap.tratamento = 2 THEN '#39'N'#227'o'#39
+      'END AS Tratamento'
+      ''
+      'FROM he '
+      'LEFT JOIN pessoas pac'
+      'ON pac.id = he.id_paciente'
+      'LEFT JOIN pessoas enf'
+      'ON enf.id = he.id_enfermeiro'
+      'LEFT JOIN religioes rel'
+      'ON rel.id = pac.id_religiao'
+      'LEFT JOIN antecedentes_paciente ap'
+      'ON ap.id_he = he.id'
+      'LEFT JOIN antecedentes ant'
+      'ON ant.id = ap.id_antecedente'
+      'LEFT JOIN infs_antecedentes ia'
+      'ON ia.id_he = he.id'
+      'LEFT JOIN homem_he hom'
+      'ON hom.id_he = he.id'
+      'LEFT JOIN mulher_he mu'
+      'ON mu.id_he = he.id'
+      'LEFT JOIN sinais_vitais_he sv'
+      'ON sv.id_he = he.id'
+      'LEFT JOIN condicoesgerais_he cg'
+      'ON cg.id_he = he.id'
+      'LEFT JOIN avaliacao_neurologica_he an'
+      'ON an.id_he = he.id'
+      'LEFT JOIN atividadefisica_he af'
+      'ON af.id_he = he.id'
+      'LEFT JOIN pele_he p'
+      'ON p.id_he = he.id'
+      'LEFT JOIN couro_cabeludo_he cc'
+      'ON cc.id_he = he.id'
+      ''
+      'WHERE he.id = 78')
+    Left = 40
+    Top = 72
+  end
+  object qryFamiliar: TFDQuery
+    Connection = Con
+    Left = 112
+    Top = 72
+  end
+  object qryPessoal: TFDQuery
+    Connection = Con
+    Left = 176
+    Top = 72
+  end
+end

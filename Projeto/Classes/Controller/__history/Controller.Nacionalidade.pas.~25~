@@ -1,0 +1,117 @@
+unit Controller.Nacionalidade;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.Nacionalidade, Conexao, Data.DB, unConstantes,
+  Controller.Interfaces;
+
+type
+  TControllerNacionalidade = class(TInterfacedObject, iControllerCadastros) {(TDaoFireDac)}
+    private
+      FModel: TNacionalidade;
+      FConexao: TConexao;
+
+      function GetDataSource: TDataSource;
+      procedure SetModel(const Value: TNacionalidade);
+
+    public
+      FDao: TDaoFireDac;
+      FRegistrosNacionalidade: TDataSet;
+      FDsNacionalidade: TDataSource;
+
+      constructor Create;
+      destructor Destroy; override;
+
+      procedure Excluir;
+      procedure consultar(sCampoWhere, sOrderBy: string);
+      procedure mostraDados;
+      procedure alimentaCamposModel;
+      procedure incluir;
+      function existeRegistro: Boolean;
+
+      property Model: TNacionalidade read FModel write SetModel;
+      property DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+{ TControllerNacionalidade }
+
+procedure TControllerNacionalidade.alimentaCamposModel;
+begin
+  FModel.Id := FRegistrosNacionalidade.FieldByName('id').AsInteger;
+  FModel.Descricao := FRegistrosNacionalidade.FieldByName('descricao').AsString;
+end;
+
+procedure TControllerNacionalidade.consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistrosNacionalidade := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDsNacionalidade.DataSet := FRegistrosNacionalidade;
+  alimentaCamposModel;
+end;
+
+constructor TControllerNacionalidade.Create;
+begin
+  FConexao    := TConexao.Create;
+  FDsNacionalidade := TDataSource.Create(nil);
+  FModel := TNacionalidade.Create;
+  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited; //Create(FConexao.FdCon,FConexao.FdTran);     // ver se precisa usar
+end;
+
+destructor TControllerNacionalidade.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDsNacionalidade.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+procedure TControllerNacionalidade.Excluir;
+begin
+  Model.Situacao := sINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerNacionalidade.existeRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerNacionalidade.GetDataSource: TDataSource;
+begin
+  Result := FDsNacionalidade;
+end;
+
+procedure TControllerNacionalidade.incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerNacionalidade.mostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistrosNacionalidade := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDsNacionalidade.DataSet := FRegistrosNacionalidade;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+procedure TControllerNacionalidade.SetModel(const Value: TNacionalidade);
+begin
+  FModel := Value;
+end;
+
+end.

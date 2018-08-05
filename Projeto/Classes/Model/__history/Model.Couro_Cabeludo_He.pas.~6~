@@ -1,0 +1,30 @@
+unit Model.Couro_Cabeludo_He;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('couro_cabeludo_he')]
+  TCouro_Cabeludo_HE = class(TTabela)
+
+    private
+
+    public
+      [attPK]
+      property id : integer read FId write SetId;
+      [attNotNull('Id He')]
+      property id_he : integer read FId_he write SetId_he;
+      property seborreia : integer read FSeborreia write SetSeborreia;
+      property desmatites : integer read FDesmatites write SetDesmatites;
+      property sujidade : integer read FSujidade write SetSujidade;
+      property pediculose : integer read FPediculose write SetPediculose;
+      property lesoes : integer read FLesoes write SetLesoes;
+      property tipo_lesao : string read FLocal_lesao write SetLocal_lesao;
+      property tamanho_lesao : string read FTamanho_lesao write SetTamanho_lesao;
+  end;
+
+implementation
+
+end.

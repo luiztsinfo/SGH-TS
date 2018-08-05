@@ -1,0 +1,16 @@
+unit Model.Nacionalidade;
+
+interface
+
+type
+  TNacionalidade = class
+    private
+
+    public
+
+
+  end;
+
+implementation
+
+end.

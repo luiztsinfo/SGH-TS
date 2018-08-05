@@ -1,0 +1,343 @@
+unit Model.Avaliacao_Renal_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('avaliacao_renal_he')]
+  TAvaliacao_Renal_HE = class(TTabela)
+    private
+    Fcolostomia: integer;
+    Fsvd: Integer;
+    Fdiarreia: integer;
+    Fenterorragia: integer;
+    Fostomias: integer;
+    Ffralda: integer;
+    Fdisuria: integer;
+    Fespontanea: integer;
+    Fsem_dor: integer;
+    Fobs_drenos: string;
+    Fcolostomia_quantidade: Double;
+    Fglobo_vesical: integer;
+    Fanuria: integer;
+    FId: integer;
+    Fcolostomia_tipo: string;
+    Fdrenos: integer;
+    Fpresente: integer;
+    Ffralda_quantidade: integer;
+    FId_he: integer;
+    Fardencia: integer;
+    Fnormal: integer;
+    Fmelena: integer;
+    Fpresente_intestinais: integer;
+    Fcolostomia_caracteristicas: string;
+    Fobs_curativos: string;
+    Fincontinencia_urinaria: integer;
+    Fpolaciuria: integer;
+    Foliguria: integer;
+    Ffralda_tipo: string;
+    Fsvd_fralda: integer;
+    Fausente: integer;
+    Fcaracteristicas_fralda: string;
+    Fhematuria: integer;
+    Fcurativos: integer;
+    Fanormal: integer;
+    Fdor_percussao: integer;
+    Fausente_tempo: string;
+    Fobs_ostomias: string;
+    Fconstipacao: integer;
+    Fcaracteristica_diurese: string;
+    procedure Setanormal(const Value: integer);
+    procedure Setanuria(const Value: integer);
+    procedure Setardencia(const Value: integer);
+    procedure Setausente(const Value: integer);
+    procedure Setausente_tempo(const Value: string);
+    procedure Setcaracteristicas_fralda(const Value: string);
+    procedure Setcolostomia(const Value: integer);
+    procedure Setcolostomia_caracteristicas(const Value: string);
+    procedure Setcolostomia_quantidade(const Value: Double);
+    procedure Setcolostomia_tipo(const Value: string);
+    procedure Setconstipacao(const Value: integer);
+    procedure Setcurativos(const Value: integer);
+    procedure Setdiarreia(const Value: integer);
+    procedure Setdisuria(const Value: integer);
+    procedure Setdor_percussao(const Value: integer);
+    procedure Setdrenos(const Value: integer);
+    procedure Setenterorragia(const Value: integer);
+    procedure Setespontanea(const Value: integer);
+    procedure Setfralda(const Value: integer);
+    procedure Setfralda_quantidade(const Value: integer);
+    procedure Setfralda_tipo(const Value: string);
+    procedure Setglobo_vesical(const Value: integer);
+    procedure Sethematuria(const Value: integer);
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure Setincontinencia_urinaria(const Value: integer);
+    procedure Setmelena(const Value: integer);
+    procedure Setnormal(const Value: integer);
+    procedure Setobs_curativos(const Value: string);
+    procedure Setobs_drenos(const Value: string);
+    procedure Setobs_ostomias(const Value: string);
+    procedure Setoliguria(const Value: integer);
+    procedure Setostomias(const Value: integer);
+    procedure Setpolaciuria(const Value: integer);
+    procedure Setpresente(const Value: integer);
+    procedure Setpresente_intestinais(const Value: integer);
+    procedure Setsem_dor(const Value: integer);
+    procedure Setsvd(const Value: Integer);
+    procedure Setsvd_fralda(const Value: integer);
+    procedure Setcaracteristica_diurese(const Value: string);
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property obs_drenos : string read Fobs_drenos write Setobs_drenos;
+      property obs_curativos : string read Fobs_curativos write Setobs_curativos;
+      property obs_ostomias : string read Fobs_ostomias write Setobs_ostomias;
+      property svd : Integer read Fsvd write Setsvd;
+      property ausente_tempo : string read Fausente_tempo write Setausente_tempo;
+      property fralda_tipo : string read Ffralda_tipo write Setfralda_tipo;
+      property fralda_quantidade : integer read Ffralda_quantidade write Setfralda_quantidade;
+      property caracteristicas_fralda : string read Fcaracteristicas_fralda write Setcaracteristicas_fralda;
+      property colostomia_tipo : string read Fcolostomia_tipo write Setcolostomia_tipo;
+      property colostomia_quantidade : Double read Fcolostomia_quantidade write Setcolostomia_quantidade;
+      property colostomia_caracteristicas : string read Fcolostomia_caracteristicas write Setcolostomia_caracteristicas;
+      property normal : integer read Fnormal write Setnormal;
+      property anormal : integer read Fanormal write Setanormal;
+      property dor_percussao : integer read Fdor_percussao write Setdor_percussao;
+      property sem_dor : integer read Fsem_dor write Setsem_dor;
+      property drenos : integer read Fdrenos write Setdrenos;
+      property curativos : integer read Fcurativos write Setcurativos;
+      property ostomias : integer read Fostomias write Setostomias;
+      property presente : integer read Fpresente write Setpresente;
+      property ausente : integer read Fausente write Setausente;
+      property espontanea : integer read Fespontanea write Setespontanea;
+      property ardencia : integer read Fardencia write Setardencia;
+      property oliguria : integer read Foliguria write Setoliguria;
+      property disuria : integer read Fdisuria write Setdisuria;
+      property anuria : integer read Fanuria write Setanuria;
+      property hematuria : integer read Fhematuria write Sethematuria;
+      property polaciuria : integer read Fpolaciuria write Setpolaciuria;
+      property incontinencia_urinaria : integer read Fincontinencia_urinaria write Setincontinencia_urinaria;
+      property globo_vesical : integer read Fglobo_vesical write Setglobo_vesical;
+      property presente_intestinais : integer read Fpresente_intestinais write Setpresente_intestinais;
+      property constipacao : integer read Fconstipacao write Setconstipacao;
+      property melena : integer read Fmelena write Setmelena;
+      property diarreia : integer read Fdiarreia write Setdiarreia;
+      property enterorragia : integer read Fenterorragia write Setenterorragia;
+      property fralda : integer read Ffralda write Setfralda;
+      property colostomia : integer read Fcolostomia write Setcolostomia;
+      property svd_fralda : integer read Fsvd_fralda write Setsvd_fralda;
+      property caracteristica_diurese : string read Fcaracteristica_diurese write Setcaracteristica_diurese;
+  end;
+
+implementation
+
+{ TAvaliacao_Renal_HE }
+
+procedure TAvaliacao_Renal_HE.Setanormal(const Value: integer);
+begin
+  Fanormal := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setanuria(const Value: integer);
+begin
+  Fanuria := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setardencia(const Value: integer);
+begin
+  Fardencia := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setausente(const Value: integer);
+begin
+  Fausente := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setausente_tempo(const Value: string);
+begin
+  Fausente_tempo := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcaracteristicas_fralda(const Value: string);
+begin
+  Fcaracteristicas_fralda := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcaracteristica_diurese(const Value: string);
+begin
+  Fcaracteristica_diurese := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcolostomia(const Value: integer);
+begin
+  Fcolostomia := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcolostomia_caracteristicas(
+  const Value: string);
+begin
+  Fcolostomia_caracteristicas := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcolostomia_quantidade(const Value: Double);
+begin
+  Fcolostomia_quantidade := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcolostomia_tipo(const Value: string);
+begin
+  Fcolostomia_tipo := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setconstipacao(const Value: integer);
+begin
+  Fconstipacao := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setcurativos(const Value: integer);
+begin
+  Fcurativos := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setdiarreia(const Value: integer);
+begin
+  Fdiarreia := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setdisuria(const Value: integer);
+begin
+  Fdisuria := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setdor_percussao(const Value: integer);
+begin
+  Fdor_percussao := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setdrenos(const Value: integer);
+begin
+  Fdrenos := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setenterorragia(const Value: integer);
+begin
+  Fenterorragia := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setespontanea(const Value: integer);
+begin
+  Fespontanea := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setfralda(const Value: integer);
+begin
+  Ffralda := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setfralda_quantidade(const Value: integer);
+begin
+  Ffralda_quantidade := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setfralda_tipo(const Value: string);
+begin
+  Ffralda_tipo := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setglobo_vesical(const Value: integer);
+begin
+  Fglobo_vesical := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Sethematuria(const Value: integer);
+begin
+  Fhematuria := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setincontinencia_urinaria(const Value: integer);
+begin
+  Fincontinencia_urinaria := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setmelena(const Value: integer);
+begin
+  Fmelena := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setnormal(const Value: integer);
+begin
+  Fnormal := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setobs_curativos(const Value: string);
+begin
+  Fobs_curativos := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setobs_drenos(const Value: string);
+begin
+  Fobs_drenos := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setobs_ostomias(const Value: string);
+begin
+  Fobs_ostomias := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setoliguria(const Value: integer);
+begin
+  Foliguria := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setostomias(const Value: integer);
+begin
+  Fostomias := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setpolaciuria(const Value: integer);
+begin
+  Fpolaciuria := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setpresente(const Value: integer);
+begin
+  Fpresente := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setpresente_intestinais(const Value: integer);
+begin
+  Fpresente_intestinais := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setsem_dor(const Value: integer);
+begin
+  Fsem_dor := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setsvd(const Value: integer);
+begin
+  Fsvd := Value;
+end;
+
+procedure TAvaliacao_Renal_HE.Setsvd_fralda(const Value: integer);
+begin
+  Fsvd_fralda := Value;
+end;
+
+end.

@@ -1,0 +1,39 @@
+unit Model.Nacionalidade;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('public.nacionalidades')]
+  TNacionalidade = class(TTabela)
+    private
+    FDescricao: string;
+    FId: Integer;
+    procedure SetDescricao(const Value: string);
+    procedure SetId(const Value: Integer);
+
+    public
+      [attPK]
+      property Id: Integer read FId write SetId;
+      [AttNotNull('Descrição')]
+      property Descricao: string read FDescricao write SetDescricao;
+
+  end;
+
+implementation
+
+{ TNacionalidade }
+
+procedure TNacionalidade.SetDescricao(const Value: string);
+begin
+  FDescricao := Value;
+end;
+
+procedure TNacionalidade.SetId(const Value: Integer);
+begin
+  FId := Value;
+end;
+
+end.

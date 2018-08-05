@@ -1,0 +1,118 @@
+inherited frmNacionalidades: TfrmNacionalidades
+  Caption = 'NACIONALIDADES'
+  ClientHeight = 320
+  ClientWidth = 697
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  ExplicitWidth = 703
+  ExplicitHeight = 349
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    Width = 697
+    Height = 265
+    ExplicitWidth = 697
+    ExplicitHeight = 265
+    inherited TbShConsulta: TTabSheet
+      ExplicitWidth = 689
+      ExplicitHeight = 237
+      inherited PnDados: TPanel
+        Width = 689
+        Height = 170
+        ExplicitWidth = 689
+        ExplicitHeight = 170
+        inherited GrdDados: TDBGrid
+          Width = 683
+          Height = 164
+        end
+      end
+      inherited PnFiltro: TPanel
+        Width = 689
+        ExplicitWidth = 689
+        inherited Label4: TLabel
+          Left = 101
+          ExplicitLeft = 101
+        end
+        inherited CbxConsulta: TComboBox
+          Width = 87
+          ExplicitWidth = 87
+        end
+        inherited BtnConsultar: TBitBtn
+          Left = 495
+          Top = 13
+          ExplicitLeft = 495
+          ExplicitTop = 13
+        end
+        inherited CbxOrdenarPor: TComboBox
+          Left = 101
+          Width = 94
+          ExplicitLeft = 101
+          ExplicitWidth = 94
+        end
+        inherited GrpBxDadoConsulta: TGroupBox
+          Left = 203
+          Width = 286
+          ExplicitLeft = 203
+          ExplicitWidth = 286
+          inherited edtConsulta: TEdit
+            Width = 265
+            ExplicitWidth = 265
+          end
+        end
+      end
+    end
+    inherited TbShCadastro: TTabSheet
+      OnShow = TbShCadastroShow
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 689
+      ExplicitHeight = 237
+      inherited PnCampos: TPanel
+        Width = 689
+        Height = 237
+        ExplicitWidth = 689
+        ExplicitHeight = 237
+        object edtId: TEdit
+          Left = 104
+          Top = 56
+          Width = 121
+          Height = 21
+          TabOrder = 0
+          Text = 'edtId'
+        end
+        object edtDescricao: TEdit
+          Left = 160
+          Top = 112
+          Width = 121
+          Height = 21
+          TabOrder = 1
+          Text = 'edtDescricao'
+        end
+      end
+    end
+  end
+  inherited PnBotoes: TPanel
+    Top = 265
+    Width = 697
+    ExplicitTop = 265
+    ExplicitWidth = 697
+    inherited BtnRelatorios: TBitBtn
+      Left = 424
+      ExplicitLeft = 424
+    end
+    inherited BtnSair: TBitBtn
+      Left = 568
+      ExplicitLeft = 568
+    end
+    inherited BtnSalvar: TBitBtn
+      Left = 242
+      ExplicitLeft = 242
+    end
+    inherited BtnCancelar: TBitBtn
+      Left = 346
+      Top = 4
+      ExplicitLeft = 346
+      ExplicitTop = 4
+    end
+  end
+end

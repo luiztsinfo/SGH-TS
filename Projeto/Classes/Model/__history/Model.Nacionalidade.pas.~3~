@@ -1,0 +1,20 @@
+unit Model.Nacionalidade;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('public.nacionalidades')]
+  TNacionalidade = class(TTabela)
+    private
+
+    public
+
+
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,128 @@
+inherited frmAlergia: TfrmAlergia
+  Caption = 'ALERGIAS'
+  ClientWidth = 649
+  ExplicitWidth = 655
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    Width = 649
+    inherited TbShConsulta: TTabSheet
+      inherited PnDados: TPanel
+        Width = 641
+        inherited GrdDados: TDBGrid
+          Width = 635
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'Id'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Visible = True
+            end>
+        end
+      end
+      inherited PnFiltro: TPanel
+        Width = 641
+        inherited Label4: TLabel
+          Left = 111
+          ExplicitLeft = 111
+        end
+        inherited CbxConsulta: TComboBox
+          Width = 97
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO')
+          ExplicitWidth = 97
+        end
+        inherited BtnConsultar: TBitBtn
+          Left = 527
+          Top = 13
+          Width = 98
+          ExplicitLeft = 527
+          ExplicitTop = 13
+          ExplicitWidth = 98
+        end
+        inherited CbxOrdenarPor: TComboBox
+          Left = 111
+          Width = 106
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO')
+          ExplicitLeft = 111
+          ExplicitWidth = 106
+        end
+        inherited GrpBxDadoConsulta: TGroupBox
+          Left = 223
+          Top = 4
+          Width = 298
+          ExplicitLeft = 223
+          ExplicitTop = 4
+          ExplicitWidth = 298
+          inherited edtConsulta: TEdit
+            Width = 273
+            ExplicitWidth = 273
+          end
+        end
+      end
+    end
+    inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 814
+      ExplicitHeight = 318
+      inherited PnCampos: TPanel
+        Width = 641
+      end
+    end
+  end
+  inherited PnBotoes: TPanel
+    Width = 649
+    inherited BtnNovo: TBitBtn
+      Top = 7
+      ExplicitTop = 7
+    end
+    inherited BtnAlterar: TBitBtn
+      Top = 7
+      ExplicitTop = 7
+    end
+    inherited BtnInativar: TBitBtn
+      Top = 7
+      ExplicitTop = 7
+    end
+    inherited BtnRelatorios: TBitBtn
+      Left = 384
+      Top = 7
+      ExplicitLeft = 384
+      ExplicitTop = 7
+    end
+    inherited BtnSair: TBitBtn
+      Left = 511
+      Top = 7
+      ExplicitLeft = 511
+      ExplicitTop = 7
+    end
+    inherited BtnSalvar: TBitBtn
+      Left = 218
+      Top = 6
+      ExplicitLeft = 218
+      ExplicitTop = 6
+    end
+    inherited BtnCancelar: TBitBtn
+      Left = 322
+      Top = 7
+      ExplicitLeft = 322
+      ExplicitTop = 7
+    end
+  end
+end

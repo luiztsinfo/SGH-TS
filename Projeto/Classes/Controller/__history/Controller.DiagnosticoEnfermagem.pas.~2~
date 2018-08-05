@@ -1,0 +1,98 @@
+unit Controller.PrescricaoEnfermagem;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.PrescricaoEnfermagem, Conexao, Data.DB,
+  unConstantes, Model.Diagnostico_Enfermagem;
+
+type
+  TControllerDiagnosticoEnfermagem = class(TDaoFireDac)
+
+  private
+    FModel: TDiagnosticos_enfermagem;
+    FConexao: TConexao;
+    function GetFDataSource: TDataSource;
+
+  public
+    FDao: TDaoFireDac;
+    FDiagnosticoEnfermagem: TDiagnosticos_enfermagem;
+    FDataSourceDiagnosticoEnfermagem: TDataSource;
+    FRegistrosDiagnosticoEnfermagem: TDataSet;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure consultar(sCampoWhere, sOrderBy: string);
+    procedure mostraDados;
+    procedure alimentaCamposModel;
+
+    property Model: TDiagnosticos_enfermagem read FModel write FModel;
+    property DataSource: TDataSource read GetFDataSource
+      write FDataSourceDiagnosticoEnfermagem;
+  end;
+
+implementation
+
+{ TControllerPaciente }
+
+procedure TControllerDiagnosticoEnfermagem.alimentaCamposModel;
+begin
+  FModel.Id         := FRegistrosDiagnosticoEnfermagem.FieldByName('id').AsInteger;
+  FModel.Descricao  := FRegistrosDiagnosticoEnfermagem.FieldByName('descricao').AsString;
+  FModel.Situacao   := FRegistrosDiagnosticoEnfermagem.FieldByName('situacao').AsString;
+end;
+
+procedure TControllerDiagnosticoEnfermagem.consultar(sCampoWhere, sOrderBy: string);
+begin
+  try
+    FRegistrosDiagnosticoEnfermagem := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+    FDataSourceDiagnosticoEnfermagem.DataSet := FRegistrosDiagnosticoEnfermagem;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+constructor TControllerDiagnosticoEnfermagem.Create;
+begin
+  FConexao    := TConexao.Create;
+  FDataSourceDiagnosticoEnfermagem := TDataSource.Create(nil);
+  FRegistrosDiagnosticoEnfermagem  := TDataSet.Create(nil);
+  FModel:= TDiagnosticos_enfermagem.Create;
+
+  inherited Create(FConexao.FdCon,FConexao.FdTran);
+  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+end;
+
+destructor TControllerDiagnosticoEnfermagem.Destroy;
+begin
+  FRegistrosDiagnosticoEnfermagem.Free;
+  FDataSourceDiagnosticoEnfermagem.Free;
+  FModel.Free;
+  FConexao.Free;
+  FDao.Free;
+  inherited Destroy;
+end;
+
+function TControllerDiagnosticoEnfermagem.GetFDataSource: TDataSource;
+begin
+  Result := FDataSourceDiagnosticoEnfermagem;
+end;
+
+procedure TControllerDiagnosticoEnfermagem.mostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistrosDiagnosticoEnfermagem  := FDao.ConsultaTab(FModel,['situacao']);
+
+    FDataSourceDiagnosticoEnfermagem.DataSet := FRegistrosDiagnosticoEnfermagem;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+end.

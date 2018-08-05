@@ -1,0 +1,29 @@
+unit Model.Vias_Aereas_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [AttTabela('vias_aereas_he');
+  TVias_Aereas_HE = class(TTabela)
+    private
+
+    public
+      [AttPk]
+      property id : integer read FId write SetId;
+      [AttNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property controlado : integer read FControlado write SetControlado;
+      property assistido : integer read FAssistido write SetAssistido;
+      property assistido_controlado : integer read FAssistido_controlado write SetAssistido_Controlado;
+      property mandatorio_intermitente : integer read FMandatorio_intermitente write SetMandatorio_intermitente;
+      property fio2 : string read FFio2 write SetFio2;
+      property peep : string read FPeep write SetPeep;
+      property comissura_labial : string read FComissura_labial write SetComissura_labial;
+  end;
+
+implementation
+
+end.

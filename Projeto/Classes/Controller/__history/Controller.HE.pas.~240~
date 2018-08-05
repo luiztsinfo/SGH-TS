@@ -1,0 +1,962 @@
+unit Controller.HE;
+
+interface
+
+uses Lca.Orm.Comp.FireDac, Model.HE, Firedac.Comp.Client, Conexao, Data.DB,
+  unConstantes, Model.Pessoa, Vcl.Dialogs, SysUtils, Model.Antecedentes,
+  Model.Antecedente_Paciente, Model.Alergia, Model.Alergia_HE, Model.Cirurgia,
+  Model.Cirurgia_HE, Model.AtividadeReligiosa, Model.AtividadeReligiosa_HE,
+  Model.Infs_antecedentes, Model.Homem_he, Model.Mulher_he,
+  Model.Sinais_Vitais_HE, Model.CondicoesGerais_He,
+  Model.Avaliacao_Neurologica_He, Model.AtividadeFisica_HE, Model.Pele_HE,
+  Model.Couro_Cabeludo_He, Model.Olhos_HE, Model.Ouvidos_HE, Model.Nariz_HE,
+  Model.Boca_Faringe_He, Model.Vias_Aereas_HE, Model.Pescoco_HE, Model.Torax_HE,
+  Model.Ausculta_Pulmonar_HE, Model.Ausculta_Cardiaca_HE, Model.TGI_HE,
+  Model.Avaliacao_Renal_HE, Model.Genitais_HE, Model.Extremidades_HE,
+  Model.Diagnostico_Enfermagem, Model.Diagnosticos_HE,
+  Model.Risco_Ulcera_Decubito_HE, Model.Risco_Queda_HE;
+
+type
+  TControllerHE = class(TDaoFiredac)
+  private
+    FQryAntecedentes_Paciente: TFDQuery;
+    FDsAntecedentesPaciente: TDataSource;
+
+    FRegistrosAlergias: TDataSet;
+    FDsAlergia: TDatasource;
+    FDsAlergia_HE: TDatasource;
+    FQryAlergias_HE: TFDQuery;
+
+    FQryCirurgias_HE: TFDQuery;
+    FRegistrosCirurgias: TDataset;
+    FDsCirurgia: TDataSource;
+    FDsCirurgia_HE: TDatasource;
+
+    FDsAtividadeReligiosa_HE: TDatasource;
+    FRegistrosAtividadesReligiosas: TDataSet;
+    FDsAtividadeReligiosa: TDataSource;
+    FQryAtividadeReligiosa_HE: TFDQuery;
+
+    FDsDiagnostico: TDataSource;
+    FRegistrosDiagnosticos: TDataSet;
+    FQryDiagnosticos_HE: TFDQuery;
+    FDsDiagnostico_HE: TDataSource;
+
+    FDsPrescricao: TDataSource;
+    FRegistrosPrescricoes: TDataSet;
+    FQryPrescricoes_HE: TFDQuery;
+    FDsPrescricoes_HE: TDataSource;
+
+    procedure SetDsAntecedente(const Value: TDataSource);
+    procedure SetRegistrosAntecedente(const Value: TDataSet);
+    procedure SetQryAntecedentes_Paciente(const Value: TFDQuery);
+    procedure SetDsAntecedentesPaciente(const Value: TDataSource);
+    procedure SetRegistrosAlergias(const Value: TDataSet);
+    procedure SetAlergia(const Value: TDatasource);
+    procedure SetDsAlergia_HE(const Value: TDatasource);
+    procedure SetQryAlergias_HE(const Value: TFDQuery);
+    procedure SetQryCirurgias_HE(const Value: TFDQuery);
+    procedure SetRegistrosCirurgias(const Value: TDataset);
+    procedure SetDsAlergia(const Value: TDatasource);
+    procedure SetDsCirurgia(const Value: TDataSource);
+    procedure SetDsCirurgia_HE(const Value: TDatasource);
+    procedure SetDsAtividadeReligiosa(const Value: TDatasource);
+    procedure SetQryAtividadeReligiosa_HE(const Value: TFDQuery);
+    procedure SetRegistrosAtividadesReligiosas(const Value: TDataSet);
+    procedure SetDsDiagnostico(const Value: TDataSource);
+    procedure SetRegistrosDiagnosticos(const Value: TDataSet);
+    procedure SetDsDiagnostico_HE(const Value: TDataSource);
+    procedure SetQryDiagnosticos_HE(const Value: TFDQuery);
+
+  public
+    FDao: TDaoFiredac;
+    FConexao: TConexao;
+    FDtInicial: TDateTime;
+    FDtFinal: TDateTime;
+
+    { DataSets }
+    FRegistrosPessoas: TDataSet;
+    FRegistrosAntecedente: TDataSet;
+    FQryHE: TFDQuery;
+
+    { Datasource }
+    FDsPessoas: TDataSource;
+    FDsHE: TDataSource;
+    FDsAntecedente: TDataSource;
+
+    { Models }
+    FPessoa: TPessoa;
+    FAntecedente: TAntecedentes;
+    FAntecedente_paciente: TAntecedente_Paciente;
+    FModel: THE;
+    FAlergia: TAlergia;
+    FAlergia_he: TAlergia_HE;
+    FCirurgia: TCirurgia;
+    FCirurgia_he: TCirurgia_HE;
+    FAtividadeReligiosa: TAtividadeReligiosa;
+    FAtividadeReligiosa_HE: TAtividadeReligiosa_HE;
+    FInfs_antecedentes: TInfs_antecedentes;
+    FHomem_he: THomem_he;
+    FMulher_he: TMulher_he;
+    FSinais_vitais_he: TSinais_Vitais_HE;
+    FCondicoesgerais_he: TCondicoesGerais_he;
+    FAvaliacao_neurologica_he: TAvaliacao_Neurologica_he;
+    FAtividadeFisica_HE: TAtividadeFisica_HE;
+    FPele_HE: TPele_HE;
+    FCouro_cabeludo_he: TCouro_Cabeludo_HE;
+    FOlhos_He: TOlhos_he;
+    FOuvidos_He: TOuvidos_HE;
+    FNariz_He: TNariz_HE;
+    FBoca_Faringe_HE: TBoca_Faringe_HE;
+    FVias_Aeres_HE: TVias_Aereas_HE;
+    FPescoco_HE: TPescoco_He;
+    FTorax_HE: TTorax_he;
+    FAusculta_Pulmonar_he: TAusculta_Pulmonar_HE;
+    FAusculta_Cardiaca_HE: TAusculta_Cardiaca_HE;
+    FTGI_HE: TTGI_HE;
+    FAvaliacao_Renal_HE: TAvaliacao_Renal_HE;
+    FGenitais_HE: TGenitais_HE;
+    FExtremidades_HE: TExtremidades_HE;
+    FDiagnostico_Enfermagem: TDiagnosticos_enfermagem;
+    FDiagnostico_Enfermagem_HE: TDiagnosticos_he;
+    FRisco_Ulcera_Decubito_HE: TRisco_Ulcera_Decubito_HE;
+    FRisco_Queda_HE: TRisco_Queda_HE;
+
+    function VerificaSexo: integer;
+    function ValidaSePessoaExiste(sNome: string): boolean;
+    function RemoverAntecedentePaciente: boolean;
+    function RemoverAlergia_HE: boolean;
+    function RemoverCirurgia_HE: boolean;
+    function RemoverAtividadeReligiosa_HE: boolean;
+    function RemoverDiagnostico_HE: boolean;
+
+    function GravaHE: boolean;
+    function GravaAntecedentePaciente: boolean;
+    function GravaComplementosAntecedente: boolean;
+    function GravaAlergia_HE: boolean;
+    function GravaCirurgia_HE: boolean;
+    function GravaAtividadeReligiosa_HE: boolean;
+    function GravaInfsAntecedente: boolean;
+    function GravaHomem_He: boolean;
+    function GravaMulher_He: boolean;
+    function GravaSinaisVitais: boolean;
+    function GravaCondicoesGerais: boolean;
+    function GravaAvaliacaoNeurologica: boolean;
+    function GravaAtividadeFisica_he: boolean;
+    function GravaPele_he: boolean;
+    function GravaCouro_cabeludo_he: boolean;
+    function GravaOlhos_he: boolean;
+    function GravaOuvidos_he: boolean;
+    function GravaNariz_he: boolean;
+    function GravaBoca_Faringe_He: boolean;
+    function GravaVias_Aeres_HE: boolean;
+    function GravaPescoco_HE: boolean;
+    function GravaTorax_HE: boolean;
+    function GravaAusculta_Pulmonar_he: boolean;
+    function GravaAusculta_Cardiaca_HE: boolean;
+    function GravaTGI_HE: boolean;
+    function GravaAvaliacao_Renal_HE: boolean;
+    function GravaGenitais_HE: boolean;
+    function GravaExtremidades_HE: boolean;
+    function GravaDiagnosticos_HE: boolean;
+    function GravaRisco_Ulcera_Decubito_HE: boolean;
+    function GravaRisco_Queda_HE: boolean;
+
+    function RetornaAtividadeReligiosaPorDescricao: string;
+    function RetornaCirurgiaPorDescricao: string;
+    function RetornaAlergiaPorDescricao: string;
+    function RetornaPessoaPorNome: string;
+    function RetornaAntecedentePorDescricao: string;
+    function RetornaUltimoID: integer;
+    function RetornaDiagnosticoPorDescricao: string;
+
+    procedure MostrarTodosHE(iConsultaPor, iOrdenarPor, iFiltroData: integer);
+    procedure MostraAntecedentes;
+    procedure MostraAlergias;
+    procedure MostraCirurgias;
+    procedure MostraAtividadesReligiosas;
+    procedure MostraDiagnosticos;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    { Datasource }
+    property DsPessoas: TDataSource read FDsPessoas write FDsPessoas;
+    property DsAntecedentesPaciente : TDataSource read FDsAntecedentesPaciente write SetDsAntecedentesPaciente;
+    property DsAntecedente: TDataSource read FDsAntecedente write SetDsAntecedente;
+    property DsAlergia: TDatasource read FDsAlergia write SetDsAlergia;
+    property DsAlergia_HE: TDatasource read FDsAlergia_HE write SetDsAlergia_HE;
+    property DsCirurgia: TDataSource read FDsCirurgia write SetDsCirurgia;
+    property DsCirurgia_HE: TDatasource read FDsCirurgia_HE write SetDsCirurgia_HE;
+    property DsAtividadeReligiosa: TDataSource read FDsAtividadeReligiosa write SetDsAtividadeReligiosa;
+    property DsAtividadeReligiosa_HE: TDatasource read FDsAtividadeReligiosa_HE write SetDsAtividadeReligiosa;
+    property DsDiagnostico: TDataSource read FDsDiagnostico write SetDsDiagnostico;
+    property DsDiagnostico_HE: TDataSource read FDsDiagnostico_HE write SetDsDiagnostico_HE;
+
+    { Datasets }
+    property RegistrosAtividadesReligiosas: TDataSet read FRegistrosAtividadesReligiosas write SetRegistrosAtividadesReligiosas;
+    property QryAtividadeReligiosa_HE: TFDQuery read FQryAtividadeReligiosa_HE write SetQryAtividadeReligiosa_HE;
+    property RegistrosCirurgias : TDataset read FRegistrosCirurgias write SetRegistrosCirurgias;
+    property QryCirurgias_HE: TFDQuery read FQryCirurgias_HE write SetQryCirurgias_HE;
+    property QryAlergias_HE: TFDQuery read FQryAlergias_HE write SetQryAlergias_HE;
+    property RegistrosAlergias: TDataSet read FRegistrosAlergias write SetRegistrosAlergias;
+    property RegistrosPessoas: TDataSet read FRegistrosPessoas write FRegistrosPessoas;
+    property RegistrosAntecedente: TDataSet read FRegistrosAntecedente write SetRegistrosAntecedente;
+    property QryAntecedentes_Paciente : TFDQuery read FQryAntecedentes_Paciente write SetQryAntecedentes_Paciente;
+    property RegistrosDiagnosticos: TDataSet read FRegistrosDiagnosticos write SetRegistrosDiagnosticos;
+    property QryDiagnosticos_HE: TFDQuery read FQryDiagnosticos_HE write SetQryDiagnosticos_HE;
+  end;
+
+implementation
+
+{ TControllerHE }
+
+constructor TControllerHE.Create;
+begin
+  { Models }
+  FModel := THE.Create;
+  FPessoa := TPessoa.Create;
+  FAntecedente := TAntecedentes.Create;
+  FAntecedente_paciente := TAntecedente_Paciente.Create;
+  FAlergia := TAlergia.Create;
+  FAlergia_he := TAlergia_HE.Create;
+  FCirurgia := TCirurgia.Create;
+  FCirurgia_he := TCirurgia_HE.Create;
+  FAtividadeReligiosa := TAtividadeReligiosa.Create;
+  FAtividadeReligiosa_HE := TAtividadeReligiosa_HE.Create;
+  FInfs_antecedentes := TInfs_antecedentes.Create;
+  FHomem_he := THomem_he.Create;
+  FMulher_he := TMulher_he.Create;
+  FSinais_vitais_he := TSinais_Vitais_HE.Create;
+  FCondicoesgerais_he := TCondicoesGerais_he.Create;
+  FAvaliacao_neurologica_he := TAvaliacao_Neurologica_he.Create;
+  FAtividadeFisica_HE := TAtividadeFisica_HE.Create;
+  FPele_HE := TPele_HE.Create;
+  FCouro_cabeludo_he := TCouro_Cabeludo_HE.Create;
+  FOlhos_He := TOlhos_he.Create;
+  FOuvidos_He := TOuvidos_HE.Create;
+  FNariz_He := TNariz_HE.Create;
+  FBoca_Faringe_HE := TBoca_Faringe_HE.Create;
+  FVias_Aeres_HE := TVias_Aereas_HE.Create;
+  FPescoco_HE := TPescoco_He.Create;
+  FTorax_HE := TTorax_he.Create;
+  FAusculta_Pulmonar_he := TAusculta_Pulmonar_HE.Create;
+  FAusculta_Cardiaca_HE := TAusculta_Cardiaca_HE.Create;
+  FTGI_HE := TTGI_HE.Create;
+  FAvaliacao_Renal_HE := TAvaliacao_Renal_HE.Create;
+  FGenitais_HE := TGenitais_HE.Create;
+  FExtremidades_HE := TExtremidades_HE.Create;
+  FDiagnostico_Enfermagem := TDiagnosticos_enfermagem.Create;
+  FDiagnostico_Enfermagem_HE := TDiagnosticos_he.Create;
+  FRisco_Ulcera_Decubito_HE := TRisco_Ulcera_Decubito_HE.Create;
+  FRisco_Queda_HE := TRisco_Queda_HE.Create;
+
+  { Datasets }
+  FQryHE := TFDQuery.Create(nil);
+  FQryAntecedentes_Paciente := TFDQuery.Create(nil);
+  FRegistrosPessoas := TDataSet.Create(nil);
+  FRegistrosAntecedente := TDataSet.Create(nil);
+  FRegistrosAlergias := TDataSet.Create(nil);
+  FQryAlergias_HE := TFDQuery.Create(nil);
+  FRegistrosCirurgias := TDataSet.Create(nil);
+  FQryCirurgias_HE := TFDQuery.Create(nil);
+  FRegistrosAtividadesReligiosas := TDataSet.Create(nil);
+  FQryAtividadeReligiosa_HE := TFDQuery.Create(nil);
+  FRegistrosDiagnosticos := TDataSet.Create(nil);
+  FQryDiagnosticos_HE := TFDQuery.Create(nil);
+
+  { Datasource }
+  FDsAntecedentesPaciente := TDataSource.Create(nil);
+  FDsPessoas := TDataSource.Create(nil);
+  FDsAntecedente := TDataSource.Create(nil);
+  FDsHE := TDataSource.Create(nil);
+  FDsAlergia := TDataSource.Create(nil);
+  FDsAlergia_HE := TDataSource.Create(nil);
+  FDsCirurgia := TDataSource.Create(nil);
+  FDsCirurgia_HE := TDataSource.Create(nil);
+  FDsAtividadeReligiosa := TDataSource.Create(nil);
+  FDsAtividadeReligiosa_HE := TDataSource.Create(nil);
+  FDsDiagnostico := TDataSource.Create(nil);
+  FDsDiagnostico_HE := TDataSource.Create(nil);
+
+  FConexao := TConexao.Create;
+  FDao := TDaoFiredac.Create(FConexao.FdCon, FConexao.FdTran);
+  { Conexoes com FDConnection }
+  FQryHE.Connection := FConexao.FdCon;
+  FQryAntecedentes_Paciente.Connection := FConexao.FdCon;
+  FQryAlergias_HE.Connection := FConexao.FdCon;
+  FQryCirurgias_HE.Connection := FConexao.FdCon;
+  FQryAtividadeReligiosa_HE.Connection := FConexao.FdCon;
+  FQryDiagnosticos_HE.Connection := FConexao.FdCon;
+
+  { Conexões DataSource x DataSet }
+  FDsHE.DataSet := FQryHE;
+  FDsAntecedentesPaciente.DataSet := FQryAntecedentes_Paciente;
+  FDsAlergia_HE.DataSet := FQryAlergias_HE;
+  FDsCirurgia_HE.DataSet := FQryCirurgias_HE;
+  FDsAtividadeReligiosa_HE.DataSet := FQryAtividadeReligiosa_HE;
+  FDsDiagnostico_HE.DataSet := FQryDiagnosticos_HE;
+end;
+
+destructor TControllerHE.Destroy;
+begin
+  { Models }
+  FModel.Free;
+  FPessoa.Free;
+  FAntecedente.Free;
+  FAntecedente_paciente.Free;
+  FAlergia.Free;
+  FAlergia_he.Free;
+  FCirurgia.Free;
+  FCirurgia_he.Free;
+  FAtividadeReligiosa.Free;
+  FAtividadeReligiosa_HE.Free;
+  FInfs_antecedentes.Free;
+  FHomem_he.Free;
+  FMulher_he.Free;
+  FSinais_vitais_he.Free;
+  FCondicoesgerais_he.Free;
+  FAvaliacao_neurologica_he.Free;
+  FAtividadeFisica_HE.Free;
+  FPele_HE.Free;
+  FCouro_cabeludo_he.Free;
+  FOlhos_He.Free;
+  FOuvidos_He.Free;
+  FNariz_He.Free;
+  FBoca_Faringe_HE.Free;
+  FVias_Aeres_HE.Free;
+  FPescoco_HE.Free;
+  FTorax_HE.Free;
+  FAusculta_Pulmonar_he.Free;
+  FAusculta_Cardiaca_HE.Free;
+  FTGI_HE.Free;
+  FAvaliacao_Renal_HE.Free;
+  FGenitais_HE.Free;
+  FExtremidades_HE.Free;
+  FDiagnostico_Enfermagem.Free;
+  FDiagnostico_Enfermagem_HE.Free;
+  FRisco_Ulcera_Decubito_HE.Free;
+  FRisco_Queda_HE.Free;
+
+  { Datasets }
+  FQryHE.Free;
+  FQryAntecedentes_Paciente.Free;
+  FRegistrosPessoas.Free;
+  FRegistrosAntecedente.Free;
+  FRegistrosAlergias.Free;
+  FQryAlergias_HE.Free;
+  FRegistrosCirurgias.Free;
+  FQryCirurgias_HE.Free;
+  FRegistrosDiagnosticos.Free;
+  FQryDiagnosticos_HE.Free;
+
+  { Datasource }
+  FDsHE.Free;
+  FDsAntecedentesPaciente.Free;
+  FDsPessoas.Free;
+  FDsAntecedente.Free;
+  FDsAlergia.Free;
+  FDsAlergia_HE.Free;
+  FDsCirurgia.Free;
+  FDsCirurgia_HE.Free;
+  FDsDiagnostico.Free;
+  FDsDiagnostico_HE.Free;
+
+  FDao.Free;
+  FConexao.Free;
+  inherited;
+end;
+
+function TControllerHE.GravaAlergia_HE: boolean;
+begin
+  FDao.Inserir(FAlergia_he);
+end;
+
+function TControllerHE.GravaAntecedentePaciente: boolean;
+begin
+  FDao.Inserir(FAntecedente_paciente);
+end;
+
+function TControllerHE.GravaAtividadeFisica_he: boolean;
+begin
+  FDao.Inserir(FAtividadeFisica_HE);
+end;
+
+function TControllerHE.GravaAtividadeReligiosa_HE: boolean;
+begin
+  FDao.Inserir(FAtividadeReligiosa_HE);
+end;
+
+function TControllerHE.GravaAusculta_Cardiaca_HE: boolean;
+begin
+  FDao.Inserir(FAusculta_Cardiaca_HE);
+end;
+
+function TControllerHE.GravaAusculta_Pulmonar_he: boolean;
+begin
+  FDao.Inserir(FAusculta_Pulmonar_he);
+end;
+
+function TControllerHE.GravaAvaliacaoNeurologica: boolean;
+begin
+  FDao.Inserir(FAvaliacao_neurologica_he);
+end;
+
+function TControllerHE.GravaAvaliacao_Renal_HE: boolean;
+begin
+  FDao.Inserir(FAvaliacao_Renal_HE);
+end;
+
+function TControllerHE.GravaBoca_Faringe_He: boolean;
+begin
+  FDao.Inserir(FBoca_Faringe_HE);
+end;
+
+function TControllerHE.GravaCirurgia_HE: boolean;
+begin
+  FDao.Inserir(FCirurgia_he);
+end;
+
+function TControllerHE.GravaComplementosAntecedente: boolean;
+begin
+  FDao.Salvar(FAntecedente_paciente);
+end;
+
+function TControllerHE.GravaCondicoesGerais: boolean;
+begin
+  FDao.Inserir(FCondicoesgerais_he);
+end;
+
+function TControllerHE.GravaCouro_cabeludo_he: boolean;
+begin
+  FDao.Inserir(FCouro_cabeludo_he);
+end;
+
+function TControllerHE.GravaDiagnosticos_HE: boolean;
+begin
+  FDao.Inserir(FDiagnostico_Enfermagem_HE);
+end;
+
+function TControllerHE.GravaExtremidades_HE: boolean;
+begin
+  FDao.Inserir(FExtremidades_HE);
+end;
+
+function TControllerHE.GravaGenitais_HE: boolean;
+begin
+  FDao.Inserir(FGenitais_HE);
+end;
+
+function TControllerHE.GravaHE: boolean;
+var
+  i : integer;
+begin
+  i := FDao.Inserir(FModel, []);
+  Result := true;
+end;
+
+function TControllerHE.GravaHomem_He: boolean;
+begin
+  FDao.Inserir(FHomem_he);
+end;
+
+function TControllerHE.GravaInfsAntecedente: boolean;
+begin
+  FDao.Inserir(FInfs_antecedentes);
+end;
+
+function TControllerHE.GravaMulher_He: boolean;
+begin
+  FDao.Inserir(FMulher_he);
+end;
+
+function TControllerHE.GravaNariz_he: boolean;
+begin
+  FDao.Inserir(FNariz_He);
+end;
+
+function TControllerHE.GravaOlhos_he: boolean;
+begin
+  FDao.Inserir(FOlhos_He);
+end;
+
+function TControllerHE.GravaOuvidos_he: boolean;
+begin
+  FDao.Inserir(FOuvidos_He);
+end;
+
+function TControllerHE.GravaPele_he: boolean;
+begin
+  FDao.Inserir(FPele_HE);
+end;
+
+function TControllerHE.GravaPescoco_HE: boolean;
+begin
+  FDao.Inserir(FPescoco_HE);
+end;
+
+function TControllerHE.GravaRisco_Queda_HE: boolean;
+begin
+  FDao.Inserir(FRisco_Queda_HE);
+end;
+
+function TControllerHE.GravaRisco_Ulcera_Decubito_HE: boolean;
+begin
+  FDao.Inserir(FRisco_Ulcera_Decubito_HE);
+end;
+
+function TControllerHE.GravaSinaisVitais: boolean;
+begin
+  FDao.Inserir(FSinais_vitais_he);
+end;
+
+function TControllerHE.GravaTGI_HE: boolean;
+begin
+  FDao.Inserir(FTGI_HE);
+end;
+
+function TControllerHE.GravaTorax_HE: boolean;
+begin
+  FDao.Inserir(FTorax_HE);
+end;
+
+procedure TControllerHE.MostraAlergias;
+begin
+  try
+    QryAlergias_HE.Close;
+    QryAlergias_HE.SQL.Clear;
+    QryAlergias_HE.SQL.Add('SELECT ahe.id, ahe.id_he, ahe.id_alergia,');
+    QryAlergias_HE.SQL.Add('a.descricao As Alergia');
+    QryAlergias_HE.SQL.Add('FROM alergias_he ahe');
+    QryAlergias_HE.SQL.Add('INNER JOIN alergias a');
+    QryAlergias_HE.SQL.Add('ON a.id = ahe.id_alergia');
+    QryAlergias_HE.SQL.Add('WHERE ahe.id_he = :he');
+    QryAlergias_HE.ParamByName('he').AsInteger := FModel.ID;
+    QryAlergias_HE.Open();
+  except
+    MessageDlg('Erro ao mostrar alergias!',mtError,[mbOk],0);
+  end;
+end;
+
+procedure TControllerHE.MostraAntecedentes;
+begin
+  try
+    QryAntecedentes_Paciente.Close;
+    QryAntecedentes_Paciente.SQL.Clear;
+    QryAntecedentes_Paciente.SQL.Add('SELECT afp.id, afp.id_he, afp.id_antecedente,');
+    QryAntecedentes_Paciente.SQL.Add('a.descricao As Antecedente');
+    QryAntecedentes_Paciente.SQL.Add('FROM antecedentes_paciente afp');
+    QryAntecedentes_Paciente.SQL.Add('INNER JOIN antecedentes a');
+    QryAntecedentes_Paciente.SQL.Add('ON a.id = afp.id_antecedente');
+    QryAntecedentes_Paciente.SQL.Add('WHERE afp.id_he = :he');
+    QryAntecedentes_Paciente.SQL.Add('AND afp.tipo_antecedente = :tipo');
+    QryAntecedentes_Paciente.ParamByName('he').AsInteger := FModel.ID;
+    QryAntecedentes_Paciente.ParamByName('tipo').AsInteger := FAntecedente_paciente.Tipo_antecedente;
+    QryAntecedentes_Paciente.Open();
+  except
+    MessageDlg('Erro ao mostrar antecedentes do Historico de Evolução!',mtError,[mbOK],0);
+  end;
+end;
+
+procedure TControllerHE.MostraAtividadesReligiosas;
+begin
+  try
+    QryAtividadeReligiosa_HE.Close;
+    QryAtividadeReligiosa_HE.SQL.Clear;
+    QryAtividadeReligiosa_HE.SQL.Add('SELECT rhe.id, rhe.id_he, rhe.id_atividade_religiosa,');
+    QryAtividadeReligiosa_HE.SQL.Add('r.descricao As atividadereligiosa');
+    QryAtividadeReligiosa_HE.SQL.Add('FROM religiosas_he rhe');
+    QryAtividadeReligiosa_HE.SQL.Add('INNER JOIN atividades_religiosas r');
+    QryAtividadeReligiosa_HE.SQL.Add('ON r.id = rhe.id_atividade_religiosa');
+    QryAtividadeReligiosa_HE.SQL.Add('WHERE rhe.id_he = :he');
+    QryAtividadeReligiosa_HE.ParamByName('he').AsInteger := FModel.ID;
+    QryAtividadeReligiosa_HE.Open();
+  except
+    MessageDlg('Erro ao mostrar Atividades Religiosas!',mtError,[mbOk],0);
+  end;
+end;
+
+procedure TControllerHE.MostraCirurgias;
+begin
+  try
+    QryCirurgias_HE.Close;
+    QryCirurgias_HE.SQL.Clear;
+    QryCirurgias_HE.SQL.Add('SELECT che.id, che.id_he, che.id_cirurgia,');
+    QryCirurgias_HE.SQL.Add('c.descricao As Cirurgia');
+    QryCirurgias_HE.SQL.Add('FROM cirurgias_he che');
+    QryCirurgias_HE.SQL.Add('INNER JOIN cirurgias c');
+    QryCirurgias_HE.SQL.Add('ON c.id = che.id_cirurgia');
+    QryCirurgias_HE.SQL.Add('WHERE che.id_he = :he');
+    QryCirurgias_HE.ParamByName('he').AsInteger := FModel.ID;
+    QryCirurgias_HE.Open();
+  except
+    MessageDlg('Erro ao mostrar cirurgias!',mtError,[mbOK],0);
+  end;
+end;
+
+procedure TControllerHE.MostraDiagnosticos;
+begin
+  try
+    QryDiagnosticos_HE.Close;
+    QryDiagnosticos_HE.SQL.Clear;
+    QryDiagnosticos_HE.SQL.Add('SELECT dhe.id, dhe.id_he, dhe.id_diagnostico,');
+    QryDiagnosticos_HE.SQL.Add('d.descricao As Diagnostico');
+    QryDiagnosticos_HE.SQL.Add('FROM diagnosticos_he dhe');
+    QryDiagnosticos_HE.SQL.Add('INNER JOIN diagnosticos_enfermagem d');
+    QryDiagnosticos_HE.SQL.Add('ON d.id = dhe.id_diagnostico');
+    QryDiagnosticos_HE.SQL.Add('WHERE dhe.id_he = :he');
+    QryDiagnosticos_HE.ParamByName('he').AsInteger := FModel.ID;
+    QryDiagnosticos_HE.Open();
+  except
+    MessageDlg('Erro ao mostrar diagnósticos!',mtError,[mbOK],0);
+  end;
+end;
+
+procedure TControllerHE.MostrarTodosHE(iConsultaPor,iOrdenarPor,iFiltroData: integer);
+begin
+  if not(ValidaSePessoaExiste(FPessoa.Nome)) then
+    Exit;
+
+  try
+    FQryHE.Close;
+    FQryHE.SQL.Clear;
+    FQryHE.SQL.Add('SELECT he.id, he.data_admissao, he.data_alta, e.nome AS Enfermeiro,');
+    FQryHE.SQL.Add('p.nome AS Paciente ');
+    FQryHE.SQL.Add('FROM he');
+    FQryHE.SQL.Add('INNER JOIN pessoas e');
+    FQryHE.SQL.Add('ON e.id = he.id_enfermeiro');
+    FQryHE.SQL.Add('INNER JOIN pessoas p');
+    FQryHE.SQL.Add('ON p.id = he.id_paciente ');
+
+    case iFiltroData of
+      iFILTRO_ADMISSAO:
+        FQryHE.SQL.Add('WHERE he.data_admissao BETWEEN :dtIni AND :dtFin');
+
+      iFILTRO_ALTA:
+        FQryHE.SQL.Add('AND he.data_alta BETWEEN :dtIni AND :dtFin');
+    end;
+
+    case iConsultaPor of
+      iCONSULTA_POR_ID:
+        FQryHE.SQL.Add('AND he.id = :id');
+
+      iCONSULTA_POR_PACIENTE:
+        FQryHE.SQL.Add('AND p.nome LIKE :paciente');
+
+      iCONSULTA_POR_ENFERMEIRO:
+        FQryHE.SQL.Add('AND e.nome LIKE :enfermeiro')
+    end;
+
+    case iOrdenarPor of
+      iORDENAR_POR_ID:
+        FQryHE.SQL.Add('ORDER BY he.id');
+
+      iORDENAR_POR_PACIENTE:
+        FQryHE.SQL.Add('ORDER BY p.nome');
+
+      iORDENAR_POR_ENFERMEIRO:
+        FQryHE.SQL.Add('ORDER BY e.nome');
+    end;
+
+   { PARAMETROS }
+    FQryHE.ParamByName('dtIni').AsDate := FDtInicial;
+    FQryHE.ParamByName('dtFin').AsDate := FDtFinal;
+
+    case iConsultaPor of
+      iCONSULTA_POR_ID:
+        FQryHE.ParamByName('id').AsInteger := FModel.ID;
+
+      iCONSULTA_POR_PACIENTE:
+        FQryHE.ParamByName('paciente').AsString := '%' + FPessoa.Nome + '%';
+
+      iCONSULTA_POR_ENFERMEIRO:
+        FQryHE.ParamByName('enfermeiro').AsString := '%' + FPessoa.Nome + '%';
+    end;
+    FQryHE.Open();
+  finally
+
+  end;
+end;
+
+function TControllerHE.RemoverAlergia_HE: boolean;
+begin
+  try
+    Result := false;
+    FAlergia_he.Id := QryAlergias_HE.FieldByName('id').AsInteger;
+    FDao.Excluir(FAlergia_he);
+  finally
+    Result := true;
+  end;
+end;
+
+function TControllerHE.RemoverAntecedentePaciente: boolean;
+begin
+  try
+    Result := false;
+    FAntecedente_paciente.ID := QryAntecedentes_Paciente.FieldByName('id')
+      .AsInteger;
+    FDao.Excluir(FAntecedente_paciente);
+  finally
+    Result := true;
+  end;
+end;
+
+function TControllerHE.RemoverAtividadeReligiosa_HE: boolean;
+begin
+  try
+    Result := false;
+    FAtividadeReligiosa_HE.Id := QryAtividadeReligiosa_HE.FieldByName('id').AsInteger;
+    FDao.Excluir(FAtividadeReligiosa_HE);
+  finally
+    Result := true;
+  end;
+end;
+
+function TControllerHE.RemoverCirurgia_HE: boolean;
+begin
+  try
+    Result := false;
+    FCirurgia_he.Id := QryCirurgias_HE.FieldByName('id').AsInteger;
+    FDao.Excluir(FCirurgia_he);
+  finally
+    Result := true;
+  end;
+end;
+
+function TControllerHE.RemoverDiagnostico_HE: boolean;
+begin
+  try
+    Result := false;
+    FDiagnostico_Enfermagem_HE.Id := QryDiagnosticos_HE.FieldByName('id').AsInteger;
+    FDao.Excluir(FDiagnostico_Enfermagem_HE);
+  finally
+    Result := true;
+  end;
+end;
+
+function TControllerHE.RetornaAlergiaPorDescricao: string;
+begin
+  FRegistrosAlergias := FDao.ConsultaTab(FAlergia,['id','descricao'],['descricao','situacao'],['descricao'],comLike);
+
+  FAlergia.Id := FRegistrosAlergias.FieldByName('id').AsInteger;
+  FAlergia.Descricao := FRegistrosAlergias.FieldByName('descricao').AsString;
+
+  FDsAlergia.DataSet := FRegistrosAlergias;
+
+  Result := FRegistrosAlergias.FieldByName('descricao').AsString;
+end;
+
+function TControllerHE.RetornaAntecedentePorDescricao: string;
+begin
+  FRegistrosAntecedente := FDao.ConsultaTab(FAntecedente, ['id', 'descricao'],
+    ['descricao','situacao'], ['descricao'], comLike);
+
+  FAntecedente.ID := FRegistrosAntecedente.FieldByName('id').AsInteger;
+  FAntecedente.Descricao := FRegistrosAntecedente.FieldByName('descricao').AsString;
+
+  FDsAntecedente.DataSet := FRegistrosAntecedente;
+
+  Result := FRegistrosAntecedente.FieldByName('descricao').AsString;
+end;
+
+function TControllerHE.RetornaAtividadeReligiosaPorDescricao: string;
+begin
+  FRegistrosAtividadesReligiosas := FDao.ConsultaTab(FAtividadeReligiosa,['id','descricao'],['descricao','situacao'],['descricao'],comLike);
+
+  FAtividadeReligiosa.Id := FRegistrosAtividadesReligiosas.FieldByName('id').AsInteger;
+  FAtividadeReligiosa.Descricao := FRegistrosAtividadesReligiosas.FieldByName('descricao').AsString;
+
+  FDsAtividadeReligiosa.DataSet := FRegistrosAtividadesReligiosas;
+
+  Result := FRegistrosAtividadesReligiosas.FieldByName('descricao').AsString;
+end;
+
+function TControllerHE.RetornaCirurgiaPorDescricao: string;
+begin
+  FRegistrosCirurgias := FDao.ConsultaTab(FCirurgia,['id','descricao'],['descricao','situacao'],['descricao'],comLike);
+
+  FCirurgia.Id := FRegistrosCirurgias.FieldByName('id').AsInteger;
+  FCirurgia.Descricao := FRegistrosCirurgias.FieldByName('descricao').AsString;
+
+  FDsCirurgia.DataSet := FRegistrosCirurgias;
+
+  Result := FRegistrosCirurgias.FieldByName('descricao').AsString;
+end;
+
+function TControllerHE.RetornaDiagnosticoPorDescricao: string;
+begin
+  FRegistrosDiagnosticos := FDao.ConsultaTab(FDiagnostico_Enfermagem,['id','descricao'],['descricao','situacao'],['descricao'],comLike);
+
+  FDiagnostico_Enfermagem.Id := FRegistrosDiagnosticos.FieldByName('id').AsInteger;
+  FDiagnostico_Enfermagem.Descricao := FRegistrosDiagnosticos.FieldByName('descricao').AsString;
+
+  FDsDiagnostico.DataSet := FRegistrosDiagnosticos;
+
+  Result := FRegistrosDiagnosticos.FieldByName('descricao').AsString;
+end;
+
+function TControllerHE.RetornaPessoaPorNome: string;
+begin
+  try
+    FRegistrosPessoas := FDao.ConsultaTab(FPessoa,['Id','Nome'],['Nome','situacao','tipo_pessoa'],['Nome'],comLike);
+
+    FPessoa.Id    := FRegistrosPessoas.FieldByName('id').AsInteger;
+    FPessoa.Nome  := FRegistrosPessoas.FieldByName('nome').AsString;
+
+    FDsPessoas.DataSet := FRegistrosPessoas;
+
+    Result := FRegistrosPessoas.FieldByName('nome').AsString;
+  finally
+
+  end;
+end;
+
+function TControllerHE.RetornaUltimoID: integer;
+begin
+  FDao.GetID(FAntecedente_paciente,'id');
+end;
+
+procedure TControllerHE.SetAlergia(const Value: TDatasource);
+begin
+  FDsAlergia := Value;
+end;
+
+procedure TControllerHE.SetDsAlergia(const Value: TDatasource);
+begin
+  FDsAlergia := Value;
+end;
+
+procedure TControllerHE.SetDsAlergia_HE(const Value: TDatasource);
+begin
+  FDsAlergia_HE := Value;
+end;
+
+procedure TControllerHE.SetDsAntecedente(const Value: TDataSource);
+begin
+  FDsAntecedente := Value;
+end;
+
+procedure TControllerHE.SetDsAntecedentesPaciente(
+  const Value: TDataSource);
+begin
+  FDsAntecedentesPaciente := Value;
+end;
+
+procedure TControllerHE.SetDsAtividadeReligiosa(const Value: TDatasource);
+begin
+  FDsAtividadeReligiosa_HE := Value;
+end;
+
+procedure TControllerHE.SetDsCirurgia(const Value: TDataSource);
+begin
+  FDsCirurgia := Value;
+end;
+
+procedure TControllerHE.SetDsCirurgia_HE(const Value: TDatasource);
+begin
+  FDsCirurgia_HE := Value;
+end;
+
+procedure TControllerHE.SetDsDiagnostico(const Value: TDataSource);
+begin
+  FDsDiagnostico := Value;
+end;
+
+procedure TControllerHE.SetDsDiagnostico_HE(const Value: TDataSource);
+begin
+  FDsDiagnostico_HE := Value;
+end;
+
+procedure TControllerHE.SetQryAntecedentes_Paciente(
+  const Value: TFDQuery);
+begin
+  FQryAntecedentes_Paciente := Value;
+end;
+
+procedure TControllerHE.SetQryAtividadeReligiosa_HE(const Value: TFDQuery);
+begin
+  FQryAtividadeReligiosa_HE := Value;
+end;
+
+procedure TControllerHE.SetQryCirurgias_HE(const Value: TFDQuery);
+begin
+  FQryCirurgias_HE := Value;
+end;
+
+procedure TControllerHE.SetQryDiagnosticos_HE(const Value: TFDQuery);
+begin
+  FQryDiagnosticos_HE := Value;
+end;
+
+procedure TControllerHE.SetRegistrosAlergias(const Value: TDataSet);
+begin
+  FRegistrosAlergias := Value;
+end;
+
+procedure TControllerHE.SetQryAlergias_HE(const Value: TFDQuery);
+begin
+  FQryAlergias_HE := Value;
+end;
+
+procedure TControllerHE.SetRegistrosAntecedente(const Value: TDataSet);
+begin
+  FRegistrosAntecedente := Value;
+end;
+
+procedure TControllerHE.SetRegistrosAtividadesReligiosas(const Value: TDataSet);
+begin
+  FRegistrosAtividadesReligiosas := Value;
+end;
+
+procedure TControllerHE.SetRegistrosCirurgias(const Value: TDataset);
+begin
+  FRegistrosCirurgias := Value;
+end;
+
+procedure TControllerHE.SetRegistrosDiagnosticos(const Value: TDataSet);
+begin
+  FRegistrosDiagnosticos := Value;
+end;
+
+function TControllerHE.ValidaSePessoaExiste(sNome: string): boolean;
+begin
+  Result := false;
+
+  if sNome <> trim('') then
+    begin
+      FRegistrosPessoas := FDao.ConsultaTab(FPessoa,['*'],['nome'],[],semLike);
+
+      if FRegistrosPessoas.RecordCount > 0 then
+        if FRegistrosPessoas.FieldByName('situacao').AsString = sINATIVO then
+          begin
+            MessageDlg('A pessoa que está sendo consultada existe na base de dados!'+#13#13+'Porém, está inativa.',mtWarning,mbOKCancel,0);
+            Result := false;
+          end
+        else
+          Result := true
+      else
+        MessageDlg('O nome da pessoa consultada não foi localizado no banco de dados!',mtWarning,mbOKCancel,0);
+    end
+  else
+    Result := true;
+end;
+
+function TControllerHE.VerificaSexo: integer;
+begin
+  FRegistrosPessoas := FDao.ConsultaTab(FPessoa,['sexo'],['id'],['id'],semLike);
+
+  if (FRegistrosPessoas.FieldByName('sexo').AsInteger <> 0) then
+    Result := FRegistrosPessoas.FieldByName('sexo').AsInteger
+  else
+    begin
+      Result := 0;
+      MessageDlg('Sexo não informado no cadastro do paciente!',mtWarning,[mbOk],0);
+    end;
+end;
+
+function TControllerHE.GravaVias_Aeres_HE: boolean;
+begin
+  FDao.Inserir(FVias_Aeres_HE);
+end;
+
+end.

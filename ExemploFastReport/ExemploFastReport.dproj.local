@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/02/17 17:39:28.000.391,=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/02/25 18:45:47.000.893,=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/02/25 18:51:17.000.057,=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/03/23 23:24:32.000.555,=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/03/25 23:05:45.000.458,=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/05/29 15:43:17.105,=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/05/29 15:44:14.161,C:\Sistemas\SGH-TS\ExemploFastReport\unPrincipal.pas=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/05/29 15:44:14.161,C:\Sistemas\SGH-TS\ExemploFastReport\unPrincipal.dfm=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2018/05/29 15:44:23.351,C:\Sistemas\SGH-TS\ExemploFastReport\ExemploFastReport.dproj=C:\Users\Luiz\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

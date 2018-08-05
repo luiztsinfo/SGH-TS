@@ -1,0 +1,23 @@
+unit Model.Pele_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('pele_he')]
+  TPele_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNul('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property palidez : integer read FPalidez write SetPalidez;
+  end;
+
+implementation
+
+end.

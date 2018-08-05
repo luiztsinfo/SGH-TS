@@ -1,0 +1,36 @@
+unit Model.Extremidades_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('extremidades_he')]
+  TExtremidades_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('ID He')]
+      property id_he : integer read FId_he write SetId_he;
+      property edema : string read FEdema write SetEdema;
+      property lesoes : string read FLesoes write SetLesoes;
+      property deformidades : string read FDeformidades write SetDeformidades;
+      property cateteres_venenosos : string read Fcateteres_venenosos write Setcateteres_venenosos;
+      property local_diminuida : string read Flocal_diminuida write Setlocal_diminuida;
+      property sinais_infeccao_fungos : integer read Fsinais_infeccao_fungos write Setsinais_infeccao_fungos;
+      property baqueteamento_dedos : integer read Fbaqueteamento_dedos write Setbaqueteamento_dedos;
+      property desde : string read Fdesde write Setdesde;
+      property normal : integer read Fnormal write Setnormal;
+      property diminuida : integer read Fdiminuida write Setdiminuida;
+      property edema_mmii : integer read Fedema_mmii write Setedema_mmii;
+      property ulceras_venosas : integer read Fulceras_venosas write Setulceras_venosas;
+      property ulceras_arteriais : integer read Fulceras_arteriais write Setulceras_arteriais;
+
+  end;
+
+implementation
+
+end.

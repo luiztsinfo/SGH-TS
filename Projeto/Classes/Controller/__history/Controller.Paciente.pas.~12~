@@ -1,0 +1,181 @@
+unit Controller.Paciente;
+
+interface
+    uses Lca.Orm.Comp.FireDac, Model.Pessoa, Conexao, Data.DB, System.SysUtils, Firedac.Comp.Client, Dialogs,
+  Model.Cidades, unConstantes, Model.Religiao;
+
+type
+  TControllerPaciente = class(TDaoFireDac)
+
+  private
+    FModel: TPessoa;
+    FConexao: TConexao;
+    function GetFDataSource: TDataSource;
+    procedure SetDsReligiao(const Value: TDataSource);
+
+  public
+    FDao: TDaoFireDac;
+    FPessoa: TPessoa;
+    FCidade: TCidade;
+    FReligiao: TReligioes;
+    FDataSourcePaciente: TDataSource;
+    FDataSourceCidade: TDataSource;
+    FDsReligiao: TDataSource;
+    FRegistrosPaciente: TDataSet;
+    FRegistrosCidade: TDataSet;
+    FRegistrosReligiao: TDataSet;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure consultar(sCampoWhere, sOrderBy: string);
+    procedure mostraDados;
+    procedure alimentaCamposModel;
+    function RetornaReligiaoPorNome: string;
+    function RetornaCidadePorNome: string;
+    function RetornaCidadePorID: string;
+    function retornaUltimoCliente: integer;
+
+    property Model: TPessoa read FModel write FModel;
+    property DataSource: TDataSource read GetFDataSource
+      write FDataSourcePaciente;
+    property DsReligiao: TDataSource read FDsReligiao write SetDsReligiao;
+  end;
+
+implementation
+
+{ TControllerGeneric }
+
+procedure TControllerPaciente.alimentaCamposModel;
+begin
+  Model.Id  := FRegistrosPaciente.FieldByName('id').AsInteger;
+  Model.Nome:= FRegistrosPaciente.FieldByName('nome').AsString;
+  Model.Nascimento := FRegistrosPaciente.FieldByName('nascimento').AsDateTime;
+  Model.Id_cidade  := FRegistrosPaciente.FieldByName('id_cidade').AsInteger;
+  Model.Id_religiao:= FRegistrosPaciente.FieldByName('id_religiao').AsInteger;
+  Model.Situacao   := FRegistrosPaciente.FieldByName('situacao').AsString;
+  Model.Sexo := FRegistrosPaciente.FieldByName('sexo').AsInteger;
+  Model.Cor := FRegistrosPaciente.FieldByName('cor').AsInteger;
+  Model.Estado_Civil := FRegistrosPaciente.FieldByName('estado_civil').AsInteger;
+  Model.Escolaridade := FRegistrosPaciente.FieldByName('escolaridade').AsInteger;
+
+  FCidade.Id       := FRegistrosPaciente.FieldByName('id_cidade').AsInteger;     // verificar se isso é necessario
+//  FReligiao.Id     := FRegistrosReligiao.FieldByName('id_religiao').AsInteger;
+end;
+
+procedure TControllerPaciente.consultar(sCampoWhere,sOrderBy: string);
+begin
+  try
+    FRegistrosPaciente := FDao.ConsultaTab(FModel,['*'],['situacao','tipo_pessoa',sCampoWhere],sOrderBy,comLike);
+
+    FDataSourcePaciente.DataSet := FRegistrosPaciente;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+constructor TControllerPaciente.Create;
+begin
+  FConexao    := TConexao.Create;
+  FDataSourcePaciente := TDataSource.Create(nil);
+  FDataSourceCidade   := TDataSource.Create(nil);
+  FDsReligiao := TDataSource.Create(nil);
+  FRegistrosPaciente  := TDataSet.Create(nil);
+  FRegistrosCidade    := TDataSet.Create(nil);
+  FRegistrosReligiao := TDataSet.Create(nil);
+  FModel:= TPessoa.Create;
+
+  inherited Create(FConexao.FdCon,FConexao.FdTran);
+  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  FPessoa     := TPessoa.Create;
+  FCidade := TCidade.Create;
+  FReligiao := TReligioes.Create;
+end;
+
+destructor TControllerPaciente.Destroy;
+begin
+  FRegistrosPaciente.Free;
+  FRegistrosCidade.Free;
+  FDataSourcePaciente.Free;
+  FDataSourceCidade.Free;
+  FModel.Free;
+  FConexao.Free;
+  FDao.Free;
+  FPessoa.Free;
+  FDsReligiao.Free;
+  FRegistrosReligiao.Free;
+  FReligiao.Free;
+  inherited Destroy;
+end;
+
+function TControllerPaciente.GetFDataSource: TDataSource;
+begin
+  Result := FDataSourcePaciente;
+end;
+
+procedure TControllerPaciente.mostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+    FModel.Tipo_pessoa := sTIPO_PESSOA_PACIENTE;
+
+    FRegistrosPaciente  := FDao.ConsultaTab(FModel,['situacao','tipo_pessoa']);
+
+    FDataSourcePaciente.DataSet := FRegistrosPaciente;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+function TControllerPaciente.RetornaCidadePorID: string;
+begin
+  try
+    FRegistrosCidade := FDao.ConsultaTab(FCidade,['Id','Nome'],['Id'],['Nome'],false);
+
+    FDataSourceCidade.DataSet := FRegistrosCidade;
+    FCidade.Id    := FRegistrosCidade.FieldByName('id').AsInteger;
+    FCidade.Nome  := FRegistrosCidade.FieldByName('nome').AsString;
+
+    Result := FRegistrosCidade.FieldByName('nome').AsString;;
+  finally
+
+  end;
+end;
+
+function TControllerPaciente.RetornaCidadePorNome: string;
+begin
+  try
+    FRegistrosCidade := FDao.ConsultaTab(FCidade,['Id','Nome'],['Nome'],['Nome'],true);
+
+    FDataSourceCidade.DataSet := FRegistrosCidade;
+    FCidade.Id    := FRegistrosCidade.FieldByName('id').AsInteger;
+    FCidade.Nome  := FRegistrosCidade.FieldByName('nome').AsString;
+  finally
+
+  end;
+end;
+
+function TControllerPaciente.RetornaReligiaoPorNome: string;
+begin
+  FRegistrosReligiao := FDao.ConsultaTab(FReligiao,['id','Descricao'],['Descricao'],['Descricao'],true);
+  FDsReligiao.DataSet := FRegistrosReligiao;
+  FReligiao.Id := FRegistrosReligiao.FieldByName('id').AsInteger;
+  FReligiao.Descricao := FRegistrosReligiao.FieldByName('descricao').AsString;
+end;
+
+function TControllerPaciente.retornaUltimoCliente: integer;
+begin
+  FRegistrosPaciente := ConsultaSql('SELECT * FROM public.pessoas ORDER BY id');
+  FRegistrosPaciente.Last;
+
+  Result := FRegistrosPaciente.FieldByName('id').AsInteger + 1;
+end;
+
+procedure TControllerPaciente.SetDsReligiao(const Value: TDataSource);
+begin
+  FDsReligiao := Value;
+end;
+
+end.

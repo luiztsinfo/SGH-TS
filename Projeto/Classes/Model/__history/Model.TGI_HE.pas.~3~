@@ -1,0 +1,55 @@
+unit Model.TGI_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('tgi_he')]
+  TTGI_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property cicatrizes : string read FCicatrizes write SetCicatrizes;
+      property outros_achados : string read FOutros_achados write SetOutros_achados;
+      property medida_figado : Double read FMedida_figado write SetMedida_figado;
+      property espontanea : integer read FEspontanea write SetEspontanea;
+      property espontanea_assistida : integer read FEspontanea_assistida write SetEspontanea_assistida;
+      property npo : integer read FNpo write SetNpo;
+      property sng : integer read FSng write SetSng;
+      property sne : integer read FSne write SetSne;
+      property npt : integer read FNpt write SetNpt;
+      property sng_aberta : integer read FSng_aberta write SetSng_aberta;
+      property jejunostomia : integer read FJejunostomia write SetJejunostomia;
+      property gastrostomia : integer read FGastrostomia write SetGastrostomia;
+      property globoso : integer read FGloboso write SetGloboso;
+      property plano : integer read FPlano write SetPlano;
+      property escavado : integer read FEscavado write SetEscavado;
+      property flacido : integer read FFlacido write SetFlacido;
+      property distendido : integer read FDistendido write SetDistendido;
+      property timpanico : integer read FTimpanico write SetTimpanico;
+      property ascítico : integer read FAscítico write SetAscítico;
+      property inspecao : integer read FInspecao write SetInspecao;
+      property normais_audiveis : integer read FNormais_audiveis write SetNormais_audiveis;
+      property ausentes : integer read FAusentes write SetAusentes;
+      property hiperativos : integer read FHiperativos write SetHiperativos;
+      property hipoativos : integer read FHipoativos write SetHipoativos;
+      property sons_timpanicos : integer read FSons_timpanicos write SetSons_timpanicos;
+      property sons_macicos : integer read FSons_macicos write SetSons_macicos;
+      property indolor : integer read FIndolor write SetIndolor;
+      property doloroso_palpacao : integer read FDoloroso_palpacao write SetDoloroso_palpacao;
+      property presenca_massa_anormal : integer read FPresenca_massa_anormal write SetPresenca_massa_anormal;
+      property palpacao_fig_normal : integer read FPalpacao_fig_normal write SetPalpacao_fig_normal;
+      property palpacao_fig_alterado : integer read FPalpacao_fig_alterado write SetPalpacao_fig_alterado;
+      property percussao_fig_normal : integer read FPercussao_fig_normal write SetPercussao_fig_normal;
+      property percussao_fig_alterado : integer read FPercussao_fig_alterado write SetPercussao_fig_alterado;
+  end;
+
+implementation
+
+end.

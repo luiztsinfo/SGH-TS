@@ -1,0 +1,112 @@
+unit Model.Paciente;
+
+interface
+
+uses Lca.Orm.Base;
+
+type
+  [AttTabela('pessoas')]
+  TPessoa = class(TTabela)
+    private
+      FId: integer;
+      FNome: string;
+      FId_cidade: integer;
+      FTipo_pessoa: integer;
+      FRegistro_conselho: string;
+      FNascimento: TDateTime;
+
+      function GetId: integer;
+      procedure setId(const Value: integer);
+      function GetNome: string;
+      procedure SetNome(const Value: string);
+      function GetId_Cidade: integer;
+      procedure SetId_Cidade(const Value: integer);
+      function GetNascimento: TDateTime;
+      function GetRegistro_conselho: integer;
+      function GetTipo_pessoa: integer;
+      procedure SetNascimento(const Value: TDateTime);
+      procedure SetRegistro_conselho(const Value: integer);
+      procedure SetTipo_pessoa(const Value: integer);
+
+    public
+      [AttPk]
+      [AttNotNull('Id')]
+      property Id : integer read GetId write setId;
+      [AttNotNull('Nome')]
+      property Nome : string read GetNome write SetNome;
+      [AttNotNull('Id cidade')]
+      property Id_cidade : integer read GetId_Cidade write SetId_Cidade;
+      [AttNotNull('Tipo pessoa')]
+      property Tipo_pessoa : integer read GetTipo_pessoa write SetTipo_pessoa;
+      [AttNotNull('Registro Conselho')]
+      property Registro_conselho : integer read GetRegistro_conselho write SetRegistro_conselho;
+      [AttNotNull('Nascimento')]
+      property Nascimento : TDateTime read GetNascimento write SetNascimento;
+  end;
+
+implementation
+
+{ TPessoa }
+
+function TPessoa.GetId: integer;
+begin
+  Result := FId;
+end;
+
+function TPessoa.GetId_Cidade: integer;
+begin
+  Result := Id_cidade;
+end;
+
+function TPessoa.GetNascimento: TDateTime;
+begin
+
+end;
+
+function TPessoa.GetNome: string;
+begin
+  Result := FNome;
+end;
+
+function TPessoa.GetRegistro_conselho: integer;
+begin
+
+end;
+
+function TPessoa.GetTipo_pessoa: integer;
+begin
+
+end;
+
+procedure TPessoa.setId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+
+procedure TPessoa.SetId_Cidade(const Value: integer);
+begin
+  Id_cidade := Value;
+end;
+
+procedure TPessoa.SetNascimento(const Value: TDateTime);
+begin
+
+end;
+
+procedure TPessoa.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+procedure TPessoa.SetRegistro_conselho(const Value: integer);
+begin
+
+end;
+
+procedure TPessoa.SetTipo_pessoa(const Value: integer);
+begin
+
+end;
+
+end.

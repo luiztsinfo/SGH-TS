@@ -1,0 +1,15 @@
+unit Model.Homem_he;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('homem_he')]
+  TInfs_antecedentes = class(TTabela)
+  private
+
+implementation
+
+end.

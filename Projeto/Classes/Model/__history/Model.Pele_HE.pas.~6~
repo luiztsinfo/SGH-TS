@@ -1,0 +1,72 @@
+unit Model.Pele_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+
+  [attTabela('pele_he')]
+  TPele_HE = class(TTabela)
+  private
+    FId: integer;
+    FId_he: integer;
+    FPalidez: boolean;
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetPalidez(const Value: integer);
+
+  public
+    [attPk]
+    property id: integer read FId write SetId;
+    [attNotNull('Id HE')]
+    property id_he: integer read FId_he write SetId_he;
+    property palidez: integer read FPalidez write SetPalidez;
+    property cianose : integer read FCianose write SetCianose;
+    property hiperemia : integer read FHiperemia write SetHiperemia;
+    property integra : integer read FIntegra write SetIntegra;
+    property lesionada : integer read FLesionada write SetLesionada;
+    property local_lesao : string read FLocal_lesao write SetLocal_lesao;
+    property prurido : integer read FPrurido write SetPrurido;
+    property deformidades : integer read FDeformidades write SetDeformidades;
+    property torgor_normal : integer read FTorgor_normal write SetTorgor_normal;
+    property torgor_diminuido : integer read FTorgor_diminuido write SetTorgor_diminuido;
+    property equimose : integer read FEquimose write SetEquimose;
+    property petequias : integer read FPetequias write SetPetequias;
+    property eritemas : integer read FEritemas write SetEritemas;
+    property exantemas : integer read FExantemas write SetExantemas;
+    property hematomas : integer read FHematomas write SetHematomas;
+    property urticarias : integer read FUrticarias write SetUrticarias;
+    property papulas : integer read FPapulas write SetPapulas;
+    property tumor : integer read FTumor write SetTumor;
+    property nodulos : integer read FNodulos write SetNodulos;
+    property abscessos : integer read FAbscessos write SetAbscessos;
+    property pustulas : integer read FPustulas write SetPustulas;
+    property bolhas : integer read FBolhas write SetBolhas;
+    property vesiculas : integer read FVesiculas write SetVesiculas;
+    property local_manchas : string read FLocal_Manchas write SetLocal_manchas;
+    property tamanho_manchas : string read FTamanho_manchas write SetTamanho_manchas;
+
+  end;
+
+implementation
+
+{ TPele_HE }
+
+procedure TPele_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TPele_HE.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TPele_HE.SetPalidez(const Value: integer);
+begin
+  FPalidez := Value;
+end;
+
+end.

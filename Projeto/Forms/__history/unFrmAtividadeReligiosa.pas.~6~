@@ -1,0 +1,109 @@
+unit unFrmAtividadeReligiosa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.AtividadeReligiosa, unConstantes;
+
+type
+  TfrmAtividadeReligiosa = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtId: TEdit;
+    edtDescricao: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+    FControllerAtividadeReligiosa: TControllerAtividadeReligiosa;
+  public
+
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmAtividadeReligiosa: TfrmAtividadeReligiosa;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmAtividadeReligiosa.alimentaModel;
+begin
+  inherited;
+  FControllerAtividadeReligiosa.Model.Descricao := edtDescricao.Text;
+  FControllerAtividadeReligiosa.Model.Situacao := sATIVO;
+end;
+
+procedure TfrmAtividadeReligiosa.alterar;
+begin
+  inherited;
+  FControllerAtividadeReligiosa.Model.Id := StrToInt(edtId.Text);
+  FControllerAtividadeReligiosa.Salvar(FControllerAtividadeReligiosa.Model);
+end;
+
+procedure TfrmAtividadeReligiosa.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TfrmAtividadeReligiosa.carregarCampos;
+begin
+  inherited;
+  edtId.Text := IntToStr(FControllerAtividadeReligiosa.Model.Id);
+  edtDescricao.Text := FControllerAtividadeReligiosa.Model.Descricao;
+end;
+
+procedure TfrmAtividadeReligiosa.carregarModel;
+begin
+  inherited;
+
+end;
+
+procedure TfrmAtividadeReligiosa.consultar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmAtividadeReligiosa.excluir;
+begin
+  inherited;
+
+end;
+
+function TfrmAtividadeReligiosa.existeRegistro: boolean;
+begin
+
+end;
+
+procedure TfrmAtividadeReligiosa.incluir;
+begin
+  inherited;
+
+end;
+
+procedure TfrmAtividadeReligiosa.mostrarTodosDados;
+begin
+  inherited;
+
+end;
+
+procedure TfrmAtividadeReligiosa.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

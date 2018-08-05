@@ -1,0 +1,28 @@
+unit Model.Ausculta_Cardiaca_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('ausculta_cardiaca_he')]
+  TAusculta_Cardiaca_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property palpacao_ictus_cordis : string read FPalpacao_ictus_cordis write SetPalpacao_ictus_cordis;
+      property fremito_tatil : string read FFremito_tatil write SetFremito_tatil;
+      property foco_aortico : string read FFoco_aortico write SetFoco_aortico;
+      property foco_pulmonar : string read FFoco_pulmonar write SetFoco_pulmonar;
+      property foco_mitral : string read FFoco_mitral write SetFoco_mitral;
+      property foco_tricuspide : string read FFoco_tricuspide write SetFoco_tricuspide;
+  end;
+
+implementation
+
+end.

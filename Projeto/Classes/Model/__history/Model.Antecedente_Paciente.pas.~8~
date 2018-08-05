@@ -1,0 +1,203 @@
+unit Model.Antecedente_Paciente;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('antecedentes_paciente')]
+  TAntecedente_Paciente = class(TTabela)
+  private
+    FId: Integer;
+    FId_he: integer;
+    FId_Antecedente: integer;
+    FTipo_antecedente: integer;
+    FObs_alteracoes_cardiovasculares: string;
+    FTempoQuimioterapia: Double;
+    FMotivo_internacao: string;
+    FObs_alteracoes_pulmonares: string;
+    FObs_gastrointestinais_hepatobiliares: string;
+    FTempo_internacao_anterior: Double;
+    FFrequencia: integer;
+    FTempoRadioterapia: Double;
+    FData_Registro: TDateTime;
+    FTratado: integer;
+    FQuantidade: integer;
+    FObs_geral: string;
+    FObs_alteracoes_renais_urinarias: string;
+    FObs_alteracoes_osseas: string;
+    FTratamento: integer;
+    FTempoconsumo: Double;
+    FTempo_transfusaosanguinea_anterior: Double;
+    procedure SetId(const Value: Integer);
+    procedure SetId_Antecedente(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetTipo_Antecedente(const Value: integer);
+    procedure SetData_Registro(const Value: TDateTime);
+    procedure SetFrequencia(const Value: integer);
+    procedure SetMotivo_internacao(const Value: string);
+    procedure SetObs_alteracoes_cardiovasculares(const Value: string);
+    procedure SetObs_alteracoes_osseas(const Value: string);
+    procedure SetObs_alteracoes_pulmonares(const Value: string);
+    procedure SetObs_alteracoes_renais_urinarias(const Value: string);
+    procedure SetObs_gastrointestinais_hepatobiliares(const Value: string);
+    procedure SetObs_geral(const Value: string);
+    procedure SetQuantidade(const Value: integer);
+    procedure SetTempo_internacao_anterior(const Value: Double);
+    procedure SetTempo_transfusaosanguinea_anterior(const Value: Double);
+    procedure SetTempoConsumo(const Value: Double);
+    procedure SetTempoQuimioterapia(const Value: Double);
+    procedure SetTempoRadioterapia(const Value: Double);
+    procedure SetTratado(const Value: integer);
+    procedure SetTratamento(const Value: integer);
+
+  public
+
+    [attPK]
+    property Id: Integer read FId write SetId;
+    [AttNotNull('Id Antecedente')]
+    property Id_Antecedente: integer read FId_Antecedente write SetId_Antecedente;
+    [AttNotNull('Id HE')]
+    property Id_he: integer read FId_he write SetId_he;
+    [AttNotNull('Tipo Antecedente')]
+    property Tipo_antecedente : integer read FTipo_antecedente write SetTipo_Antecedente;
+    { SEGUNDA PARTE 09.04.2018 - DEPOIS DE PRONTO, ANALISAR SE É CONVENIENTE ESSE COMENTÁRIO }
+    property Quantidade : integer read FQuantidade write SetQuantidade;
+    property Frequencia : integer read FFrequencia write SetFrequencia;
+    property Tempoconsumo : Double read FTempoconsumo write SetTempoConsumo;
+    property Tratamento : integer read FTratamento write SetTratamento;
+    property Tratado : integer read FTratado write SetTratado;
+    property TempoQuimioterapia : Double read FTempoQuimioterapia write SetTempoQuimioterapia;
+    property Data_Registro : TDateTime read FData_Registro write SetData_Registro;
+    property TempoRadioterapia : Double read FTempoRadioterapia write SetTempoRadioterapia;
+    property Tempo_internacao_anterior : Double read FTempo_internacao_anterior write SetTempo_internacao_anterior;
+    property Motivo_internacao : string read FMotivo_internacao write SetMotivo_internacao;
+    property Tempo_tranfusaosanguinea_anterior : Double read FTempo_transfusaosanguinea_anterior write SetTempo_transfusaosanguinea_anterior;
+    property Obs_gastrointestinais_hepatobiliares : string read FObs_gastrointestinais_hepatobiliares write SetObs_gastrointestinais_hepatobiliares;
+    property Obs_alteracoes_osseas : string read FObs_alteracoes_osseas write SetObs_alteracoes_osseas;
+    property Obs_alteracoes_renais_urinarias : string read FObs_alteracoes_renais_urinarias write SetObs_alteracoes_renais_urinarias;
+    property Obs_alteracoes_cardiovasculares : string read FObs_alteracoes_cardiovasculares write SetObs_alteracoes_cardiovasculares;
+    property Obs_alteracoes_pulmonares : string read FObs_alteracoes_pulmonares write SetObs_alteracoes_pulmonares;
+    property Obs_geral : string read FObs_geral write SetObs_geral;
+
+  end;
+
+implementation
+
+
+{ TAntecedente_Paciente }
+
+procedure TAntecedente_Paciente.SetData_Registro(const Value: TDateTime);
+begin
+  FData_Registro := Value;
+end;
+
+procedure TAntecedente_Paciente.SetFrequencia(const Value: integer);
+begin
+  FFrequencia := Value;
+end;
+
+procedure TAntecedente_Paciente.SetId(const Value: Integer);
+begin
+  FId := Value;
+end;
+
+procedure TAntecedente_Paciente.SetId_Antecedente(const Value: integer);
+begin
+  FId_Antecedente := Value;
+end;
+
+procedure TAntecedente_Paciente.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TAntecedente_Paciente.SetMotivo_internacao(const Value: string);
+begin
+  FMotivo_internacao := Value;
+end;
+
+procedure TAntecedente_Paciente.SetObs_alteracoes_cardiovasculares(
+  const Value: string);
+begin
+  FObs_alteracoes_cardiovasculares := Value;
+end;
+
+procedure TAntecedente_Paciente.SetObs_alteracoes_osseas(const Value: string);
+begin
+  FObs_alteracoes_osseas := Value;
+end;
+
+procedure TAntecedente_Paciente.SetObs_alteracoes_pulmonares(
+  const Value: string);
+begin
+  FObs_alteracoes_pulmonares := Value;
+end;
+
+procedure TAntecedente_Paciente.SetObs_alteracoes_renais_urinarias(
+  const Value: string);
+begin
+  FObs_alteracoes_renais_urinarias := Value;
+end;
+
+procedure TAntecedente_Paciente.SetObs_gastrointestinais_hepatobiliares(
+  const Value: string);
+begin
+  FObs_gastrointestinais_hepatobiliares := Value;
+end;
+
+procedure TAntecedente_Paciente.SetObs_geral(const Value: string);
+begin
+  FObs_geral := Value;
+end;
+
+procedure TAntecedente_Paciente.SetQuantidade(const Value: integer);
+begin
+  FQuantidade := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTempoConsumo(const Value: Double);
+begin
+  FTempoconsumo := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTempoQuimioterapia(const Value: Double);
+begin
+  FTempoQuimioterapia := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTempoRadioterapia(const Value: Double);
+begin
+  FTempoRadioterapia := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTempo_internacao_anterior(
+  const Value: Double);
+begin
+  FTempo_internacao_anterior := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTempo_transfusaosanguinea_anterior(
+  const Value: Double);
+begin
+  FTempo_transfusaosanguinea_anterior := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTipo_Antecedente(const Value: integer);
+begin
+  FTipo_antecedente := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTratado(const Value: integer);
+begin
+  FTratado := Value;
+end;
+
+procedure TAntecedente_Paciente.SetTratamento(const Value: integer);
+begin
+  FTratamento := Value;
+end;
+
+end.
+

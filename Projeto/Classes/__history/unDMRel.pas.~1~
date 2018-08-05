@@ -1,0 +1,25 @@
+unit unDMRel;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TDMRel = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DMRel: TDMRel;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

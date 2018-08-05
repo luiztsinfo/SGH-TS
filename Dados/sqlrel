@@ -1,0 +1,16 @@
+SELECT he.*, pac.nome As NomePaciente, enf.nome As NomeEnfermeiro,
+pac.sexo, pac.nascimento, pac.cor, rel.descricao, pac.estado_civil, 
+pac.escolaridade, 
+
+CASE WHEN pac.sexo = 1 THEN 'Feminino'
+WHEN pac.sexo = 2 THEN 'Masculino' 
+END AS sexo
+
+FROM he 
+INNER JOIN pessoas pac
+ON pac.id = he.id_paciente
+INNER JOIN pessoas enf
+ON enf.id = he.id_enfermeiro
+INNER JOIN religioes rel
+ON rel.id = pac.id_religiao
+WHERE he.id = 73

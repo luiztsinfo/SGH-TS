@@ -1,0 +1,47 @@
+unit Model.Pele_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+
+  [attTabela('pele_he')]
+  TPele_HE = class(TTabela)
+  private
+    FId: integer;
+    FId_he: integer;
+    FPalidez: integer;
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetPalidez(const Value: integer);
+
+  public
+    [attPk]
+    property id: integer read FId write SetId;
+    [attNotNull('Id HE')]
+    property id_he: integer read FId_he write SetId_he;
+    property palidez: integer read FPalidez write SetPalidez;
+  end;
+
+implementation
+
+{ TPele_HE }
+
+procedure TPele_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TPele_HE.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TPele_HE.SetPalidez(const Value: integer);
+begin
+  FPalidez := Value;
+end;
+
+end.

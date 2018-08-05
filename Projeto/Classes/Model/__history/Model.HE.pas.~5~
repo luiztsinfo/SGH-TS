@@ -1,0 +1,66 @@
+unit Model.HE;
+
+interface
+
+uses Lca.Orm.Base;
+
+type
+
+  [AttTabela('he')]
+  THE = class(TTabela)
+  private
+    FID: Integer;
+    FData_Admissao: TDateTime;
+    FId_paciente: Integer;
+    FID_Enfermeiro: Integer;
+    FData_Alta: TDateTime;
+    procedure SetID(const Value: Integer);
+    procedure SetData_Admissao(const Value: TDateTime);
+    procedure SetId_Paciente(const Value: Integer);
+    procedure SetId_Enfermeiro(const Value: Integer);
+    procedure SetData_alta(const Value: TDateTime);
+
+  public
+    [AttPk]
+    [AttNotNull('ID HE')]
+    property ID: Integer read FID write SetID;
+    [AttNotNull('Data Admissao')]
+    property Data_Admissao: TDateTime read FData_Admissao
+      write SetData_Admissao;
+    [AttNotNull('ID Paciente')]
+    property ID_Paciente: Integer read FId_paciente write SetId_Paciente;
+    [AttNotNull('ID Enfermeiro')]
+    property ID_Enfermeiro: Integer read FID_Enfermeiro write SetId_Enfermeiro;
+    property Data_alta: TDateTime read FData_Alta write SetData_alta;
+  end;
+
+implementation
+
+{ THE }
+
+procedure THE.SetData_Admissao(const Value: TDateTime);
+begin
+  FData_Admissao := Value;
+end;
+
+procedure THE.SetData_alta(const Value: TDateTime);
+begin
+  FData_Alta := Value;
+end;
+
+procedure THE.SetID(const Value: Integer);
+begin
+  FID := Value;
+end;
+
+procedure THE.SetId_Enfermeiro(const Value: integer);
+begin
+  FID_Enfermeiro := Value;
+end;
+
+procedure THE.SetId_Paciente(const Value: integer);
+begin
+  FId_paciente := Value;
+end;
+
+end.

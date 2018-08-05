@@ -1,0 +1,16 @@
+program Server;
+
+uses
+  Vcl.Forms,
+  unServer in 'unServer.pas' {frmServer},
+  unDM in 'unDM.pas' {DataModule1: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmServer, frmServer);
+  Application.CreateForm(TDataModule1, DataModule1);
+  Application.Run;
+end.

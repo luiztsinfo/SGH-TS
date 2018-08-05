@@ -1,0 +1,48 @@
+unit Model.AtividadeReligiosa;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('he.atividades_religiosas')]
+  TAtividadeReligiosa = class(TTabela)
+  private
+    FId: Integer;
+    FDescricao: string;
+    FSituacao: string;
+
+    procedure SetDescricao(const Value: string);
+    procedure SetId(const Value: Integer);
+    procedure SetSituacao(const Value: string);
+  public
+
+    [attPK]
+    property Id: Integer read FId write SetId;
+    [AttNotNull('Descrição')]
+    property Descricao: string read FDescricao write SetDescricao;
+    [AttNotNull('Situação')]
+    property Situacao: string read FSituacao write SetSituacao;
+  end;
+
+implementation
+
+{ TAtividadeReligiosa }
+
+procedure TAtividadeReligiosa.SetDescricao(const Value: string);
+begin
+  FDescricao := Value;
+end;
+
+procedure TAtividadeReligiosa.SetId(const Value: Integer);
+begin
+  FId := Value;
+end;
+
+procedure TAtividadeReligiosa.SetSituacao(const Value: string);
+begin
+  FSituacao := Value;
+end;
+
+end.

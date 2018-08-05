@@ -1,0 +1,75 @@
+inherited frmBase2: TfrmBase2
+  Caption = 'frmBase2'
+  ClientWidth = 647
+  ExplicitWidth = 653
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    Width = 647
+    inherited TbShConsulta: TTabSheet
+      inherited PnDados: TPanel
+        Width = 639
+        inherited GrdDados: TDBGrid
+          Width = 633
+        end
+      end
+      inherited PnFiltro: TPanel
+        Width = 639
+        inherited Label4: TLabel
+          Left = 119
+          ExplicitLeft = 119
+        end
+        inherited CbxConsulta: TComboBox
+          Width = 105
+          ExplicitWidth = 105
+        end
+        inherited BtnConsultar: TBitBtn
+          Left = 525
+          Width = 98
+          ExplicitLeft = 525
+          ExplicitWidth = 98
+        end
+        inherited CbxOrdenarPor: TComboBox
+          Left = 119
+          Width = 106
+          ExplicitLeft = 119
+          ExplicitWidth = 106
+        end
+        inherited GrpBxDadoConsulta: TGroupBox
+          Left = 235
+          Width = 283
+          ExplicitLeft = 235
+          ExplicitWidth = 283
+          inherited edtConsulta: TEdit
+            Width = 265
+            ExplicitWidth = 265
+          end
+        end
+      end
+    end
+    inherited TbShCadastro: TTabSheet
+      inherited PnCampos: TPanel
+        Width = 639
+      end
+    end
+  end
+  inherited PnBotoes: TPanel
+    Width = 647
+    inherited BtnRelatorios: TBitBtn
+      Left = 375
+      ExplicitLeft = 375
+    end
+    inherited BtnSair: TBitBtn
+      Left = 519
+      ExplicitLeft = 519
+    end
+    inherited BtnSalvar: TBitBtn
+      Left = 217
+      ExplicitLeft = 217
+    end
+    inherited BtnCancelar: TBitBtn
+      Left = 321
+      ExplicitLeft = 321
+    end
+  end
+end

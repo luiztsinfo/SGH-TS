@@ -1,0 +1,95 @@
+unit Model.Nariz_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('he.nariz_he')]
+  TNariz_HE = class(TTabela)
+    private
+    FEpistaxe: integer;
+    FDesvio_septo: integer;
+    FRinorreia: integer;
+    FSujidade: integer;
+    FSecrecao: integer;
+    FId: integer;
+    FId_he: integer;
+    FTipo_lesao: string;
+    FLesao: integer;
+    procedure SetDesvio_Septo(const Value: integer);
+    procedure SetEpistaxe(const Value: integer);
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetRinorreia(const Value: integer);
+    procedure SetSecrecao(const Value: integer);
+    procedure SetSujidade(const Value: integer);
+    procedure SetLesao(const Value: integer);
+    procedure SetTipo_lesao(const Value: string);
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property secrecao : integer read FSecrecao write SetSecrecao;
+      property sujidade : integer read FSujidade write SetSujidade;
+      property epistaxe : integer read FEpistaxe write SetEpistaxe;
+      property rinorreia : integer read FRinorreia write SetRinorreia;
+      property desvio_septo : integer read FDesvio_septo write SetDesvio_Septo;
+      property lesao : integer read FLesao write SetLesao;
+      property tipo_lesao : string read FTipo_lesao write SetTipo_lesao;
+
+  end;
+
+implementation
+
+{ TNariz_HE }
+
+procedure TNariz_HE.SetDesvio_Septo(const Value: integer);
+begin
+  FDesvio_septo := Value;
+end;
+
+procedure TNariz_HE.SetEpistaxe(const Value: integer);
+begin
+  FEpistaxe := Value;
+end;
+
+procedure TNariz_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TNariz_HE.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TNariz_HE.SetLesao(const Value: integer);
+begin
+  FLesao := Value;
+end;
+
+procedure TNariz_HE.SetRinorreia(const Value: integer);
+begin
+  FRinorreia := Value;
+end;
+
+procedure TNariz_HE.SetSecrecao(const Value: integer);
+begin
+  FSecrecao := Value;
+end;
+
+procedure TNariz_HE.SetSujidade(const Value: integer);
+begin
+  FSujidade := Value;
+end;
+
+procedure TNariz_HE.SetTipo_lesao(const Value: string);
+begin
+  FTipo_lesao := Value;
+end;
+
+end.

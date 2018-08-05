@@ -1,0 +1,173 @@
+unit Model.Pessoa;
+
+interface
+
+uses Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [AttTabela('pessoas')]
+  TPessoa = class(TTabela)
+    private
+      FId: integer;
+      FNome: string;
+      FId_cidade: integer;
+      FTipo_pessoa: string;
+      FNascimento: TDateTime;
+      FSituacao: string;
+
+      FTipo_Registro: integer;
+      FRegistro_profissional: string;
+      FSexo: integer;
+    FCor: integer;
+    FEscolaridade: integer;
+    FEstado_civil: integer;
+
+      function GetId: integer;
+      procedure setId(const Value: integer);
+      function GetNome: string;
+      procedure SetNome(const Value: string);
+      function GetId_Cidade: integer;
+      procedure SetId_Cidade(const Value: integer);
+      function GetNascimento: TDateTime;
+      function GetRegistro_conselho: string;
+      function GetTipo_pessoa: string;
+      procedure SetNascimento(const Value: TDateTime);
+      procedure SetRegistro_profissional(const Value: string);
+      procedure SetTipo_pessoa(const Value: string);
+      function GetSituacao: string;
+      procedure SetSituacao(const Value: string);
+      function GetTipo_Registro: integer;
+      procedure SetTipo_Registro(const Value: integer);
+      procedure SetSexo(const Value: integer);
+    procedure SetCor(const Value: integer);
+    procedure SetEscolaridade(const Value: integer);
+    procedure SetEstado_Civil(const Value: integer);
+
+    public
+      [AttPk]
+      // [AttNotNull('Id')]  Somente no caso se for paciente será obrigatório até implantar o sistema definitivamente
+      property Id: integer read GetId write setId;
+      [AttNotNull('Nome')]
+      property Nome: string read GetNome write SetNome;
+      [AttNotNull('Id cidade')]
+      property Id_cidade: integer read GetId_Cidade write SetId_Cidade;
+      [AttNotNull('Tipo de Pessoa')]
+      property Tipo_pessoa: string read GetTipo_pessoa write SetTipo_pessoa;
+      [AttNotNull('Nascimento')]
+      property Nascimento: TDateTime read GetNascimento write SetNascimento;
+      property Situacao: string read GetSituacao write SetSituacao;
+      property Sexo: integer read FSexo write SetSexo;
+      property Cor: integer read FCor write SetCor;
+      property Estado_Civil : integer read FEstado_civil write SetEstado_Civil;
+      property Escolaridade : integer read FEscolaridade write SetEscolaridade;
+
+      property Tipo_Registro: integer read GetTipo_Registro write SetTipo_Registro;
+      property Registro_profissional: string read GetRegistro_conselho write SetRegistro_profissional;
+    end;
+
+implementation
+
+{ TPessoa }
+
+function TPessoa.GetId: integer;
+begin
+  Result := FId;
+end;
+
+function TPessoa.GetId_Cidade: integer;
+begin
+  Result := FId_cidade;
+end;
+
+function TPessoa.GetNascimento: TDateTime;
+begin
+  Result := FNascimento;
+end;
+
+function TPessoa.GetNome: string;
+begin
+  Result := FNome;
+end;
+
+function TPessoa.GetRegistro_conselho: string;
+begin
+  Result := FRegistro_profissional;
+end;
+
+function TPessoa.GetSituacao: string;
+begin
+  Result := FSituacao;
+end;
+
+function TPessoa.GetTipo_Registro: integer;
+begin
+  Result := FTipo_Registro;
+end;
+
+procedure TPessoa.SetCor(const Value: integer);
+begin
+  FCor := Value;
+end;
+
+procedure TPessoa.SetEscolaridade(const Value: integer);
+begin
+  FEscolaridade := Value;
+end;
+
+procedure TPessoa.SetEstado_Civil(const Value: integer);
+begin
+  FEstado_civil := Value;
+end;
+
+function TPessoa.GetTipo_pessoa: string;
+begin
+  Result := FTipo_pessoa;
+end;
+
+procedure TPessoa.setId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+
+procedure TPessoa.SetId_Cidade(const Value: integer);
+begin
+  FId_cidade := Value;
+end;
+
+procedure TPessoa.SetNascimento(const Value: TDateTime);
+begin
+  FNascimento := Value;
+end;
+
+procedure TPessoa.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+procedure TPessoa.SetRegistro_profissional(const Value: string);
+begin
+  FRegistro_profissional := Value;
+end;
+
+procedure TPessoa.SetSexo(const Value: integer);
+begin
+  FSexo := Value;
+end;
+
+procedure TPessoa.SetSituacao(const Value: string);
+begin
+  FSituacao := Value;
+end;
+
+procedure TPessoa.SetTipo_Registro(const Value: integer);
+begin
+  FTipo_Registro := Value;
+end;
+
+procedure TPessoa.SetTipo_pessoa(const Value: string);
+begin
+  FTipo_pessoa := Value;
+end;
+
+end.

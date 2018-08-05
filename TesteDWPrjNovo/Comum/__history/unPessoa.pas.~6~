@@ -1,0 +1,57 @@
+unit unPessoa;
+
+interface
+
+type
+  TPessoa = class
+    private
+      FId: integer;
+    FNome: string;
+    procedure SetId(const Value: integer);
+    procedure SetNome(const Value: string);
+
+    public
+      property Id : integer read FId write SetId;
+      property Nome : string read FNome write SetNome;
+      function ToObj(AValue: string): TPessoa;
+end;
+
+implementation
+
+uses
+  System.JSON;
+
+{ TPessoa }
+
+procedure TPessoa.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TPessoa.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+function TPessoa.ToObj(AValue: string): TPessoa;
+var
+  oObj: TJSONObject;
+begin
+  oObj := TJSONObject.Create;
+
+  Result := Self;
+  if (AValue <> '') then
+  begin
+    oObj := TJSONObject.ParseJSONValue(AValue) as TJSONObject;
+
+    try
+      Self.FId := oObj.GetValue<Integer>('id');
+      Self.FNome := oObj.GetValue<string>('nome');
+    finally
+
+    end;
+  end;
+
+end;
+
+end.

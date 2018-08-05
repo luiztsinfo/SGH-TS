@@ -1,0 +1,150 @@
+unit Model.Torax_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('he.torax_he')]
+  TTorax_he = class(TTabela)
+    private
+    FObs_alterado: string;
+    FExpansibilidade_diminuida: integer;
+    FBarril: integer;
+    FExpansibilidade_normal: integer;
+    FPombo: integer;
+    FId: integer;
+    FSimetrico: integer;
+    FAssimetrico: integer;
+    FId_he: integer;
+    FFunil: integer;
+    FForma_alterado: integer;
+    FPresenca_cateteres_centrais: string;
+    FLocal_expansibilidade_diminuida: string;
+    FPresenca_desde: string;
+    FCifoescoliose: integer;
+    FForma_normal: integer;
+    procedure SetAssimetrico(const Value: integer);
+    procedure SetBarril(const Value: integer);
+    procedure SetCifoescoliose(const Value: integer);
+    procedure SetExpansibilidade_diminuida(const Value: integer);
+    procedure SetExpansibilidade_normal(const Value: integer);
+    procedure SetForma_alterado(const Value: integer);
+    procedure SetForma_normal(const Value: integer);
+    procedure SetFunil(const Value: integer);
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetLocal_expansibilidade_diminuida(const Value: string);
+    procedure SetObs_alterado(const Value: string);
+    procedure SetPombo(const Value: integer);
+    procedure SetPresenca_cateteres_centrais(const Value: string);
+    procedure SetPresenca_desde(const Value: string);
+    procedure SetSimetrico(const Value: integer);
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property obs_alterado : string read FObs_alterado write SetObs_alterado;
+      property presenca_cateteres_centrais : string read FPresenca_cateteres_centrais write SetPresenca_cateteres_centrais;
+      property forma_normal : integer read FForma_normal write SetForma_normal;
+      property forma_alterado : integer read FForma_alterado write SetForma_alterado;
+      property simetrico : integer read FSimetrico write SetSimetrico;
+      property assimetrico : integer read FAssimetrico write SetAssimetrico;
+      property funil : integer read FFunil write SetFunil;
+      property barril : integer read FBarril write SetBarril;
+      property pombo : integer read FPombo write SetPombo;
+      property cifoescoliose : integer read FCifoescoliose write SetCifoescoliose;
+      property expansibilidade_normal : integer read FExpansibilidade_normal write SetExpansibilidade_normal;
+      property expansibilidade_diminuida : integer read FExpansibilidade_diminuida write SetExpansibilidade_diminuida;
+      property local_expansibilidade_diminuida : string read FLocal_expansibilidade_diminuida write SetLocal_expansibilidade_diminuida;
+      property presenca_desde : string read FPresenca_desde write SetPresenca_desde;
+  end;
+
+implementation
+
+{ TTorax_he }
+
+procedure TTorax_he.SetAssimetrico(const Value: integer);
+begin
+  FAssimetrico := Value;
+end;
+
+procedure TTorax_he.SetBarril(const Value: integer);
+begin
+  FBarril := Value;
+end;
+
+procedure TTorax_he.SetCifoescoliose(const Value: integer);
+begin
+  FCifoescoliose := Value;
+end;
+
+procedure TTorax_he.SetExpansibilidade_diminuida(const Value: integer);
+begin
+  FExpansibilidade_diminuida := Value;
+end;
+
+procedure TTorax_he.SetExpansibilidade_normal(const Value: integer);
+begin
+  FExpansibilidade_normal := Value;
+end;
+
+procedure TTorax_he.SetForma_alterado(const Value: integer);
+begin
+  FForma_alterado := Value;
+end;
+
+procedure TTorax_he.SetForma_normal(const Value: integer);
+begin
+  FForma_normal := Value;
+end;
+
+procedure TTorax_he.SetFunil(const Value: integer);
+begin
+  FFunil := Value;
+end;
+
+procedure TTorax_he.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TTorax_he.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TTorax_he.SetLocal_expansibilidade_diminuida(const Value: string);
+begin
+  FLocal_expansibilidade_diminuida := Value;
+end;
+
+procedure TTorax_he.SetObs_alterado(const Value: string);
+begin
+  FObs_alterado := Value;
+end;
+
+procedure TTorax_he.SetPombo(const Value: integer);
+begin
+  FPombo := Value;
+end;
+
+procedure TTorax_he.SetPresenca_cateteres_centrais(const Value: string);
+begin
+  FPresenca_cateteres_centrais := Value;
+end;
+
+procedure TTorax_he.SetPresenca_desde(const Value: string);
+begin
+  FPresenca_desde := Value;
+end;
+
+procedure TTorax_he.SetSimetrico(const Value: integer);
+begin
+  FSimetrico := Value;
+end;
+
+end.

@@ -1,0 +1,24 @@
+unit Model.Couro_Cabeludo_He;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('couro_cabeludo_he')]
+  TCouro_Cabeludo_HE = class(TTabela)
+
+    private
+
+    public
+      [attPK]
+      property id : integer read FId write SetId;
+      [attNotNull('Id He')]
+      property id_he : integer read FId_he write SetId_he;
+
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,22 @@
+unit Model.Ausculta_Cardiaca_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('ausculta_cardiaca_he')]
+  TAusculta_Cardiaca_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+  end;
+
+implementation
+
+end.

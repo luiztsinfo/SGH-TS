@@ -1,0 +1,39 @@
+unit Model.Antecedentes;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('antecedentes')]
+  TAntecedentes = class(TTabela)
+  private
+    FId: Integer;
+    FDescricao: string;
+    FSituacao: string;
+    FTipo_antecedente: string;
+    procedure SetTipo_antecedente(const Value: string);
+  public
+
+    [attPK]
+    property Id: Integer read FId write FId;
+    [AttNotNull('Descrição')]
+    property Descricao: string read FDescricao write FDescricao;
+    [AttNotNull('Situação')]
+    property Situacao: string read FSituacao write FSituacao;
+    [AttNotNull('Tipo Antecedente: Pessoal ou Familiar')]
+    property Tipo_antecedente : string read FTipo_antecedente write SetTipo_antecedente;
+  end;
+
+implementation
+
+{ TReligioes }
+
+procedure TAntecedentes.SetTipo_antecedente(const Value: string);
+begin
+  FTipo_antecedente := Value;
+end;
+
+end.
+

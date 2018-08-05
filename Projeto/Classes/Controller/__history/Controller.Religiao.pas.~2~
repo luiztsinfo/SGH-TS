@@ -1,0 +1,12 @@
+unit Controller.Religiao;
+
+interface
+
+type
+  TControllerReligiao = class
+
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,34 @@
+unit Controller.GrupoCID;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.GrupoCID, Conexao, Data.DB;
+
+type
+  TControllerGrupoCID = class(TDaoFireDac)
+    private
+      FModel: TGrupos_cid;
+      FConexao: TConexao;
+
+      function GetDataSource: TDataSource;
+      procedure SetModel(const Value: TGrupos_cid);
+    public
+      FDao: TDaoFireDac;
+      FRegistrosGruposCID: TDataSet;
+      FDsGrupoCID: TDataSource;
+
+      constructor Create;
+      destructor Destroy; override;
+
+      procedure consultar(sCampoWhere, sOrderBy: string);
+      procedure mostraDados;
+      procedure alimentaCamposModel;
+
+      property Model: TGrupos_cid read FModel write SetModel;
+      property DataSource: TDataSource read GetDataSource write FDsGrupoCID;
+  end;
+
+implementation
+
+end.

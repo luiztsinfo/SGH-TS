@@ -1,0 +1,143 @@
+unit Model.Extremidades_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('extremidades_he')]
+  TExtremidades_HE = class(TTabela)
+    private
+    Flocal_diminuida: string;
+    Fdesde: string;
+    Fcateteres_venenosos: string;
+    Fulceras_arteriais: integer;
+    FId: integer;
+    Fulceras_venosas: integer;
+    Fdiminuida: integer;
+    FId_he: integer;
+    Fnormal: integer;
+    FDeformidades: string;
+    FLesoes: string;
+    Fsinais_infeccao_fungos: integer;
+    FEdema: string;
+    Fbaqueteamento_dedos: integer;
+    Fedema_mmii: integer;
+    procedure Setbaqueteamento_dedos(const Value: integer);
+    procedure Setcateteres_venenosos(const Value: string);
+    procedure SetDeformidades(const Value: string);
+    procedure Setdesde(const Value: string);
+    procedure Setdiminuida(const Value: integer);
+    procedure SetEdema(const Value: string);
+    procedure Setedema_mmii(const Value: integer);
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetLesoes(const Value: string);
+    procedure Setlocal_diminuida(const Value: string);
+    procedure Setnormal(const Value: integer);
+    procedure Setsinais_infeccao_fungos(const Value: integer);
+    procedure Setulceras_arteriais(const Value: integer);
+    procedure Setulceras_venosas(const Value: integer);
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('ID He')]
+      property id_he : integer read FId_he write SetId_he;
+      property edema : string read FEdema write SetEdema;
+      property lesoes : string read FLesoes write SetLesoes;
+      property deformidades : string read FDeformidades write SetDeformidades;
+      property cateteres_venenosos : string read Fcateteres_venenosos write Setcateteres_venenosos;
+      property local_diminuida : string read Flocal_diminuida write Setlocal_diminuida;
+      property sinais_infeccao_fungos : integer read Fsinais_infeccao_fungos write Setsinais_infeccao_fungos;
+      property baqueteamento_dedos : integer read Fbaqueteamento_dedos write Setbaqueteamento_dedos;
+      property desde : string read Fdesde write Setdesde;
+      property normal : integer read Fnormal write Setnormal;
+      property diminuida : integer read Fdiminuida write Setdiminuida;
+      property edema_mmii : integer read Fedema_mmii write Setedema_mmii;
+      property ulceras_venosas : integer read Fulceras_venosas write Setulceras_venosas;
+      property ulceras_arteriais : integer read Fulceras_arteriais write Setulceras_arteriais;
+
+  end;
+
+implementation
+
+{ TExtremidades_HE }
+
+procedure TExtremidades_HE.Setbaqueteamento_dedos(const Value: integer);
+begin
+  Fbaqueteamento_dedos := Value;
+end;
+
+procedure TExtremidades_HE.Setcateteres_venenosos(const Value: string);
+begin
+  Fcateteres_venenosos := Value;
+end;
+
+procedure TExtremidades_HE.SetDeformidades(const Value: string);
+begin
+  FDeformidades := Value;
+end;
+
+procedure TExtremidades_HE.Setdesde(const Value: string);
+begin
+  Fdesde := Value;
+end;
+
+procedure TExtremidades_HE.Setdiminuida(const Value: integer);
+begin
+  Fdiminuida := Value;
+end;
+
+procedure TExtremidades_HE.SetEdema(const Value: string);
+begin
+  FEdema := Value;
+end;
+
+procedure TExtremidades_HE.Setedema_mmii(const Value: integer);
+begin
+  Fedema_mmii := Value;
+end;
+
+procedure TExtremidades_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TExtremidades_HE.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TExtremidades_HE.SetLesoes(const Value: string);
+begin
+  FLesoes := Value;
+end;
+
+procedure TExtremidades_HE.Setlocal_diminuida(const Value: string);
+begin
+  Flocal_diminuida := Value;
+end;
+
+procedure TExtremidades_HE.Setnormal(const Value: integer);
+begin
+  Fnormal := Value;
+end;
+
+procedure TExtremidades_HE.Setsinais_infeccao_fungos(const Value: integer);
+begin
+  Fsinais_infeccao_fungos := Value;
+end;
+
+procedure TExtremidades_HE.Setulceras_arteriais(const Value: integer);
+begin
+  Fulceras_arteriais := Value;
+end;
+
+procedure TExtremidades_HE.Setulceras_venosas(const Value: integer);
+begin
+  Fulceras_venosas := Value;
+end;
+
+end.

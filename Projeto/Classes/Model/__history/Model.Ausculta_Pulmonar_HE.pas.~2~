@@ -1,0 +1,23 @@
+unit Model.Ausculta_Pulmonar_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('ausculta_pulmonar_he')]
+  TAusculta_Pulmonar_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id He')]
+      property id_he : integer read FId_he write SetId_he;
+
+  end;
+
+implementation
+
+end.

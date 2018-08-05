@@ -1,0 +1,33 @@
+unit unPessoa;
+
+interface
+
+type
+  TPessoa = class
+    private
+      FId: integer;
+    FNome: string;
+    procedure SetId(const Value: integer);
+    procedure SetNome(const Value: string);
+
+    public
+      property Id : integer read FId write SetId;
+      property Nome : string read FNome write SetNome;
+
+end;
+
+implementation
+
+{ TPessoa }
+
+procedure TPessoa.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TPessoa.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+end.

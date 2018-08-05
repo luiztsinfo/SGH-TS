@@ -1,0 +1,5 @@
+inherited frmCID: TfrmCID
+  Caption = 'frmCID'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

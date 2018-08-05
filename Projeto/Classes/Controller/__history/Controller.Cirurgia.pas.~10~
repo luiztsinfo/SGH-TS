@@ -1,0 +1,102 @@
+unit Controller.Cirurgia;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Conexao, Data.DB,
+  unConstantes, Model.Cirurgia;
+
+type
+  TControllerCirurgia = class(TDaoFireDac)
+
+  private
+    FModel: TCirurgia;
+    FConexao: TConexao;
+    function GetDataSource: TDataSource;
+    procedure SetModel(const Value: TCirurgia);
+
+  public
+    FDao: TDaoFireDac;
+    FDsCirurgia: TDataSource;
+    FRegistrosCirurgia: TDataSet;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure consultar(sCampoWhere, sOrderBy: string);
+    procedure mostraDados;
+    procedure alimentaCamposModel;
+
+    property Model: TCirurgia read FModel write SetModel;
+    property DataSource: TDataSource read GetDataSource write FDsCirurgia;
+  end;
+
+implementation
+
+{ TControllerPaciente }
+
+procedure TControllerCirurgia.alimentaCamposModel;
+begin
+  Model.Id := FRegistrosCirurgia.FieldByName('id').AsInteger;
+  Model.Descricao := FRegistrosCirurgia.FieldByName('descricao').AsString;
+  Model.Situacao := FRegistrosCirurgia.FieldByName('situacao').AsString;
+end;
+
+procedure TControllerCirurgia.consultar(sCampoWhere, sOrderBy: string);
+begin
+  try
+    FRegistrosCirurgia := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+    FDsCirurgia.DataSet := FRegistrosCirurgia;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+constructor TControllerCirurgia.Create;
+begin
+  FConexao    := TConexao.Create;
+  FDsAlergia := TDataSource.Create(nil);
+  FRegistrosAlergia  := TDataSet.Create(nil);
+  FModel:= TAlergia.Create;
+
+  inherited Create(FConexao.FdCon,FConexao.FdTran);
+  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+end;
+
+destructor TControllerAlergia.Destroy;
+begin
+  FRegistrosAlergia.Free;
+  FDsAlergia.Free;
+  FModel.Free;
+  FConexao.Free;
+  FDao.Free;
+  inherited Destroy;
+end;
+
+function TControllerAlergia.GetDataSource: TDataSource;
+begin
+  Result := FDsAlergia;
+end;
+
+procedure TControllerAlergia.mostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistrosAlergia  := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDsAlergia.DataSet := FRegistrosAlergia;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+procedure TControllerAlergia.SetModel(const Value: TAlergia);
+begin
+  FModel := Value;
+end;
+
+end.

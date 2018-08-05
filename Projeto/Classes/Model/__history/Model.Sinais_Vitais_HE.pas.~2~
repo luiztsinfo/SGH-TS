@@ -1,0 +1,20 @@
+unit Model.Sinais_Vitais_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [AttTabela('sinais_vitais_he')]
+  TSinais_Vitais_HE = class(TTabela)
+
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,96 @@
+unit unFrmReligiao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Religiao, unConstantes;
+
+type
+  TfrmReligiao = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+  private
+    FControllerReligiao: TControllerReligiao;
+  public
+
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmReligiao: TfrmReligiao;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmReligiao }
+
+procedure TfrmReligiao.alimentaModel;
+begin
+  inherited;
+  FControllerReligiao.Model.Descricao := edtDescricao.Text;
+  FControllerReligiao.Model.Situacao := sATIVO;
+end;
+
+procedure TfrmReligiao.alterar;
+begin
+  inherited;
+  FControllerReligiao.Model.Id := StrToInt(edtID.Text);
+  FControllerReligiao.FDao.Salvar(FControllerReligiao.Model);
+end;
+
+procedure TfrmReligiao.carregarCampos;
+begin
+  inherited;
+
+end;
+
+procedure TfrmReligiao.carregarModel;
+begin
+  inherited;
+
+end;
+
+procedure TfrmReligiao.consultar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmReligiao.excluir;
+begin
+  inherited;
+
+end;
+
+function TfrmReligiao.existeRegistro: boolean;
+begin
+
+end;
+
+procedure TfrmReligiao.incluir;
+begin
+  inherited;
+
+end;
+
+procedure TfrmReligiao.mostrarTodosDados;
+begin
+  inherited;
+
+end;
+
+end.

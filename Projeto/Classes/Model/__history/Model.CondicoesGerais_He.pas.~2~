@@ -1,0 +1,19 @@
+unit Model.CondicoesGerais_He;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [AttTabela('condicoes_gerais')]
+  TCondicoesGerais_he = class(TTabela)
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

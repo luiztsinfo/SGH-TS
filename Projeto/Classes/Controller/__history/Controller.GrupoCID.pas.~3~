@@ -1,0 +1,22 @@
+unit Controller.GrupoCID;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.GrupoCID, Conexao, Data.DB;
+
+type
+  TControllerGrupoCID = class(TDaoFireDac)
+    private
+      FModel: TGrupos_cid;
+      FConexao: TConexao;
+
+      function GetDataSource: TDataSource;
+      procedure SetModel(const Value: TGrupos_cid);
+    public
+
+  end;
+
+implementation
+
+end.

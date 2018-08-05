@@ -1,0 +1,69 @@
+unit Controller.PrescricaoEnfermagem;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.PrescricaoEnfermagem, Conexao, Data.DB;
+
+type
+  TControllerPaciente = class(TDaoFireDac)
+
+  private
+    FModel: TPrescricoes_enfermagem;
+    FConexao: TConexao;
+    function GetFDataSource: TDataSource;
+
+  public
+    FDao: TDaoFireDac;
+    FPrescricaoEnfermagem: TPrescricoes_enfermagem;
+    FDataSourcePrescricaoEnfermagem: TDataSource;
+    FRegistrosPrescricaoEnfermagem: TDataSet;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure consultar(sCampoWhere, sOrderBy: string);
+    procedure mostraDados;
+    procedure alimentaCamposModel;
+
+    property Model: TPrescricoes_enfermagem read FModel write FModel;
+    property DataSource: TDataSource read GetFDataSource
+      write FDataSourcePrescricaoEnfermagem;
+  end;
+
+implementation
+
+{ TControllerPaciente }
+
+procedure TControllerPaciente.alimentaCamposModel;
+begin
+
+end;
+
+procedure TControllerPaciente.consultar(sCampoWhere, sOrderBy: string);
+begin
+
+end;
+
+constructor TControllerPaciente.Create;
+begin
+
+end;
+
+destructor TControllerPaciente.Destroy;
+begin
+
+  inherited;
+end;
+
+function TControllerPaciente.GetFDataSource: TDataSource;
+begin
+
+end;
+
+procedure TControllerPaciente.mostraDados;
+begin
+
+end;
+
+end.

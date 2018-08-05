@@ -1,0 +1,20 @@
+unit Model.Extremidades_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('extremidades_he')]
+  TExtremidades_HE = class(TTabela)
+    private
+
+    public
+
+
+  end;
+
+implementation
+
+end.

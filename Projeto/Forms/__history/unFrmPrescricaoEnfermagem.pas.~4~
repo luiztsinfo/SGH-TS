@@ -1,0 +1,96 @@
+unit unFrmPrescricaoEnfermagem;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.PrescricaoEnfermagem, unConstantes;
+
+type
+  TfrmPrescricaoEnfermagem = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+  private
+    FControllerPrescricaoEnfermagem: TControllerPrescricaoEnfermagem;
+  public
+
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmPrescricaoEnfermagem: TfrmPrescricaoEnfermagem;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmPrescricaoEnfermagem }
+
+procedure TfrmPrescricaoEnfermagem.alimentaModel;
+begin
+  inherited;
+  FControllerPrescricaoEnfermagem.Model.Id        := StrToInt(edtID.Text);
+  FControllerPrescricaoEnfermagem.Model.Descricao := edtDescricao.Text;
+  FControllerPrescricaoEnfermagem.Model.Situacao  := sATIVO;
+end;
+
+procedure TfrmPrescricaoEnfermagem.alterar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmPrescricaoEnfermagem.carregarCampos;
+begin
+  inherited;
+
+end;
+
+procedure TfrmPrescricaoEnfermagem.carregarModel;
+begin
+  inherited;
+
+end;
+
+procedure TfrmPrescricaoEnfermagem.consultar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmPrescricaoEnfermagem.excluir;
+begin
+  inherited;
+
+end;
+
+function TfrmPrescricaoEnfermagem.existeRegistro: boolean;
+begin
+
+end;
+
+procedure TfrmPrescricaoEnfermagem.incluir;
+begin
+  inherited;
+
+end;
+
+procedure TfrmPrescricaoEnfermagem.mostrarTodosDados;
+begin
+  inherited;
+
+end;
+
+end.

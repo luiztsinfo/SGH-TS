@@ -1,0 +1,13 @@
+unit Controller.Interfaces;
+
+interface
+
+type
+  iControllerCadastros = interface
+    ['{89CFA3CA-EFD1-4FA8-99D2-7AABD75CDD2A}']
+
+  end;
+
+implementation
+
+end.

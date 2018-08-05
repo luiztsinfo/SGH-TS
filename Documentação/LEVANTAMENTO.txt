@@ -1,0 +1,4 @@
+- Compilar Sistema Bressan (Ver sobre os componentes).
+- Backup Base de Dados
+- Definição de tempo baseado nas funcionalidades.
+- Definir importação dos dados

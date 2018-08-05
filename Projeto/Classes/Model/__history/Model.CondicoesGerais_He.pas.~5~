@@ -1,0 +1,127 @@
+unit Model.CondicoesGerais_He;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [AttTabela('condicoesgerais_he')]
+  TCondicoesGerais_he = class(TTabela)
+    private
+    FMeg: integer;
+    Fbeg: integer;
+    FCianotico: integer;
+    Fid: integer;
+    FReg: integer;
+    Fid_he: integer;
+    FSudoretico: integer;
+    FApatico: integer;
+    FEdema: integer;
+    FIcterico: integer;
+    FDesidratado: integer;
+    FDispneico: integer;
+    FPalidez_cutanea: integer;
+
+    procedure SetApatico(const Value: integer);
+    procedure SetBeg(const Value: integer);
+    procedure SetCianotico(const Value: integer);
+    procedure SetDesidratado(const Value: integer);
+    procedure SetDispneico(const Value: integer);
+    procedure SetEdema(const Value: integer);
+    procedure SetIcterico(const Value: integer);
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetMeg(const Value: integer);
+    procedure SetReg(const Value: integer);
+    procedure SetSudoretico(const Value: integer);
+    procedure SetPalidez_cutanea(const Value: integer);
+
+    public
+      [AttPK]
+      property id : integer read Fid write SetId;
+      [AttNotNull('Id He')]
+      property id_he : integer read Fid_he write SetId_he;
+      property beg : integer read Fbeg write SetBeg;
+      property reg : integer read FReg write SetReg;
+      property meg : integer read FMeg write SetMeg;
+      property apatico : integer read FApatico write SetApatico;
+      property Cianotico : integer read FCianotico write SetCianotico;
+      property Icterico : integer read FIcterico write SetIcterico;
+      property Desidratado : integer read FDesidratado write SetDesidratado;
+      property Sudoretico : integer read FSudoretico write SetSudoretico;
+      property Dispneico : integer read FDispneico write SetDispneico;
+      property Edema : integer read FEdema write SetEdema;
+      property Palidez_cutanea : integer read FPalidez_cutanea write SetPalidez_cutanea;
+  end;
+
+implementation
+
+{ TCondicoesGerais_he }
+
+procedure TCondicoesGerais_he.SetApatico(const Value: integer);
+begin
+  FApatico := Value;
+end;
+
+procedure TCondicoesGerais_he.SetBeg(const Value: integer);
+begin
+  Fbeg := Value;
+end;
+
+procedure TCondicoesGerais_he.SetCianotico(const Value: integer);
+begin
+  FCianotico := Value;
+end;
+
+procedure TCondicoesGerais_he.SetDesidratado(const Value: integer);
+begin
+  FDesidratado := Value;
+end;
+
+procedure TCondicoesGerais_he.SetDispneico(const Value: integer);
+begin
+  FDispneico := Value;
+end;
+
+procedure TCondicoesGerais_he.SetEdema(const Value: integer);
+begin
+  FEdema := Value;
+end;
+
+procedure TCondicoesGerais_he.SetIcterico(const Value: integer);
+begin
+  FIcterico := Value;
+end;
+
+procedure TCondicoesGerais_he.SetId(const Value: integer);
+begin
+  Fid := Value;
+end;
+
+procedure TCondicoesGerais_he.SetId_he(const Value: integer);
+begin
+  Fid_he := Value;
+end;
+
+procedure TCondicoesGerais_he.SetMeg(const Value: integer);
+begin
+  FMeg := Value;
+end;
+
+procedure TCondicoesGerais_he.SetPalidez_cutanea(const Value: integer);
+begin
+  FPalidez_cutanea := Value;
+end;
+
+procedure TCondicoesGerais_he.SetReg(const Value: integer);
+begin
+  FReg := Value;
+end;
+
+procedure TCondicoesGerais_he.SetSudoretico(const Value: integer);
+begin
+  FSudoretico := Value;
+end;
+
+end.

@@ -1,0 +1,24 @@
+unit Controller.Interfaces;
+
+interface
+
+uses
+  Data.DB, Conexao, FireDAC.Comp.Client;
+
+type
+  iControllerCadastros = interface
+    ['{89CFA3CA-EFD1-4FA8-99D2-7AABD75CDD2A}']
+
+     procedure mostraDados;
+     procedure alimentaCamposModel;
+     procedure consultar(sCampoWhere, sOrderBy: string);
+     function GetDataSource: TDataSource;
+     property DataSource: TDataSource read GetDataSource;
+
+  //   function RetornaCidade: string;
+  //   function retornaUltimoRegistro: integer;
+  end;
+
+implementation
+
+end.

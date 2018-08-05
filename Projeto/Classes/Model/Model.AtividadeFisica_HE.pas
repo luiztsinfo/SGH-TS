@@ -1,0 +1,132 @@
+unit Model.AtividadeFisica_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+
+  [attTabela('he.atividadefisica_he')]
+  TAtividadeFisica_HE = class(TTabela)
+  private
+    FRepouso_absoluto: integer;
+    FParesias: string;
+    FParaplegia: string;
+    FTetraplegia: string;
+    FCadeira_rodas: integer;
+    FId: integer;
+    FAusencia_forca: integer;
+    FID_he: integer;
+    FForca_Muscular: integer;
+    FDeambula_sem_auxilio: integer;
+    FDeambula_auxilio: integer;
+    FPlegias: string;
+    FAcamado: integer;
+    procedure SetAcamado(const Value: integer);
+    procedure SetAusencia_forca(const Value: integer);
+    procedure SetCadeira_rodas(const Value: integer);
+    procedure SetDeambula_auxilio(const Value: integer);
+    procedure SetDeambula_sem_auxilio(const Value: integer);
+    procedure SetForca_Muscular(const Value: integer);
+    procedure SetId(const Value: integer);
+    procedure SetID_he(const Value: integer);
+    procedure SetParaplegia(const Value: string);
+    procedure SetParesias(const Value: string);
+    procedure SetPlegias(const Value: string);
+    procedure SetRepouso_absoluto(const Value: integer);
+    procedure SetTetraplegia(const Value: string);
+  public
+    [attPk]
+    property id: integer read FId write SetId;
+    [attNotNull('Id HE')]
+    property id_he: integer read FID_he write SetID_he;
+    property forca_muscular: integer read FForca_Muscular
+      write SetForca_Muscular;
+    property ausencia_forca: integer read FAusencia_forca
+      write SetAusencia_forca;
+    property deambula_auxilio: integer read FDeambula_auxilio
+      write SetDeambula_auxilio;
+    property deambula_sem_auxilio: integer read FDeambula_sem_auxilio
+      write SetDeambula_sem_auxilio;
+    property cadeira_rodas: integer read FCadeira_rodas write SetCadeira_rodas;
+    property acamado: integer read FAcamado write SetAcamado;
+    property repouso_absoluto: integer read FRepouso_absoluto
+      write SetRepouso_absoluto;
+    property paresias: string read FParesias write SetParesias;
+    property paraplegia: string read FParaplegia write SetParaplegia;
+    property tetraplegia: string read FTetraplegia write SetTetraplegia;
+    property plegias: string read FPlegias write SetPlegias;
+  end;
+
+
+implementation
+
+{ TAtividadeFisica_HE }
+
+procedure TAtividadeFisica_HE.SetAcamado(const Value: integer);
+begin
+  FAcamado := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetAusencia_forca(const Value: integer);
+begin
+  FAusencia_forca := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetCadeira_rodas(const Value: integer);
+begin
+  FCadeira_rodas := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetDeambula_auxilio(const Value: integer);
+begin
+  FDeambula_auxilio := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetDeambula_sem_auxilio(const Value: integer);
+begin
+  FDeambula_sem_auxilio := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetForca_Muscular(const Value: integer);
+begin
+  FForca_Muscular := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetID_he(const Value: integer);
+begin
+  FID_he := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetParaplegia(const Value: string);
+begin
+  FParaplegia := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetParesias(const Value: string);
+begin
+  FParesias := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetPlegias(const Value: string);
+begin
+  FPlegias := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetRepouso_absoluto(const Value: integer);
+begin
+  FRepouso_absoluto := Value;
+end;
+
+procedure TAtividadeFisica_HE.SetTetraplegia(const Value: string);
+begin
+  FTetraplegia := Value;
+end;
+
+end.

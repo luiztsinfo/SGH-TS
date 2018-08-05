@@ -1,0 +1,22 @@
+unit Model.Avaliacao_Renal_HE;
+
+interface
+
+uses
+  Lca.Orm.Atributos, Lca.Orm.Base;
+
+type
+  [attTabela('avaliacao_renal_he')]
+  TAvaliacao_Renal_HE = class(TTabela)
+    private
+
+    public
+      [attPk]
+      property id : integer read FId write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+  end;
+
+implementation
+
+end.

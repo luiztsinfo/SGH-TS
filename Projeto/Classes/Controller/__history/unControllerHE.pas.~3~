@@ -1,0 +1,15 @@
+unit unControllerHE;
+
+interface
+
+type
+  TControllerHE = class
+    private
+      function ValidarDados: boolean;
+    public
+
+  end;
+
+implementation
+
+end.

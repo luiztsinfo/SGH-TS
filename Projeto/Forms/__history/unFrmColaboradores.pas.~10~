@@ -1,0 +1,195 @@
+unit unFrmColaboradores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask,
+  Controller.Colaborador, unConstantes;
+
+type
+  TfrmColaboradores = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    edtID: TEdit;
+    edtNome: TEdit;
+    edtCidade: TEdit;
+    CbxTipoRegistro: TComboBox;
+    mskNascimento: TMaskEdit;
+    edtRegistro: TEdit;
+    GrdCidades: TDBGrid;
+    procedure BtnConsultarClick(Sender: TObject);
+    procedure BtnNovoClick(Sender: TObject);
+    procedure GrdCidadesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure GrdCidadesKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure GrdCidadesDblClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+    FControllerColaborador: TControllerColaborador;
+  public
+
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmColaboradores: TfrmColaboradores;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmColaboradores }
+
+procedure TfrmColaboradores.alimentaModel;
+begin
+  inherited;
+  FControllerColaborador.Model.Nome        := edtNome.Text;
+  FControllerColaborador.Model.Tipo_pessoa := sTIPO_PESSOA_COLABORADOR;
+  FControllerColaborador.Model.Nascimento  := StrToDate(mskNascimento.Text);
+  FControllerColaborador.Model.Id_cidade   := FControllerColaborador.FCidade.Id;
+  FControllerColaborador.Model.Situacao    := sATIVO;
+  FControllerColaborador.Model.TipoRegistro:= CbxTipoRegistro.ItemIndex;
+  FControllerColaborador.Model.Registro_conselho := edtRegistro.Text;
+end;
+
+procedure TfrmColaboradores.alterar;
+begin
+  inherited;
+  FControllerColaborador.Model.Id        := StrToInt(edtID.Text);
+  FControllerColaborador.Salvar(FControllerColaborador.Model);
+end;
+
+procedure TfrmColaboradores.BtnConsultarClick(Sender: TObject);
+begin
+  FControllerColaborador.Model.Nome := Trim(edtConsulta.Text);
+  inherited;
+
+end;
+
+procedure TfrmColaboradores.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+procedure TfrmColaboradores.carregarCampos;
+begin
+  inherited;
+  edtID.Text          := IntToStr(FControllerColaborador.Model.Id);
+  edtNome.Text        := FControllerColaborador.Model.Nome;
+  mskNascimento.Text  := DateToStr(FControllerColaborador.Model.Nascimento);
+  edtCidade.Text      := FControllerColaborador.RetornaCidadePorID;
+  CbxTipoRegistro.ItemIndex := FControllerColaborador.Model.TipoRegistro;
+end;
+
+procedure TfrmColaboradores.carregarModel;
+begin
+  inherited;
+  FControllerColaborador.alimentaCamposModel;
+end;
+
+procedure TfrmColaboradores.consultar;
+begin
+  inherited;
+  FControllerColaborador.Model.Situacao  := sATIVO;
+  FControllerColaborador.Model.Tipo_pessoa := sTIPO_PESSOA_COLABORADOR;
+  FControllerColaborador.Model.Nome      := '%'+edtConsulta.Text+'%';
+  FControllerColaborador.consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmColaboradores.excluir;
+begin
+  inherited;
+  FControllerColaborador.Model.Situacao := 'I';
+  FControllerColaborador.Salvar(FControllerColaborador.Model);
+end;
+
+function TfrmColaboradores.existeRegistro: boolean;
+begin
+  Result := false;
+
+  if FControllerColaborador.Model.Id > 0 then
+    Result := True;
+end;
+
+procedure TfrmColaboradores.FormCreate(Sender: TObject);
+begin
+  inherited;
+   FControllerColaborador   := TControllerColaborador.Create;
+  GrdDados.DataSource       := FControllerColaborador.FDataSourceColaborador;
+end;
+
+procedure TfrmColaboradores.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(FControllerColaborador);
+end;
+
+procedure TfrmColaboradores.GrdCidadesDblClick(Sender: TObject);
+begin
+  inherited;
+  edtCidade.Text                    := FControllerColaborador.FCidade.Nome;
+  FControllerColaborador.Model.Id_cidade := FControllerColaborador.FCidade.Id;
+  GrdCidades.Visible := False;
+end;
+
+procedure TfrmColaboradores.GrdCidadesKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if key = VK_ESCAPE then
+    begin
+      GrdCidadesDblClick(self);
+    end;
+end;
+
+procedure TfrmColaboradores.GrdCidadesKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if edtCidade.Text = trim('') then
+    Exit
+  else
+    begin
+      GrdCidades.Visible := True;
+      FControllerColaborador.FCidade.Nome := '%' + edtCidade.Text + '%';
+      FControllerColaborador.RetornaCidadePorNome;
+      GrdCidades.DataSource := FControllerColaborador.FDataSourceCidade;
+    end;
+end;
+
+procedure TfrmColaboradores.incluir;
+begin
+  inherited;
+  FControllerColaborador.Inserir(FControllerColaborador.Model);
+end;
+
+procedure TfrmColaboradores.mostrarTodosDados;
+begin
+  inherited;
+  FControllerColaborador.mostraDados;
+end;
+
+procedure TfrmColaboradores.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+end.

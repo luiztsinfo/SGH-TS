@@ -1,0 +1,29 @@
+unit Model.Sinais_Vitais_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [AttTabela('sinais_vitais_he')]
+  TSinais_Vitais_HE = class(TTabela)
+
+    private
+
+    public
+      [attPK]
+      property id : integer read FID write SetId;
+      [attNotNull('Id HE')]
+      property id_he : integer read FId_he write SetId_he;
+      property temperatura : double read FTemperatura write SetTemperatura;
+      property fc : double read FFc write SetFc;
+      property fr : double read FFr write SetFr;
+      property pa : double read FPa write SetPa;
+      property spo2 : double read FSpo2 write SetSpo2;
+
+  end;
+
+implementation
+
+end.

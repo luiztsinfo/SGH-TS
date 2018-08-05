@@ -1,0 +1,34 @@
+unit unFrmDiagnosticoEnfermagem;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmDiagnosticoEnfermagem = class(TfrmBase)
+  private
+    FControllerPrescricaoEnfermagem: TControllerPrescricaoEnfermagem;
+  public
+
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmDiagnosticoEnfermagem: TfrmDiagnosticoEnfermagem;
+
+implementation
+
+{$R *.dfm}
+
+end.

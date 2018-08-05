@@ -1,0 +1,19 @@
+unit Model.Homem_he;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('homem_he')]
+  THomem_he = class(TTabela)
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

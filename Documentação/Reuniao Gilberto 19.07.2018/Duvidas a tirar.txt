@@ -1,0 +1,5 @@
+Dúvidas para tirar com Gilberto
+
+- Como dividir em módulos sem fazer .exe separados;
+- Como facilitar a atualização do sistema
+- O que fazer via eventos

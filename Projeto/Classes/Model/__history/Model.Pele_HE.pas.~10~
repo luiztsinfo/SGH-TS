@@ -1,0 +1,241 @@
+unit Model.Pele_HE;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+
+  [attTabela('pele_he')]
+  TPele_HE = class(TTabela)
+  private
+    FId: integer;
+    FId_he: integer;
+    FPalidez: integer;
+    FPapulas: integer;
+    FUrticarias: integer;
+    FHiperemia: integer;
+    FCianose: integer;
+    FTorgor_normal: integer;
+    FHematomas: integer;
+    FAbscessos: integer;
+    FLocal_lesao: string;
+    FPetequias: integer;
+    FVesiculas: integer;
+    FTamanho_manchas: string;
+    FPustulas: integer;
+    FLocal_Manchas: string;
+    FBolhas: integer;
+    FNodulos: integer;
+    FDeformidades: integer;
+    FLesionada: integer;
+    FEquimose: integer;
+    FPrurido: integer;
+    FEritemas: integer;
+    FTumor: integer;
+    FIntegra: integer;
+    FTorgor_diminuido: integer;
+    FExantemas: integer;
+    procedure SetId(const Value: integer);
+    procedure SetId_he(const Value: integer);
+    procedure SetPalidez(const Value: integer);
+    procedure SetAbscessos(const Value: integer);
+    procedure SetBolhas(const Value: integer);
+    procedure SetCianose(const Value: integer);
+    procedure SetDeformidades(const Value: integer);
+    procedure SetEquimose(const Value: integer);
+    procedure SetEritemas(const Value: integer);
+    procedure SetExantemas(const Value: integer);
+    procedure SetHematomas(const Value: integer);
+    procedure SetHiperemia(const Value: integer);
+    procedure SetIntegra(const Value: integer);
+    procedure SetLesionada(const Value: integer);
+    procedure SetLocal_lesao(const Value: string);
+    procedure SetLocal_manchas(const Value: string);
+    procedure SetNodulos(const Value: integer);
+    procedure SetPapulas(const Value: integer);
+    procedure SetPetequias(const Value: integer);
+    procedure SetPrurido(const Value: integer);
+    procedure SetPustulas(const Value: integer);
+    procedure SetTamanho_manchas(const Value: string);
+    procedure SetTorgor_diminuido(const Value: integer);
+    procedure SetTorgor_normal(const Value: integer);
+    procedure SetTumor(const Value: integer);
+    procedure SetUrticarias(const Value: integer);
+    procedure SetVesiculas(const Value: integer);
+
+  public
+    [attPk]
+    property id: integer read FId write SetId;
+    [attNotNull('Id HE')]
+    property id_he: integer read FId_he write SetId_he;
+    property palidez: integer read FPalidez write SetPalidez;
+    property cianose: integer read FCianose write SetCianose;
+    property hiperemia: integer read FHiperemia write SetHiperemia;
+    property integra: integer read FIntegra write SetIntegra;
+    property lesionada: integer read FLesionada write SetLesionada;
+    property local_lesao: string read FLocal_lesao write SetLocal_lesao;
+    property prurido: integer read FPrurido write SetPrurido;
+    property deformidades: integer read FDeformidades write SetDeformidades;
+    property torgor_normal: integer read FTorgor_normal write SetTorgor_normal;
+    property torgor_diminuido: integer read FTorgor_diminuido
+      write SetTorgor_diminuido;
+    property equimose: integer read FEquimose write SetEquimose;
+    property petequias: integer read FPetequias write SetPetequias;
+    property eritemas: integer read FEritemas write SetEritemas;
+    property exantemas: integer read FExantemas write SetExantemas;
+    property hematomas: integer read FHematomas write SetHematomas;
+    property urticarias: integer read FUrticarias write SetUrticarias;
+    property papulas: integer read FPapulas write SetPapulas;
+    property tumor: integer read FTumor write SetTumor;
+    property nodulos: integer read FNodulos write SetNodulos;
+    property abscessos: integer read FAbscessos write SetAbscessos;
+    property pustulas: integer read FPustulas write SetPustulas;
+    property bolhas: integer read FBolhas write SetBolhas;
+    property vesiculas: integer read FVesiculas write SetVesiculas;
+    property local_manchas: string read FLocal_Manchas write SetLocal_manchas;
+    property tamanho_manchas: string read FTamanho_manchas
+      write SetTamanho_manchas;
+  end;
+
+implementation
+
+{ TPele_HE }
+
+procedure TPele_HE.SetAbscessos(const Value: integer);
+begin
+  FAbscessos := Value;
+end;
+
+procedure TPele_HE.SetBolhas(const Value: integer);
+begin
+  FBolhas := Value;
+end;
+
+procedure TPele_HE.SetCianose(const Value: integer);
+begin
+  FCianose := Value;
+end;
+
+procedure TPele_HE.SetDeformidades(const Value: integer);
+begin
+  FDeformidades := Value;
+end;
+
+procedure TPele_HE.SetEquimose(const Value: integer);
+begin
+  FEquimose := Value;
+end;
+
+procedure TPele_HE.SetEritemas(const Value: integer);
+begin
+  FEritemas := Value;
+end;
+
+procedure TPele_HE.SetExantemas(const Value: integer);
+begin
+  FExantemas := Value;
+end;
+
+procedure TPele_HE.SetHematomas(const Value: integer);
+begin
+  FHematomas := Value;
+end;
+
+procedure TPele_HE.SetHiperemia(const Value: integer);
+begin
+  FHiperemia := Value;
+end;
+
+procedure TPele_HE.SetId(const Value: integer);
+begin
+  FId := Value;
+end;
+
+procedure TPele_HE.SetId_he(const Value: integer);
+begin
+  FId_he := Value;
+end;
+
+procedure TPele_HE.SetIntegra(const Value: integer);
+begin
+  FIntegra := Value;
+end;
+
+procedure TPele_HE.SetLesionada(const Value: integer);
+begin
+  FLesionada := Value;
+end;
+
+procedure TPele_HE.SetLocal_lesao(const Value: string);
+begin
+  FLocal_lesao := Value;
+end;
+
+procedure TPele_HE.SetLocal_manchas(const Value: string);
+begin
+  FLocal_Manchas := Value;
+end;
+
+procedure TPele_HE.SetNodulos(const Value: integer);
+begin
+  FNodulos := Value;
+end;
+
+procedure TPele_HE.SetPalidez(const Value: integer);
+begin
+  FPalidez := Value;
+end;
+
+procedure TPele_HE.SetPapulas(const Value: integer);
+begin
+  FPapulas := Value;
+end;
+
+procedure TPele_HE.SetPetequias(const Value: integer);
+begin
+  FPetequias := Value;
+end;
+
+procedure TPele_HE.SetPrurido(const Value: integer);
+begin
+  FPrurido := Value;
+end;
+
+procedure TPele_HE.SetPustulas(const Value: integer);
+begin
+  FPustulas := Value;
+end;
+
+procedure TPele_HE.SetTamanho_manchas(const Value: string);
+begin
+  FTamanho_manchas := Value;
+end;
+
+procedure TPele_HE.SetTorgor_diminuido(const Value: integer);
+begin
+  FTorgor_diminuido := Value;
+end;
+
+procedure TPele_HE.SetTorgor_normal(const Value: integer);
+begin
+  FTorgor_normal := Value;
+end;
+
+procedure TPele_HE.SetTumor(const Value: integer);
+begin
+  FTumor := Value;
+end;
+
+procedure TPele_HE.SetUrticarias(const Value: integer);
+begin
+  FUrticarias := Value;
+end;
+
+procedure TPele_HE.SetVesiculas(const Value: integer);
+begin
+  FVesiculas := Value;
+end;
+
+end.

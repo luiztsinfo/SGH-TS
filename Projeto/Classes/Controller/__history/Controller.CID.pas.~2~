@@ -1,0 +1,15 @@
+unit Controller.CID;
+
+interface
+
+type
+  TControllerCID = class(TDaoFireDac)
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

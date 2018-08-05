@@ -1,0 +1,5 @@
+inherited frmBase2: TfrmBase2
+  Caption = 'ATIVIDADES RELIGIOSAS'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

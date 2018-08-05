@@ -1,0 +1,102 @@
+unit Controller.Religiao;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.Religiao, Conexao, Data.DB,
+  unConstantes;
+
+type
+  TControllerReligiao = class(TDaoFireDac)
+
+  private
+    FModel: TReligioes;
+    FConexao: TConexao;
+    function GetDataSource: TDataSource;
+    procedure SetModel(const Value: TReligioes);
+
+  public
+    FDao: TDaoFireDac;
+    FDsReligiao: TDataSource;
+    FRegistrosReligiao: TDataSet;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure consultar(sCampoWhere, sOrderBy: string);
+    procedure mostraDados;
+    procedure alimentaCamposModel;
+
+    property Model: TReligioes read FModel write SetModel;
+    property DataSource: TDataSource read GetDataSource write FDsReligiao;
+  end;
+
+implementation
+
+{ TControllerPaciente }
+
+procedure TControllerReligiao.alimentaCamposModel;
+begin
+  FModel.Id         := FRegistrosPrescricaoEnfermagem.FieldByName('id').AsInteger;
+  FModel.Descricao  := FRegistrosPrescricaoEnfermagem.FieldByName('descricao').AsString;
+  FModel.Situacao   := FRegistrosPrescricaoEnfermagem.FieldByName('situacao').AsString;
+end;
+
+procedure TControllerReligiao.consultar(sCampoWhere, sOrderBy: string);
+begin
+  try
+    FRegistrosPrescricaoEnfermagem := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+    FDataSourcePrescricaoEnfermagem.DataSet := FRegistrosPrescricaoEnfermagem;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+constructor TControllerReligiao.Create;
+begin
+  FConexao    := TConexao.Create;
+  FDataSourcePrescricaoEnfermagem := TDataSource.Create(nil);
+  FRegistrosPrescricaoEnfermagem  := TDataSet.Create(nil);
+  FModel:= TReligioes.Create;
+
+  inherited Create(FConexao.FdCon,FConexao.FdTran);
+  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+end;
+
+destructor TControllerReligiao.Destroy;
+begin
+  FRegistrosPrescricaoEnfermagem.Free;
+  FDataSourcePrescricaoEnfermagem.Free;
+  FModel.Free;
+  FConexao.Free;
+  FDao.Free;
+  inherited Destroy;
+end;
+
+function TControllerReligiao.GetDataSource: TDataSource;
+begin
+  Result := FDataSourcePrescricaoEnfermagem;
+end;
+
+procedure TControllerReligiao.mostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistrosPrescricaoEnfermagem  := FDao.ConsultaTab(FModel,['situacao']);
+
+    FDataSourcePrescricaoEnfermagem.DataSet := FRegistrosPrescricaoEnfermagem;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+procedure TControllerReligiao.SetModel(const Value: TReligioes);
+begin
+  FModel := Value;
+end;
+
+end.

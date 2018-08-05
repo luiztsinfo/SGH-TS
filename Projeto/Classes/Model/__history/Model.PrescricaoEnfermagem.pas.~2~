@@ -1,0 +1,23 @@
+unit Model.PrescricaoEnfermagem;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('prescricoes_enfermagem')]
+  TPrescricoes_enfermagem = class(TTabela)
+  private
+    FId: Integer;
+    FDescricao: string;
+  public
+    [attPK]
+    property Id: Integer read FId write FId;
+    property Descricao: string read FDescricao write FDescricao;
+  end;
+
+implementation
+
+end.
+

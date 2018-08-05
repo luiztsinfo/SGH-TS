@@ -1,0 +1,109 @@
+unit unFrmCirurgia;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Cirurgia, unConstantes;
+
+type
+  TfrmCirurgia = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtId: TEdit;
+    edtDescricao: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+    FControllerCirurgia: TControllerCirurgia;
+  public
+
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmCirurgia: TfrmCirurgia;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCirurgia.alimentaModel;
+begin
+  inherited;
+  FControllerCirurgia.Model.Descricao := edtDescricao.Text;
+  FControllerCirurgia.Model.Situacao := sATIVO;
+end;
+
+procedure TfrmCirurgia.alterar;
+begin
+  inherited;
+  FControllerCirurgia.Model.Id := StrToInt(edtId.Text);
+  FControllerCirurgia.Salvar(FControllerCirurgia.Model);
+end;
+
+procedure TfrmCirurgia.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TfrmCirurgia.carregarCampos;
+begin
+  inherited;
+  edtId.Text := IntToStr(FControllerCirurgia.Model.Id);
+  edtDescricao.Text := FControllerCirurgia.Model.Descricao;
+end;
+
+procedure TfrmCirurgia.carregarModel;
+begin
+  inherited;
+
+end;
+
+procedure TfrmCirurgia.consultar;
+begin
+  inherited;
+
+end;
+
+procedure TfrmCirurgia.excluir;
+begin
+  inherited;
+
+end;
+
+function TfrmCirurgia.existeRegistro: boolean;
+begin
+
+end;
+
+procedure TfrmCirurgia.incluir;
+begin
+  inherited;
+
+end;
+
+procedure TfrmCirurgia.mostrarTodosDados;
+begin
+  inherited;
+
+end;
+
+procedure TfrmCirurgia.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

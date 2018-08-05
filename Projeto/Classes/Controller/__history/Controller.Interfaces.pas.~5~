@@ -1,0 +1,19 @@
+unit Controller.Interfaces;
+
+interface
+
+uses
+  Data.DB, Conexao;
+
+type
+  iControllerCadastros = interface
+    ['{89CFA3CA-EFD1-4FA8-99D2-7AABD75CDD2A}']
+     procedure mostraDados;
+     procedure alimentaCamposModel;
+  //   function RetornaCidade: string;
+  //   function retornaUltimoRegistro: integer;
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,286 @@
+unit unFrmPaciente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask,
+  Controller.Paciente, unConstantes, Conexao, Lca.Orm.Comp.FireDac, Model.Pessoa,
+  Vcl.DBCtrls;
+
+type
+  TfrmPaciente = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    edtID: TEdit;
+    edtNome: TEdit;
+    mskNascimento: TMaskEdit;
+    GrdCidades: TDBGrid;
+    edtCidade: TEdit;
+    Label6: TLabel;
+    CbxSexo: TComboBox;
+    CbxCor: TComboBox;
+    Label7: TLabel;
+    Label8: TLabel;
+    CbxEstadoCivil: TComboBox;
+    Label9: TLabel;
+    CbxEscolaridade: TComboBox;
+    Label10: TLabel;
+    edtReligiao: TEdit;
+    GrdReligioes: TDBGrid;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure edtCidadeKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtCidadeKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure GrdCidadesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure GrdCidadesDblClick(Sender: TObject);
+    procedure edtReligiaoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtReligiaoKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure GrdReligioesDblClick(Sender: TObject);
+    procedure GrdReligioesExit(Sender: TObject);
+    procedure GrdReligioesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+
+    FControllerPaciente: TControllerPaciente;
+  public
+
+    vConsultaExterna: boolean;
+    procedure alimentaModel; override;
+    procedure carregarModel; override;
+    procedure carregarCampos; override;
+    procedure mostrarTodosDados; override;
+    procedure consultar; override;
+    procedure incluir; override;
+    procedure alterar; override;
+    procedure excluir; override;
+    function  existeRegistro: boolean; override;
+  end;
+
+var
+  frmPaciente: TfrmPaciente;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPaciente.alimentaModel;
+begin
+  inherited;
+  FControllerPaciente.Model.Nome        := edtNome.Text;
+  FControllerPaciente.Model.Tipo_pessoa := sTIPO_PESSOA_PACIENTE;
+  FControllerPaciente.Model.Nascimento  := StrToDate(mskNascimento.Text);
+  FControllerPaciente.Model.Id_cidade   := FControllerPaciente.FCidade.Id;
+  FControllerPaciente.Model.Situacao    := sATIVO;
+  FControllerPaciente.Model.Id_religiao := FControllerPaciente.FReligiao.Id;
+  FControllerPaciente.Model.Sexo        := CbxSexo.ItemIndex;
+  FControllerPaciente.Model.Cor         := CbxCor.ItemIndex;
+  FControllerPaciente.Model.Estado_Civil:= CbxEstadoCivil.ItemIndex;
+  FControllerPaciente.Model.Escolaridade:= CbxEscolaridade.ItemIndex;
+end;
+
+procedure TfrmPaciente.alterar;
+begin
+  inherited;
+  FControllerPaciente.Model.Id        := StrToInt(edtID.Text);
+  FControllerPaciente.Salvar(FControllerPaciente.Model);
+end;
+
+procedure TfrmPaciente.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+procedure TfrmPaciente.carregarCampos;
+begin
+  inherited;
+  edtID.Text          := IntToStr(FControllerPaciente.Model.Id);
+  edtNome.Text        := FControllerPaciente.Model.Nome;
+  mskNascimento.Text  := DateToStr(FControllerPaciente.Model.Nascimento);
+  edtCidade.Text      := FControllerPaciente.RetornaCidadePorID;
+  edtReligiao.Text    := FControllerPaciente.RetornaCidadePorID; // fazer o metodo para retornar religiao por id
+  CbxSexo.ItemIndex   := FControllerPaciente.Model.Sexo;
+  CbxCor.ItemIndex    := FControllerPaciente.Model.Cor;
+  CbxEstadoCivil.ItemIndex := FControllerPaciente.Model.Estado_Civil;
+  CbxEscolaridade.ItemIndex := FControllerPaciente.Model.Escolaridade;
+end;
+
+procedure TfrmPaciente.carregarModel;
+begin
+  inherited;
+  FControllerPaciente.alimentaCamposModel;
+end;
+
+procedure TfrmPaciente.consultar;
+begin
+  inherited;
+  FControllerPaciente.Model.Situacao    := sATIVO;
+  FControllerPaciente.Model.Tipo_pessoa := sTIPO_PESSOA_PACIENTE;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      FControllerPaciente.Model.Id := StrToInt(trim(edtConsulta.Text));
+
+    iNOME:
+      FControllerPaciente.Model.Nome := '%'+trim(edtConsulta.Text)+'%';
+
+    iCPF:
+      begin
+        ShowMessage('Opção ainda não implementada!');
+        Exit;
+      end;
+
+    iNASCIMENTO:
+      FControllerPaciente.Model.Nascimento := StrToDate(mskNascimento.Text);
+  end;
+
+  FControllerPaciente.consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmPaciente.edtCidadeKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if key = VK_DOWN then
+    GrdCidades.SetFocus;
+end;
+
+procedure TfrmPaciente.edtCidadeKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if edtCidade.Text = trim(sVAZIO) then
+    Exit
+  else
+    begin
+      GrdCidades.Visible := True;
+      FControllerPaciente.FCidade.Nome := '%' + edtCidade.Text + '%';
+      FControllerPaciente.RetornaCidadePorNome;
+      GrdCidades.DataSource := FControllerPaciente.FDataSourceCidade;
+    end;
+end;
+
+procedure TfrmPaciente.edtReligiaoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_DOWN then
+    GrdReligioes.SetFocus;
+end;
+
+procedure TfrmPaciente.edtReligiaoKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if (edtReligiao.Text <> trim(sVAZIO)) then
+  begin
+    GrdReligioes.Visible := true;
+    GrdReligioes.DataSource := FControllerPaciente.FDsReligiao;
+    FControllerPaciente.FReligiao.Situacao := sATIVO;
+    FControllerPaciente.FReligiao.Descricao := '%'+edtReligiao.Text+'%';
+    FControllerPaciente.RetornaReligiaoPorNome;
+  end;
+end;
+
+procedure TfrmPaciente.excluir;
+begin
+  inherited;
+  FControllerPaciente.Model.Situacao := sINATIVO;
+  FControllerPaciente.Salvar(FControllerPaciente.Model);
+end;
+
+function TfrmPaciente.existeRegistro: boolean;
+begin
+  Result := false;
+
+  if FControllerPaciente.Model.Id > 0 then
+    Result := True;
+end;
+
+procedure TfrmPaciente.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FControllerPaciente   := TControllerPaciente.Create;
+  GrdDados.DataSource := FControllerPaciente.FDataSourcePaciente;
+end;
+
+procedure TfrmPaciente.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FreeAndNil(FControllerPaciente);
+end;
+
+procedure TfrmPaciente.GrdCidadesDblClick(Sender: TObject);
+begin
+  inherited;
+  edtCidade.Text                      := FControllerPaciente.FCidade.Nome;
+  FControllerPaciente.Model.Id_cidade := FControllerPaciente.FCidade.Id;
+  GrdCidades.Visible := False;
+end;
+
+procedure TfrmPaciente.GrdCidadesKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if key = VK_ESCAPE then
+    begin
+      GrdCidadesDblClick(self);
+    end;
+end;
+
+procedure TfrmPaciente.GrdReligioesDblClick(Sender: TObject);
+begin
+  inherited;
+  edtConsulta.Text := FControllerPaciente.FRegistrosReligiao.FieldByName('descricao').AsString;
+  FControllerPaciente.FPessoa.Id_religiao := FControllerPaciente.FRegistrosReligiao.FieldByName('id').AsInteger;
+  GrdReligioes.Visible := false;
+  BtnSalvar.SetFocus;
+end;
+
+procedure TfrmPaciente.GrdReligioesExit(Sender: TObject);
+begin
+  inherited;
+  GrdReligioes.Visible := false;
+end;
+
+procedure TfrmPaciente.GrdReligioesKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if ((key = VK_ESCAPE) or (Key = VK_RETURN)) then
+    GrdReligioesDblClick(self);
+end;
+
+procedure TfrmPaciente.incluir;
+begin
+  inherited;
+  FControllerPaciente.Model.Id := FControllerPaciente.retornaUltimoCliente;
+  FControllerPaciente.Inserir(FControllerPaciente.Model);
+end;
+
+procedure TfrmPaciente.mostrarTodosDados;
+begin
+  FControllerPaciente.mostraDados;
+end;
+
+procedure TfrmPaciente.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+end.
