@@ -1,0 +1,21 @@
+unit Controller.Base;
+
+interface
+
+uses Controller.Interfaces, Model.Interfaces, Conexao, Data.DB;
+
+type
+  TControllerBase = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                : iModelCadastros;
+      FConexao              : TConexao;
+      FRegistros            : TDataSet;
+      FDataSource           : TDataSource;
+      function GetDataSource: TDataSource;
+    public
+
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,51 @@
+unit unFrmCID;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  unFrmGruposCID;
+
+type
+  TfrmCID = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    edtCID: TEdit;
+    edtDescricao: TEdit;
+    CbxSexo: TComboBox;
+    ComboBox2: TComboBox;
+    Label6: TLabel;
+    edtIDGrupoCID: TEdit;
+    lblGrupoCID: TLabel;
+    BtnBuscaGrupoCID: TBitBtn;
+    procedure BtnBuscaGrupoCIDClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCID: TfrmCID;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCID.BtnBuscaGrupoCIDClick(Sender: TObject);
+begin
+  inherited;
+  try
+    frmGruposCID := TfrmGruposCID.Create(Self,Self,toConsulta);
+    frmGruposCID.ShowModal;
+  finally
+    edtIDGrupoCID.Text := frmGruposCID.FValueFieldKey.ToString;
+    FreeAndNil(frmGruposCID);
+  end;
+end;
+
+end.

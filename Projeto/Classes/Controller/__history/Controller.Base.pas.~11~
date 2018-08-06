@@ -1,0 +1,17 @@
+unit Controller.Base;
+
+interface
+
+uses Model.Interfaces;
+
+type
+  TControllerBase = class
+    private
+      FModel: iModelCadastros;
+    public
+
+  end;
+
+implementation
+
+end.

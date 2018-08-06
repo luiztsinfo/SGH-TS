@@ -9,7 +9,7 @@ uses
   unFrmPrescricaoEnfermagem, unFrmHE, unFrmReligiao, Vcl.Imaging.jpeg,
   Vcl.ExtCtrls, unFrmAntecedentes, unFrmAlergia, unFrmCirurgia,
   unFrmAtividadeReligiosa, unFrmDiagnosticoEnfermagem, Controller.Alergia,
-  Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID;
+  Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID;
 
 type
   TfrmPrincipal = class(TForm)
@@ -47,6 +47,7 @@ type
     procedure Prescries1Click(Sender: TObject);
     procedure Nacionalidades1Click(Sender: TObject);
     procedure GruposCID1Click(Sender: TObject);
+    procedure CID1Click(Sender: TObject);
   private
 
   public
@@ -63,7 +64,7 @@ implementation
 procedure TfrmPrincipal.Alergias1Click(Sender: TObject);
 begin
   try
-    frmAlergia := TfrmAlergia.Create(self);
+    frmAlergia := TfrmAlergia.Create(Self);
     frmAlergia.ShowModal;
   finally
     FreeAndNil(frmAlergia);
@@ -73,7 +74,7 @@ end;
 procedure TfrmPrincipal.Antecedentes1Click(Sender: TObject);
 begin
   try
-    frmAntecedentes := TfrmAntecedentes.Create(self);
+    frmAntecedentes := TfrmAntecedentes.Create(Self);
     frmAntecedentes.ShowModal;
   finally
     FreeAndNil(frmAntecedentes);
@@ -83,17 +84,27 @@ end;
 procedure TfrmPrincipal.AtividadesReligiosas1Click(Sender: TObject);
 begin
   try
-    frmAtividadeReligiosa := TfrmAtividadeReligiosa.Create(self);
+    frmAtividadeReligiosa := TfrmAtividadeReligiosa.Create(Self);
     frmAtividadeReligiosa.ShowModal;
   finally
     FreeAndNil(frmAtividadeReligiosa);
   end;
 end;
 
+procedure TfrmPrincipal.CID1Click(Sender: TObject);
+begin
+  try
+    frmCID := TfrmCID.Create(self);
+    frmCID.ShowModal;
+  finally
+    FreeAndNil(frmCID);
+  end;
+end;
+
 procedure TfrmPrincipal.Cirurgias1Click(Sender: TObject);
 begin
   try
-    frmCirurgia := TfrmCirurgia.Create(self);
+    frmCirurgia := TfrmCirurgia.Create(Self);
     frmCirurgia.ShowModal;
   finally
     FreeAndNil(frmCirurgia);
@@ -103,7 +114,7 @@ end;
 procedure TfrmPrincipal.Colaboradores1Click(Sender: TObject);
 begin
   try
-    frmColaborador := TfrmColaborador.Create(self);
+    frmColaborador := TfrmColaborador.Create(Self);
     frmColaborador.ShowModal;
   finally
     FreeAndNil(frmColaborador);
@@ -113,7 +124,7 @@ end;
 procedure TfrmPrincipal.Diagnsticos1Click(Sender: TObject);
 begin
   try
-    frmDiagnosticoEnfermagem := TfrmDiagnosticoEnfermagem.Create(self);
+    frmDiagnosticoEnfermagem := TfrmDiagnosticoEnfermagem.Create(Self);
     frmDiagnosticoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmDiagnosticoEnfermagem);
@@ -123,7 +134,7 @@ end;
 procedure TfrmPrincipal.GruposCID1Click(Sender: TObject);
 begin
   try
-    frmGruposCID := TfrmGruposCID.Create(self);
+    frmGruposCID := TfrmGruposCID.Create(Self);
     frmGruposCID.ShowModal;
   finally
     FreeAndNil(frmGruposCID);
@@ -133,7 +144,7 @@ end;
 procedure TfrmPrincipal.HistoricodeEvoluo1Click(Sender: TObject);
 begin
   try
-    frmHE := TfrmHE.Create(self);
+    frmHE := TfrmHE.Create(Self);
     frmHE.ShowModal;
   finally
     FreeAndNil(frmHE);
@@ -143,7 +154,7 @@ end;
 procedure TfrmPrincipal.Nacionalidades1Click(Sender: TObject);
 begin
   try
-    frmNacionalidades := TfrmNacionalidades.Create(self);
+    frmNacionalidades := TfrmNacionalidades.Create(Self);
     frmNacionalidades.ShowModal;
   finally
     FreeAndNil(frmNacionalidades);
@@ -153,7 +164,7 @@ end;
 procedure TfrmPrincipal.Pacientes1Click(Sender: TObject);
 begin
   try
-    frmPaciente := TfrmPaciente.Create(self);
+    frmPaciente := TfrmPaciente.Create(Self);
     frmPaciente.ShowModal;
   finally
     FreeAndNil(frmPaciente);
@@ -163,7 +174,7 @@ end;
 procedure TfrmPrincipal.Prescies1Click(Sender: TObject);
 begin
   try
-    frmPrescricaoEnfermagem := TfrmPrescricaoEnfermagem.Create(self);
+    frmPrescricaoEnfermagem := TfrmPrescricaoEnfermagem.Create(Self);
     frmPrescricaoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmPrescricaoEnfermagem);
@@ -173,7 +184,7 @@ end;
 procedure TfrmPrincipal.Prescries1Click(Sender: TObject);
 begin
   try
-    frmPrescricaoEnfermagem := TfrmPrescricaoEnfermagem.Create(self);
+    frmPrescricaoEnfermagem := TfrmPrescricaoEnfermagem.Create(Self);
     frmPrescricaoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmPrescricaoEnfermagem);
@@ -183,7 +194,7 @@ end;
 procedure TfrmPrincipal.Religies1Click(Sender: TObject);
 begin
   try
-    frmReligiao := TfrmReligiao.Create(self);
+    frmReligiao := TfrmReligiao.Create(Self);
     frmReligiao.ShowModal;
   finally
     FreeAndNil(frmReligiao);

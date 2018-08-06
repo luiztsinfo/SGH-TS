@@ -14,6 +14,7 @@ type
     FId_grupo_cid: Integer;
     FSexo: Integer;
     FCausa_obito: Integer;
+    FSituacao: string;
   public
     [attPK]
     property Id: string read FId write FId;
@@ -25,6 +26,7 @@ type
     property Sexo: Integer read FSexo write FSexo;
     [attNotNull('Não informado se esse CID pode ser informado em óbito')]
     property Causa_obito: Integer read FCausa_obito write FCausa_obito;
+    property Situacao : string read FSituacao write FSituacao;
   end;
 
 implementation

@@ -109,6 +109,7 @@ type
 
     // pega campo autoincremento
     function GetID(ATabela: TTabela; ACampo: string): Integer;
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: integer): string;
     function GetMax(ATabela: TTabela; ACampo: string;
       ACamposChave: array of string): Integer;
 
@@ -609,7 +610,6 @@ begin
     Connection := FConexao;
     sql.Clear;
     sql.Add('select max(' + ACampo + ') from ' + TAtributos.Get.PegaNomeTab(ATabela));
-    SQL.SaveToFile('c:\logs\Getid.txt');
     Open;
     Result := fields[0].AsInteger + 1;
   end;
@@ -686,6 +686,23 @@ begin
     Result := AQry.Fields[0].AsInteger;
   finally
     AQry.Free;
+  end;
+end;
+
+function TDaoFireDac.GetValueForeignKey(ATabela: TTabela; AFieldDesc,
+  AFieldKey: string; AValue: integer): string;
+var
+  AQry: TFDQuery;
+begin
+  AQry := TFDQuery.Create(Application);
+  with AQry do
+  begin
+    Connection := FConexao;
+    sql.Clear;
+    sql.Add('select ' + AFieldDesc + ' from ' + TAtributos.Get.PegaNomeTab(ATabela) + ' where '+
+    AFieldKey + ' = ' + AValue.ToString);
+    Open;
+    Result := AQry.FieldByName(AFieldDesc).AsString;
   end;
 end;
 

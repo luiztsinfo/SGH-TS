@@ -1,0 +1,13 @@
+unit Model.Interfaces;
+
+interface
+
+type
+  iModelCadastros = interface
+    ['{41AA3975-B440-481A-B1BC-633926F47575}']
+
+  end;
+
+implementation
+
+end.

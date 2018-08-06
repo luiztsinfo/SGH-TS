@@ -1,0 +1,15 @@
+unit Controller.Base;
+
+interface
+
+type
+  TControllerBase = class
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

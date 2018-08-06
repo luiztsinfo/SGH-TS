@@ -1,0 +1,25 @@
+unit Controller.Interfaces;
+
+interface
+
+uses
+  Data.DB, Conexao, FireDAC.Comp.Client, Model.Interfaces;
+
+type
+  iControllerCadastros = interface
+    ['{89CFA3CA-EFD1-4FA8-99D2-7AABD75CDD2A}']
+     procedure mostraDados;
+     procedure alimentaCamposModel;
+     procedure Consultar(sCampoWhere, sOrderBy: string);
+     procedure Excluir;
+     procedure incluir;
+     function GetDataSource: TDataSource;
+     function GetModel: iModelCadastros;
+     function existeRegistro: boolean;
+     property DataSource: TDataSource read GetDataSource;
+     property Model : iModelCadastros read GetModel;
+  end;
+
+implementation
+
+end.

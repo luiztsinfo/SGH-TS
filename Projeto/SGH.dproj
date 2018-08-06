@@ -226,6 +226,12 @@
             <Form>frmBaseBasico</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Base.pas"/>
+        <DCCReference Include="Classes\Model\Model.Interfaces.pas"/>
+        <DCCReference Include="Forms\unFrmBuscaBase.pas">
+            <Form>frmBuscaBase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

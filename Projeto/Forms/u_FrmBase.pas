@@ -10,6 +10,9 @@ uses
   Controller.Interfaces;
 
 type
+  TTipoOperacao = (toCadastro, toConsulta);
+
+type
   TfrmBase = class(TForm)
     PgCtrlCadastro: TPageControl;
     TbShConsulta: TTabSheet;
@@ -40,7 +43,6 @@ type
     procedure FormShow          (Sender: TObject);
     procedure FormKeyDown       (Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BtnSalvarClick    (Sender: TObject);
-
     procedure GrdDadosDblClick(Sender: TObject);
     procedure GrdDadosCellClick(Column: TColumn);
     procedure GrdDadosKeyPress(Sender: TObject; var Key: Char);
@@ -48,26 +50,27 @@ type
     procedure BtnConsultarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
-
     opc_gravar: integer; // 0 = novo / 1 = alterando
-
-   procedure controlarBotoes(operacao: integer);             dynamic;
-    procedure salvar;                                         dynamic;
+    procedure controlarBotoes(operacao: integer);   dynamic;
+    procedure salvar;                              dynamic;
 
   public
-
     FController: iControllerCadastros;
+    FValueFieldKey: Integer;
+    FFormChamou: TForm;
+    FTipoOperacao: TTipoOperacao;
     tabela: string;
-    procedure limpar;                                         dynamic;
-    procedure consultar;                                      dynamic;
-    procedure incluir;                                        dynamic;
-    procedure alterar;                                        dynamic; abstract;
-    procedure excluir;                                        dynamic;
-    function  existeRegistro: boolean;                        dynamic;
-    procedure mostrarTodosDados;                              dynamic;
-    procedure carregarCampos;                                 dynamic; abstract;
-    procedure alimentaModel;                                  dynamic; abstract;
-    procedure carregarModel;                                  dynamic;
+    procedure limpar;                              dynamic;
+    procedure consultar;                           dynamic;
+    procedure incluir;                             dynamic;
+    procedure alterar;                             dynamic; abstract;
+    procedure excluir;                             dynamic;
+    procedure mostrarTodosDados;                   dynamic;
+    procedure carregarCampos;                      dynamic; abstract;
+    procedure alimentaModel;                       dynamic; abstract;
+    procedure carregarModel;                       dynamic;
+    function  existeRegistro: boolean;             dynamic;
+//    constructor Create(AOwner: TForm; AtoOperacao: TTipoOperacao);
   end;
 
 var
@@ -101,7 +104,8 @@ end;
 
 procedure TfrmBase.BtnInativarClick(Sender: TObject);
 begin
-  if MessageDlg('Deseja realmente inativar o registro selecionado?'+#13+#13+'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes then
+  if MessageDlg('Deseja realmente inativar o registro selecionado?'+#13+#13+
+  'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes then
     begin
       excluir;
       controlarBotoes(OPC_INATIVAR);
@@ -139,18 +143,18 @@ procedure TfrmBase.controlarBotoes(operacao: integer);
 begin
   case operacao of
     OPC_INCLUIR:
-      begin
-        BtnNovo.Visible     := False;
-        BtnAlterar.Visible  := False;
-        BtnSalvar.Visible   := True;
-        BtnInativar.Visible := False;
-        BtnCancelar.Visible := True;
-        BtnRelatorios.Visible := False;
-        BtnSair.Visible     := False;
-        Self.opc_gravar      := iINCLUINDO;
-        PgCtrlCadastro.ActivePageIndex := 1;
-        TbShConsulta.TabVisible := False;
-      end;
+    begin
+      BtnNovo.Visible     := False;
+      BtnAlterar.Visible  := False;
+      BtnSalvar.Visible   := True;
+      BtnInativar.Visible := False;
+      BtnCancelar.Visible := True;
+      BtnRelatorios.Visible := False;
+      BtnSair.Visible     := False;
+      Self.opc_gravar      := iINCLUINDO;
+      PgCtrlCadastro.ActivePageIndex := 1;
+      TbShConsulta.TabVisible := False;
+    end;
 
     OPC_ALTERAR:
       begin
@@ -253,6 +257,13 @@ begin
       end;
   end;
 end;
+
+{constructor TfrmBase.Create(AOwner: TForm;
+  AtoOperacao: TTipoOperacao);
+begin
+//  FFormChamou := AFormChamou;
+  FTipoOperacao := AtoOperacao;
+end;}
 
 procedure TfrmBase.excluir;
 begin

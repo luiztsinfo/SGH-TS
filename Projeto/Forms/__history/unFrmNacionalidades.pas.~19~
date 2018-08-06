@@ -1,0 +1,94 @@
+unit unFrmNacionalidades;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Nacionalidade, unConstantes;
+
+type
+  TTipoOperacao = (toCadastro, toConsulta);
+
+type
+  TfrmNacionalidades = class(TfrmBase)
+    edtId: TEdit;
+    edtDescricao: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmNacionalidades: TfrmNacionalidades;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmNacionalidades }
+
+procedure TfrmNacionalidades.alimentaModel;
+begin
+  inherited;
+  TControllerNacionalidade(FController).Model.Descricao := edtDescricao.Text;
+end;
+
+procedure TfrmNacionalidades.alterar;
+begin
+  inherited;
+  TControllerNacionalidade(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerNacionalidade(FController).FDao.Salvar(TControllerNacionalidade(FController).Model);
+end;
+
+procedure TfrmNacionalidades.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TfrmNacionalidades.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerNacionalidade(FController).Model.Id);
+  edtDescricao.Text := TControllerNacionalidade(FController).Model.Descricao;
+end;
+
+procedure TfrmNacionalidades.consultar;
+begin
+  TControllerNacionalidade(FController).Model.Situacao    := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerNacionalidade(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+
+    iNOME:
+      TControllerNacionalidade(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+
+  inherited;
+end;
+
+procedure TfrmNacionalidades.FormCreate(Sender: TObject);
+begin
+  FController := TControllerNacionalidade.Create;
+  inherited;
+end;
+
+procedure TfrmNacionalidades.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

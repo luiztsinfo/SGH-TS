@@ -1389,6 +1389,7 @@ object frmPrincipal: TfrmPrincipal
         end
         object CID1: TMenuItem
           Caption = 'CID'
+          OnClick = CID1Click
         end
       end
     end

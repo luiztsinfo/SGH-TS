@@ -33,7 +33,7 @@ object frmPreenchimentoHE: TfrmPreenchimentoHE
     Top = 0
     Width = 1324
     Height = 656
-    ActivePage = TbShAvaliacaoFisica41
+    ActivePage = TbShPrincipal
     Align = alClient
     MultiLine = True
     Style = tsFlatButtons

@@ -1,0 +1,87 @@
+unit Controller.CID;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Controller.Interfaces, Model.CID, Conexao, Data.DB;
+
+type
+  TControllerCID = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TCid;
+      FConexao               : TConexao;
+      FRegistrosCID          : TDataSet;
+      FDsNacionalidade       : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      function    RetornaDescricaoGrupoCID(AID: Integer): string;
+      property    Model: TCid read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+{ TControllerCID }
+
+procedure TControllerCID.AlimentaCamposModel;
+begin
+  FModel.Id := FRegistrosCID.FieldByName('id').AsString;
+  FModel.Descricao := FRegistrosCID.FieldByName('descricao').AsString;
+end;
+
+procedure TControllerCID.Consultar(sCampoWhere, sOrderBy: string);
+begin
+
+end;
+
+constructor TControllerCID.Create;
+begin
+
+end;
+
+destructor TControllerCID.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TControllerCID.Excluir;
+begin
+
+end;
+
+function TControllerCID.ExisteRegistro: Boolean;
+begin
+
+end;
+
+function TControllerCID.GetDataSource: TDataSource;
+begin
+
+end;
+
+procedure TControllerCID.Incluir;
+begin
+
+end;
+
+procedure TControllerCID.MostraDados;
+begin
+
+end;
+
+function TControllerCID.RetornaDescricaoGrupoCID(AID: Integer): string;
+begin
+  Result := FDao.GetValueForeignKey(FModel,'descricao','id',AID);
+end;
+
+end.

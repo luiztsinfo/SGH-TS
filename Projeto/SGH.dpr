@@ -98,7 +98,10 @@ uses
   Model.CID in 'Classes\Model\Model.CID.pas',
   Controller.CID in 'Classes\Controller\Controller.CID.pas',
   unFrmCID in 'Forms\unFrmCID.pas' {frmCID},
-  unFrmBaseBasico in 'Forms\unFrmBaseBasico.pas' {frmBaseBasico};
+  unFrmBaseBasico in 'Forms\unFrmBaseBasico.pas' {frmBaseBasico},
+  Controller.Base in 'Classes\Controller\Controller.Base.pas',
+  Model.Interfaces in 'Classes\Model\Model.Interfaces.pas',
+  unFrmBuscaBase in 'Forms\unFrmBuscaBase.pas' {frmBuscaBase};
 
 {$R *.res}
 

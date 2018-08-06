@@ -1,0 +1,16 @@
+unit Model.Interfaces;
+
+interface
+
+type
+  iModelCadastros = interface
+    ['{41AA3975-B440-481A-B1BC-633926F47575}']
+    function GetSituacao: integer;
+    function GetId: Integer;
+    property Id: integer read GetId;
+    property Situacao: string read GetSituacao;
+  end;
+
+implementation
+
+end.

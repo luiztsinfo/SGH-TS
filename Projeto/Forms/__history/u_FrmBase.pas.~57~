@@ -1,0 +1,383 @@
+unit u_FrmBase;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls,
+  Vcl.Buttons, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Interfaces;
+
+type
+  TTipoOperacao = (toCadastro, toConsulta);
+
+type
+  TfrmBase = class(TForm)
+    PgCtrlCadastro: TPageControl;
+    TbShConsulta: TTabSheet;
+    PnDados: TPanel;
+    GrdDados: TDBGrid;
+    PnFiltro: TPanel;
+    lblConsultaPor: TLabel;
+    CbxConsulta: TComboBox;
+    TbShCadastro: TTabSheet;
+    PnCampos: TPanel;
+    PnBotoes: TPanel;
+    BtnNovo: TBitBtn;
+    BtnAlterar: TBitBtn;
+    BtnInativar: TBitBtn;
+    BtnRelatorios: TBitBtn;
+    BtnSair: TBitBtn;
+    BtnSalvar: TBitBtn;
+    BtnCancelar: TBitBtn;
+    BtnConsultar: TBitBtn;
+    Label4: TLabel;
+    CbxOrdenarPor: TComboBox;
+    GrpBxDadoConsulta: TGroupBox;
+    edtConsulta: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure BtnAlterarClick(Sender: TObject);
+    procedure BtnCancelarClick(Sender: TObject);
+    procedure BtnSairClick(Sender: TObject);
+    procedure FormShow          (Sender: TObject);
+    procedure FormKeyDown       (Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BtnSalvarClick    (Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
+    procedure GrdDadosCellClick(Column: TColumn);
+    procedure GrdDadosKeyPress(Sender: TObject; var Key: Char);
+    procedure BtnInativarClick(Sender: TObject);
+    procedure BtnConsultarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    opc_gravar: integer; // 0 = novo / 1 = alterando
+    procedure controlarBotoes(operacao: integer);   dynamic;
+    procedure salvar;                              dynamic;
+
+  public
+    FController: iControllerCadastros;
+    FValueFieldKey: Integer;
+    FFormChamou: TForm;
+    FTipoOperacao: TTipoOperacao;
+    tabela: string;
+    procedure limpar;                              dynamic;
+    procedure consultar;                           dynamic;
+    procedure incluir;                             dynamic;
+    procedure alterar;                             dynamic; abstract;
+    procedure excluir;                             dynamic;
+    procedure mostrarTodosDados;                   dynamic;
+    procedure carregarCampos;                      dynamic; abstract;
+    procedure alimentaModel;                       dynamic; abstract;
+    procedure carregarModel;                       dynamic;
+    function  existeRegistro: boolean;             dynamic;
+    constructor Create(AOwner,AFormChamou: TForm; AtoOperacao: TTipoOperacao);
+  end;
+
+var
+  frmBase: TfrmBase;
+
+implementation
+
+{$R *.dfm}
+
+uses unConstantes, unPrincipal;
+
+procedure TfrmBase.BtnAlterarClick(Sender: TObject);
+begin
+  carregarModel;
+  carregarCampos;
+  controlarBotoes(OPC_ALTERAR);
+  PgCtrlCadastro.ActivePageIndex := 1;
+end;
+
+procedure TfrmBase.BtnCancelarClick(Sender: TObject);
+begin
+  limpar;
+  controlarBotoes(OPC_CANCELAR);
+  PgCtrlCadastro.ActivePageIndex := 0;
+end;
+
+procedure TfrmBase.BtnConsultarClick(Sender: TObject);
+begin
+  consultar;
+end;
+
+procedure TfrmBase.BtnInativarClick(Sender: TObject);
+begin
+  if MessageDlg('Deseja realmente inativar o registro selecionado?'+#13+#13+
+  'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes then
+    begin
+      excluir;
+      controlarBotoes(OPC_INATIVAR);
+    end;
+end;
+
+procedure TfrmBase.BtnNovoClick(Sender: TObject);
+begin
+  controlarBotoes(OPC_INCLUIR);
+  limpar;
+end;
+
+procedure TfrmBase.BtnSairClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TfrmBase.BtnSalvarClick(Sender: TObject);
+begin
+  salvar;
+  controlarBotoes(OPC_SALVAR);
+end;
+
+procedure TfrmBase.carregarModel;
+begin
+  FController.alimentaCamposModel;
+end;
+
+procedure TfrmBase.consultar;
+begin
+  FController.consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmBase.controlarBotoes(operacao: integer);
+begin
+  case operacao of
+    OPC_INCLUIR:
+    begin
+      BtnNovo.Visible     := False;
+      BtnAlterar.Visible  := False;
+      BtnSalvar.Visible   := True;
+      BtnInativar.Visible := False;
+      BtnCancelar.Visible := True;
+      BtnRelatorios.Visible := False;
+      BtnSair.Visible     := False;
+      Self.opc_gravar      := iINCLUINDO;
+      PgCtrlCadastro.ActivePageIndex := 1;
+      TbShConsulta.TabVisible := False;
+    end;
+
+    OPC_ALTERAR:
+      begin
+        carregarCampos;
+        BtnNovo.Visible     := False;
+        BtnAlterar.Visible  := False;
+        BtnSalvar.Visible   := True;
+        BtnInativar.Visible := False;
+        BtnCancelar.Visible := True;
+        BtnRelatorios.Visible := False;
+        BtnSair.Visible     := False;
+        Self.opc_gravar     := iALTERANDO;
+        PgCtrlCadastro.ActivePageIndex := 1;
+        TbShConsulta.TabVisible := False;
+      end;
+
+    OPC_SALVAR:
+      begin
+        mostrarTodosDados;
+        BtnNovo.Visible := True;
+        if (existeRegistro) then
+          begin
+            BtnAlterar.Visible  := True;
+            BtnInativar.Visible := True;
+          end
+          else
+          begin
+            BtnAlterar.Visible  := False;
+            BtnInativar.Visible := False;
+          end;
+        BtnSalvar.Visible := False;
+        BtnCancelar.Visible := False;
+        BtnRelatorios.Visible := True;
+        BtnSair.Visible     := True;
+        TbShConsulta.TabVisible := True;
+        PgCtrlCadastro.ActivePageIndex := 0;
+      end;
+
+    OPC_INATIVAR:
+      begin
+        mostrarTodosDados;
+        BtnNovo.Visible := True;
+        if(existeRegistro) then
+          begin
+            BtnAlterar.Visible   := True;
+            BtnInativar.Visible  := True;
+          end
+          else
+          begin
+            BtnAlterar.Visible  := False;
+            BtnInativar.Visible := False;
+          end;
+        BtnSalvar.Visible := False;
+        BtnCancelar.Visible := False;
+        BtnRelatorios.Visible := True;
+        BtnSair.Visible     := True;
+      end;
+
+    OPC_CANCELAR:
+      begin
+        mostrarTodosDados;
+        BtnNovo.Visible := True;
+        if(existeRegistro) then
+          begin
+            BtnAlterar.Visible  := True;
+            BtnInativar.Visible := True;
+          end
+          else
+          begin
+            BtnAlterar.Visible  := False;
+            BtnInativar.Visible := False;
+          end;
+        BtnSalvar.Visible := False;
+        BtnCancelar.Visible := False;
+        BtnRelatorios.Visible := True;
+        BtnSair.Visible     := True;
+        TbShConsulta.TabVisible := True;
+        PgCtrlCadastro.ActivePageIndex := 0;
+      end;
+
+    OPC_ONSHOW:
+      begin
+        mostrarTodosDados;
+        BtnNovo.Visible := True;
+        if(existeRegistro) then
+          begin
+            BtnAlterar.Visible  := True;
+            BtnInativar.Visible := True;
+            BtnRelatorios.Visible:=True;
+          end
+          else
+          begin
+            BtnAlterar.Visible  := False;
+            BtnInativar.Visible := False;
+            BtnRelatorios.Visible:=False;
+          end;
+        BtnSalvar.Visible   := False;
+        BtnCancelar.Visible := False;
+        BtnSair.Visible     := True;
+      end;
+  end;
+end;
+
+constructor TfrmBase.Create(AOwner, AFormChamou: TForm;
+  AtoOperacao: TTipoOperacao);
+begin
+  FFormChamou := AFormChamou;
+  f
+end;
+
+procedure TfrmBase.excluir;
+begin
+  FController.Excluir;
+end;
+
+function TfrmBase.existeRegistro: boolean;
+begin
+  Result := FController.existeRegistro;
+end;
+
+procedure TfrmBase.FormCreate(Sender: TObject);
+begin
+  GrdDados.DataSource := FController.DataSource;
+end;
+
+procedure TfrmBase.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if key = VK_ESCAPE then
+    Self.Close;
+
+  if Key = VK_RETURN then
+    perform(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TfrmBase.FormShow(Sender: TObject);
+begin
+  PgCtrlCadastro.ActivePageIndex := 0;
+  controlarBotoes(OPC_ONSHOW);
+  edtConsulta.SetFocus;
+end;
+
+procedure TfrmBase.GrdDadosCellClick(Column: TColumn);
+begin
+  carregarModel;
+  carregarCampos;
+  alimentaModel;
+end;
+
+procedure TfrmBase.GrdDadosDblClick(Sender: TObject);
+begin
+  carregarModel;
+  carregarCampos;
+  PgCtrlCadastro.ActivePageIndex := 1;
+end;
+
+procedure TfrmBase.GrdDadosKeyPress(Sender: TObject; var Key: Char);
+begin
+  alimentaModel;
+end;
+
+procedure TfrmBase.incluir;
+begin
+  FController.incluir;
+end;
+
+procedure TfrmBase.limpar;
+var
+  n : Integer;
+  nTotComponentes : Integer;
+begin
+  nTotComponentes :=  Self.ComponentCount;
+    for n := 0 to nTotComponentes-1 do
+      begin
+        if(Self.Components[n] is TEdit)then
+          begin
+            (Self.Components[n] as TEdit).Clear;
+          end
+        else
+        if(Self.Components[n] is TMemo)then
+          begin
+           (Self.Components[n] as TMemo).Clear;
+          end
+        else
+        if(Self.Components[n] is TMaskEdit)then
+          begin
+            (Self.Components[n] as TMaskEdit).Clear
+          end
+        else
+        if (Self.Components[n] is TComboBox)then
+          begin
+            (Self.Components[n] as TComboBox).ItemIndex := 0;
+            (Self.Components[n] as TComboBox).Text := '';
+           end
+        else
+        if (Self.Components[n] is TRichEdit) then
+          begin
+            (Self.Components[n] as TRichEdit).Lines.Text := '';
+          end;
+      end;
+end;
+
+procedure TfrmBase.mostrarTodosDados;
+begin
+  FController.mostraDados;
+end;
+
+procedure TfrmBase.salvar;
+begin
+  try
+    alimentaModel;
+    if opc_gravar = iINCLUINDO then
+      incluir
+    else
+    if opc_gravar = iALTERANDO then
+      alterar;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao incluir ou alterar o registro!' +#13+ e.Message);
+    end;
+  end;
+
+end;
+
+end.
+

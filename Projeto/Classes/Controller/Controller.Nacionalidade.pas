@@ -9,12 +9,11 @@ uses
 type
   TControllerNacionalidade = class(TInterfacedObject, iControllerCadastros)
     private
-      semtestesteste
 
       FModel                 : TNacionalidade;
       FConexao               : TConexao;
-      FRegistrosNacionalidade: TDataSet;
-      FDsNacionalidade       : TDataSource;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
       function GetDataSource : TDataSource;
 
     public
@@ -37,22 +36,22 @@ implementation
 
 procedure TControllerNacionalidade.alimentaCamposModel;
 begin
-  FModel.Id        := FRegistrosNacionalidade.FieldByName('id').AsInteger;
-  FModel.Descricao := FRegistrosNacionalidade.FieldByName('descricao').AsString;
+  FModel.Id        := FRegistros.FieldByName('id').AsInteger;
+  FModel.Descricao := FRegistros.FieldByName('descricao').AsString;
 end;
 
 procedure TControllerNacionalidade.consultar(sCampoWhere, sOrderBy: string);
 begin
-  FRegistrosNacionalidade  := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+  FRegistros  := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
 
-  FDsNacionalidade.DataSet := FRegistrosNacionalidade;
+  FDs.DataSet := FRegistros;
   alimentaCamposModel;
 end;
 
 constructor TControllerNacionalidade.Create;
 begin
   FConexao         := TConexao.Create;
-  FDsNacionalidade := TDataSource.Create(nil);
+  FDs              := TDataSource.Create(nil);
   FModel           := TNacionalidade.Create;
   FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
   inherited;
@@ -62,7 +61,7 @@ destructor TControllerNacionalidade.Destroy;
 begin
   inherited;
   FConexao.Free;
-  FDsNacionalidade.Free;
+  FDs.Free;
   FModel.Free;
   FDao.Free;
 end;
@@ -83,7 +82,7 @@ end;
 
 function TControllerNacionalidade.GetDataSource: TDataSource;
 begin
-  Result := FDsNacionalidade;
+  Result := FDs;
 end;
 
 procedure TControllerNacionalidade.incluir;
@@ -97,9 +96,9 @@ begin
   try
     FModel.Situacao := sATIVO;
 
-    FRegistrosNacionalidade := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
 
-    FDsNacionalidade.DataSet := FRegistrosNacionalidade;
+    FDs.DataSet := FRegistros;
     alimentaCamposModel;
   finally
 

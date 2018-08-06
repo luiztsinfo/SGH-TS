@@ -1,0 +1,93 @@
+unit Controller.Base;
+
+interface
+
+uses Controller.Interfaces, Model.Interfaces, Conexao, Data.DB,
+  Lca.Orm.Comp.FireDac, unConstantes, Model.Nacionalidade;
+
+type
+  TControllerBase = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                : iModelCadastros;
+      FModelo: TNacionalidade;
+      FConexao              : TConexao;
+      FRegistros            : TDataSet;
+      FDataSource           : TDataSource;
+      function GetDataSource: TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel; dynamic; abstract;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: iModelCadastros read FModel write FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+{ TControllerBase }
+
+procedure TControllerBase.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros  := FDao.ConsultaTab(FModelo,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDataSource.DataSet := FRegistros;
+  AlimentaCamposModel;
+end;
+
+constructor TControllerBase.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDataSource := TDataSource.Create(nil);
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+end;
+
+destructor TControllerBase.Destroy;
+begin
+  FConexao.Free;
+  FDataSource.Free;
+  FDao.Free;
+  inherited;
+end;
+
+procedure TControllerBase.Excluir;
+begin
+  Model.Situacao := sINATIVO;
+  FDao.Salvar(FModelo);
+end;
+
+function TControllerBase.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerBase.GetDataSource: TDataSource;
+begin
+  Result := FDataSource;
+end;
+
+procedure TControllerBase.Incluir;
+begin
+  Model.Id := FDao.GetID(FModelo,'id');
+  FDao.Inserir(FModelo);
+end;
+
+procedure TControllerBase.MostraDados;
+begin
+  FModel.Situacao := sATIVO;
+
+  FRegistros := FDao.ConsultaTab(FModelo,['*'],['situacao'],[],semLike);
+
+  FDataSource.DataSet := FRegistros;
+  AlimentaCamposModel;
+end;
+
+end.

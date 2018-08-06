@@ -1,0 +1,18 @@
+unit Model.Interfaces;
+
+interface
+
+type
+  iModelCadastros = interface
+    ['{41AA3975-B440-481A-B1BC-633926F47575}']
+  {  procedure SetSituacao(Value: string);
+    procedure SetID(Value: integer);
+    function GetSituacao: string;
+    function GetId: Integer;
+    property Id: integer read GetId write SetId;
+    property Situacao: string read GetSituacao write SetSituacao;  }
+  end;
+
+implementation
+
+end.

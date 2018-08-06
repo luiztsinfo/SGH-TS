@@ -3,16 +3,114 @@ unit Controller.CID;
 interface
 
 uses
-  Lca.Orm.Comp.FireDac;
+  Lca.Orm.Comp.FireDac, Controller.Interfaces, Model.CID, Conexao, Data.DB,
+  unConstantes, System.SysUtils, Model.GrupoCID;
 
 type
-  TControllerCID = class(TDaoFireDac)
+  TControllerCID = class(TInterfacedObject, iControllerCadastros)
     private
-
+      FModel                 : TCid;
+      FGrupoCID              : TGrupos_cid;
+      FConexao               : TConexao;
+      FRegistros          : TDataSet;
+      FDs       : TDataSource;
+      function GetDataSource : TDataSource;
     public
-
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      function    GetDescricaoGrupoCID(AID: Integer): string;
+      property    Model: TCid read FModel;
+      property    GrupoCID : TGrupos_cid read FGrupoCID;
+      property    DataSource: TDataSource read GetDataSource;
   end;
 
 implementation
+
+{ TControllerCID }
+
+procedure TControllerCID.AlimentaCamposModel;
+begin
+  FModel.Id := FRegistros.FieldByName('id').AsString;
+  FModel.Descricao := FRegistros.FieldByName('descricao').AsString;
+  { implementar outros campos }
+end;
+
+procedure TControllerCID.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros  := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerCID.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TCID.Create;
+  FGrupoCID        := TGrupos_cid.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerCID.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+procedure TControllerCID.Excluir;
+begin
+  Model.Situacao := sINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerCID.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id <> '' then
+    Result := True;
+end;
+
+function TControllerCID.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+procedure TControllerCID.Incluir;
+begin
+  Model.Id :=   FDao.GetID(Model,'id').ToString;
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerCID.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+function TControllerCID.GetDescricaoGrupoCID(AID: Integer): string;
+begin
+  Result := FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID);  //FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID);
+end;
 
 end.
