@@ -63,6 +63,7 @@ end;
 
 procedure TfrmNacionalidades.consultar;
 begin
+  inherited;
   TControllerNacionalidade(FController).Model.Situacao    := sATIVO;
 
   case CbxConsulta.ItemIndex of
@@ -73,7 +74,7 @@ begin
       TControllerNacionalidade(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
   end;
 
-  inherited;
+  TControllerNacionalidade(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
 end;
 
 procedure TfrmNacionalidades.FormCreate(Sender: TObject);

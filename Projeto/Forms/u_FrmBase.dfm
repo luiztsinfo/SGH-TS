@@ -15,7 +15,6 @@ object frmBase: TfrmBase
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96

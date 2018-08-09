@@ -1,0 +1,95 @@
+unit Controller.GrupoCID;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.GrupoCID, Conexao, Data.DB, unConstantes;
+
+type
+  TControllerGrupoCID = class(TDaoFireDac)
+    private
+      FModel: TGrupos_cid;
+      FConexao: TConexao;
+
+      function GetDataSource: TDataSource;
+      procedure SetModel(const Value: TGrupos_cid);
+    public
+      FDao: TDaoFireDac;
+      FRegistrosGruposCID: TDataSet;
+      FDsGrupoCID: TDataSource;
+
+      constructor Create;
+      destructor Destroy; override;
+
+      procedure consultar(sCampoWhere, sOrderBy: string);
+      procedure mostraDados;
+      procedure alimentaCamposModel;
+
+      property Model: TGrupos_cid read FModel write SetModel;
+      property DataSource: TDataSource read GetDataSource write FDsGrupoCID;
+  end;
+
+implementation
+
+{ TControllerGrupoCID }
+
+procedure TControllerGrupoCID.alimentaCamposModel;
+begin
+  FModel.Id := FRegistrosGruposCID.FieldByName('id').AsInteger;
+  FModel.Descricao := FRegistrosGruposCID.FieldByName('descricao').AsString;
+end;
+
+procedure TControllerGrupoCID.consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistrosGruposCID := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDsGrupoCID.DataSet := FRegistrosGruposCID;
+  alimentaCamposModel;
+end;
+
+constructor TControllerGrupoCID.Create;
+begin
+  FConexao    := TConexao.Create;
+  FDsGrupoCID := TDataSource.Create(nil);
+  FRegistrosGruposCID  := TDataSet.Create(nil);
+  FModel := TGrupos_CID.Create;
+
+  inherited Create(FConexao.FdCon,FConexao.FdTran);     // ver se precisa usar
+  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+end;
+
+destructor TControllerGrupoCID.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDsGrupoCID.Free;
+  FRegistrosGruposCID.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+function TControllerGrupoCID.GetDataSource: TDataSource;
+begin
+  Result := FDsGrupoCID;
+end;
+
+procedure TControllerGrupoCID.mostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistrosGruposCID := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDsGrupoCID.DataSet := FRegistrosGruposCID;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+procedure TControllerGrupoCID.SetModel(const Value: TGrupos_cid);
+begin
+  FModel := Value;
+end;
+
+end.

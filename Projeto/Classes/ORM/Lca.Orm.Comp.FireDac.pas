@@ -490,6 +490,7 @@ begin
               TAtributos.Get.ConfiguraParametro(PropRtti, Campo, ATabela, Dados, FParams);
         end;
       end;
+      SQL.SaveToFile('C:\logs\consulta.txt');
       Open;
       Result := Dados;
     end;

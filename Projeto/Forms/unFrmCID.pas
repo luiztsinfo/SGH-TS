@@ -28,7 +28,7 @@ type
     procedure TbShCadastroShow(Sender: TObject);
     procedure edtIDGrupoCIDExit(Sender: TObject);
   private
-    FControllerCID: TControllerCID;
+
   public
     procedure alimentaModel; override;
     procedure carregarCampos; override;
@@ -61,7 +61,7 @@ procedure TfrmCID.BtnBuscaGrupoCIDClick(Sender: TObject);
 begin
   inherited;
   try
-    frmGruposCID := TfrmGruposCID.Create(Self);
+    frmGruposCID := TfrmGruposCID.Create(Self,toConsulta);
     frmGruposCID.ShowModal;
   finally
     edtIDGrupoCID.Text := frmGruposCID.FValueFieldKey.ToString;
@@ -100,7 +100,7 @@ end;
 procedure TfrmCID.edtIDGrupoCIDExit(Sender: TObject);
 begin
   inherited;
-  lblGrupoCID.Caption := FControllerCID.GetDescricaoGrupoCID(StrToInt(edtIDGrupoCID.Text));
+  lblGrupoCID.Caption := TControllerCID(FController).GetDescricaoGrupoCID(StrToInt(edtIDGrupoCID.Text));
 end;
 
 procedure TfrmCID.FormCreate(Sender: TObject);

@@ -48,7 +48,6 @@ type
     procedure GrdDadosKeyPress(Sender: TObject; var Key: Char);
     procedure BtnInativarClick(Sender: TObject);
     procedure BtnConsultarClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     opc_gravar: integer; // 0 = novo / 1 = alterando
     procedure controlarBotoes(operacao: integer);   dynamic;
@@ -70,7 +69,7 @@ type
     procedure alimentaModel;                       dynamic; abstract;
     procedure carregarModel;                       dynamic;
     function  existeRegistro: boolean;             dynamic;
-//    constructor Create(AOwner: TForm; AtoOperacao: TTipoOperacao);
+    constructor Create(AOwner: TComponent; AtoOperacao: TTipoOperacao); reintroduce;
   end;
 
 var
@@ -258,12 +257,11 @@ begin
   end;
 end;
 
-{constructor TfrmBase.Create(AOwner: TForm;
-  AtoOperacao: TTipoOperacao);
+constructor TfrmBase.Create(AOwner: TComponent; AtoOperacao: TTipoOperacao);
 begin
-//  FFormChamou := AFormChamou;
+  inherited Create(AOwner);
   FTipoOperacao := AtoOperacao;
-end;}
+end;
 
 procedure TfrmBase.excluir;
 begin
@@ -273,11 +271,6 @@ end;
 function TfrmBase.existeRegistro: boolean;
 begin
   Result := FController.existeRegistro;
-end;
-
-procedure TfrmBase.FormCreate(Sender: TObject);
-begin
-  GrdDados.DataSource := FController.DataSource;
 end;
 
 procedure TfrmBase.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -291,6 +284,11 @@ end;
 
 procedure TfrmBase.FormShow(Sender: TObject);
 begin
+  if Assigned(FController) then
+    GrdDados.DataSource := FController.DataSource
+  else
+    Showmessage('FController não criado');
+
   PgCtrlCadastro.ActivePageIndex := 0;
   controlarBotoes(OPC_ONSHOW);
   edtConsulta.SetFocus;
@@ -305,9 +303,12 @@ end;
 
 procedure TfrmBase.GrdDadosDblClick(Sender: TObject);
 begin
-  carregarModel;
-  carregarCampos;
-  PgCtrlCadastro.ActivePageIndex := 1;
+  if (FTipoOperacao = toCadastro) then
+    begin
+      carregarModel;
+      carregarCampos;
+      PgCtrlCadastro.ActivePageIndex := 1;
+    end;
 end;
 
 procedure TfrmBase.GrdDadosKeyPress(Sender: TObject; var Key: Char);

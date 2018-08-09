@@ -2,6 +2,7 @@ inherited frmNacionalidades: TfrmNacionalidades
   Caption = 'NACIONALIDADES'
   ClientHeight = 320
   ClientWidth = 625
+  OnCreate = FormCreate
   ExplicitWidth = 631
   ExplicitHeight = 349
   PixelsPerInch = 96

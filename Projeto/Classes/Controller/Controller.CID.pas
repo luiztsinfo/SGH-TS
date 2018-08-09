@@ -12,8 +12,8 @@ type
       FModel                 : TCid;
       FGrupoCID              : TGrupos_cid;
       FConexao               : TConexao;
-      FRegistros          : TDataSet;
-      FDs       : TDataSource;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
       function GetDataSource : TDataSource;
     public
       FDao: TDaoFireDac;
@@ -110,7 +110,8 @@ end;
 
 function TControllerCID.GetDescricaoGrupoCID(AID: Integer): string;
 begin
-  Result := FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID);  //FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID);
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID);  //FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID);
 end;
 
 end.

@@ -1,0 +1,85 @@
+unit Controller.GrupoCID;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Model.GrupoCID, Conexao, Data.DB, unConstantes,
+  Controller.Interfaces;
+
+type
+  TControllerGrupoCID = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TGrupos_cid;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TGrupos_cid read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+{ TControllerGrupoCID }
+
+
+
+{ TControllerGrupoCID }
+
+procedure TControllerGrupoCID.AlimentaCamposModel;
+begin
+
+end;
+
+procedure TControllerGrupoCID.Consultar(sCampoWhere, sOrderBy: string);
+begin
+
+end;
+
+constructor TControllerGrupoCID.Create;
+begin
+
+end;
+
+destructor TControllerGrupoCID.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TControllerGrupoCID.Excluir;
+begin
+
+end;
+
+function TControllerGrupoCID.ExisteRegistro: Boolean;
+begin
+
+end;
+
+function TControllerGrupoCID.GetDataSource: TDataSource;
+begin
+
+end;
+
+procedure TControllerGrupoCID.Incluir;
+begin
+
+end;
+
+procedure TControllerGrupoCID.MostraDados;
+begin
+
+end;
+
+end.

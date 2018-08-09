@@ -3,93 +3,104 @@ unit Controller.GrupoCID;
 interface
 
 uses
-  Lca.Orm.Comp.FireDac, Model.GrupoCID, Conexao, Data.DB, unConstantes;
+  Lca.Orm.Comp.FireDac, Model.GrupoCID, Conexao, Data.DB, unConstantes,
+  Controller.Interfaces;
 
 type
-  TControllerGrupoCID = class(TDaoFireDac)
+  TControllerGrupoCID = class(TInterfacedObject, iControllerCadastros)
     private
-      FModel: TGrupos_cid;
-      FConexao: TConexao;
-
-      function GetDataSource: TDataSource;
-      procedure SetModel(const Value: TGrupos_cid);
+      FModel                 : TGrupos_cid;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
     public
       FDao: TDaoFireDac;
-      FRegistrosGruposCID: TDataSet;
-      FDsGrupoCID: TDataSource;
-
       constructor Create;
-      destructor Destroy; override;
-
-      procedure consultar(sCampoWhere, sOrderBy: string);
-      procedure mostraDados;
-      procedure alimentaCamposModel;
-
-      property Model: TGrupos_cid read FModel write SetModel;
-      property DataSource: TDataSource read GetDataSource write FDsGrupoCID;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TGrupos_cid read FModel;
+      property    DataSource: TDataSource read GetDataSource;
   end;
 
 implementation
 
 { TControllerGrupoCID }
 
-procedure TControllerGrupoCID.alimentaCamposModel;
+procedure TControllerGrupoCID.AlimentaCamposModel;
 begin
-  FModel.Id := FRegistrosGruposCID.FieldByName('id').AsInteger;
-  FModel.Descricao := FRegistrosGruposCID.FieldByName('descricao').AsString;
+  FModel.Id        := FRegistros.FieldByName('id').AsInteger;
+  FModel.Descricao := FRegistros.FieldByName('descricao').AsString;
 end;
 
-procedure TControllerGrupoCID.consultar(sCampoWhere, sOrderBy: string);
+procedure TControllerGrupoCID.Consultar(sCampoWhere, sOrderBy: string);
 begin
-  FRegistrosGruposCID := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+  FRegistros  := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
 
-  FDsGrupoCID.DataSet := FRegistrosGruposCID;
+  FDs.DataSet := FRegistros;
   alimentaCamposModel;
 end;
 
 constructor TControllerGrupoCID.Create;
 begin
-  FConexao    := TConexao.Create;
-  FDsGrupoCID := TDataSource.Create(nil);
-  FRegistrosGruposCID  := TDataSet.Create(nil);
-  FModel := TGrupos_CID.Create;
-
-  inherited Create(FConexao.FdCon,FConexao.FdTran);     // ver se precisa usar
-  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TGrupos_cid.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
 end;
 
 destructor TControllerGrupoCID.Destroy;
 begin
   inherited;
   FConexao.Free;
-  FDsGrupoCID.Free;
-  FRegistrosGruposCID.Free;
+  FDs.Free;
   FModel.Free;
   FDao.Free;
 end;
 
-function TControllerGrupoCID.GetDataSource: TDataSource;
+procedure TControllerGrupoCID.Excluir;
 begin
-  Result := FDsGrupoCID;
+  Model.Situacao := sINATIVO;
+  FDao.Salvar(Model);
 end;
 
-procedure TControllerGrupoCID.mostraDados;
+function TControllerGrupoCID.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerGrupoCID.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+procedure TControllerGrupoCID.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerGrupoCID.MostraDados;
 begin
   try
     FModel.Situacao := sATIVO;
 
-    FRegistrosGruposCID := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
 
-    FDsGrupoCID.DataSet := FRegistrosGruposCID;
+    FDs.DataSet := FRegistros;
     alimentaCamposModel;
   finally
 
   end;
-end;
-
-procedure TControllerGrupoCID.SetModel(const Value: TGrupos_cid);
-begin
-  FModel := Value;
 end;
 
 end.

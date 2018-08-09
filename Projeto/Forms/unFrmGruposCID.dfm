@@ -3,7 +3,6 @@ inherited frmGruposCID: TfrmGruposCID
   ClientHeight = 327
   ClientWidth = 609
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   ExplicitWidth = 615
   ExplicitHeight = 356
   PixelsPerInch = 96
@@ -11,10 +10,16 @@ inherited frmGruposCID: TfrmGruposCID
   inherited PgCtrlCadastro: TPageControl
     Width = 609
     Height = 272
+    ExplicitWidth = 609
+    ExplicitHeight = 272
     inherited TbShConsulta: TTabSheet
+      ExplicitWidth = 601
+      ExplicitHeight = 244
       inherited PnDados: TPanel
         Width = 601
         Height = 177
+        ExplicitWidth = 601
+        ExplicitHeight = 177
         inherited GrdDados: TDBGrid
           Width = 595
           Height = 171
@@ -38,6 +43,7 @@ inherited frmGruposCID: TfrmGruposCID
       end
       inherited PnFiltro: TPanel
         Width = 601
+        ExplicitWidth = 601
         inherited Label4: TLabel
           Left = 101
           ExplicitLeft = 101
@@ -84,13 +90,13 @@ inherited frmGruposCID: TfrmGruposCID
     end
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 814
-      ExplicitHeight = 318
+      ExplicitWidth = 601
+      ExplicitHeight = 244
       inherited PnCampos: TPanel
         Width = 601
         Height = 244
+        ExplicitWidth = 601
+        ExplicitHeight = 244
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -129,6 +135,8 @@ inherited frmGruposCID: TfrmGruposCID
   inherited PnBotoes: TPanel
     Top = 272
     Width = 609
+    ExplicitTop = 272
+    ExplicitWidth = 609
     inherited BtnRelatorios: TBitBtn
       Left = 341
       ExplicitLeft = 341

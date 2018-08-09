@@ -17,19 +17,13 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
   private
-    FControllerGrupoCID: TControllerGrupoCID;
+
   public
     procedure alimentaModel; override;
-    procedure carregarModel; override;
     procedure carregarCampos; override;
-    procedure mostrarTodosDados; override;
     procedure consultar; override;
-    procedure incluir; override;
     procedure alterar; override;
-    procedure excluir; override;
-    function  existeRegistro: boolean; override;
   end;
 
 var
@@ -44,14 +38,14 @@ implementation
 procedure TfrmGruposCID.alimentaModel;
 begin
   inherited;
-  FControllerGrupoCID.Model.Descricao := edtDescricao.Text;
+  TControllerGrupoCID(FController).Model.Descricao := edtDescricao.Text;
 end;
 
 procedure TfrmGruposCID.alterar;
 begin
   inherited;
-  FControllerGrupoCID.Model.Id := StrToInt(edtID.Text);
-  FControllerGrupoCID.Salvar(FControllerGrupoCID.Model);
+  TControllerGrupoCID(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerGrupoCID(FController).FDao.Salvar(TControllerGrupoCID(FController).Model);
 end;
 
 procedure TfrmGruposCID.BtnNovoClick(Sender: TObject);
@@ -63,71 +57,30 @@ end;
 procedure TfrmGruposCID.carregarCampos;
 begin
   inherited;
-  edtID.Text := IntToStr(FControllerGrupoCID.Model.Id);
-  edtDescricao.Text := FControllerGrupoCID.Model.Descricao;
-end;
-
-procedure TfrmGruposCID.carregarModel;
-begin
-  inherited;
-  FControllerGrupoCID.alimentaCamposModel;
+  edtID.Text := IntToStr(TControllerGrupoCID(FController).Model.Id);
+  edtDescricao.Text := TControllerGrupoCID(FController).Model.Descricao;
 end;
 
 procedure TfrmGruposCID.consultar;
 begin
   inherited;
-  FControllerGrupoCID.Model.Situacao    := sATIVO;
+  TControllerGrupoCID(FController).Model.Situacao    := sATIVO;
 
   case CbxConsulta.ItemIndex of
     iID:
-      FControllerGrupoCID.Model.Id := StrToInt(trim(edtConsulta.Text));
+      TControllerGrupoCID(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
 
     iNOME:
-      FControllerGrupoCID.Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+      TControllerGrupoCID(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
   end;
 
-  FControllerGrupoCID.consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
-end;
-
-procedure TfrmGruposCID.excluir;
-begin
-  inherited;
-  FControllerGrupoCID.Model.Situacao := sINATIVO;
-  FControllerGrupoCID.Salvar(FControllerGrupoCID.Model);
-end;
-
-function TfrmGruposCID.existeRegistro: boolean;
-begin
-  Result := false;
-
-  if FControllerGrupoCID.Model.Id > 0 then
-    Result := True;
+  TControllerGrupoCID(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
 end;
 
 procedure TfrmGruposCID.FormCreate(Sender: TObject);
 begin
+  FController := TControllerGrupoCID.Create;
   inherited;
-  FControllerGrupoCID := TControllerGrupoCID.Create;
-  GrdDados.DataSource := FControllerGrupoCID.FDsGrupoCID;
-end;
-
-procedure TfrmGruposCID.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  FreeAndNil(FControllerGrupoCID);
-end;
-
-procedure TfrmGruposCID.incluir;
-begin
-  inherited;
-  FControllerGrupoCID.Model.Id := FControllerGrupoCID.FDao.GetID(FControllerGrupoCID.Model,'id');
-  FControllerGrupoCID.Inserir(FControllerGrupoCID.Model);
-end;
-
-procedure TfrmGruposCID.mostrarTodosDados;
-begin
-  inherited;
-  FControllerGrupoCID.mostraDados;
 end;
 
 procedure TfrmGruposCID.TbShCadastroShow(Sender: TObject);

@@ -9,16 +9,17 @@ inherited frmCID: TfrmCID
   inherited PgCtrlCadastro: TPageControl
     Width = 602
     Height = 245
+    ActivePage = TbShCadastro
     ExplicitWidth = 602
-    ExplicitHeight = 280
+    ExplicitHeight = 245
     inherited TbShConsulta: TTabSheet
       ExplicitWidth = 594
-      ExplicitHeight = 252
+      ExplicitHeight = 217
       inherited PnDados: TPanel
         Width = 594
         Height = 150
         ExplicitWidth = 594
-        ExplicitHeight = 185
+        ExplicitHeight = 150
         inherited GrdDados: TDBGrid
           Width = 588
           Height = 144
@@ -78,12 +79,12 @@ inherited frmCID: TfrmCID
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
       ExplicitWidth = 594
-      ExplicitHeight = 252
+      ExplicitHeight = 217
       inherited PnCampos: TPanel
         Width = 594
         Height = 217
         ExplicitWidth = 594
-        ExplicitHeight = 252
+        ExplicitHeight = 217
         object Label1: TLabel
           Left = 16
           Top = 20
@@ -237,7 +238,7 @@ inherited frmCID: TfrmCID
   inherited PnBotoes: TPanel
     Top = 245
     Width = 602
-    ExplicitTop = 280
+    ExplicitTop = 245
     ExplicitWidth = 602
     inherited BtnRelatorios: TBitBtn
       Left = 373
