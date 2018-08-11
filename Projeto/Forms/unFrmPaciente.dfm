@@ -7,6 +7,7 @@ inherited frmPaciente: TfrmPaciente
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Width = 820
+    ActivePage = TbShCadastro
     ExplicitWidth = 820
     inherited TbShConsulta: TTabSheet
       ExplicitWidth = 812

@@ -1,0 +1,26 @@
+unit Model.Tabela_Preco_MatMed;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('TABELA_PRECO_MATMED')]
+  TTabela_preco_matmed = class(TTabela)
+  private
+    FId: Integer;
+    FDescricao: string;
+    FVigencia_geral: TDateTime;
+  public
+    [attPK]
+    property Id: Integer read FId write FId;
+    [attNotNull('Descrição da Tabela de Preço de MatMed não informada!')]
+    property Descricao: string read FDescricao write FDescricao;
+    property Vigencia_geral: TDateTime read FVigencia_geral write FVigencia_geral;
+  end;
+
+implementation
+
+end.
+

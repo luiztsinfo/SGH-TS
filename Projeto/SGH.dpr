@@ -101,7 +101,17 @@ uses
   unFrmBaseBasico in 'Forms\unFrmBaseBasico.pas' {frmBaseBasico},
   Controller.Base in 'Classes\Controller\Controller.Base.pas',
   Model.Interfaces in 'Classes\Model\Model.Interfaces.pas',
-  unFrmBuscaBase in 'Forms\unFrmBuscaBase.pas' {frmBuscaBase};
+  unFrmBuscaBase in 'Forms\unFrmBuscaBase.pas' {frmBuscaBase},
+  Model.Colaboradores in 'Classes\Model\Model.Colaboradores.pas',
+  unFrmTabelasPrecoMatMed in 'Forms\unFrmTabelasPrecoMatMed.pas' {frmTabelasMatMed},
+  Model.Tabela_Preco_MatMed in 'Classes\Model\Model.Tabela_Preco_MatMed.pas',
+  Controller.TabelaPrecoMatMed in 'Classes\Controller\Controller.TabelaPrecoMatMed.pas',
+  unFrmTabelasPrecoProcedimentos in 'Forms\unFrmTabelasPrecoProcedimentos.pas' {frmTabelasPrecoProcedimentos},
+  Model.Tabela_Preco_Procedimentos in 'Classes\Model\Model.Tabela_Preco_Procedimentos.pas',
+  Controller.TabelaPrecoProcedimentos in 'Classes\Controller\Controller.TabelaPrecoProcedimentos.pas',
+  Model.Convenios in 'Classes\Model\Model.Convenios.pas',
+  unFrmConvenios in 'Forms\unFrmConvenios.pas' {frmConvenios},
+  Controller.Convenio in 'Classes\Controller\Controller.Convenio.pas';
 
 {$R *.res}
 
@@ -110,6 +120,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TDMRel, DMRel);
+  Application.CreateForm(TfrmConvenios, frmConvenios);
   Application.Run;
 end.
 

@@ -1,0 +1,28 @@
+unit Model.Tabela_Preco_Procedimentos;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('faturamento.TABELA_PRECO_PROCEDIMENTOS')]
+  TTabela_preco_procedimentos = class(TTabela)
+  private
+    FId: Integer;
+    FDescricao: string;
+    FVigencia_geral: TDateTime;
+    FSituacao: string;
+  public
+    [attPK]
+    property Id: Integer read FId write FId;
+    [attNotNull('Descrição da Tabela de Preço dos Procedimentos não foi informada!')]
+    property Descricao: string read FDescricao write FDescricao;
+    property Vigencia_geral: TDateTime read FVigencia_geral write FVigencia_geral;
+    property Situacao: string read FSituacao write FSituacao;
+  end;
+
+implementation
+
+end.
+

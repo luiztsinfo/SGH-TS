@@ -1,0 +1,31 @@
+inherited frmTabelasMatMed: TfrmTabelasMatMed
+  Caption = '::. Tabelas de Pre'#231'os - MatMed ..::'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    inherited TbShConsulta: TTabSheet
+      inherited PnFiltro: TPanel
+        inherited CbxConsulta: TComboBox
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO')
+        end
+        inherited CbxOrdenarPor: TComboBox
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO')
+        end
+      end
+    end
+    inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 639
+      ExplicitHeight = 287
+    end
+  end
+end

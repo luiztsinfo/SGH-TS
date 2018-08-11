@@ -1,0 +1,103 @@
+unit unFrmTabelasPrecoMatMed;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.TabelaPrecoMatMed, Vcl.Mask, unConstantes;
+
+type
+  TfrmTabelasMatMed = class(TfrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+    mskDataVigencia: TMaskEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmTabelasMatMed: TfrmTabelasMatMed;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmTabelasMatMed }
+
+procedure TfrmTabelasMatMed.alimentaModel;
+begin
+  inherited;
+  TControllerTabelaPrecoMatMed(FController).Model.Descricao       := edtDescricao.Text;
+
+  if mskDataVigencia.Text <> dtVAZIA then
+    TControllerTabelaPrecoMatMed(FController).Model.Vigencia_geral := StrToDate(mskDataVigencia.Text)
+  else
+    TControllerTabelaPrecoMatMed(FController).Model.Vigencia_geral := 0;
+end;
+
+procedure TfrmTabelasMatMed.alterar;
+begin
+  inherited;
+  TControllerTabelaPrecoMatMed(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerTabelaPrecoMatMed(FController).FDao.Salvar(TControllerTabelaPrecoMatMed(FController).Model);
+end;
+
+procedure TfrmTabelasMatMed.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TfrmTabelasMatMed.carregarCampos;
+begin
+  inherited;
+  edtID.Text            := IntToStr(TControllerTabelaPrecoMatMed(FController).Model.Id);
+  edtDescricao.Text     := TControllerTabelaPrecoMatMed(FController).Model.Descricao;
+  mskDataVigencia.Text  := DateToStr(TControllerTabelaPrecoMatMed(FController).Model.Vigencia_geral);
+
+  if mskDataVigencia.Text = dtNula then
+    mskDataVigencia.Clear;
+end;
+
+procedure TfrmTabelasMatMed.consultar;
+begin
+  inherited;
+  TControllerTabelaPrecoMatMed(FController).Model.Situacao    := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerTabelaPrecoMatMed(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+
+    iNOME:
+      TControllerTabelaPrecoMatMed(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+
+  TControllerTabelaPrecoMatMed(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmTabelasMatMed.FormCreate(Sender: TObject);
+begin
+  FController := TControllerTabelaPrecoMatMed.Create;
+  inherited;
+end;
+
+procedure TfrmTabelasMatMed.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

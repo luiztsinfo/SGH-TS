@@ -44,7 +44,7 @@ uses Db, Lca.Orm.Base, Rtti, Lca.Orm.Atributos, system.SysUtils, system.Classes,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, FireDAC.Comp.Client,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet;
+  FireDAC.Comp.DataSet, unConstantes;
 
 type
   TQueryFireDac = class(TInterfacedObject, IQueryParams)
@@ -62,6 +62,8 @@ type
     procedure SetCamposDate(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposCurrency(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
   end;
+
+  TTipoOperacao = (toInclusao, toEdicao);
 
   TDaoFireDac = class(TInterfacedObject, IDaoBase)
   private
@@ -109,7 +111,8 @@ type
 
     // pega campo autoincremento
     function GetID(ATabela: TTabela; ACampo: string): Integer;
-    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: integer): string;
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: integer; iOperacao: integer): string;
+
     function GetMax(ATabela: TTabela; ACampo: string;
       ACamposChave: array of string): Integer;
 
@@ -173,7 +176,15 @@ end;
 procedure TQueryFireDac.SetParamInteger(AProp: TRttiProperty;
   ACampo: string; ATabela: TTabela; AQry: TObject);
 begin
-  TFDQuery(AQry).ParamByName(ACampo).AsInteger := AProp.GetValue(ATabela).AsInteger;
+  /// IMPLEMENTADO POR LUIZ EDUARDO 11.08.2018 - DAVA ERRO RETORNANDO DO BANCO AO PASSAR UM INTEGER 0 PARA O INSERT }
+  if AProp.GetValue(ATabela).AsType<Integer> = 0 then
+  begin
+    TFDQuery(AQry).ParamByName(ACampo).Clear;
+    TFDQuery(AQry).ParamByName(ACampo).AsInteger := AProp.GetValue(ATabela).AsType<Integer>;
+    TFDQuery(AQry).ParamByName(ACampo).Value := Null;
+  end
+  else
+    TFDQuery(AQry).ParamByName(ACampo).AsInteger := AProp.GetValue(ATabela).AsInteger;
 end;
 
 procedure TQueryFireDac.SetParamString(AProp: TRttiProperty;
@@ -612,6 +623,7 @@ begin
     sql.Clear;
     sql.Add('select max(' + ACampo + ') from ' + TAtributos.Get.PegaNomeTab(ATabela));
     Open;
+    SQL.SaveToFile('C:\logs\logs.sql');
     Result := fields[0].AsInteger + 1;
   end;
 end;
@@ -691,7 +703,7 @@ begin
 end;
 
 function TDaoFireDac.GetValueForeignKey(ATabela: TTabela; AFieldDesc,
-  AFieldKey: string; AValue: integer): string;
+  AFieldKey: string; AValue: integer; iOperacao: integer): string;
 var
   AQry: TFDQuery;
 begin
@@ -700,10 +712,19 @@ begin
   begin
     Connection := FConexao;
     sql.Clear;
-    sql.Add('select ' + AFieldDesc + ' from ' + TAtributos.Get.PegaNomeTab(ATabela) + ' where '+
+    sql.Add('select ' + AFieldDesc + ',situacao from ' + TAtributos.Get.PegaNomeTab(ATabela) + ' where '+
     AFieldKey + ' = ' + AValue.ToString);
+//    ParamByName('ativo').AsString := 'A';
     Open;
-    Result := AQry.FieldByName(AFieldDesc).AsString;
+
+    if (AQry.FieldByName('situacao').AsString = 'I') and (iOperacao = iINCLUINDO) then
+      begin
+        MessageDlg('Registro com cadastro inativo!',mtWarning,[mbOk],0);
+        Result := '';
+      end
+    else
+//    if (AQry.FieldByName('situacao').AsString = 'A') and (iOperacao = iALTERANDO) then
+      Result := AQry.FieldByName(AFieldDesc).AsString;
   end;
 end;
 
@@ -756,15 +777,9 @@ end;
 
 function TDaoFireDac.ExecutaQuery: Integer;
 begin
-  with FQuery do
-  begin
-
-    Prepare();
-
-    SQL.SaveToFile('C:\logs\insert_paciente.txt');
-    ExecSQL;
-    Result := RowsAffected;
-  end;
+  FQuery.Prepare();
+  FQuery.ExecSQL;
+  Result := FQuery.RowsAffected;
 end;
 
 function TDaoFireDac.Excluir(ATabela: TTabela): Integer;

@@ -120,7 +120,7 @@ type
   // pega campo autoincremento
     function GetID(ATabela:TTabela; ACampo: string): Integer;
   // pega descricao pelo campo chave da tabela
-    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: integer): string;
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: integer; iOperacao: integer): string;
 
   // comandos crud
     function Inserir(ATabela: TTabela): Integer; overload;

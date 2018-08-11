@@ -1,0 +1,5 @@
+inherited frmTabelasPrecoProcedimentos: TfrmTabelasPrecoProcedimentos
+  Caption = 'frmTabelasPrecoProcedimentos'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

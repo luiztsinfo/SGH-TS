@@ -1,13 +1,17 @@
 inherited frmColaborador: TfrmColaborador
   Caption = 'COLABORADORES'
+  ClientHeight = 343
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
+  ExplicitHeight = 372
   PixelsPerInch = 96
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
+    Height = 288
     inherited TbShConsulta: TTabSheet
       inherited PnDados: TPanel
+        Height = 193
         inherited GrdDados: TDBGrid
+          Height = 187
           Columns = <
             item
               Expanded = False
@@ -22,22 +26,6 @@ inherited frmColaborador: TfrmColaborador
               Title.Caption = 'Nome'
               Width = 324
               Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'NASCIMENTO'
-              Title.Alignment = taCenter
-              Title.Caption = 'Nascimento'
-              Width = 86
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'REGISTRO_PROFISSIONAL'
-              Title.Alignment = taCenter
-              Title.Caption = 'Registro Profissional'
-              Width = 135
-              Visible = True
             end>
         end
       end
@@ -47,9 +35,7 @@ inherited frmColaborador: TfrmColaborador
           Text = 'NOME'
           Items.Strings = (
             'ID'
-            'NOME'
-            'CPF'
-            'NASCIMENTO')
+            'NOME')
         end
         inherited CbxOrdenarPor: TComboBox
           ItemIndex = 1
@@ -68,40 +54,20 @@ inherited frmColaborador: TfrmColaborador
       ExplicitWidth = 814
       ExplicitHeight = 318
       inherited PnCampos: TPanel
+        Height = 260
         object Label1: TLabel
           Left = 16
           Top = 16
-          Width = 13
+          Width = 11
           Height = 13
           Caption = 'ID'
         end
         object Label2: TLabel
           Left = 94
           Top = 16
-          Width = 32
+          Width = 27
           Height = 13
           Caption = 'Nome'
-        end
-        object Label3: TLabel
-          Left = 504
-          Top = 16
-          Width = 66
-          Height = 13
-          Caption = 'Nascimento'
-        end
-        object Label5: TLabel
-          Left = 16
-          Top = 72
-          Width = 38
-          Height = 13
-          Caption = 'Cidade'
-        end
-        object Label7: TLabel
-          Left = 595
-          Top = 16
-          Width = 75
-          Height = 13
-          Caption = 'Tipo Registro'
         end
         object edtID: TEdit
           Left = 16
@@ -121,83 +87,11 @@ inherited frmColaborador: TfrmColaborador
           TabOrder = 1
           Text = 'EDTNOME'
         end
-        object edtCidade: TEdit
-          Left = 16
-          Top = 91
-          Width = 281
-          Height = 21
-          CharCase = ecUpperCase
-          TabOrder = 5
-          Text = 'EDTCIDADE'
-          OnKeyDown = edtCidadeKeyDown
-          OnKeyUp = edtCidadeKeyUp
-        end
-        object CbxTipoRegistro: TComboBox
-          Left = 595
-          Top = 35
-          Width = 75
-          Height = 21
-          Style = csDropDownList
-          CharCase = ecUpperCase
-          ItemIndex = 0
-          TabOrder = 3
-          Text = 'COREN'
-          Items.Strings = (
-            'COREN')
-        end
-        object mskNascimento: TMaskEdit
-          Left = 504
-          Top = 35
-          Width = 81
-          Height = 21
-          CharCase = ecUpperCase
-          EditMask = '99/99/9999;1;_'
-          MaxLength = 10
-          TabOrder = 2
-          Text = '  /  /    '
-        end
-        object edtRegistro: TEdit
-          Left = 676
-          Top = 35
-          Width = 121
-          Height = 21
-          CharCase = ecUpperCase
-          TabOrder = 4
-          Text = 'EDTREGISTRO'
-        end
-        object GrdCidades: TDBGrid
-          Left = 16
-          Top = 118
-          Width = 281
-          Height = 107
-          TabOrder = 6
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clBlack
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = [fsBold]
-          Visible = False
-          OnDblClick = GrdCidadesDblClick
-          OnKeyDown = GrdCidadesKeyDown
-          OnKeyUp = GrdCidadesKeyUp
-          Columns = <
-            item
-              Expanded = False
-              FieldName = 'ID'
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'NOME'
-              Title.Caption = 'Nome'
-              Width = 184
-              Visible = True
-            end>
-        end
       end
     end
   end
   inherited PnBotoes: TPanel
+    Top = 288
     inherited BtnNovo: TBitBtn
       Left = 6
       ExplicitLeft = 6

@@ -1,0 +1,150 @@
+unit Controller.Convenio;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Controller.Interfaces, Conexao, Data.DB,
+  unConstantes, System.SysUtils, Model.Convenios, Model.Cidades,
+  Model.Tabela_Preco_MatMed, Model.Tabela_Preco_Procedimentos;
+
+type
+  TControllerConvenio = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TConvenios;
+      FCidade                : TCidade;
+      FTabelaMatMed          : TTabela_preco_matmed;
+      FTabelaProcedimentos   : TTabela_preco_procedimentos;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TConvenios read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+      function    GetNomeCidade(AID: Integer;iOperacao: integer): string;
+      function    GetDescricaoTabelaMatMed(AID: Integer;iOperacao: integer): string;
+      function    GetDescricaoTabelaProcedimentos(AID: Integer;iOperacao: integer): string;
+  end;
+
+implementation
+
+{ TControllerCID }
+
+procedure TControllerConvenio.AlimentaCamposModel;
+begin
+  FModel.Id                            := FRegistros.FieldByName('id').AsInteger;
+  FModel.Nome                          := FRegistros.FieldByName('nome').AsString;
+  FModel.Fonte_remuneracao             := FRegistros.FieldByName('fonte_remuneracao').AsInteger;
+  FModel.Endereco                      := FRegistros.FieldByName('endereco').AsString;
+  FModel.Id_cidade                     := FRegistros.FieldByName('id_cidade').AsInteger;
+  FModel.Cep                           := FRegistros.FieldByName('cep').AsString;
+  FModel.Bairro                        := FRegistros.FieldByName('bairro').AsString;
+  FModel.Cnpj_convenio                 := FRegistros.FieldByName('cnpj_convenio').AsString;
+  FModel.Registro_ans                  := FRegistros.FieldByName('registro_ans').AsString;
+  FModel.Cod_hospital_convenio         := FRegistros.FieldByName('cod_hospital_convenio').AsString;
+  FModel.Exporta_cih                   := FRegistros.FieldByName('exporta_cih').AsInteger;
+  FModel.Id_tabela_preco_matmed        := FRegistros.FieldByName('id_tabela_preco_matmed').AsInteger;
+  FModel.Id_tabela_preco_procedimentos := FRegistros.FieldByName('id_tabela_preco_procedimentos').AsInteger;
+end;
+
+procedure TControllerConvenio.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros  := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerConvenio.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TConvenios.Create;
+  FCidade          := TCidade.Create;
+  FTabelaMatMed    := TTabela_preco_matmed.Create;
+  FTabelaProcedimentos := TTabela_preco_procedimentos.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerConvenio.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+  FCidade.Free;
+  FTabelaMatMed.Free;
+  FTabelaProcedimentos.Free;
+end;
+
+procedure TControllerConvenio.Excluir;
+begin
+  Model.Situacao := sINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerConvenio.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id <> 0 then
+    Result := True;
+end;
+
+function TControllerConvenio.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+function TControllerConvenio.GetDescricaoTabelaMatMed(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FTabelaMatMed,'descricao','id',AID,iOperacao);
+end;
+
+function TControllerConvenio.GetDescricaoTabelaProcedimentos(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FTabelaProcedimentos,'descricao','id',AID,iOperacao);
+end;
+
+procedure TControllerConvenio.Incluir;
+begin
+  Model.Id :=   FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerConvenio.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+
+function TControllerConvenio.GetNomeCidade(AID: Integer; iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FCidade,'descricao','id',AID,iOperacao);
+end;
+
+end.

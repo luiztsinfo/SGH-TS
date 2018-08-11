@@ -1,0 +1,103 @@
+unit unFrmTabelasPrecoProcedimentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.TabelaPrecoProcedimentos, unConstantes, Vcl.Mask;
+
+type
+  TfrmTabelasPrecoProcedimentos = class(TfrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+    mskDataVigencia: TMaskEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmTabelasPrecoProcedimentos: TfrmTabelasPrecoProcedimentos;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmTabelasPrecoProcedimentos }
+
+procedure TfrmTabelasPrecoProcedimentos.alimentaModel;
+begin
+  inherited;
+  TControllerTabelaPrecoProcedimentos(FController).Model.Descricao       := edtDescricao.Text;
+
+  if mskDataVigencia.Text <> dtVAZIA then
+    TControllerTabelaPrecoProcedimentos(FController).Model.Vigencia_geral := StrToDate(mskDataVigencia.Text)
+  else
+    TControllerTabelaPrecoProcedimentos(FController).Model.Vigencia_geral := 0;
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.alterar;
+begin
+  inherited;
+  TControllerTabelaPrecoProcedimentos(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerTabelaPrecoProcedimentos(FController).FDao.Salvar(TControllerTabelaPrecoProcedimentos(FController).Model);
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.carregarCampos;
+begin
+  inherited;
+  edtID.Text            := IntToStr(TControllerTabelaPrecoProcedimentos(FController).Model.Id);
+  edtDescricao.Text     := TControllerTabelaPrecoProcedimentos(FController).Model.Descricao;
+  mskDataVigencia.Text  := DateToStr(TControllerTabelaPrecoProcedimentos(FController).Model.Vigencia_geral);
+
+  if mskDataVigencia.Text = dtNula then
+    mskDataVigencia.Clear;
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.consultar;
+begin
+  inherited;
+  TControllerTabelaPrecoProcedimentos(FController).Model.Situacao    := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerTabelaPrecoProcedimentos(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+
+    iNOME:
+      TControllerTabelaPrecoProcedimentos(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+
+  TControllerTabelaPrecoProcedimentos(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.FormCreate(Sender: TObject);
+begin
+  FController := TControllerTabelaPrecoProcedimentos.Create;
+  inherited;
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

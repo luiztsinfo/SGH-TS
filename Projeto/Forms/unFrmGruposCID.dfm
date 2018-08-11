@@ -90,6 +90,8 @@ inherited frmGruposCID: TfrmGruposCID
     end
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 601
       ExplicitHeight = 244
       inherited PnCampos: TPanel

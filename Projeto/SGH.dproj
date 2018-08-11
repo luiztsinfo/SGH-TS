@@ -59,7 +59,7 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>SGH</SanitizedProjectName>
-        <DCC_Define>EUREKALOG_VER7;EUREKALOG;$(DCC_Define)</DCC_Define>
+        <DCC_Define>EUREKALOG_VER7;$(DCC_Define)</DCC_Define>
         <DCC_MapFile>3</DCC_MapFile>
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
     </PropertyGroup>
@@ -232,6 +232,25 @@
             <Form>frmBuscaBase</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Colaboradores.pas"/>
+        <DCCReference Include="Forms\unFrmTabelasPrecoMatMed.pas">
+            <Form>frmTabelasMatMed</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Tabela_Preco_MatMed.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.TabelaPrecoMatMed.pas"/>
+        <DCCReference Include="Forms\unFrmTabelasPrecoProcedimentos.pas">
+            <Form>frmTabelasPrecoProcedimentos</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Tabela_Preco_Procedimentos.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.TabelaPrecoProcedimentos.pas"/>
+        <DCCReference Include="Classes\Model\Model.Convenios.pas"/>
+        <DCCReference Include="Forms\unFrmConvenios.pas">
+            <Form>frmConvenios</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Convenio.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

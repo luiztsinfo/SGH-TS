@@ -2,6 +2,7 @@ inherited frmCID: TfrmCID
   Caption = 'CID'
   ClientHeight = 300
   ClientWidth = 602
+  OnCreate = FormCreate
   ExplicitWidth = 608
   ExplicitHeight = 329
   PixelsPerInch = 96
@@ -23,6 +24,23 @@ inherited frmCID: TfrmCID
         inherited GrdDados: TDBGrid
           Width = 588
           Height = 144
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Title.Caption = 'CID'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESCRICAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Descri'#231#227'o'
+              Width = 379
+              Visible = True
+            end>
         end
       end
       inherited PnFiltro: TPanel
@@ -64,10 +82,10 @@ inherited frmCID: TfrmCID
         end
         inherited GrpBxDadoConsulta: TGroupBox
           Left = 212
-          Top = 8
+          Top = 6
           Width = 267
           ExplicitLeft = 212
-          ExplicitTop = 8
+          ExplicitTop = 6
           ExplicitWidth = 267
           inherited edtConsulta: TEdit
             Width = 249
@@ -78,6 +96,8 @@ inherited frmCID: TfrmCID
     end
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 594
       ExplicitHeight = 217
       inherited PnCampos: TPanel
@@ -159,21 +179,21 @@ inherited frmCID: TfrmCID
           Height = 21
           Style = csDropDownList
           ItemIndex = 0
-          TabOrder = 2
+          TabOrder = 5
           Text = 'AMBOS'
           Items.Strings = (
             'AMBOS'
             'FEMININO'
             'MASCULINO')
         end
-        object ComboBox2: TComboBox
+        object CbxCausaObito: TComboBox
           Left = 16
           Top = 174
           Width = 59
           Height = 21
           Style = csDropDownList
           ItemIndex = 0
-          TabOrder = 3
+          TabOrder = 4
           Text = 'N'#195'O'
           Items.Strings = (
             'N'#195'O'
@@ -185,7 +205,7 @@ inherited frmCID: TfrmCID
           Width = 59
           Height = 21
           NumbersOnly = True
-          TabOrder = 4
+          TabOrder = 2
           Text = 'edtIDGrupoCID'
           OnExit = edtIDGrupoCIDExit
         end
@@ -229,7 +249,7 @@ inherited frmCID: TfrmCID
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 5
+          TabOrder = 3
           OnClick = BtnBuscaGrupoCIDClick
         end
       end
@@ -241,8 +261,8 @@ inherited frmCID: TfrmCID
     ExplicitTop = 245
     ExplicitWidth = 602
     inherited BtnRelatorios: TBitBtn
-      Left = 373
-      ExplicitLeft = 373
+      Left = 349
+      ExplicitLeft = 349
     end
     inherited BtnSair: TBitBtn
       Left = 478

@@ -50,10 +50,11 @@ type
     procedure BtnConsultarClick(Sender: TObject);
   private
     opc_gravar: integer; // 0 = novo / 1 = alterando
-    procedure controlarBotoes(operacao: integer);   dynamic;
-    procedure salvar;                              dynamic;
+    procedure controlarBotoes(operacao: integer); dynamic;
+    procedure salvar;                             dynamic;
 
   public
+
     FController: iControllerCadastros;
     FValueFieldKey: Integer;
     FFormChamou: TForm;
@@ -71,9 +72,6 @@ type
     function  existeRegistro: boolean;             dynamic;
     constructor Create(AOwner: TComponent; AtoOperacao: TTipoOperacao); reintroduce;
   end;
-
-var
-  frmBase: TfrmBase;
 
 implementation
 
@@ -303,12 +301,13 @@ end;
 
 procedure TfrmBase.GrdDadosDblClick(Sender: TObject);
 begin
+  carregarModel;
+
   if (FTipoOperacao = toCadastro) then
-    begin
-      carregarModel;
-      carregarCampos;
-      PgCtrlCadastro.ActivePageIndex := 1;
-    end;
+  begin
+    carregarCampos;
+    PgCtrlCadastro.ActivePageIndex := 1;
+  end;
 end;
 
 procedure TfrmBase.GrdDadosKeyPress(Sender: TObject; var Key: Char);

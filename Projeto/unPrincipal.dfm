@@ -1392,6 +1392,24 @@ object frmPrincipal: TfrmPrincipal
           OnClick = CID1Click
         end
       end
+      object Faturamento1: TMenuItem
+        Caption = 'Faturamento'
+        object abeladePreosProcedimentos1: TMenuItem
+          Caption = 'Tabela de Pre'#231'os - Procedimentos'
+          OnClick = abeladePreosProcedimentos1Click
+        end
+        object abeladePreosMatMed1: TMenuItem
+          Caption = 'Tabela de Pre'#231'os - MatMed'
+          OnClick = abeladePreosMatMed1Click
+        end
+        object N2: TMenuItem
+          Caption = '-'
+        end
+        object Convnios1: TMenuItem
+          Caption = 'Conv'#234'nios'
+          OnClick = Convnios1Click
+        end
+      end
     end
     object Enfermagem2: TMenuItem
       Caption = 'Enfermagem'

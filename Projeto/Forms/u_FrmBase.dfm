@@ -205,6 +205,10 @@ object frmBase: TfrmBase
     object TbShCadastro: TTabSheet
       Caption = 'Cadastro/Altera'#231#227'o'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PnCampos: TPanel
         Left = 0
         Top = 0

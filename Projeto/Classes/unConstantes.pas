@@ -6,6 +6,7 @@ const
 
   sVAZIO = '';
   dtVAZIA = '  /  /    ';
+  dtNula  = '30/12/1899';
   iVAZIO = '';
 
   // SEXOS

@@ -9,7 +9,8 @@ uses
   unFrmPrescricaoEnfermagem, unFrmHE, unFrmReligiao, Vcl.Imaging.jpeg,
   Vcl.ExtCtrls, unFrmAntecedentes, unFrmAlergia, unFrmCirurgia,
   unFrmAtividadeReligiosa, unFrmDiagnosticoEnfermagem, Controller.Alergia,
-  Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID;
+  Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
+  unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios;
 
 type
   TfrmPrincipal = class(TForm)
@@ -34,6 +35,11 @@ type
     N1: TMenuItem;
     GruposCID1: TMenuItem;
     CID1: TMenuItem;
+    Faturamento1: TMenuItem;
+    abeladePreosProcedimentos1: TMenuItem;
+    abeladePreosMatMed1: TMenuItem;
+    N2: TMenuItem;
+    Convnios1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -48,6 +54,9 @@ type
     procedure Nacionalidades1Click(Sender: TObject);
     procedure GruposCID1Click(Sender: TObject);
     procedure CID1Click(Sender: TObject);
+    procedure abeladePreosMatMed1Click(Sender: TObject);
+    procedure abeladePreosProcedimentos1Click(Sender: TObject);
+    procedure Convnios1Click(Sender: TObject);
   private
 
   public
@@ -60,6 +69,26 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmPrincipal.abeladePreosMatMed1Click(Sender: TObject);
+begin
+  try
+    frmTabelasMatMed := TfrmTabelasMatMed.Create(self,toCadastro);
+    frmTabelasMatMed.ShowModal;
+  finally
+    FreeAndNil(frmTabelasMatMed);
+  end;
+end;
+
+procedure TfrmPrincipal.abeladePreosProcedimentos1Click(Sender: TObject);
+begin
+  try
+    frmTabelasPrecoProcedimentos := TfrmTabelasPrecoProcedimentos.Create(self,toCadastro);
+    frmTabelasPrecoProcedimentos.ShowModal;
+  finally
+    FreeAndNil(frmTabelasPrecoProcedimentos);
+  end;
+end;
 
 procedure TfrmPrincipal.Alergias1Click(Sender: TObject);
 begin
@@ -118,6 +147,16 @@ begin
     frmColaborador.ShowModal;
   finally
     FreeAndNil(frmColaborador);
+  end;
+end;
+
+procedure TfrmPrincipal.Convnios1Click(Sender: TObject);
+begin
+  try
+    frmConvenios := TfrmConvenios.Create(self,toCadastro);
+    frmConvenios.ShowModal;
+  finally
+    FreeAndNil(frmConvenios);
   end;
 end;
 

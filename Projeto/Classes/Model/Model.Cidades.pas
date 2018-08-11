@@ -11,6 +11,7 @@ type
 
       FId: integer;
       FNome: string;
+    FSituacao: string;
 
       function GetFId: integer;
       function GetFNome: string;
@@ -23,6 +24,7 @@ type
       property Id : integer read GetFId write SetFId;
       [AttNotNull('Nome')]
       property Nome : string read GetFNome write setFNome;
+      property Situacao : string read FSituacao write FSituacao;
 
   end;
 
