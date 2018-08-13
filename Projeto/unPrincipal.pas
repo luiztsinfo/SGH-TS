@@ -10,7 +10,8 @@ uses
   Vcl.ExtCtrls, unFrmAntecedentes, unFrmAlergia, unFrmCirurgia,
   unFrmAtividadeReligiosa, unFrmDiagnosticoEnfermagem, Controller.Alergia,
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
-  unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios;
+  unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
+  unFrmFornecedor;
 
 type
   TfrmPrincipal = class(TForm)
@@ -40,6 +41,7 @@ type
     abeladePreosMatMed1: TMenuItem;
     N2: TMenuItem;
     Convnios1: TMenuItem;
+    Fornecedores1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -57,6 +59,7 @@ type
     procedure abeladePreosMatMed1Click(Sender: TObject);
     procedure abeladePreosProcedimentos1Click(Sender: TObject);
     procedure Convnios1Click(Sender: TObject);
+    procedure Fornecedores1Click(Sender: TObject);
   private
 
   public
@@ -167,6 +170,16 @@ begin
     frmDiagnosticoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmDiagnosticoEnfermagem);
+  end;
+end;
+
+procedure TfrmPrincipal.Fornecedores1Click(Sender: TObject);
+begin
+  try
+    frmFornecedores := TfrmFornecedores.Create(self,toCadastro);
+    frmFornecedores.ShowModal;
+  finally
+    FreeAndNil(frmFornecedores);
   end;
 end;
 

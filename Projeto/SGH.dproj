@@ -224,33 +224,33 @@
         </DCCReference>
         <DCCReference Include="Forms\unFrmBaseBasico.pas">
             <Form>frmBaseBasico</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Base.pas"/>
         <DCCReference Include="Classes\Model\Model.Interfaces.pas"/>
         <DCCReference Include="Forms\unFrmBuscaBase.pas">
             <Form>frmBuscaBase</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classes\Model\Model.Colaboradores.pas"/>
         <DCCReference Include="Forms\unFrmTabelasPrecoMatMed.pas">
             <Form>frmTabelasMatMed</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classes\Model\Model.Tabela_Preco_MatMed.pas"/>
         <DCCReference Include="Classes\Controller\Controller.TabelaPrecoMatMed.pas"/>
         <DCCReference Include="Forms\unFrmTabelasPrecoProcedimentos.pas">
             <Form>frmTabelasPrecoProcedimentos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classes\Model\Model.Tabela_Preco_Procedimentos.pas"/>
         <DCCReference Include="Classes\Controller\Controller.TabelaPrecoProcedimentos.pas"/>
         <DCCReference Include="Classes\Model\Model.Convenios.pas"/>
         <DCCReference Include="Forms\unFrmConvenios.pas">
             <Form>frmConvenios</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Convenio.pas"/>
+        <DCCReference Include="Forms\unFrmFornecedor.pas">
+            <Form>frmFornecedores</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Fornecedor.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Fornecedor.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

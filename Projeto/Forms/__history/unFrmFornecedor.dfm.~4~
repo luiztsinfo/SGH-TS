@@ -1,0 +1,45 @@
+inherited frmFornecedores: TfrmFornecedores
+  Caption = '::. FORNECEDORES .::'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    inherited TbShConsulta: TTabSheet
+      inherited PnDados: TPanel
+        inherited GrdDados: TDBGrid
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'RAZAOSOCIAL'
+              Title.Alignment = taCenter
+              Title.Caption = 'Raz'#227'o Social'
+              Width = 510
+              Visible = True
+            end>
+        end
+      end
+      inherited PnFiltro: TPanel
+        inherited CbxConsulta: TComboBox
+          ItemIndex = 1
+          Text = 'RAZAOSOCIAL'
+          Items.Strings = (
+            'ID'
+            'RAZAOSOCIAL')
+        end
+        inherited CbxOrdenarPor: TComboBox
+          ItemIndex = 1
+          Text = 'RAZAOSOCIAL'
+          Items.Strings = (
+            'ID'
+            'RAZAOSOCIAL')
+        end
+      end
+    end
+  end
+end

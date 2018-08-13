@@ -1,0 +1,81 @@
+unit Controller.Fornecedor;
+
+interface
+
+uses Controller.Interfaces, Model.Fornecedor,  Lca.Orm.Comp.FireDac,
+  Conexao, Data.DB, unConstantes;
+
+type
+  TControllerFornecedor = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TFornecedores;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TFornecedores read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+{ TControllerFornecedor }
+
+procedure TControllerFornecedor.AlimentaCamposModel;
+begin
+  FModel.Id := FRegistros.FieldByName('id').AsInteger;
+  FModel.Razaosocial := FRegistros.FieldByName('razaosocial').AsString;
+end;
+
+procedure TControllerFornecedor.Consultar(sCampoWhere, sOrderBy: string);
+begin
+
+end;
+
+constructor TControllerFornecedor.Create;
+begin
+
+end;
+
+destructor TControllerFornecedor.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TControllerFornecedor.Excluir;
+begin
+
+end;
+
+function TControllerFornecedor.ExisteRegistro: Boolean;
+begin
+
+end;
+
+function TControllerFornecedor.GetDataSource: TDataSource;
+begin
+
+end;
+
+procedure TControllerFornecedor.Incluir;
+begin
+
+end;
+
+procedure TControllerFornecedor.MostraDados;
+begin
+
+end;
+
+end.

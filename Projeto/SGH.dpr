@@ -111,7 +111,10 @@ uses
   Controller.TabelaPrecoProcedimentos in 'Classes\Controller\Controller.TabelaPrecoProcedimentos.pas',
   Model.Convenios in 'Classes\Model\Model.Convenios.pas',
   unFrmConvenios in 'Forms\unFrmConvenios.pas' {frmConvenios},
-  Controller.Convenio in 'Classes\Controller\Controller.Convenio.pas';
+  Controller.Convenio in 'Classes\Controller\Controller.Convenio.pas',
+  unFrmFornecedor in 'Forms\unFrmFornecedor.pas' {frmFornecedores},
+  Model.Fornecedor in 'Classes\Model\Model.Fornecedor.pas',
+  Controller.Fornecedor in 'Classes\Controller\Controller.Fornecedor.pas';
 
 {$R *.res}
 
@@ -120,9 +123,9 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TDMRel, DMRel);
-  Application.CreateForm(TfrmConvenios, frmConvenios);
   Application.Run;
 end.
+
 
 
 

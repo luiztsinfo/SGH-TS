@@ -1,0 +1,25 @@
+inherited frmFornecedores: TfrmFornecedores
+  Caption = '::. FORNECEDORES .::'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    inherited TbShConsulta: TTabSheet
+      inherited PnFiltro: TPanel
+        inherited CbxConsulta: TComboBox
+          ItemIndex = 1
+          Text = 'RAZAOSOCIAL'
+          Items.Strings = (
+            'ID'
+            'RAZAOSOCIAL')
+        end
+        inherited CbxOrdenarPor: TComboBox
+          ItemIndex = 1
+          Text = 'RAZAOSOCIAL'
+          Items.Strings = (
+            'ID'
+            'RAZAOSOCIAL')
+        end
+      end
+    end
+  end
+end

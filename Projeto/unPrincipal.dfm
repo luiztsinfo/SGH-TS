@@ -1410,6 +1410,10 @@ object frmPrincipal: TfrmPrincipal
           OnClick = Convnios1Click
         end
       end
+      object Fornecedores1: TMenuItem
+        Caption = 'Fornecedores'
+        OnClick = Fornecedores1Click
+      end
     end
     object Enfermagem2: TMenuItem
       Caption = 'Enfermagem'
