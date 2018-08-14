@@ -251,6 +251,15 @@
         </DCCReference>
         <DCCReference Include="Classes\Model\Model.Fornecedor.pas"/>
         <DCCReference Include="Classes\Controller\Controller.Fornecedor.pas"/>
+        <DCCReference Include="Classes\Model\Model.Setor.pas"/>
+        <DCCReference Include="Forms\unFrmSetores.pas">
+            <Form>frmSetores</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Setor.pas"/>
+        <DCCReference Include="Forms\unFrmQuartos.pas">
+            <Form>frmQuartos</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

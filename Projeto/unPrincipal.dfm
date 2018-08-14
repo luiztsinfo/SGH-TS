@@ -1414,6 +1414,16 @@ object frmPrincipal: TfrmPrincipal
         Caption = 'Fornecedores'
         OnClick = Fornecedores1Click
       end
+      object N01: TMenuItem
+        Caption = '-'
+      end
+      object Setores1: TMenuItem
+        Caption = 'Setores'
+        OnClick = Setores1Click
+      end
+      object Quartos1: TMenuItem
+        Caption = 'Quartos'
+      end
     end
     object Enfermagem2: TMenuItem
       Caption = 'Enfermagem'

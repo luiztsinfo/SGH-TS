@@ -1,0 +1,13 @@
+inherited frmSetores: TfrmSetores
+  Caption = '::. SETORES DO HOSPITAL .::'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 639
+      ExplicitHeight = 287
+    end
+  end
+end

@@ -1,0 +1,29 @@
+unit unFrmSetores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmSetores = class(TfrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSetores: TfrmSetores;
+
+implementation
+
+{$R *.dfm}
+
+end.

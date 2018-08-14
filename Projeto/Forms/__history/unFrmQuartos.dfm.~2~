@@ -1,0 +1,5 @@
+inherited frmQuartos: TfrmQuartos
+  Caption = '::. QUARTOS .::'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

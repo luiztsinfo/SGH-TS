@@ -3,16 +3,6 @@ program SGH;
 uses
   {$IFDEF EurekaLog}
   EMemLeaks,
-  EResLeaks,
-  EDialogWinAPIMSClassic,
-  EDialogWinAPIEurekaLogDetailed,
-  EDialogWinAPIStepsToReproduce,
-  EDebugExports,
-  EDebugJCL,
-  EFixSafeCallException,
-  EMapWin32,
-  EAppVCL,
-  ExceptionLog7,
   {$ENDIF EurekaLog}
   Vcl.Forms,
   unPrincipal in 'unPrincipal.pas' {frmPrincipal},
@@ -114,7 +104,11 @@ uses
   Controller.Convenio in 'Classes\Controller\Controller.Convenio.pas',
   unFrmFornecedor in 'Forms\unFrmFornecedor.pas' {frmFornecedores},
   Model.Fornecedor in 'Classes\Model\Model.Fornecedor.pas',
-  Controller.Fornecedor in 'Classes\Controller\Controller.Fornecedor.pas';
+  Controller.Fornecedor in 'Classes\Controller\Controller.Fornecedor.pas',
+  Model.Setor in 'Classes\Model\Model.Setor.pas',
+  unFrmSetores in 'Forms\unFrmSetores.pas' {frmSetores},
+  Controller.Setor in 'Classes\Controller\Controller.Setor.pas',
+  unFrmQuartos in 'Forms\unFrmQuartos.pas' {frmQuartos};
 
 {$R *.res}
 
@@ -123,8 +117,10 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TDMRel, DMRel);
+  Application.CreateForm(TfrmQuartos, frmQuartos);
   Application.Run;
 end.
+
 
 
 

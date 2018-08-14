@@ -7,10 +7,12 @@ inherited frmFornecedores: TfrmFornecedores
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 256
-    ActivePage = TbShCadastro
+    ExplicitHeight = 256
     inherited TbShConsulta: TTabSheet
+      ExplicitHeight = 228
       inherited PnDados: TPanel
         Height = 161
+        ExplicitHeight = 161
         inherited GrdDados: TDBGrid
           Height = 155
           Columns = <
@@ -50,8 +52,13 @@ inherited frmFornecedores: TfrmFornecedores
     end
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 814
+      ExplicitHeight = 228
       inherited PnCampos: TPanel
         Height = 228
+        ExplicitHeight = 228
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -90,5 +97,6 @@ inherited frmFornecedores: TfrmFornecedores
   end
   inherited PnBotoes: TPanel
     Top = 256
+    ExplicitTop = 256
   end
 end
