@@ -11,7 +11,7 @@ uses
   unFrmAtividadeReligiosa, unFrmDiagnosticoEnfermagem, Controller.Alergia,
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
-  unFrmFornecedor, unFrmSetores, unFrmQuartos;
+  unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos;
 
 type
   TfrmPrincipal = class(TForm)
@@ -45,6 +45,7 @@ type
     N01: TMenuItem;
     Setores1: TMenuItem;
     Quartos1: TMenuItem;
+    Leitos1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -65,6 +66,7 @@ type
     procedure Fornecedores1Click(Sender: TObject);
     procedure Setores1Click(Sender: TObject);
     procedure Quartos1Click(Sender: TObject);
+    procedure Leitos1Click(Sender: TObject);
   private
 
   public
@@ -205,6 +207,16 @@ begin
     frmHE.ShowModal;
   finally
     FreeAndNil(frmHE);
+  end;
+end;
+
+procedure TfrmPrincipal.Leitos1Click(Sender: TObject);
+begin
+  try
+    FrmLeitos := TFrmLeitos.Create(self,toCadastro);
+    FrmLeitos.ShowModal;
+  finally
+    FreeAndNil(FrmLeitos);
   end;
 end;
 

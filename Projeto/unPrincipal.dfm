@@ -1425,6 +1425,10 @@ object frmPrincipal: TfrmPrincipal
         Caption = 'Quartos'
         OnClick = Quartos1Click
       end
+      object Leitos1: TMenuItem
+        Caption = 'Leitos'
+        OnClick = Leitos1Click
+      end
     end
     object Enfermagem2: TMenuItem
       Caption = 'Enfermagem'

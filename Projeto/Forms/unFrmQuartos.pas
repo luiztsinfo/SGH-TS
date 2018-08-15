@@ -23,6 +23,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure edtIDSetorExit(Sender: TObject);
     procedure BtnBuscaSetorClick(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,7 +46,6 @@ var
 begin
   inherited;
   TControllerQuarto(FController).Model.Descricao := edtDescricao.Text;
-  TControllerQuarto(FController).Model.Id_setor := StrToInt(edtIDSetor.Text);
 
   if TryStrToInt(edtIDSetor.Text,vSetor) then
     TControllerQuarto(FController).Model.Id_setor := vSetor;
@@ -120,6 +120,16 @@ procedure TFrmQuartos.FormCreate(Sender: TObject);
 begin
   FController := TControllerQuarto.Create;
   inherited;
+end;
+
+procedure TFrmQuartos.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerQuarto(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TFrmQuartos.TbShCadastroShow(Sender: TObject);

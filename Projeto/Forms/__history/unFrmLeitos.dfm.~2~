@@ -1,0 +1,46 @@
+inherited frmLeitos: TfrmLeitos
+  Caption = '::. LEITOS HOSPITALARES .::'
+  ClientHeight = 332
+  ExplicitHeight = 361
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    Height = 277
+    inherited TbShConsulta: TTabSheet
+      inherited PnDados: TPanel
+        Height = 182
+        inherited GrdDados: TDBGrid
+          Height = 176
+        end
+      end
+      inherited PnFiltro: TPanel
+        inherited CbxConsulta: TComboBox
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO')
+        end
+        inherited CbxOrdenarPor: TComboBox
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO')
+        end
+      end
+    end
+    inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 639
+      ExplicitHeight = 287
+      inherited PnCampos: TPanel
+        Height = 249
+      end
+    end
+  end
+  inherited PnBotoes: TPanel
+    Top = 277
+  end
+end

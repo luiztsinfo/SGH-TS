@@ -1,0 +1,5 @@
+inherited frmLeitos: TfrmLeitos
+  Caption = '::. LEITOS HOSPITALARES .::'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

@@ -7,13 +7,12 @@ inherited frmQuartos: TfrmQuartos
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 254
-    ActivePage = TbShCadastro
-    ExplicitHeight = 280
+    ExplicitHeight = 254
     inherited TbShConsulta: TTabSheet
-      ExplicitHeight = 252
+      ExplicitHeight = 226
       inherited PnDados: TPanel
         Height = 159
-        ExplicitHeight = 185
+        ExplicitHeight = 159
         inherited GrdDados: TDBGrid
           Height = 153
           Columns = <
@@ -55,10 +54,10 @@ inherited frmQuartos: TfrmQuartos
       ExplicitLeft = 4
       ExplicitTop = 24
       ExplicitWidth = 639
-      ExplicitHeight = 252
+      ExplicitHeight = 226
       inherited PnCampos: TPanel
         Height = 226
-        ExplicitHeight = 252
+        ExplicitHeight = 226
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -169,6 +168,6 @@ inherited frmQuartos: TfrmQuartos
   end
   inherited PnBotoes: TPanel
     Top = 254
-    ExplicitTop = 280
+    ExplicitTop = 254
   end
 end

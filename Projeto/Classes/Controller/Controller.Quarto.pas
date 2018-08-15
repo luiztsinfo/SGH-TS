@@ -35,9 +35,9 @@ implementation
 
 procedure TControllerQuarto.AlimentaCamposModel;
 begin
-  FModel.Id := FRegistros.FieldByName('id').AsInteger;
-  FModel.Descricao := FRegistros.FieldByName('descricao').AsString;
-  FModel.Id_setor := FRegistros.FieldByName('id_setor').AsInteger;
+  FModel.Id         := FRegistros.FieldByName('id').AsInteger;
+  FModel.Descricao  := FRegistros.FieldByName('descricao').AsString;
+  FModel.Id_setor   := FRegistros.FieldByName('id_setor').AsInteger;
 end;
 
 procedure TControllerQuarto.Consultar(sCampoWhere, sOrderBy: string);

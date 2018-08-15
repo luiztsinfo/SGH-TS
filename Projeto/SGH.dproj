@@ -261,6 +261,11 @@
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Quarto.pas"/>
         <DCCReference Include="Classes\Model\Model.Quarto.pas"/>
+        <DCCReference Include="Forms\unFrmLeitos.pas">
+            <Form>frmLeitos</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Leito.pas"/>
+        <DCCReference Include="Classes\Model\Model.Leito.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

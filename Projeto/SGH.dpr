@@ -120,7 +120,10 @@ uses
   Controller.Setor in 'Classes\Controller\Controller.Setor.pas',
   unFrmQuartos in 'Forms\unFrmQuartos.pas' {frmQuartos},
   Controller.Quarto in 'Classes\Controller\Controller.Quarto.pas',
-  Model.Quarto in 'Classes\Model\Model.Quarto.pas';
+  Model.Quarto in 'Classes\Model\Model.Quarto.pas',
+  unFrmLeitos in 'Forms\unFrmLeitos.pas' {frmLeitos},
+  Controller.Leito in 'Classes\Controller\Controller.Leito.pas',
+  Model.Leito in 'Classes\Model\Model.Leito.pas';
 
 {$R *.res}
 
@@ -131,6 +134,8 @@ begin
   Application.CreateForm(TDMRel, DMRel);
   Application.Run;
 end.
+
+
 
 
 

@@ -1,0 +1,118 @@
+unit Controller.Leito;
+
+interface
+
+uses Controller.Interfaces, Model.Leito, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes, Model.Quarto;
+
+type
+  TControllerLeito = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TLeitos;
+      FQuarto                : TQuartos;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      function    GetDescricaoQuarto(AID: Integer;iOperacao: integer): string;
+      property    Model: TLeitos read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+ { ControllerLeito }
+
+procedure TControllerLeito.AlimentaCamposModel;
+begin
+  FModel.Id        := FRegistros.FieldByName('id').AsInteger;
+  FModel.Descricao := FRegistros.FieldByName('descricao').AsString;
+  FModel.Id_quarto := FRegistros.FieldByName('id_quarto').AsInteger;
+  FModel.Status    := FRegistros.FieldByName('status').AsInteger;
+end;
+
+procedure TControllerLeito.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerLeito.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TLeitos.Create;
+  FQuarto          := TQuartos.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerLeito.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FQuarto.Free;
+  FDao.Free;
+end;
+
+procedure TControllerLeito.Excluir;
+begin
+  Model.Situacao := sINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerLeito.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerLeito.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+function TControllerLeito.GetDescricaoQuarto(AID, iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FQuarto,'descricao','id',AID,iOperacao);
+end;
+
+procedure TControllerLeito.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerLeito.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+end.
+
+
