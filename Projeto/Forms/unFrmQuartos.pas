@@ -5,21 +5,128 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls;
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Quarto, unConstantes, unFrmSetores, u_FrmBase;
 
 type
-  TfrmQuartos = class(TfrmBaseBasico)
+  TFrmQuartos = class(TFrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    lblSetor: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+    edtIDSetor: TEdit;
+    BtnBuscaSetor: TBitBtn;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edtIDSetorExit(Sender: TObject);
+    procedure BtnBuscaSetorClick(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
   end;
 
 var
-  frmQuartos: TfrmQuartos;
+  frmQuartos: TFrmQuartos;
 
 implementation
 
 {$R *.dfm}
 
+procedure TFrmQuartos.alimentaModel;
+var
+  vSetor: integer;
+begin
+  inherited;
+  TControllerQuarto(FController).Model.Descricao := edtDescricao.Text;
+  TControllerQuarto(FController).Model.Id_setor := StrToInt(edtIDSetor.Text);
+
+  if TryStrToInt(edtIDSetor.Text,vSetor) then
+    TControllerQuarto(FController).Model.Id_setor := vSetor;
+end;
+
+procedure TFrmQuartos.alterar;
+begin
+  inherited;
+  TControllerQuarto(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerQuarto(FController).FDao.Salvar(TControllerQuarto(FController).Model)
+end;
+
+procedure TFrmQuartos.BtnBuscaSetorClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmSetores := TfrmSetores.Create(Self,toConsulta);
+    frmSetores.ShowModal;
+  finally
+    edtIDSetor.Text := IntToStr(frmSetores.FValueFieldKey);
+
+    if TryStrToInt(edtIDSetor.Text,vValue) then
+      lblSetor.Caption := TControllerQuarto(FController).GetDescricaoSetor(vValue,iINCLUINDO);
+
+    FreeAndNil(frmSetores);
+  end;
+end;
+
+procedure TFrmQuartos.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TFrmQuartos.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerQuarto(FController).Model.Id);
+  edtDescricao.Text := TControllerQuarto(FController).Model.Descricao;
+  edtIDSetor.Text             := IntToStr(TControllerQuarto(FController).Model.Id_setor);
+
+  lblSetor.Caption             := TControllerQuarto(FController).
+                                      GetDescricaoSetor(TControllerQuarto(FController).
+                                        Model.Id_setor, iALTERANDO);
+end;
+
+procedure TFrmQuartos.consultar;
+begin
+  TControllerQuarto(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerQuarto(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerQuarto(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerQuarto(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmQuartos.edtIDSetorExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtIDSetor.Text,vValue) then
+    lblSetor.Caption := TControllerQuarto(FController).GetDescricaoSetor(vValue,iINCLUINDO);
+end;
+
+procedure TFrmQuartos.FormCreate(Sender: TObject);
+begin
+  FController := TControllerQuarto.Create;
+  inherited;
+end;
+
+procedure TFrmQuartos.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
 end.
+

@@ -7,9 +7,12 @@ inherited frmSetores: TfrmSetores
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 245
+    ExplicitHeight = 245
     inherited TbShConsulta: TTabSheet
+      ExplicitHeight = 217
       inherited PnDados: TPanel
         Height = 150
+        ExplicitHeight = 150
         inherited GrdDados: TDBGrid
           Height = 144
           Columns = <
@@ -52,9 +55,10 @@ inherited frmSetores: TfrmSetores
       ExplicitLeft = 4
       ExplicitTop = 24
       ExplicitWidth = 639
-      ExplicitHeight = 287
+      ExplicitHeight = 217
       inherited PnCampos: TPanel
         Height = 217
+        ExplicitHeight = 217
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -93,5 +97,6 @@ inherited frmSetores: TfrmSetores
   end
   inherited PnBotoes: TPanel
     Top = 245
+    ExplicitTop = 245
   end
 end

@@ -11,7 +11,7 @@ uses
   unFrmAtividadeReligiosa, unFrmDiagnosticoEnfermagem, Controller.Alergia,
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
-  unFrmFornecedor, unFrmSetores;
+  unFrmFornecedor, unFrmSetores, unFrmQuartos;
 
 type
   TfrmPrincipal = class(TForm)
@@ -64,6 +64,7 @@ type
     procedure Convnios1Click(Sender: TObject);
     procedure Fornecedores1Click(Sender: TObject);
     procedure Setores1Click(Sender: TObject);
+    procedure Quartos1Click(Sender: TObject);
   private
 
   public
@@ -244,6 +245,16 @@ begin
     frmPrescricaoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmPrescricaoEnfermagem);
+  end;
+end;
+
+procedure TfrmPrincipal.Quartos1Click(Sender: TObject);
+begin
+  try
+    frmQuartos := TFrmQuartos.Create(self,toCadastro);
+    frmQuartos.ShowModal;
+  finally
+    FreeAndNil(frmQuartos);
   end;
 end;
 

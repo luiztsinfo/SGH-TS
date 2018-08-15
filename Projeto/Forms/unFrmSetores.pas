@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.Setor, unConstantes;
+  Controller.Setor, unConstantes, u_FrmBase;
 
 type
   TfrmSetores = class(TfrmBaseBasico)
@@ -17,6 +17,7 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -78,6 +79,16 @@ procedure TfrmSetores.FormCreate(Sender: TObject);
 begin
   FController := TControllerSetor.Create;
   inherited;
+end;
+
+procedure TfrmSetores.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerSetor(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TfrmSetores.TbShCadastroShow(Sender: TObject);

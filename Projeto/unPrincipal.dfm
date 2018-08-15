@@ -1423,6 +1423,7 @@ object frmPrincipal: TfrmPrincipal
       end
       object Quartos1: TMenuItem
         Caption = 'Quartos'
+        OnClick = Quartos1Click
       end
     end
     object Enfermagem2: TMenuItem

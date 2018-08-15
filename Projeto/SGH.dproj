@@ -258,8 +258,9 @@
         <DCCReference Include="Classes\Controller\Controller.Setor.pas"/>
         <DCCReference Include="Forms\unFrmQuartos.pas">
             <Form>frmQuartos</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Quarto.pas"/>
+        <DCCReference Include="Classes\Model\Model.Quarto.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

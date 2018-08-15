@@ -2,16 +2,18 @@ inherited frmConvenios: TfrmConvenios
   Caption = '::. CONV'#202'NIOS .::'
   ClientHeight = 495
   OnCreate = FormCreate
-  ExplicitTop = -36
   ExplicitHeight = 524
   PixelsPerInch = 96
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 440
     ActivePage = TbShCadastro
+    ExplicitHeight = 440
     inherited TbShConsulta: TTabSheet
+      ExplicitHeight = 412
       inherited PnDados: TPanel
         Height = 345
+        ExplicitHeight = 345
         inherited GrdDados: TDBGrid
           Height = 339
           Columns = <
@@ -54,9 +56,10 @@ inherited frmConvenios: TfrmConvenios
       ExplicitLeft = 4
       ExplicitTop = 24
       ExplicitWidth = 814
-      ExplicitHeight = 318
+      ExplicitHeight = 412
       inherited PnCampos: TPanel
         Height = 412
+        ExplicitHeight = 412
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -459,5 +462,6 @@ inherited frmConvenios: TfrmConvenios
   end
   inherited PnBotoes: TPanel
     Top = 440
+    ExplicitTop = 440
   end
 end

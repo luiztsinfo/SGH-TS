@@ -3,6 +3,16 @@ program SGH;
 uses
   {$IFDEF EurekaLog}
   EMemLeaks,
+  EResLeaks,
+  EDialogWinAPIMSClassic,
+  EDialogWinAPIEurekaLogDetailed,
+  EDialogWinAPIStepsToReproduce,
+  EDebugExports,
+  EDebugJCL,
+  EFixSafeCallException,
+  EMapWin32,
+  EAppVCL,
+  ExceptionLog7,
   {$ENDIF EurekaLog}
   Vcl.Forms,
   unPrincipal in 'unPrincipal.pas' {frmPrincipal},
@@ -108,7 +118,9 @@ uses
   Model.Setor in 'Classes\Model\Model.Setor.pas',
   unFrmSetores in 'Forms\unFrmSetores.pas' {frmSetores},
   Controller.Setor in 'Classes\Controller\Controller.Setor.pas',
-  unFrmQuartos in 'Forms\unFrmQuartos.pas' {frmQuartos};
+  unFrmQuartos in 'Forms\unFrmQuartos.pas' {frmQuartos},
+  Controller.Quarto in 'Classes\Controller\Controller.Quarto.pas',
+  Model.Quarto in 'Classes\Model\Model.Quarto.pas';
 
 {$R *.res}
 
@@ -117,9 +129,11 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TDMRel, DMRel);
-  Application.CreateForm(TfrmQuartos, frmQuartos);
   Application.Run;
 end.
+
+
+
 
 
 
