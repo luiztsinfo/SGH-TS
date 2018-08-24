@@ -2,101 +2,103 @@ unit Controller.Religiao;
 
 interface
 
-uses
-  Lca.Orm.Comp.FireDac, Model.Religiao, Conexao, Data.DB,
-  unConstantes;
+uses Controller.Interfaces, Model.Religiao, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes;
 
 type
-  TControllerReligiao = class(TDaoFireDac)
-
-  private
-    FModel: TReligioes;
-    FConexao: TConexao;
-    function GetDataSource: TDataSource;
-    procedure SetModel(const Value: TReligioes);
-
-  public
-    FDao: TDaoFireDac;
-    FDsReligiao: TDataSource;
-    FRegistrosReligiao: TDataSet;
-
-    constructor Create;
-    destructor Destroy; override;
-
-    procedure consultar(sCampoWhere, sOrderBy: string);
-    procedure mostraDados;
-    procedure alimentaCamposModel;
-
-    property Model: TReligioes read FModel write SetModel;
-    property DataSource: TDataSource read GetDataSource write FDsReligiao;
+  TControllerReligiao = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TReligioes;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TReligioes read FModel;
+      property    DataSource: TDataSource read GetDataSource;
   end;
 
 implementation
 
-{ TControllerPaciente }
+ { TControllerReligiao }
 
-procedure TControllerReligiao.alimentaCamposModel;
+procedure TControllerReligiao.AlimentaCamposModel;
 begin
-  Model.Id         := FRegistrosReligiao.FieldByName('id').AsInteger;
-  Model.Descricao  := FRegistrosReligiao.FieldByName('descricao').AsString;
-  Model.Situacao   := FRegistrosReligiao.FieldByName('situacao').AsString;
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
 end;
 
-procedure TControllerReligiao.consultar(sCampoWhere, sOrderBy: string);
+procedure TControllerReligiao.Consultar(sCampoWhere, sOrderBy: string);
 begin
-  try
-    FRegistrosReligiao := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
 
-    FDsReligiao.DataSet := FRegistrosReligiao;
-    alimentaCamposModel;
-  finally
-
-  end;
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
 end;
 
 constructor TControllerReligiao.Create;
 begin
-  FConexao    := TConexao.Create;
-  FDsReligiao := TDataSource.Create(nil);
-  FRegistrosReligiao  := TDataSet.Create(nil);
-  FModel:= TReligioes.Create;
-
-  inherited Create(FConexao.FdCon,FConexao.FdTran);
-  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TReligioes.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
 end;
 
 destructor TControllerReligiao.Destroy;
 begin
-  FRegistrosReligiao.Free;
-  FDsReligiao.Free;
-  FModel.Free;
+  inherited;
   FConexao.Free;
+  FDs.Free;
+  FModel.Free;
   FDao.Free;
-  inherited Destroy;
+end;
+
+procedure TControllerReligiao.Excluir;
+begin
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerReligiao.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
 end;
 
 function TControllerReligiao.GetDataSource: TDataSource;
 begin
-  Result := FDsReligiao;
+  Result := FDs;
 end;
 
-procedure TControllerReligiao.mostraDados;
+procedure TControllerReligiao.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerReligiao.MostraDados;
 begin
   try
     FModel.Situacao := sATIVO;
 
-    FRegistrosReligiao  := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
 
-    FDsReligiao.DataSet := FRegistrosReligiao;
+    FDs.DataSet := FRegistros;
     alimentaCamposModel;
   finally
 
   end;
 end;
-
-procedure TControllerReligiao.SetModel(const Value: TReligioes);
-begin
-  FModel := Value;
-end;
-
 end.
+

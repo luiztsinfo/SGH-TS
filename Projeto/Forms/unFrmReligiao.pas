@@ -4,138 +4,85 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.Religiao, unConstantes;
+  Controller.Religiao, unConstantes, u_FrmBase;
 
 type
-  TfrmReligiao = class(TfrmBase)
+  TFrmReligiao = class(TFrmBaseBasico)
     Label1: TLabel;
     Label2: TLabel;
     edtID: TEdit;
     edtDescricao: TEdit;
     procedure BtnNovoClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
-    FControllerReligiao: TControllerReligiao;
+    { Private declarations }
   public
-
     procedure alimentaModel; override;
-    procedure carregarModel; override;
     procedure carregarCampos; override;
-    procedure mostrarTodosDados; override;
     procedure consultar; override;
-    procedure incluir; override;
     procedure alterar; override;
-    procedure excluir; override;
-    function  existeRegistro: boolean; override;
   end;
 
 var
-  frmReligiao: TfrmReligiao;
+  frmReligiao: TFrmReligiao;
 
 implementation
 
 {$R *.dfm}
 
-{ TfrmReligiao }
-
-procedure TfrmReligiao.alimentaModel;
+procedure TFrmReligiao.alimentaModel;
 begin
   inherited;
-  FControllerReligiao.Model.Descricao := edtDescricao.Text;
-  FControllerReligiao.Model.Situacao := sATIVO;
+  TControllerReligiao(FController).Model.Descricao := edtDescricao.Text;
 end;
 
-procedure TfrmReligiao.alterar;
+procedure TFrmReligiao.alterar;
 begin
   inherited;
-  FControllerReligiao.Model.Id := StrToInt(edtID.Text);
-  FControllerReligiao.FDao.Salvar(FControllerReligiao.Model);
+  TControllerReligiao(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerReligiao(FController).FDao.Salvar(TControllerReligiao(FController).Model)
 end;
 
-procedure TfrmReligiao.BtnNovoClick(Sender: TObject);
+procedure TFrmReligiao.BtnNovoClick(Sender: TObject);
 begin
   inherited;
   edtDescricao.SetFocus;
 end;
 
-procedure TfrmReligiao.carregarCampos;
+procedure TFrmReligiao.carregarCampos;
 begin
   inherited;
-  edtID.Text := IntToStr(FControllerReligiao.Model.Id);
-  edtDescricao.Text := FControllerReligiao.Model.Descricao;
+  edtID.Text := IntToStr(TControllerReligiao(FController).Model.Id);
+  edtDescricao.Text := TControllerReligiao(FController).Model.Descricao;
 end;
 
-procedure TfrmReligiao.carregarModel;
+procedure TFrmReligiao.consultar;
 begin
-  inherited;
-  FControllerReligiao.alimentaCamposModel;
-end;
-
-procedure TfrmReligiao.consultar;
-begin
-  inherited;
-  FControllerReligiao.Model.Situacao    := sATIVO;
+  TControllerReligiao(FController).Model.Situacao := sATIVO;
 
   case CbxConsulta.ItemIndex of
     iID:
-      FControllerReligiao.Model.Id := StrToInt(trim(edtConsulta.Text));
-
+      TControllerReligiao(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
     iNOME:
-      FControllerReligiao.Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+      TControllerReligiao(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
   end;
-
-  FControllerReligiao.consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+  TControllerReligiao(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
 end;
 
-procedure TfrmReligiao.excluir;
+procedure TFrmReligiao.FormCreate(Sender: TObject);
 begin
+  FController := TControllerReligiao.Create;
   inherited;
-  FControllerReligiao.Model.Situacao := sINATIVO;
-  FControllerReligiao.Salvar(FControllerReligiao.Model);
 end;
 
-function TfrmReligiao.existeRegistro: boolean;
-begin
-  Result := false;
-
-  if FControllerReligiao.Model.Id > 0 then
-    Result := True;
-end;
-
-procedure TfrmReligiao.FormCreate(Sender: TObject);
-begin
-  inherited;
-  FControllerReligiao := TControllerReligiao.Create;
-  GrdDados.DataSource := FControllerReligiao.FDsReligiao;
-end;
-
-procedure TfrmReligiao.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  FreeAndNil(FControllerReligiao);
-end;
-
-procedure TfrmReligiao.incluir;
-begin
-  inherited;
-  FControllerReligiao.Model.Id := FControllerReligiao.FDao.GetID(FControllerReligiao.Model,'id');
-  FControllerReligiao.Inserir(FControllerReligiao.Model);
-end;
-
-procedure TfrmReligiao.mostrarTodosDados;
-begin
-  inherited;
-  FControllerReligiao.mostraDados;
-end;
-
-procedure TfrmReligiao.TbShCadastroShow(Sender: TObject);
+procedure TFrmReligiao.TbShCadastroShow(Sender: TObject);
 begin
   inherited;
   edtDescricao.SetFocus;
 end;
 
 end.
+

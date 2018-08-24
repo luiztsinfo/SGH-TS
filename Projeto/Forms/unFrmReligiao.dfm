@@ -3,7 +3,6 @@ inherited frmReligiao: TfrmReligiao
   ClientHeight = 328
   ClientWidth = 669
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   ExplicitWidth = 675
   ExplicitHeight = 357
   PixelsPerInch = 96
@@ -11,6 +10,7 @@ inherited frmReligiao: TfrmReligiao
   inherited PgCtrlCadastro: TPageControl
     Width = 669
     Height = 273
+    ExplicitTop = 2
     ExplicitWidth = 669
     ExplicitHeight = 273
     inherited TbShConsulta: TTabSheet
@@ -122,6 +122,7 @@ inherited frmReligiao: TfrmReligiao
           Width = 74
           Height = 21
           CharCase = ecUpperCase
+          Enabled = False
           TabOrder = 0
           Text = 'EDTID'
         end
