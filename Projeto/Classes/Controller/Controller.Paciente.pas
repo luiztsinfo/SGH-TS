@@ -1,196 +1,173 @@
 unit Controller.Paciente;
 
 interface
-    uses Lca.Orm.Comp.FireDac, Model.Pessoa, Conexao, Data.DB, System.SysUtils, Firedac.Comp.Client, Dialogs,
-  Model.Cidades, unConstantes, Model.Religiao;
+
+uses Controller.Interfaces, Model.Paciente, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes, Model.Cidades, Model.Religiao,
+  Model.Nacionalidade;
 
 type
-  TControllerPaciente = class(TDaoFireDac)
-
-  private
-    FModel: TPessoa;
-    FConexao: TConexao;
-    function GetFDataSource: TDataSource;
-    procedure SetDsReligiao(const Value: TDataSource);
-
-  public
-    FDao: TDaoFireDac;
-    FPessoa: TPessoa;
-    FCidade: TCidade;
-    FReligiao: TReligioes;
-    FDataSourcePaciente: TDataSource;
-    FDataSourceCidade: TDataSource;
-    FDsReligiao: TDataSource;
-    FRegistrosPaciente: TDataSet;
-    FRegistrosCidade: TDataSet;
-    FRegistrosReligiao: TDataSet;
-
-    constructor Create;
-    destructor Destroy; override;
-
-    procedure consultar(sCampoWhere, sOrderBy: string);
-    procedure mostraDados;
-    procedure alimentaCamposModel;
-    function RetornaReligiaoPorID: string;
-    function RetornaReligiaoPorNome: string;
-    function RetornaCidadePorNome: string;
-    function RetornaCidadePorID: string;
-    function retornaUltimoCliente: integer;
-
-    property Model: TPessoa read FModel write FModel;
-    property DataSource: TDataSource read GetFDataSource
-      write FDataSourcePaciente;
-    property DsReligiao: TDataSource read FDsReligiao write SetDsReligiao;
+  TControllerPaciente = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TPacientes;
+      FCidade                : TCidade;
+      FReligiao              : TReligioes;
+      FNacionalidade         : TNacionalidade;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    GetNomeCidade(AID: Integer;iOperacao: integer): string;
+      function    GetDescricaoReligiao(AID: Integer;iOperacao: integer): string;          
+      function    GetDescricaoNacionalidade(AID: Integer;iOperacao: integer): string;
+      function    ExisteRegistro: Boolean;
+      property    Model: TPacientes read FModel;
+      property    DataSource: TDataSource read GetDataSource;
   end;
 
 implementation
 
-{ TControllerGeneric }
+ { TControllerPaciente }
 
-procedure TControllerPaciente.alimentaCamposModel;
+procedure TControllerPaciente.AlimentaCamposModel;
 begin
-  Model.Id  := FRegistrosPaciente.FieldByName('id').AsInteger;
-  Model.Nome:= FRegistrosPaciente.FieldByName('nome').AsString;
-  Model.Nascimento := FRegistrosPaciente.FieldByName('nascimento').AsDateTime;
-  Model.Id_cidade  := FRegistrosPaciente.FieldByName('id_cidade').AsInteger;
-  Model.Id_religiao:= FRegistrosPaciente.FieldByName('id_religiao').AsInteger;
-  Model.Situacao   := FRegistrosPaciente.FieldByName('situacao').AsString;
-  Model.Sexo := FRegistrosPaciente.FieldByName('sexo').AsInteger;
-  Model.Cor := FRegistrosPaciente.FieldByName('id_cor').AsInteger;
-  Model.Estado_Civil := FRegistrosPaciente.FieldByName('estado_civil').AsInteger;
-  Model.Escolaridade := FRegistrosPaciente.FieldByName('escolaridade').AsInteger;
-
-  FCidade.Id       := FRegistrosPaciente.FieldByName('id_cidade').AsInteger;     // verificar se isso é necessario
-  FReligiao.Id     := FRegistrosPaciente.FieldByName('id_religiao').AsInteger;
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+  FModel.Id := FRegistros.FieldByName('id').AsInteger;
+  FModel.Nome := FRegistros.FieldByName('nome').AsString;
+  FModel.Id_cidade := FRegistros.FieldByName('id_cidade').AsInteger;
+  FModel.Nascimento := FRegistros.FieldByName('nascimento').AsDateTime;
+  FModel.Situacao := FRegistros.FieldByName('situacao').AsString;
+  FModel.Sexo := FRegistros.FieldByName('sexo').AsInteger;
+  FModel.Cor := FRegistros.FieldByName('cor').AsInteger;
+  FModel.Estado_civil := FRegistros.FieldByName('estado_civil').AsInteger;
+  FModel.Escolaridade := FRegistros.FieldByName('escolaridade').AsInteger;
+  FModel.Id_religiao := FRegistros.FieldByName('id_religiao').AsInteger;
+  FModel.Nome_mae := FRegistros.FieldByName('nome_mae').AsString;
+  FModel.Nome_pai := FRegistros.FieldByName('nome_pai').AsString;
+  FModel.Id_naturalidade := FRegistros.FieldByName('id_naturalidade').AsInteger;
+  FModel.Id_nacionalidade := FRegistros.FieldByName('id_nacionalidade').AsInteger;
+  FModel.Conjuge := FRegistros.FieldByName('conjuge').AsString;
+  FModel.Etnia := FRegistros.FieldByName('etnia').AsInteger;
+  FModel.Tipo_sangue := FRegistros.FieldByName('tipo_sangue').AsInteger;
+  FModel.Fone_principal := FRegistros.FieldByName('fone_principal').AsString;
+  FModel.Fone_adicional1 := FRegistros.FieldByName('fone_adicional1').AsString;
+  FModel.Desc_fone1 := FRegistros.FieldByName('desc_fone1').AsString;
+  FModel.Fone_adicional2 := FRegistros.FieldByName('fone_adicional2').AsString;
+  FModel.Desc_fone2 := FRegistros.FieldByName('desc_fone2').AsString;
+  FModel.Cns := FRegistros.FieldByName('cns').AsString;
+  FModel.Cpf := FRegistros.FieldByName('cpf').AsString;
+  FModel.Rg := FRegistros.FieldByName('rg').AsString;
+  FModel.Data_expedicao_rg := FRegistros.FieldByName('data_expedicao_rg').AsDateTime;
+  FModel.Orgao_expedidor_rg := FRegistros.FieldByName('orgao_expedidor_rg').AsInteger;
+  FModel.Uf_expedicao_rg := FRegistros.FieldByName('uf_expedicao_rg').AsInteger;
+  FModel.Endereco := FRegistros.FieldByName('endereco').AsString;
+  FModel.Numero := FRegistros.FieldByName('numero').AsString;
+  FModel.Cep := FRegistros.FieldByName('cep').AsString;
+  FModel.Bairro := FRegistros.FieldByName('bairro').AsString;
+  FModel.Complemento := FRegistros.FieldByName('complemento').AsString;
+  FModel.Local_trabalho := FRegistros.FieldByName('local_trabalho').AsString;
+  FModel.Profissao := FRegistros.FieldByName('profissao').AsString;
+  FModel.Email := FRegistros.FieldByName('email').AsString;
 end;
 
-procedure TControllerPaciente.consultar(sCampoWhere,sOrderBy: string);
+procedure TControllerPaciente.Consultar(sCampoWhere, sOrderBy: string);
 begin
-  try
-    FRegistrosPaciente := FDao.ConsultaTab(FModel,['*'],['situacao','tipo_pessoa',sCampoWhere],sOrderBy,comLike);
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
 
-    FDataSourcePaciente.DataSet := FRegistrosPaciente;
-    alimentaCamposModel;
-  finally
-
-  end;
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
 end;
 
 constructor TControllerPaciente.Create;
 begin
-  FConexao    := TConexao.Create;
-  FDataSourcePaciente := TDataSource.Create(nil);
-  FDataSourceCidade   := TDataSource.Create(nil);
-  FDsReligiao := TDataSource.Create(nil);
-  FRegistrosPaciente  := TDataSet.Create(nil);
-  FRegistrosCidade    := TDataSet.Create(nil);
-  FRegistrosReligiao := TDataSet.Create(nil);
-  FModel:= TPessoa.Create;
-
-  inherited Create(FConexao.FdCon,FConexao.FdTran);
-  FDao        := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
-  FPessoa     := TPessoa.Create;
-  FCidade := TCidade.Create;
-  FReligiao := TReligioes.Create;
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TPacientes.Create;
+  FCidade          := TCidade.Create;
+  FReligiao        := TReligioes.Create;
+  FNacionalidade   := TNacionalidade.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
 end;
 
 destructor TControllerPaciente.Destroy;
 begin
-  FRegistrosPaciente.Free;
-  FRegistrosCidade.Free;
-  FDataSourcePaciente.Free;
-  FDataSourceCidade.Free;
-  FModel.Free;
+  inherited;
   FConexao.Free;
-  FDao.Free;
-  FPessoa.Free;
-  FDsReligiao.Free;
-  FRegistrosReligiao.Free;
-  FReligiao.Free;
+  FDs.Free;
+  FModel.Free;
   FCidade.Free;
-  inherited Destroy;
+  FReligiao.Free;
+  FNacionalidade.Free;
+  FDao.Free;
 end;
 
-function TControllerPaciente.GetFDataSource: TDataSource;
+procedure TControllerPaciente.Excluir;
 begin
-  Result := FDataSourcePaciente;
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
 end;
 
-procedure TControllerPaciente.mostraDados;
+function TControllerPaciente.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerPaciente.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+function TControllerPaciente.GetDescricaoReligiao(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FReligiao,'descricao','id',AID,iOperacao);
+end;
+
+function TControllerPaciente.GetNomeCidade(AID, iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FCidade,'nome','id',AID,iOperacao);
+end;
+
+function TControllerPaciente.GetDescricaoNacionalidade(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FNacionalidade,'descricao','id',AID,iOperacao);
+end;
+
+procedure TControllerPaciente.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerPaciente.MostraDados;
 begin
   try
     FModel.Situacao := sATIVO;
-    FModel.Tipo_pessoa := sTIPO_PESSOA_PACIENTE;
 
-    FRegistrosPaciente  := FDao.ConsultaTab(FModel,['situacao','tipo_pessoa']);
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
 
-    FDataSourcePaciente.DataSet := FRegistrosPaciente;
+    FDs.DataSet := FRegistros;
     alimentaCamposModel;
   finally
 
   end;
 end;
-
-function TControllerPaciente.RetornaCidadePorID: string;
-begin
-  try
-    FRegistrosCidade := FDao.ConsultaTab(FCidade,['Id','Nome'],['Id'],['Nome'],false);
-
-    FDataSourceCidade.DataSet := FRegistrosCidade;
-    FCidade.Id    := FRegistrosCidade.FieldByName('id').AsInteger;
-    FCidade.Nome  := FRegistrosCidade.FieldByName('nome').AsString;
-
-    Result := FRegistrosCidade.FieldByName('nome').AsString;;
-  finally
-
-  end;
-end;
-
-function TControllerPaciente.RetornaCidadePorNome: string;
-begin
-  try
-    FRegistrosCidade := FDao.ConsultaTab(FCidade,['Id','Nome'],['Nome'],['Nome'],true);
-
-    FDataSourceCidade.DataSet := FRegistrosCidade;
-    FCidade.Id    := FRegistrosCidade.FieldByName('id').AsInteger;
-    FCidade.Nome  := FRegistrosCidade.FieldByName('nome').AsString;
-  finally
-
-  end;
-end;
-
-function TControllerPaciente.RetornaReligiaoPorID: string;
-begin
-  FRegistrosReligiao := FDao.ConsultaTab(FReligiao, ['Id','Descricao'],['Id'],['Descricao'], false);
-
-  FDsReligiao.DataSet := FRegistrosReligiao;
-  FReligiao.Id := FRegistrosReligiao.FieldByName('id').AsInteger;
-  FReligiao.Descricao := FRegistrosReligiao.FieldByName('descricao').AsString;
-
-  Result := FRegistrosReligiao.FieldByName('descricao').AsString;;
-end;
-
-function TControllerPaciente.RetornaReligiaoPorNome: string;
-begin
-  FRegistrosReligiao := FDao.ConsultaTab(FReligiao,['id','Descricao'],['Descricao'],['Descricao'],true);
-  FDsReligiao.DataSet := FRegistrosReligiao;
-  FReligiao.Id := FRegistrosReligiao.FieldByName('id').AsInteger;
-  FReligiao.Descricao := FRegistrosReligiao.FieldByName('descricao').AsString;
-
-  Result := FRegistrosReligiao.FieldByName('descricao').AsString;
-end;
-
-function TControllerPaciente.retornaUltimoCliente: integer;
-begin
-  FRegistrosPaciente := ConsultaSql('SELECT * FROM public.pessoas ORDER BY id');
-  FRegistrosPaciente.Last;
-
-  Result := FRegistrosPaciente.FieldByName('id').AsInteger + 1;
-end;
-
-procedure TControllerPaciente.SetDsReligiao(const Value: TDataSource);
-begin
-  FDsReligiao := Value;
-end;
-
 end.
+

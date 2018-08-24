@@ -1,0 +1,131 @@
+unit Controller.Paciente;
+
+interface
+
+uses Controller.Interfaces, Model.Paciente, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes, Model.Cidades, Model.Religiao,
+  Model.Nacionalidade;
+
+type
+  TControllerPaciente = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TPacientes;
+      FCidade                : TCidade;
+      FReligiao              : TReligioes;
+      FNacionalidade         : TNacionalidade;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    GetNomeCidade(AID: Integer;iOperacao: integer): string;
+      function    GetDescricaoReligiao(AID: Integer;iOperacao: integer): string;          
+      function    GetNomeNacionalidade(AID: Integer;iOperacao: integer): string;
+      function    ExisteRegistro: Boolean;
+      property    Model: TPacientes read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+ { TControllerPaciente }
+
+procedure TControllerPaciente.AlimentaCamposModel;
+begin
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+end;
+
+procedure TControllerPaciente.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerPaciente.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TPacientes.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerPaciente.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+procedure TControllerPaciente.Excluir;
+begin
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerPaciente.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerPaciente.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+function TControllerPaciente.GetDescricaoReligiao(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FReligiao,'descricao','id',AID,iOperacao);
+end;
+
+function TControllerPaciente.GetNomeCidade(AID, iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FCidade,'nome','id',AID,iOperacao);
+end;
+
+function TControllerPaciente.GetNomeNacionalidade(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FNacionalidade,'nome','id',AID,iOperacao);
+end;
+
+procedure TControllerPaciente.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerPaciente.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+end.
+

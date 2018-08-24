@@ -27,7 +27,6 @@ uses
   Lca.Orm.GerarClasseFireDac in 'Classes\ORM\Lca.Orm.GerarClasseFireDac.pas',
   Lca.Orm.GerarClasse in 'Classes\ORM\Lca.Orm.GerarClasse.pas',
   unConstantes in 'Classes\unConstantes.pas',
-  unFrmPaciente in 'Forms\unFrmPaciente.pas' {frmPaciente},
   Model.Cidades in 'Classes\Model\Model.Cidades.pas',
   unFrmColaboradores in 'Forms\unFrmColaboradores.pas' {frmColaborador},
   Controller.Colaborador in 'Classes\Controller\Controller.Colaborador.pas',
@@ -123,7 +122,13 @@ uses
   Model.Quarto in 'Classes\Model\Model.Quarto.pas',
   unFrmLeitos in 'Forms\unFrmLeitos.pas' {frmLeitos},
   Controller.Leito in 'Classes\Controller\Controller.Leito.pas',
-  Model.Leito in 'Classes\Model\Model.Leito.pas';
+  Model.Leito in 'Classes\Model\Model.Leito.pas',
+  unFrmPacientes in 'Forms\unFrmPacientes.pas' {frmPacientes},
+  Model.Paciente in 'Classes\Model\Model.Paciente.pas',
+  unFrmProcedimentos in 'Forms\unFrmProcedimentos.pas' {frmProcedimentos},
+  Controller.Procedimento in 'Classes\Controller\Controller.Procedimento.pas',
+  Model.Procedimento in 'Classes\Model\Model.Procedimento.pas',
+  unFuncoes in 'Classes\unFuncoes.pas';
 
 {$R *.res}
 
@@ -134,6 +139,12 @@ begin
   Application.CreateForm(TDMRel, DMRel);
   Application.Run;
 end.
+
+
+
+
+
+
 
 
 

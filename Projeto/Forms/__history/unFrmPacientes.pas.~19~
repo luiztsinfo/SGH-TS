@@ -1,0 +1,258 @@
+unit unFrmPacientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Paciente, unConstantes, u_FrmBase, Vcl.Mask;
+
+type
+  TFrmPacientes = class(TFrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    lblCidade: TLabel;
+    lblReligiao: TLabel;
+    CbxEstadoCivil: TComboBox;
+    edtID: TEdit;
+    edtNome: TEdit;
+    CbxEscolaridade: TComboBox;
+    mskNascimento: TMaskEdit;
+    CbxSexo: TComboBox;
+    CbxCor: TComboBox;
+    edtIDCidade: TEdit;
+    edtReligiao: TEdit;
+    BtnBuscaCidade: TBitBtn;
+    BtnBuscaReligiao: TBitBtn;
+    Label11: TLabel;
+    Label12: TLabel;
+    edtMae: TEdit;
+    edtPai: TEdit;
+    Label13: TLabel;
+    lblNaturalidade: TLabel;
+    Label15: TLabel;
+    lblNacionalidade: TLabel;
+    edtNaturalidade: TEdit;
+    edtNacionalidade: TEdit;
+    BtnBuscaNaturalidade: TBitBtn;
+    BtnBuscaNacionalidade: TBitBtn;
+    Label14: TLabel;
+    edtConjuge: TEdit;
+    Label16: TLabel;
+    CbxEtnia: TComboBox;
+    Label17: TLabel;
+    CbxTipoSanguineo: TComboBox;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    mskFonePrincipal: TMaskEdit;
+    mskFoneAdicional1: TMaskEdit;
+    mskFoneAdicional2: TMaskEdit;
+    edtDescricaoFoneAdicional1: TEdit;
+    edtDescricaoFoneAdicional2: TEdit;
+    Label21: TLabel;
+    edtCNS: TEdit;
+    Label22: TLabel;
+    Label23: TLabel;
+    mskCPF: TMaskEdit;
+    edtRG: TEdit;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label26: TLabel;
+    mskDataExpedicao: TMaskEdit;
+    CbxOrgaoExpedidor: TComboBox;
+    CbxUFExpedicaoRG: TComboBox;
+    Label27: TLabel;
+    edtEndereco: TEdit;
+    Label28: TLabel;
+    edtNumero: TEdit;
+    Label29: TLabel;
+    mskCEP: TMaskEdit;
+    Label30: TLabel;
+    edtBairro: TEdit;
+    Label31: TLabel;
+    edtComplemento: TEdit;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
+    edtLocalTrabalho: TEdit;
+    edtEmail: TEdit;
+    edtProfissao: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmPacientes: TFrmPacientes;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmPacientes.alimentaModel;
+var
+  vCidade, vReligiao, vNaturalidade, vNacionalidade: integer;
+begin
+  inherited;
+  TControllerPaciente(FController).Model.Nome := edtNome.Text;
+
+  if TryStrToInt(edtIDCidade.Text,vCidade) then
+    TControllerPaciente(FController).Model.Id_cidade := vCidade;
+
+  TControllerPaciente(FController).Model.Nascimento   := StrToDate(mskNascimento.Text);
+  TControllerPaciente(FController).Model.Sexo         := CbxSexo.ItemIndex;
+  TControllerPaciente(FController).Model.Cor          := CbxCor.ItemIndex;
+  TControllerPaciente(FController).Model.Estado_civil := CbxEstadoCivil.ItemIndex;
+  TControllerPaciente(FController).Model.Escolaridade := CbxEscolaridade.ItemIndex;
+
+  if TryStrToInt(edtReligiao.Text,vReligiao) then
+    TControllerPaciente(FController).Model.Id_religiao := vReligiao;
+
+  TControllerPaciente(FController).Model.Nome_mae := edtMae.Text;
+  TControllerPaciente(FController).Model.Nome_pai := edtPai.Text;
+
+  if TryStrToInt(edtNaturalidade.Text,vNaturalidade) then
+    TControllerPaciente(FController).Model.Id_naturalidade  := vNaturalidade;
+
+  if TryStrToInt(edtNacionalidade.Text,vNacionalidade) then
+    TControllerPaciente(FController).Model.Id_nacionalidade := vNacionalidade;
+
+  TControllerPaciente(FController).Model.Conjuge            := edtConjuge.Text;
+  TControllerPaciente(FController).Model.Etnia              := CbxEtnia.ItemIndex;
+  TControllerPaciente(FController).Model.Tipo_sangue        := CbxTipoSanguineo.ItemIndex;
+  TControllerPaciente(FController).Model.Fone_principal     := mskFonePrincipal.Text;
+  TControllerPaciente(FController).Model.Fone_adicional1    := mskFoneAdicional1.Text;
+  TControllerPaciente(FController).Model.Fone_adicional2    := mskFoneAdicional2.Text;
+  TControllerPaciente(FController).Model.Desc_fone1         := edtDescricaoFoneAdicional1.Text;
+  TControllerPaciente(FController).Model.Desc_fone2         := edtDescricaoFoneAdicional2.Text;
+  TControllerPaciente(FController).Model.Cns                := edtCNS.Text;
+  TControllerPaciente(FController).Model.Cpf                := mskCPF.Text;
+  TControllerPaciente(FController).Model.Rg                 := edtRG.Text;
+  TControllerPaciente(FController).Model.Data_expedicao_rg  := StrToDate(mskDataExpedicao.Text);
+  TControllerPaciente(FController).Model.Orgao_expedidor_rg := CbxOrgaoExpedidor.ItemIndex;
+  TControllerPaciente(FController).Model.Uf_expedicao_rg    := CbxUFExpedicaoRG.ItemIndex;
+  TControllerPaciente(FController).Model.Endereco           := edtEndereco.Text;
+  TControllerPaciente(FController).Model.Numero             := edtNumero.Text;
+  TControllerPaciente(FController).Model.Cep                := mskCEP.Text;
+  TControllerPaciente(FController).Model.Bairro             := edtBairro.Text;
+  TControllerPaciente(FController).Model.Complemento        := edtComplemento.Text;
+  TControllerPaciente(FController).Model.Local_trabalho     := edtLocalTrabalho.Text;
+  TControllerPaciente(FController).Model.Profissao          := edtProfissao.Text;
+  TControllerPaciente(FController).Model.Email              := edtEmail.Text;
+end;
+
+procedure TFrmPacientes.alterar;
+begin
+  inherited;
+  TControllerPaciente(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerPaciente(FController).FDao.Salvar(TControllerPaciente(FController).Model)
+end;
+
+procedure TFrmPacientes.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+procedure TFrmPacientes.carregarCampos;
+begin
+  inherited;
+  edtID.Text    := IntToStr(TControllerPaciente(FController).Model.Id);
+  edtNome.Text  := TControllerPaciente(FController).Model.Nome;
+
+  edtIDCidade.Text  := IntToStr(TControllerPaciente(FController).Model.Id_Cidade);
+  lblCidade.Caption := TControllerPaciente(FController).
+                                      GetNomeCidade(TControllerPaciente(FController).
+                                        Model.Id_Cidade, iALTERANDO);
+
+  mskNascimento.Text  := DateToStr(TControllerPaciente(FController).Model.Nascimento);
+  CbxSexo.ItemIndex   := TControllerPaciente(FController).Model.Sexo;
+  CbxCor.ItemIndex    := TControllerPaciente(FController).Model.Cor;
+  CbxEstadoCivil.ItemIndex  := TControllerPaciente(FController).Model.Estado_civil;
+  CbxEscolaridade.ItemIndex := TControllerPaciente(FController).Model.Escolaridade;
+
+  edtReligiao.Text    := IntToStr(TControllerPaciente(FController).Model.Id_religiao);
+  lblReligiao.Caption := TControllerPaciente(FController).
+                            GetDescricaoReligiao(TControllerPaciente(FController).
+                              Model.Id_religiao, iALTERANDO);
+
+  edtMae.Text := TControllerPaciente(FController).Model.Nome_mae;
+  edtPai.Text := TControllerPaciente(FController).Model.Nome_pai;
+
+  edtNaturalidade.Text    := IntToStr(TControllerPaciente(FController).Model.Id_naturalidade);
+  lblNaturalidade.Caption := TControllerPaciente(FController).
+                                GetNomeCidade(TControllerPaciente(FController).
+                                  Model.Id_naturalidade, iALTERANDO);
+
+  edtNacionalidade.Text     := IntToStr(TControllerPaciente(FController).Model.Id_nacionalidade);
+  lblNacionalidade.Caption  := TControllerPaciente(FController).
+                                GetNomeNacionalidade(TControllerPaciente(FController).
+                                  Model.Id_nacionalidade, iALTERANDO);
+
+  edtConjuge.Text                 := TControllerPaciente(FController).Model.Conjuge;
+  CbxEtnia.ItemIndex              := TControllerPaciente(FController).Model.Etnia;
+  CbxTipoSanguineo.ItemIndex      := TControllerPaciente(FController).Model.Tipo_sangue;
+  mskFonePrincipal.Text           := TControllerPaciente(FController).Model.Fone_principal;
+  mskFoneAdicional1.Text          := TControllerPaciente(FController).Model.Fone_adicional1;
+  mskFoneAdicional2.Text          := TControllerPaciente(FController).Model.Fone_adicional2;
+  edtDescricaoFoneAdicional1.Text := TControllerPaciente(FController).Model.Desc_fone1;
+  edtDescricaoFoneAdicional2.Text := TControllerPaciente(FController).Model.Desc_fone2;
+  edtCNS.Text                     := TControllerPaciente(FController).Model.Cns;
+  mskCPF.Text                     := TControllerPaciente(FController).Model.Cpf;
+  edtRG.Text                      := TControllerPaciente(FController).Model.Rg;
+  mskDataExpedicao.Text           := DateToStr(TControllerPaciente(FController).Model.Data_expedicao_rg);
+  CbxOrgaoExpedidor.ItemIndex     := TControllerPaciente(FController).Model.Orgao_expedidor_rg;
+  CbxUFExpedicaoRG.ItemIndex      := TControllerPaciente(FController).Model.Uf_expedicao_rg;
+  edtEndereco.Text                := TControllerPaciente(FController).Model.Endereco;
+  edtNumero.Text                  := TControllerPaciente(FController).Model.Numero;
+  mskCEP.Text                     := TControllerPaciente(FController).Model.Cep;
+  edtBairro.Text                  := TControllerPaciente(FController).Model.Bairro;
+  edtComplemento.Text             := TControllerPaciente(FController).Model.Complemento;
+  edtLocalTrabalho.Text           := TControllerPaciente(FController).Model.Local_trabalho;
+  edtProfissao.Text               := TControllerPaciente(FController).Model.Profissao;
+  edtEmail.Text                   := TControllerPaciente(FController).Model.Email;
+end;
+
+procedure TFrmPacientes.consultar;
+begin
+  TControllerPaciente(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerPaciente(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerPaciente(FController).Model.Nome := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerPaciente(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmPacientes.FormCreate(Sender: TObject);
+begin
+  FController := TControllerPaciente.Create;
+  inherited;
+end;
+
+procedure TFrmPacientes.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+end.
+

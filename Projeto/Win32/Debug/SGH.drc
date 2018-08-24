@@ -1769,7 +1769,6 @@ END
 /* C:\Program Files (x86)\Embarcadero\Studio\19.0\lib\win32\release\DBCtrls.res */
 /* C:\Program Files (x86)\Embarcadero\Studio\19.0\lib\win32\release\DBGrids.res */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\u_FrmBase.dfm */
-/* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmPaciente.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmColaboradores.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmPrescricaoEnfermagem.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmPreenchimentoHE.dfm */
@@ -1804,6 +1803,8 @@ END
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmSetores.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmQuartos.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmLeitos.dfm */
+/* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmPacientes.dfm */
+/* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmProcedimentos.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\unPrincipal.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\Forms\unFrmBuscaBase.dfm */
 /* C:\Sistemas\SGH-TS\Projeto\SGH.res */

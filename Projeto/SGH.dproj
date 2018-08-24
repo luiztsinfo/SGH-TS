@@ -118,9 +118,6 @@
         <DCCReference Include="Classes\ORM\Lca.Orm.GerarClasseFireDac.pas"/>
         <DCCReference Include="Classes\ORM\Lca.Orm.GerarClasse.pas"/>
         <DCCReference Include="Classes\unConstantes.pas"/>
-        <DCCReference Include="Forms\unFrmPaciente.pas">
-            <Form>frmPaciente</Form>
-        </DCCReference>
         <DCCReference Include="Classes\Model\Model.Cidades.pas"/>
         <DCCReference Include="Forms\unFrmColaboradores.pas">
             <Form>frmColaborador</Form>
@@ -266,6 +263,16 @@
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Leito.pas"/>
         <DCCReference Include="Classes\Model\Model.Leito.pas"/>
+        <DCCReference Include="Forms\unFrmPacientes.pas">
+            <Form>frmPacientes</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Paciente.pas"/>
+        <DCCReference Include="Forms\unFrmProcedimentos.pas">
+            <Form>frmProcedimentos</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Procedimento.pas"/>
+        <DCCReference Include="Classes\Model\Model.Procedimento.pas"/>
+        <DCCReference Include="Classes\unFuncoes.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

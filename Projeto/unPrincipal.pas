@@ -5,13 +5,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Conexao, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.Menus, u_FrmBase, unFrmPaciente, unFrmColaboradores,
+  Vcl.Menus, u_FrmBase, unFrmColaboradores,
   unFrmPrescricaoEnfermagem, unFrmHE, unFrmReligiao, Vcl.Imaging.jpeg,
   Vcl.ExtCtrls, unFrmAntecedentes, unFrmAlergia, unFrmCirurgia,
   unFrmAtividadeReligiosa, unFrmDiagnosticoEnfermagem, Controller.Alergia,
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
-  unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos;
+  unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
+  unFrmProcedimentos;
 
 type
   TfrmPrincipal = class(TForm)
@@ -46,6 +47,8 @@ type
     Setores1: TMenuItem;
     Quartos1: TMenuItem;
     Leitos1: TMenuItem;
+    N3: TMenuItem;
+    Procedimentos1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -67,6 +70,7 @@ type
     procedure Setores1Click(Sender: TObject);
     procedure Quartos1Click(Sender: TObject);
     procedure Leitos1Click(Sender: TObject);
+    procedure Procedimentos1Click(Sender: TObject);
   private
 
   public
@@ -233,10 +237,10 @@ end;
 procedure TfrmPrincipal.Pacientes1Click(Sender: TObject);
 begin
   try
-    frmPaciente := TfrmPaciente.Create(Self,toCadastro);
-    frmPaciente.ShowModal;
+    frmPacientes := TfrmPacientes.Create(Self,toCadastro);
+    frmPacientes.ShowModal;
   finally
-    FreeAndNil(frmPaciente);
+    FreeAndNil(frmPacientes);
   end;
 end;
 
@@ -257,6 +261,16 @@ begin
     frmPrescricaoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmPrescricaoEnfermagem);
+  end;
+end;
+
+procedure TfrmPrincipal.Procedimentos1Click(Sender: TObject);
+begin
+  try
+    frmProcedimentos := TfrmProcedimentos.Create(self,toCadastro);
+    frmProcedimentos.ShowModal;
+  finally
+    FreeAndNil(frmProcedimentos);
   end;
 end;
 

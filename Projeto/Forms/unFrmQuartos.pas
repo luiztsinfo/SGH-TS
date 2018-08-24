@@ -9,7 +9,7 @@ uses
   Controller.Quarto, unConstantes, unFrmSetores, u_FrmBase;
 
 type
-  TFrmQuartos = class(TFrmBaseBasico)
+  TFrmQuartos = class(TfrmBaseBasico)
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;

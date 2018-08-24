@@ -1,0 +1,166 @@
+unit unFrmPacientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Paciente, unConstantes, u_FrmBase, Vcl.Mask;
+
+type
+  TFrmPacientes = class(TFrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    lblCidade: TLabel;
+    lblReligiao: TLabel;
+    CbxEstadoCivil: TComboBox;
+    edtID: TEdit;
+    edtNome: TEdit;
+    CbxEscolaridade: TComboBox;
+    mskNascimento: TMaskEdit;
+    CbxSexo: TComboBox;
+    CbxCor: TComboBox;
+    edtIDCidade: TEdit;
+    edtReligiao: TEdit;
+    BtnBuscaCidade: TBitBtn;
+    BtnBuscaReligiao: TBitBtn;
+    Label11: TLabel;
+    Label12: TLabel;
+    edtMae: TEdit;
+    edtPai: TEdit;
+    Label13: TLabel;
+    lblNaturalidade: TLabel;
+    Label15: TLabel;
+    lblNacionalidade: TLabel;
+    edtNaturalidade: TEdit;
+    edtNacionalidade: TEdit;
+    BtnBuscaNaturalidade: TBitBtn;
+    BtnBuscaNacionalidade: TBitBtn;
+    Label14: TLabel;
+    edtConjuge: TEdit;
+    Label16: TLabel;
+    CbxEtnia: TComboBox;
+    Label17: TLabel;
+    CbxTipoSanguineo: TComboBox;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    mskFonePrincipal: TMaskEdit;
+    mskFoneAdicional1: TMaskEdit;
+    mskFoneAdicional2: TMaskEdit;
+    edtDescricaoFoneAdicional1: TEdit;
+    edtDescricaoFoneAdicional2: TEdit;
+    Label21: TLabel;
+    edtCNS: TEdit;
+    Label22: TLabel;
+    Label23: TLabel;
+    mskCPF: TMaskEdit;
+    edtRG: TEdit;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label26: TLabel;
+    mskDataExpedicao: TMaskEdit;
+    CbxOrgaoExpedidor: TComboBox;
+    CbxUFExpedicaoRG: TComboBox;
+    Label27: TLabel;
+    edtEndereco: TEdit;
+    Label28: TLabel;
+    edtNumero: TEdit;
+    Label29: TLabel;
+    mskCEP: TMaskEdit;
+    Label30: TLabel;
+    edtBairro: TEdit;
+    Label31: TLabel;
+    edtComplemento: TEdit;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
+    edtLocalTrabalho: TEdit;
+    edtEmail: TEdit;
+    edtProfissao: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmPacientes: TFrmPacientes;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmPacientes.alimentaModel;
+var
+  vCidade: integer;
+begin
+  inherited;
+  TControllerPaciente(FController).Model.Nome := edtNome.Text;
+
+  if TryStrToInt(edtIDCidade.Text,vCidade) then
+    TControllerPaciente(FController).Model.Id_cidade := vCidade;
+
+end;
+
+procedure TFrmPacientes.alterar;
+begin
+  inherited;
+  TControllerPaciente(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerPaciente(FController).FDao.Salvar(TControllerPaciente(FController).Model)
+end;
+
+procedure TFrmPacientes.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TFrmPacientes.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerPaciente(FController).Model.Id);
+  edtDescricao.Text := TControllerPaciente(FController).Model.Descricao;
+end;
+
+procedure TFrmPacientes.consultar;
+begin
+  TControllerPaciente(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerPaciente(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerPaciente(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerPaciente(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmPacientes.FormCreate(Sender: TObject);
+begin
+  FController := TControllerPaciente.Create;
+  inherited;
+end;
+
+procedure TFrmPacientes.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.
+
