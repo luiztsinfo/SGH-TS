@@ -1380,6 +1380,10 @@ object frmPrincipal: TfrmPrincipal
           Caption = 'Nacionalidades'
           OnClick = Nacionalidades1Click
         end
+        object CIdades1: TMenuItem
+          Caption = 'CIdades'
+          OnClick = CIdades1Click
+        end
         object N1: TMenuItem
           Caption = '-'
         end

@@ -74,9 +74,6 @@ inherited frmPacientes: TfrmPacientes
       end
     end
     inherited TbShCadastro: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 814
       ExplicitHeight = 526
       inherited PnCampos: TPanel
         Height = 526
@@ -634,6 +631,7 @@ inherited frmPacientes: TfrmPacientes
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 18
+          OnClick = BtnBuscaNaturalidadeClick
         end
         object BtnBuscaNacionalidade: TBitBtn
           Left = 476

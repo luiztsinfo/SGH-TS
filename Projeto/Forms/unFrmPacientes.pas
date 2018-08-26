@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
   Controller.Paciente, unConstantes, u_FrmBase, Vcl.Mask, unFrmReligiao,
-  unFrmNacionalidades;
+  unFrmNacionalidades, unFrmCidades;
 
 type
   TFrmPacientes = class(TfrmBase)
@@ -97,6 +97,7 @@ type
     procedure BtnBuscaCidadeClick(Sender: TObject);
     procedure BtnBuscaReligiaoClick(Sender: TObject);
     procedure BtnBuscaNacionalidadeClick(Sender: TObject);
+    procedure BtnBuscaNaturalidadeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -173,22 +174,21 @@ begin
 end;
 
 procedure TFrmPacientes.BtnBuscaCidadeClick(Sender: TObject);
-begin
-{var
+var
   vValue: integer;
 begin
   inherited;
   try
-    frmSetores := TfrmSetores.Create(Self,toConsulta);
-    frmSetores.ShowModal;
+    FrmCidades := TFrmCidades.Create(Self,toConsulta);
+    FrmCidades.ShowModal;
   finally
-    edtIDSetor.Text := IntToStr(frmSetores.FValueFieldKey);
+    edtIDCidade.Text := IntToStr(FrmCidades.FValueFieldKey);
 
-    if TryStrToInt(edtIDSetor.Text,vValue) then
-      lblSetor.Caption := TControllerQuarto(FController).GetDescricaoSetor(vValue,iINCLUINDO);
+    if TryStrToInt(edtIDCidade.Text,vValue) then
+      lblCidade.Caption := TControllerPaciente(FController).GetNomeCidade(vValue,iINCLUINDO);
 
-    FreeAndNil(frmSetores);
-  end;}
+    FreeAndNil(FrmCidades);
+  end;
 end;
 
 procedure TFrmPacientes.BtnBuscaNacionalidadeClick(Sender: TObject);
@@ -206,6 +206,24 @@ begin
       lblNacionalidade.Caption := TControllerPaciente(FController).GetDescricaoNacionalidade(vValue,iINCLUINDO);
 
     FreeAndNil(frmNacionalidades);
+  end;
+end;
+
+procedure TFrmPacientes.BtnBuscaNaturalidadeClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    FrmCidades := TFrmCidades.Create(Self,toConsulta);
+    FrmCidades.ShowModal;
+  finally
+    edtNaturalidade.Text := IntToStr(FrmCidades.FValueFieldKey);
+
+    if TryStrToInt(edtNaturalidade.Text,vValue) then
+      lblNaturalidade.Caption := TControllerPaciente(FController).GetNomeCidade(vValue,iINCLUINDO);
+
+    FreeAndNil(FrmCidades);
   end;
 end;
 

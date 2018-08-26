@@ -9,7 +9,7 @@ uses
   Controller.Religiao, unConstantes, u_FrmBase;
 
 type
-  TFrmReligiao = class(TFrmBaseBasico)
+  TFrmReligiao = class(TfrmBaseBasico)
     Label1: TLabel;
     Label2: TLabel;
     edtID: TEdit;

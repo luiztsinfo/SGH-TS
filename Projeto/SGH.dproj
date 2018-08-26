@@ -273,6 +273,10 @@
         <DCCReference Include="Classes\Controller\Controller.Procedimento.pas"/>
         <DCCReference Include="Classes\Model\Model.Procedimento.pas"/>
         <DCCReference Include="Classes\unFuncoes.pas"/>
+        <DCCReference Include="Forms\unFrmCidades.pas">
+            <Form>frmCidades</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Cidade.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

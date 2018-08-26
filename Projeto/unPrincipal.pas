@@ -12,7 +12,7 @@ uses
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
   unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
-  unFrmProcedimentos;
+  unFrmProcedimentos, unFrmCidades;
 
 type
   TfrmPrincipal = class(TForm)
@@ -49,6 +49,7 @@ type
     Leitos1: TMenuItem;
     N3: TMenuItem;
     Procedimentos1: TMenuItem;
+    CIdades1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -71,6 +72,7 @@ type
     procedure Quartos1Click(Sender: TObject);
     procedure Leitos1Click(Sender: TObject);
     procedure Procedimentos1Click(Sender: TObject);
+    procedure CIdades1Click(Sender: TObject);
   private
 
   public
@@ -141,6 +143,16 @@ begin
     frmCID.ShowModal;
   finally
     FreeAndNil(frmCID);
+  end;
+end;
+
+procedure TfrmPrincipal.CIdades1Click(Sender: TObject);
+begin
+  try
+    FrmCidades := TFrmCidades.Create(self,toCadastro);
+    FrmCidades.ShowModal;
+  finally
+    FreeAndNil(FrmCidades);
   end;
 end;
 

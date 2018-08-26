@@ -5,13 +5,16 @@ interface
 uses Lca.Orm.Base, Lca.Orm.Atributos;
 
 type
-  [AttTabela('cidades')]
+  [AttTabela('public.cidades')]
   TCidade = class(TTabela)
     private
-
       FId: integer;
       FNome: string;
-    FSituacao: string;
+      FSituacao: string;
+      FCep_Unico: integer;
+      FUF: integer;
+      FCep: string;
+      FCod_IBGE: integer;
 
       function GetFId: integer;
       function GetFNome: string;
@@ -24,6 +27,10 @@ type
       property Id : integer read GetFId write SetFId;
       [AttNotNull('Nome')]
       property Nome : string read GetFNome write setFNome;
+      property Cep_Unico: integer read FCep_Unico write FCep_Unico;
+      property Cep: string read FCep write FCep;
+      property Cod_IBGE: integer read FCod_IBGE write FCod_IBGE;
+      property UF: integer read FUF write FUF;
       property Situacao : string read FSituacao write FSituacao;
 
   end;
@@ -41,6 +48,7 @@ function TCidade.GetFNome: string;
 begin
   Result := FNome;
 end;
+
 
 procedure TCidade.SetFId(const Value: integer);
 begin

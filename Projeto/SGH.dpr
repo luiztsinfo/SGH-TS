@@ -128,7 +128,9 @@ uses
   unFrmProcedimentos in 'Forms\unFrmProcedimentos.pas' {frmProcedimentos},
   Controller.Procedimento in 'Classes\Controller\Controller.Procedimento.pas',
   Model.Procedimento in 'Classes\Model\Model.Procedimento.pas',
-  unFuncoes in 'Classes\unFuncoes.pas';
+  unFuncoes in 'Classes\unFuncoes.pas',
+  unFrmCidades in 'Forms\unFrmCidades.pas' {frmCidades},
+  Controller.Cidade in 'Classes\Controller\Controller.Cidade.pas';
 
 {$R *.res}
 
@@ -139,6 +141,8 @@ begin
   Application.CreateForm(TDMRel, DMRel);
   Application.Run;
 end.
+
+
 
 
 
