@@ -33,7 +33,9 @@ implementation
 
 procedure TControllerReligiao.AlimentaCamposModel;
 begin
-  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+  FModel.Id         := FRegistros.FieldByName('id').AsInteger;
+  FModel.Descricao  := FRegistros.FieldByName('descricao').AsString;
+  FModel.Situacao   := FRegistros.FieldByName('situacao').AsString;
 end;
 
 procedure TControllerReligiao.Consultar(sCampoWhere, sOrderBy: string);

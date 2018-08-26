@@ -10,7 +10,6 @@ inherited frmReligiao: TfrmReligiao
   inherited PgCtrlCadastro: TPageControl
     Width = 669
     Height = 273
-    ExplicitTop = 2
     ExplicitWidth = 669
     ExplicitHeight = 273
     inherited TbShConsulta: TTabSheet
@@ -68,14 +67,12 @@ inherited frmReligiao: TfrmReligiao
         end
         inherited CbxOrdenarPor: TComboBox
           Left = 111
-          Width = 106
           ItemIndex = 1
           Text = 'DESCRICAO'
           Items.Strings = (
             'ID'
             'DESCRICAO')
           ExplicitLeft = 111
-          ExplicitWidth = 106
         end
         inherited GrpBxDadoConsulta: TGroupBox
           Left = 223

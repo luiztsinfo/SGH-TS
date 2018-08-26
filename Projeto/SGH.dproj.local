@@ -12,8 +12,8 @@
     <Transaction>2018/03/10 17:44:46.000.665,=C:\Sistemas\SGH-TS\Projeto\Classes\Controller\Controller.HE.pas</Transaction>
     <Transaction>2018/03/10 17:45:01.000.342,=C:\Sistemas\SGH-TS\Projeto\Classes\Model\Model.HE.pas</Transaction>
     <Transaction>2018/03/10 17:45:01.000.350,=C:\Sistemas\SGH-TS\Projeto\Classes\Model\Model.Paciente.pas</Transaction>
-    <Transaction>2018/03/10 17:45:24.000.312,=C:\Sistemas\SGH-TS\Projeto\Classes\ORM\Lca.Orm.Base.pas</Transaction>
     <Transaction>2018/03/10 17:45:24.000.335,=C:\Sistemas\SGH-TS\Projeto\Classes\ORM\Lca.Orm.Comp.FireDac.pas</Transaction>
+    <Transaction>2018/03/10 17:45:24.000.312,=C:\Sistemas\SGH-TS\Projeto\Classes\ORM\Lca.Orm.Base.pas</Transaction>
     <Transaction>2018/03/10 17:45:24.000.351,=C:\Sistemas\SGH-TS\Projeto\Classes\ORM\Lca.Orm.GerarClasse.pas</Transaction>
     <Transaction>2018/03/10 17:45:24.000.362,=C:\Sistemas\SGH-TS\Projeto\Classes\ORM\Lca.Orm.GerarClasseFireDac.pas</Transaction>
     <Transaction>2018/03/10 17:45:24.000.293,=C:\Sistemas\SGH-TS\Projeto\Classes\ORM\Lca.Orm.Atributos.pas</Transaction>
@@ -291,7 +291,7 @@
     <Transaction>2018/08/23 17:41:41.000.660,C:\Sistemas\SGH-TS\Projeto\Classes\Controller\Controller.Procedimento.pas=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
     <Transaction>2018/08/23 17:41:44.000.297,=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
     <Transaction>2018/08/23 17:42:05.000.886,C:\Sistemas\SGH-TS\Projeto\Classes\Model\Model.Procedimento.pas=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
-    <Transaction>2018/08/24 11:09:25.533,=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
-    <Transaction>2018/08/24 11:09:36.037,C:\Sistemas\SGH-TS\Projeto\Classes\unFuncoes.pas=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
+    <Transaction>2018/08/24 11:09:25.000.533,=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
+    <Transaction>2018/08/24 11:09:36.000.037,C:\Sistemas\SGH-TS\Projeto\Classes\unFuncoes.pas=C:\Sistemas\SGH-TS\Projeto\Unit2.pas</Transaction>
   </Transactions>
 </BorlandProject>

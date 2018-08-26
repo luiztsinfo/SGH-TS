@@ -7,6 +7,7 @@ inherited frmQuartos: TfrmQuartos
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 254
+    ActivePage = TbShCadastro
     ExplicitHeight = 254
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 226

@@ -88,6 +88,8 @@ inherited frmNacionalidades: TfrmNacionalidades
     end
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 617
       ExplicitHeight = 237
       inherited PnCampos: TPanel

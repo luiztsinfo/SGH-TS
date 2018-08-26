@@ -456,6 +456,7 @@ inherited frmPacientes: TfrmPacientes
           NumbersOnly = True
           TabOrder = 15
           Text = 'EDTCIDADE'
+          OnExit = edtIDCidadeExit
         end
         object edtReligiao: TEdit
           Left = 16
@@ -466,6 +467,7 @@ inherited frmPacientes: TfrmPacientes
           NumbersOnly = True
           TabOrder = 19
           Text = 'EDTRELIGIAO'
+          OnExit = edtReligiaoExit
         end
         object BtnBuscaCidade: TBitBtn
           Left = 77
@@ -508,6 +510,7 @@ inherited frmPacientes: TfrmPacientes
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 16
+          OnClick = BtnBuscaCidadeClick
         end
         object BtnBuscaReligiao: TBitBtn
           Left = 77
@@ -550,6 +553,7 @@ inherited frmPacientes: TfrmPacientes
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 20
+          OnClick = BtnBuscaReligiaoClick
         end
         object edtMae: TEdit
           Left = 16
@@ -577,6 +581,7 @@ inherited frmPacientes: TfrmPacientes
           NumbersOnly = True
           TabOrder = 17
           Text = 'edtNaturalidade'
+          OnExit = edtNaturalidadeExit
         end
         object edtNacionalidade: TEdit
           Left = 415
@@ -586,6 +591,7 @@ inherited frmPacientes: TfrmPacientes
           NumbersOnly = True
           TabOrder = 21
           Text = 'edtNacionalidade'
+          OnExit = edtNacionalidadeExit
         end
         object BtnBuscaNaturalidade: TBitBtn
           Left = 476
@@ -670,6 +676,7 @@ inherited frmPacientes: TfrmPacientes
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 22
+          OnClick = BtnBuscaNacionalidadeClick
         end
         object edtConjuge: TEdit
           Left = 16

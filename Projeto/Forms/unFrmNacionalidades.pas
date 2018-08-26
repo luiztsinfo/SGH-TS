@@ -17,6 +17,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
 
   public
@@ -81,6 +82,16 @@ procedure TfrmNacionalidades.FormCreate(Sender: TObject);
 begin
   FController := TControllerNacionalidade.Create;
   inherited;
+end;
+
+procedure TfrmNacionalidades.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerNacionalidade(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TfrmNacionalidades.TbShCadastroShow(Sender: TObject);

@@ -17,6 +17,7 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,6 +62,7 @@ end;
 
 procedure TFrmReligiao.consultar;
 begin
+  inherited;
   TControllerReligiao(FController).Model.Situacao := sATIVO;
 
   case CbxConsulta.ItemIndex of
@@ -76,6 +78,16 @@ procedure TFrmReligiao.FormCreate(Sender: TObject);
 begin
   FController := TControllerReligiao.Create;
   inherited;
+end;
+
+procedure TFrmReligiao.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerReligiao(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TFrmReligiao.TbShCadastroShow(Sender: TObject);

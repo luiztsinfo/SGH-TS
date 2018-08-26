@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.Paciente, unConstantes, u_FrmBase, Vcl.Mask;
+  Controller.Paciente, unConstantes, u_FrmBase, Vcl.Mask, unFrmReligiao,
+  unFrmNacionalidades;
 
 type
   TFrmPacientes = class(TfrmBase)
@@ -89,6 +90,13 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure edtIDCidadeExit(Sender: TObject);
+    procedure edtNaturalidadeExit(Sender: TObject);
+    procedure edtReligiaoExit(Sender: TObject);
+    procedure edtNacionalidadeExit(Sender: TObject);
+    procedure BtnBuscaCidadeClick(Sender: TObject);
+    procedure BtnBuscaReligiaoClick(Sender: TObject);
+    procedure BtnBuscaNacionalidadeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -162,6 +170,61 @@ begin
   inherited;
   TControllerPaciente(FController).Model.Id := StrToInt(edtID.Text);
   TControllerPaciente(FController).FDao.Salvar(TControllerPaciente(FController).Model)
+end;
+
+procedure TFrmPacientes.BtnBuscaCidadeClick(Sender: TObject);
+begin
+{var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmSetores := TfrmSetores.Create(Self,toConsulta);
+    frmSetores.ShowModal;
+  finally
+    edtIDSetor.Text := IntToStr(frmSetores.FValueFieldKey);
+
+    if TryStrToInt(edtIDSetor.Text,vValue) then
+      lblSetor.Caption := TControllerQuarto(FController).GetDescricaoSetor(vValue,iINCLUINDO);
+
+    FreeAndNil(frmSetores);
+  end;}
+end;
+
+procedure TFrmPacientes.BtnBuscaNacionalidadeClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmNacionalidades := TfrmNacionalidades.Create(Self,toConsulta);
+    frmNacionalidades.ShowModal;
+  finally
+    edtNacionalidade.Text := IntToStr(frmNacionalidades.FValueFieldKey);
+
+    if TryStrToInt(edtNacionalidade.Text,vValue) then
+      lblNacionalidade.Caption := TControllerPaciente(FController).GetDescricaoNacionalidade(vValue,iINCLUINDO);
+
+    FreeAndNil(frmNacionalidades);
+  end;
+end;
+
+procedure TFrmPacientes.BtnBuscaReligiaoClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmReligiao := TFrmReligiao.Create(Self,toConsulta);
+    frmReligiao.ShowModal;
+  finally
+    edtReligiao.Text := IntToStr(frmReligiao.FValueFieldKey);
+
+    if TryStrToInt(edtReligiao.Text,vValue) then
+      lblReligiao.Caption := TControllerPaciente(FController).GetDescricaoReligiao(vValue,iINCLUINDO);
+
+    FreeAndNil(frmReligiao);
+  end;
 end;
 
 procedure TFrmPacientes.BtnNovoClick(Sender: TObject);
@@ -240,6 +303,42 @@ begin
       TControllerPaciente(FController).Model.Nome := '%'+trim(edtConsulta.Text)+'%';
   end;
   TControllerPaciente(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmPacientes.edtIDCidadeExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtIDCidade.Text,vValue) then
+    lblCidade.Caption := TControllerPaciente(FController).GetNomeCidade(vValue,iINCLUINDO);
+end;
+
+procedure TFrmPacientes.edtNacionalidadeExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtNacionalidade.Text,vValue) then
+    lblNacionalidade.Caption := TControllerPaciente(FController).GetDescricaoNacionalidade(vValue,iINCLUINDO);
+end;
+
+procedure TFrmPacientes.edtNaturalidadeExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtNaturalidade.Text,vValue) then
+    lblNaturalidade.Caption := TControllerPaciente(FController).GetNomeCidade(vValue,iINCLUINDO);
+end;
+
+procedure TFrmPacientes.edtReligiaoExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtReligiao.Text,vValue) then
+    lblReligiao.Caption := TControllerPaciente(FController).GetDescricaoReligiao(vValue,iINCLUINDO);
 end;
 
 procedure TFrmPacientes.FormCreate(Sender: TObject);
