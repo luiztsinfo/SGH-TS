@@ -51,6 +51,7 @@ type
     procedure BtnBuscaTabelaPrecoProcedimentosClick(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -223,6 +224,16 @@ procedure TfrmConvenios.FormCreate(Sender: TObject);
 begin
   FController := TControllerConvenio.Create;
   inherited;
+end;
+
+procedure TfrmConvenios.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerConvenio(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TfrmConvenios.TbShCadastroShow(Sender: TObject);

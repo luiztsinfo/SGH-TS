@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons,
   Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Ambulatorial,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase;
 
 type
   TfrmAmbulatoriais = class(TForm)
@@ -76,15 +76,50 @@ type
     edtSetor: TEdit;
     BtnBuscaSetor: TBitBtn;
     lblSetor: TLabel;
+    Label19: TLabel;
+    CbxResponsavel: TComboBox;
+    PnResponsavel: TPanel;
+    Label20: TLabel;
+    edtResponsavel: TEdit;
+    BtnBuscaResponsavel: TBitBtn;
+    lblResponsavelPaciente: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    mskDataAlta: TMaskEdit;
+    mskHoraAlta: TMaskEdit;
+    CbxMotivoAlta: TComboBox;
+    CbxTipoSaidaTISS: TComboBox;
+    PnCIDDefinitivo: TPanel;
+    edtCIDDefinitivo: TEdit;
+    Label25: TLabel;
+    BtnBuscaCIDDefinitivo: TBitBtn;
+    lblCIDDefinitivo: TLabel;
+    PnTransferencia: TPanel;
+    Label26: TLabel;
+    Label27: TLabel;
+    edtTransferidoPara: TEdit;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure CbxConsultaPorExit(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
+    procedure TbShDadosAtendimentoShow(Sender: TObject);
+    procedure CbxResponsavelExit(Sender: TObject);
+    procedure BtnSalvarClick(Sender: TObject);
+    procedure edtConvenioExit(Sender: TObject);
+    procedure BtnBuscaConvenioClick(Sender: TObject);
+    procedure BtnCancelarOperacaoClick(Sender: TObject);
+    procedure edtMedicoResponsavelExit(Sender: TObject);
   private
+
+    iTipoOperacao: integer;
     FController: TControllerAmbulatorial;
     procedure VerificaTipoConsulta;
+    procedure VerificaResponsavel;
+    procedure LimparControles;
   public
     { Public declarations }
   end;
@@ -96,14 +131,74 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmAmbulatoriais.BtnBuscaConvenioClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmConvenios := TfrmConvenios.Create(Self,toConsulta);
+    frmConvenios.ShowModal;
+  finally
+    edtConvenio.Text := IntToStr(frmConvenios.FValueFieldKey);
+
+    if TryStrToInt(edtConvenio.Text,vValue) then
+      lblConvenio.Caption := FController.GetNomeConvenio(vValue,iINCLUINDO);
+
+    FreeAndNil(frmConvenios);
+  end;
+end;
+
+procedure TfrmAmbulatoriais.BtnCancelarOperacaoClick(Sender: TObject);
+begin
+  PgCtrlAtendimentos.ActivePageIndex := 0;
+  LimparControles;
+end;
+
 procedure TfrmAmbulatoriais.BtnNovoClick(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 1;
 end;
 
+procedure TfrmAmbulatoriais.BtnSalvarClick(Sender: TObject);
+begin
+  if iTipoOperacao = iINCLUINDO then
+    begin
+
+    end;
+
+  if iTipoOperacao = iALTERANDO then
+    begin
+
+    end;
+end;
+
 procedure TfrmAmbulatoriais.CbxConsultaPorExit(Sender: TObject);
 begin
   VerificaTipoConsulta;
+end;
+
+procedure TfrmAmbulatoriais.CbxResponsavelExit(Sender: TObject);
+begin
+  VerificaResponsavel;
+end;
+
+procedure TfrmAmbulatoriais.edtConvenioExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtConvenio.Text,vValue) then
+    lblConvenio.Caption := FController.GetNomeConvenio(vValue,iINCLUINDO);
+end;
+
+procedure TfrmAmbulatoriais.edtMedicoResponsavelExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtMedicoResponsavel.Text,vValue) then
+    lblMedicoResponsavel.Caption := FController.GetNomeMedico(vValue,iINCLUINDO);
 end;
 
 procedure TfrmAmbulatoriais.FormCreate(Sender: TObject);
@@ -125,8 +220,64 @@ end;
 
 procedure TfrmAmbulatoriais.FormShow(Sender: TObject);
 begin
+  frmAmbulatoriais.Height := 590;
+//  661 se for usar alta e transferencia
+  PgCtrlAtendimentos.ActivePageIndex := 0;
   GrdAmbulatoriais.DataSource := FController.Ds;
   VerificaTipoConsulta;
+end;
+
+procedure TfrmAmbulatoriais.LimparControles;
+var
+  n : Integer;
+  nTotComponentes : Integer;
+begin
+  nTotComponentes :=  Self.ComponentCount;
+    for n := 0 to nTotComponentes-1 do
+      begin
+      if(Self.Components[n] is TEdit)then
+        begin
+          (Self.Components[n] as TEdit).Clear;
+        end
+      else
+      if(Self.Components[n] is TMemo)then
+        begin
+         (Self.Components[n] as TMemo).Clear;
+        end
+      else
+      if(Self.Components[n] is TMaskEdit)then
+        begin
+          (Self.Components[n] as TMaskEdit).Clear
+        end
+      else
+      if (Self.Components[n] is TComboBox)then
+        begin
+          (Self.Components[n] as TComboBox).ItemIndex := 0;
+          (Self.Components[n] as TComboBox).Text := '';
+         end
+      else
+      if (Self.Components[n] is TRichEdit) then
+        begin
+          (Self.Components[n] as TRichEdit).Lines.Text := '';
+        end;
+      end;
+end;
+
+procedure TfrmAmbulatoriais.TbShDadosAtendimentoShow(Sender: TObject);
+begin
+  mskDataAtendimento.SetFocus;
+end;
+
+procedure TfrmAmbulatoriais.VerificaResponsavel;
+begin
+  if CbxResponsavel.ItemIndex = 1 then
+    PnResponsavel.Visible := false;
+
+  if CbxResponsavel.ItemIndex = 2 then
+    begin
+      PnResponsavel.Visible := true;
+      BtnBuscaResponsavel.SetFocus;
+    end;
 end;
 
 procedure TfrmAmbulatoriais.VerificaTipoConsulta;

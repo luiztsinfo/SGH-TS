@@ -7,7 +7,6 @@ inherited frmConvenios: TfrmConvenios
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 440
-    ActivePage = TbShCadastro
     ExplicitHeight = 440
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 412
