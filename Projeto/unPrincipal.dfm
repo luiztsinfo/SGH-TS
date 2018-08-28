@@ -1441,6 +1441,13 @@ object frmPrincipal: TfrmPrincipal
         OnClick = Leitos1Click
       end
     end
+    object Atendimentos1: TMenuItem
+      Caption = 'Atendimentos'
+      object Ambulatoriais1: TMenuItem
+        Caption = 'Ambulatoriais'
+        OnClick = Ambulatoriais1Click
+      end
+    end
     object Enfermagem2: TMenuItem
       Caption = 'Enfermagem'
       object Cadastros2: TMenuItem

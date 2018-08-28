@@ -277,6 +277,11 @@
             <Form>frmCidades</Form>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Cidade.pas"/>
+        <DCCReference Include="Forms\unFrmAmbulatoriais.pas">
+            <Form>frmAmbulatoriais</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Ambulatorial.pas"/>
+        <DCCReference Include="Classes\Model\Model.Ambulatorial.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

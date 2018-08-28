@@ -130,7 +130,10 @@ uses
   Model.Procedimento in 'Classes\Model\Model.Procedimento.pas',
   unFuncoes in 'Classes\unFuncoes.pas',
   unFrmCidades in 'Forms\unFrmCidades.pas' {frmCidades},
-  Controller.Cidade in 'Classes\Controller\Controller.Cidade.pas';
+  Controller.Cidade in 'Classes\Controller\Controller.Cidade.pas',
+  unFrmAmbulatoriais in 'Forms\unFrmAmbulatoriais.pas' {frmAmbulatoriais},
+  Controller.Ambulatorial in 'Classes\Controller\Controller.Ambulatorial.pas',
+  Model.Ambulatorial in 'Classes\Model\Model.Ambulatorial.pas';
 
 {$R *.res}
 
@@ -141,6 +144,8 @@ begin
   Application.CreateForm(TDMRel, DMRel);
   Application.Run;
 end.
+
+
 
 
 

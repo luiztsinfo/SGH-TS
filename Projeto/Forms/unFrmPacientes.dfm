@@ -7,7 +7,6 @@ inherited frmPacientes: TfrmPacientes
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 554
-    ActivePage = TbShCadastro
     ExplicitHeight = 554
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 526
@@ -74,6 +73,9 @@ inherited frmPacientes: TfrmPacientes
       end
     end
     inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 814
       ExplicitHeight = 526
       inherited PnCampos: TPanel
         Height = 526
@@ -875,6 +877,24 @@ inherited frmPacientes: TfrmPacientes
           TabOrder = 37
           Text = 'EDTPROFISSAO'
         end
+      end
+    end
+    object TbShResponsavelPaciente: TTabSheet
+      Caption = 'Respons'#225'vel do Paciente'
+      ImageIndex = 2
+      object PnResponsavelPaciente: TPanel
+        Left = 0
+        Top = 0
+        Width = 814
+        Height = 526
+        Align = alClient
+        Color = 16704450
+        ParentBackground = False
+        TabOrder = 0
+        ExplicitLeft = 304
+        ExplicitTop = 176
+        ExplicitWidth = 185
+        ExplicitHeight = 41
       end
     end
   end

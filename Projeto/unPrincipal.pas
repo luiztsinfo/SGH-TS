@@ -12,7 +12,7 @@ uses
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
   unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
-  unFrmProcedimentos, unFrmCidades;
+  unFrmProcedimentos, unFrmCidades, unFrmAmbulatoriais;
 
 type
   TfrmPrincipal = class(TForm)
@@ -50,6 +50,8 @@ type
     N3: TMenuItem;
     Procedimentos1: TMenuItem;
     CIdades1: TMenuItem;
+    Atendimentos1: TMenuItem;
+    Ambulatoriais1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -73,6 +75,7 @@ type
     procedure Leitos1Click(Sender: TObject);
     procedure Procedimentos1Click(Sender: TObject);
     procedure CIdades1Click(Sender: TObject);
+    procedure Ambulatoriais1Click(Sender: TObject);
   private
 
   public
@@ -113,6 +116,16 @@ begin
     frmAlergia.ShowModal;
   finally
     FreeAndNil(frmAlergia);
+  end;
+end;
+
+procedure TfrmPrincipal.Ambulatoriais1Click(Sender: TObject);
+begin
+  try
+    frmAmbulatoriais := TfrmAmbulatoriais.Create(self);
+    frmAmbulatoriais.ShowModal;
+  finally
+    FreeAndNil(frmAmbulatoriais);
   end;
 end;
 
