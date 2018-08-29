@@ -27,6 +27,7 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure edtIDGrupoCIDExit(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
 
   public
@@ -128,6 +129,16 @@ procedure TfrmCID.FormCreate(Sender: TObject);
 begin
   FController := TControllerCID.Create;
   inherited;
+end;
+
+procedure TfrmCID.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := StrToInt(TControllerCID(FController).Model.Id);
+      Self.Close;
+    end;
 end;
 
 procedure TfrmCID.TbShCadastroShow(Sender: TObject);

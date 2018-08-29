@@ -29,10 +29,8 @@ object frmAmbulatoriais: TfrmAmbulatoriais
     ActivePage = TbShDadosAtendimento
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 484
     object TbShAtendimentos: TTabSheet
       Caption = 'Atendimentos'
-      ExplicitHeight = 456
       object PnConsulta: TPanel
         Left = 0
         Top = 0
@@ -209,7 +207,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 451
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 303
         object GrdAmbulatoriais: TDBGrid
           Left = 1
           Top = 1
@@ -275,7 +272,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 2
-        ExplicitTop = 392
         object Label4: TLabel
           Left = 494
           Top = 5
@@ -355,11 +351,12 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         end
         object BtnSair: TBitBtn
           Left = 712
-          Top = 16
+          Top = 8
           Width = 75
-          Height = 25
+          Height = 33
           Caption = 'SAIR - ESC'
           TabOrder = 3
+          OnClick = BtnSairClick
         end
       end
     end
@@ -367,7 +364,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       Caption = 'Dados do Atendimento'
       ImageIndex = 1
       OnShow = TbShDadosAtendimentoShow
-      ExplicitHeight = 456
       object PnDadosAtendimento: TPanel
         Left = 0
         Top = 0
@@ -375,7 +371,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 548
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 400
         object Label8: TLabel
           Left = 16
           Top = 8
@@ -602,7 +597,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Align = alBottom
           TabOrder = 6
           Visible = False
-          ExplicitTop = 447
           object Label21: TLabel
             Left = 13
             Top = 12
@@ -709,6 +703,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 7
+          OnClick = BtnBuscaMedicoClick
         end
         object edtMedicoResponsavel: TEdit
           Left = 16
@@ -726,6 +721,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 21
           NumbersOnly = True
           TabOrder = 9
+          OnExit = edtProcedimentoExit
         end
         object BtnBuscaProcedimento: TBitBtn
           Left = 104
@@ -768,6 +764,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 10
+          OnClick = BtnBuscaProcedimentoClick
         end
         object edtConvenio: TEdit
           Left = 16
@@ -828,6 +825,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 21
           NumbersOnly = True
           TabOrder = 13
+          OnExit = edtCIDProvisorioExit
         end
         object BtnBuscaCIDProvisorio: TBitBtn
           Left = 104
@@ -870,6 +868,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 14
+          OnClick = BtnBuscaCIDProvisorioClick
         end
         object edtSetor: TEdit
           Left = 16
@@ -878,6 +877,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 21
           NumbersOnly = True
           TabOrder = 15
+          OnExit = edtSetorExit
         end
         object BtnBuscaSetor: TBitBtn
           Left = 104
@@ -920,6 +920,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
           TabOrder = 16
+          OnClick = BtnBuscaSetorClick
         end
         object CbxResponsavel: TComboBox
           Left = 16
@@ -1047,6 +1048,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Height = 21
             NumbersOnly = True
             TabOrder = 0
+            OnExit = edtCIDDefinitivoExit
           end
           object BtnBuscaCIDDefinitivo: TBitBtn
             Left = 103
@@ -1089,6 +1091,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
               1F3E000000060000000100000000000000000000000000000000}
             TabOrder = 1
+            OnClick = BtnBuscaCIDDefinitivoClick
           end
         end
         object PnTransferencia: TPanel
@@ -1136,7 +1139,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 56
         Align = alBottom
         TabOrder = 1
-        ExplicitTop = 400
         object BtnSalvar: TBitBtn
           Left = 295
           Top = 10

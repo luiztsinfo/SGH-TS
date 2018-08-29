@@ -17,6 +17,7 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
 
   public
@@ -82,6 +83,16 @@ procedure TfrmColaborador.FormCreate(Sender: TObject);
 begin
   FController := TControllerColaborador.Create;
   inherited;
+end;
+
+procedure TfrmColaborador.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerColaborador(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TfrmColaborador.TbShCadastroShow(Sender: TObject);

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.Procedimento, unConstantes, unFuncoes;
+  Controller.Procedimento, unConstantes, unFuncoes, u_FrmBase;
 
 type
   TfrmProcedimentos = class(TFrmBaseBasico)
@@ -24,6 +24,7 @@ type
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edtValorPadraoExit(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -97,6 +98,16 @@ procedure TfrmProcedimentos.FormCreate(Sender: TObject);
 begin
   FController := TControllerProcedimento.Create;
   inherited;
+end;
+
+procedure TfrmProcedimentos.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerProcedimento(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TfrmProcedimentos.TbShCadastroShow(Sender: TObject);

@@ -7,7 +7,6 @@ inherited frmProcedimentos: TfrmProcedimentos
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 277
-    ActivePage = TbShCadastro
     ExplicitHeight = 277
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 249

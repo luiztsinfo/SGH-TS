@@ -1,0 +1,93 @@
+unit unFrmColaboradores;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrmBase, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Mask,
+  Controller.Colaborador, unConstantes;
+
+type
+  TfrmColaborador = class(TfrmBase)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtID: TEdit;
+    edtNome: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+  private
+
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmColaborador: TfrmColaborador;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmColaboradores }
+
+procedure TfrmColaborador.alimentaModel;
+begin
+  inherited;
+  TControllerColaborador(FController).Model.Nome        := edtNome.Text;
+end;
+
+procedure TfrmColaborador.alterar;
+begin
+  inherited;
+  TControllerColaborador(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerColaborador(FController).FDao.Salvar(TControllerColaborador(FController).Model);
+end;
+
+procedure TfrmColaborador.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+procedure TfrmColaborador.carregarCampos;
+begin
+  inherited;
+  edtID.Text          := IntToStr(TControllerColaborador(FController).Model.Id);
+  edtNome.Text        := TControllerColaborador(FController).Model.Nome;
+
+end;
+
+procedure TfrmColaborador.consultar;
+begin
+  inherited;
+  TControllerColaborador(FController).Model.Situacao    := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerColaborador(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+
+    iNOME:
+      TControllerColaborador(FController).Model.Nome := '%'+trim(edtConsulta.Text)+'%';
+  end;
+
+  TControllerColaborador(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmColaborador.FormCreate(Sender: TObject);
+begin
+  FController := TControllerColaborador.Create;
+  inherited;
+end;
+
+procedure TfrmColaborador.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtNome.SetFocus;
+end;
+
+end.

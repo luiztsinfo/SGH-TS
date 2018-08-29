@@ -7,9 +7,12 @@ inherited frmColaborador: TfrmColaborador
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 288
+    ExplicitHeight = 288
     inherited TbShConsulta: TTabSheet
+      ExplicitHeight = 260
       inherited PnDados: TPanel
         Height = 193
+        ExplicitHeight = 193
         inherited GrdDados: TDBGrid
           Height = 187
           Columns = <
@@ -52,9 +55,10 @@ inherited frmColaborador: TfrmColaborador
       ExplicitLeft = 4
       ExplicitTop = 24
       ExplicitWidth = 814
-      ExplicitHeight = 318
+      ExplicitHeight = 260
       inherited PnCampos: TPanel
         Height = 260
+        ExplicitHeight = 260
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -92,6 +96,7 @@ inherited frmColaborador: TfrmColaborador
   end
   inherited PnBotoes: TPanel
     Top = 288
+    ExplicitTop = 288
     inherited BtnNovo: TBitBtn
       Left = 6
       ExplicitLeft = 6

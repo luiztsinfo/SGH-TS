@@ -10,7 +10,6 @@ inherited frmCID: TfrmCID
   inherited PgCtrlCadastro: TPageControl
     Width = 602
     Height = 245
-    ActivePage = TbShCadastro
     ExplicitWidth = 602
     ExplicitHeight = 245
     inherited TbShConsulta: TTabSheet
