@@ -4,7 +4,7 @@ interface
 
 uses Model.Ambulatorial, Data.DB, Lca.Orm.Comp.FireDac, Conexao, unConstantes,
   Model.Convenios, Model.Colaboradores, Model.Procedimento, Model.CID,
-  Model.Setor;
+  Model.Setor, Model.Paciente;
 
 type
   TControllerAmbulatorial = class
@@ -19,10 +19,12 @@ type
       FProcedimento: TProcedimentos;
       FCID: TCid;
       FSetor: TSetores;
+      FPaciente: TPacientes;
     public
       function GetDescricaoSetor(AID: Integer;iOperacao: integer): string;
-      function GetDescricaoCID(AID: Integer;iOperacao: integer): string;
+      function GetDescricaoCID(AID: string; iOperacao: integer): string;
       function GetDescricaoProcedimento(AID: Integer;iOperacao: integer): string;
+      function GetNomePaciente(AID: Integer;iOperacao: integer): string;
       function GetNomeMedico(AID: Integer;iOperacao: integer): string;
       function GetNomeConvenio(AID: Integer;iOperacao: integer): string;
       function IncluirAtendimento: boolean;
@@ -91,6 +93,7 @@ begin
   FProcedimento := TProcedimentos.Create;
   FCID := TCid.Create;
   FSetor := TSetores.Create;
+  FPaciente := TPacientes.Create;
   inherited;
 end;
 
@@ -106,10 +109,11 @@ begin
   FProcedimento.Free;
   FCID.Free;
   FSetor.Free;
+  FPaciente.Free;
   inherited;
 end;
 
-function TControllerAmbulatorial.GetDescricaoCID(AID,
+function TControllerAmbulatorial.GetDescricaoCID(AID: string;
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
@@ -143,8 +147,16 @@ begin
     Result := FDao.GetValueForeignKey(FColaborador,'nome','id',AID,iOperacao);
 end;
 
+function TControllerAmbulatorial.GetNomePaciente(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FPaciente,'nome','id',AID,iOperacao);
+end;
+
 function TControllerAmbulatorial.IncluirAtendimento: boolean;
 begin
+  Model.Id := FDao.GetID(Model,'id');
   if FDao.Inserir(FModel) > 0 then
     Result := True;
 end;

@@ -100,6 +100,7 @@ type
     procedure BtnBuscaReligiaoClick(Sender: TObject);
     procedure BtnBuscaNacionalidadeClick(Sender: TObject);
     procedure BtnBuscaNaturalidadeClick(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -365,6 +366,16 @@ procedure TFrmPacientes.FormCreate(Sender: TObject);
 begin
   FController := TControllerPaciente.Create;
   inherited;
+end;
+
+procedure TFrmPacientes.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerPaciente(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TFrmPacientes.TbShCadastroShow(Sender: TObject);

@@ -111,7 +111,11 @@ type
 
     // pega campo autoincremento
     function GetID(ATabela: TTabela; ACampo: string): Integer;
-    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: integer; iOperacao: integer): string;
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: Integer;
+      iOperacao: integer): string; overload;
+
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: string;
+      iOperacao: integer): string; overload;
 
     function GetMax(ATabela: TTabela; ACampo: string;
       ACamposChave: array of string): Integer;
@@ -702,6 +706,31 @@ begin
   end;
 end;
 
+function TDaoFireDac.GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey,
+  AValue: string; iOperacao: integer): string;
+var
+  AQry: TFDQuery;
+begin
+  AQry := TFDQuery.Create(Application);
+  with AQry do
+  begin
+    Connection := FConexao;
+    sql.Clear;
+    sql.Add('select ' + AFieldDesc + ',situacao from ' + TAtributos.Get.PegaNomeTab(ATabela) + ' where '+
+    AFieldKey + ' = :value');
+    ParamByName('value').AsString := AValue;
+    Open;
+
+    if (AQry.FieldByName('situacao').AsString = 'I') and (iOperacao = iINCLUINDO) then
+      begin
+        MessageDlg('Registro com cadastro inativo!',mtWarning,[mbOk],0);
+        Result := '';
+      end
+    else
+      Result := AQry.FieldByName(AFieldDesc).AsString;
+  end;
+end;
+
 function TDaoFireDac.GetValueForeignKey(ATabela: TTabela; AFieldDesc,
   AFieldKey: string; AValue: integer; iOperacao: integer): string;
 var
@@ -714,7 +743,6 @@ begin
     sql.Clear;
     sql.Add('select ' + AFieldDesc + ',situacao from ' + TAtributos.Get.PegaNomeTab(ATabela) + ' where '+
     AFieldKey + ' = ' + AValue.ToString);
-//    ParamByName('ativo').AsString := 'A';
     Open;
 
     if (AQry.FieldByName('situacao').AsString = 'I') and (iOperacao = iINCLUINDO) then
@@ -723,7 +751,6 @@ begin
         Result := '';
       end
     else
-//    if (AQry.FieldByName('situacao').AsString = 'A') and (iOperacao = iALTERANDO) then
       Result := AQry.FieldByName(AFieldDesc).AsString;
   end;
 end;

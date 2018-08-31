@@ -27,7 +27,7 @@ type
       function    ExisteRegistro: Boolean;
       property    Model: TCid read FModel;
       property    DataSource: TDataSource read GetDataSource;
-      function    GetDescricaoGrupoCID(AID: Integer;iOperacao: integer): string;
+      function    GetDescricaoGrupoCID(AID: integer;iOperacao: integer): string;
   end;
 
 implementation
@@ -110,7 +110,7 @@ begin
   end;
 end;
 
-function TControllerCID.GetDescricaoGrupoCID(AID: Integer; iOperacao: integer): string;
+function TControllerCID.GetDescricaoGrupoCID(AID: integer; iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FGrupoCID,'descricao','id',AID,iOperacao);

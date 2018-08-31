@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons,
   Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Ambulatorial,
   Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase, unFrmColaboradores,
-  unFrmProcedimentos, unFrmCID, unFrmSetores;
+  unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes;
 
 type
   TfrmAmbulatoriais = class(TForm)
@@ -46,11 +46,9 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
-    Label10: TLabel;
     Label11: TLabel;
     edtIDAtendimento: TEdit;
     mskDataAtendimento: TMaskEdit;
-    mskHoraAtendimento: TMaskEdit;
     CbxCarater: TComboBox;
     Label12: TLabel;
     CbxTipoClinica: TComboBox;
@@ -85,11 +83,9 @@ type
     BtnBuscaResponsavel: TBitBtn;
     lblResponsavelPaciente: TLabel;
     Label21: TLabel;
-    Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
     mskDataAlta: TMaskEdit;
-    mskHoraAlta: TMaskEdit;
     CbxMotivoAlta: TComboBox;
     CbxTipoSaidaTISS: TComboBox;
     PnCIDDefinitivo: TPanel;
@@ -101,6 +97,12 @@ type
     Label26: TLabel;
     Label27: TLabel;
     edtTransferidoPara: TEdit;
+    Label28: TLabel;
+    CbxStatus: TComboBox;
+    Label29: TLabel;
+    edtPaciente: TEdit;
+    BtnBuscaPacienteNovoAtendimento: TBitBtn;
+    lblPacienteNovo: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -124,10 +126,14 @@ type
     procedure BtnBuscaCIDProvisorioClick(Sender: TObject);
     procedure BtnBuscaSetorClick(Sender: TObject);
     procedure BtnBuscaCIDDefinitivoClick(Sender: TObject);
+    procedure BtnConsultaClick(Sender: TObject);
+    procedure edtPacienteExit(Sender: TObject);
+    procedure BtnBuscaPacienteNovoAtendimentoClick(Sender: TObject);
   private
 
     iTipoOperacao: integer;
     FController: TControllerAmbulatorial;
+    procedure AlimentaModel;
     procedure VerificaTipoConsulta;
     procedure VerificaResponsavel;
     procedure LimparControles;
@@ -142,9 +148,92 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmAmbulatoriais.BtnBuscaCIDDefinitivoClick(Sender: TObject);
+procedure TfrmAmbulatoriais.AlimentaModel;
 var
-  vValue: integer;
+  vDataHoraAtendimento,vDataHoraAlta: TDateTime;
+  vMedicoResponsavel,vProcedimento,vCidProvisorio,vSetor,vConvenio,
+  vResponsavelPaciente, vCIDDefinitivo, vPaciente: integer;
+begin
+  if TryStrToInt(edtPaciente.Text,vPaciente) then
+    FController.Model.Id_paciente := vPaciente
+  else
+    begin
+      MessageDlg('Informe o paciente a ser atendido!',mtWarning,[mbOk],0);
+      edtPaciente.SetFocus;
+      Exit;
+    end;
+
+  if TryStrToDateTime(mskDataAtendimento.Text,vDataHoraAtendimento) then
+    FController.Model.DataHora_atendimento := vDataHoraAtendimento
+  else
+    begin
+      MessageDlg('Informe a data e hora do atendimento!',mtWarning,[mbOk],0);
+      mskDataAtendimento.SetFocus;
+      Exit;
+    end;
+
+  FController.Model.Carater          := CbxCarater.ItemIndex;
+
+  if TryStrToInt(edtMedicoResponsavel.Text,vMedicoResponsavel) then
+    FController.Model.Id_medico_responsavel := vMedicoResponsavel
+  else
+    begin
+      MessageDlg('Informe o médico responsável pelo atendimento!',mtWarning,[mbOk],0);
+      edtMedicoResponsavel.SetFocus;
+      Exit;
+    end;
+
+  if TryStrToInt(edtProcedimento.Text,vProcedimento) then
+    FController.Model.Id_procedimento       := vProcedimento;
+
+  FController.Model.Id_cid_provisorio     := edtCIDProvisorio.Text;
+
+  if TryStrToInt(edtSetor.Text,vSetor) then
+    FController.Model.Id_setor := vSetor
+  else
+    begin
+      MessageDlg('Informe o setor!',mtWarning,[mbOk],0);
+      edtSetor.SetFocus;
+      Exit;
+    end;
+
+  FController.Model.Tipo_clinica          := CbxTipoClinica.ItemIndex;
+  FController.Model.Tipo_atendimento      := CbxTipoAtendimento.ItemIndex;
+
+  if TryStrToInt(edtConvenio.Text,vConvenio) then
+    FController.Model.Id_convenio           := vConvenio
+  else
+    begin
+      MessageDlg('Informe o convênio que o paciente será atendido!',mtWarning,[mbOK],0);
+      edtConvenio.SetFocus;
+      Exit;
+    end;
+
+  FController.Model.Responsavel_paciente  := CbxResponsavel.ItemIndex;
+  if CbxResponsavel.ItemIndex = 1 then
+    if TryStrToInt(edtResponsavel.Text,vResponsavelPaciente) then
+      FController.Model.Id_responsavel := vResponsavelPaciente
+    else
+      begin
+        MessageDlg('Informe o responsável pelo paciente!',mtWarning,[mbOk],0);
+        edtResponsavel.SetFocus;
+        Exit;
+      end;
+
+  if iTipoOperacao <> iINCLUINDO then
+    begin
+      FController.Model.DataHora_alta             := StrToDate(mskDataAlta.Text);
+
+      if (edtCIDDefinitivo.Text <> trim('')) and (edtCIDDefinitivo.Text <> EmptyStr) then
+        FController.Model.Id_cid_definitivo     := edtCIDDefinitivo.Text;
+
+      FController.Model.Motivo_alta           := CbxMotivoAlta.ItemIndex;
+      FController.Model.Tipo_saida_tiss       := CbxTipoSaidaTISS.ItemIndex;
+      FController.Model.Transferido_para      := edtTransferidoPara.Text;
+    end;
+end;
+
+procedure TfrmAmbulatoriais.BtnBuscaCIDDefinitivoClick(Sender: TObject);
 begin
   inherited;
   try
@@ -153,16 +242,14 @@ begin
   finally
     edtCIDDefinitivo.Text := IntToStr(frmCID.FValueFieldKey);
 
-    if TryStrToInt(edtCIDDefinitivo.Text,vValue) then
-      lblCIDDefinitivo.Caption := FController.GetDescricaoCID(vValue,iINCLUINDO);
+    if (edtCIDDefinitivo.Text <> trim('0')) and (edtCIDDefinitivo.Text <> EmptyStr) then
+      lblCIDDefinitivo.Caption := FController.GetDescricaoCID(edtCIDDefinitivo.Text,iINCLUINDO);
 
     FreeAndNil(frmCID);
   end;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaCIDProvisorioClick(Sender: TObject);
-var
-  vValue: integer;
 begin
   inherited;
   try
@@ -171,8 +258,8 @@ begin
   finally
     edtCIDProvisorio.Text := IntToStr(frmCID.FValueFieldKey);
 
-    if TryStrToInt(edtCIDProvisorio.Text,vValue) then
-      lblProvisorio.Caption := FController.GetDescricaoCID(vValue,iINCLUINDO);
+    if (edtCIDProvisorio.Text <> trim('0')) and (edtCIDProvisorio.Text <> EmptyStr) then
+      lblProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
 
     FreeAndNil(frmCID);
   end;
@@ -211,6 +298,25 @@ begin
       lblMedicoResponsavel.Caption := FController.GetNomeMedico(vValue,iINCLUINDO);
 
     FreeAndNil(frmColaborador);
+  end;
+end;
+
+procedure TfrmAmbulatoriais.BtnBuscaPacienteNovoAtendimentoClick(
+  Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmPacientes := TfrmPacientes.Create(Self,toConsulta);
+    frmPacientes.ShowModal;
+  finally
+    edtPaciente.Text := IntToStr(frmPacientes.FValueFieldKey);
+
+    if TryStrToInt(edtPaciente.Text,vValue) then
+      lblPacienteNovo.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
+
+    FreeAndNil(frmPacientes);
   end;
 end;
 
@@ -256,9 +362,16 @@ begin
   LimparControles;
 end;
 
+procedure TfrmAmbulatoriais.BtnConsultaClick(Sender: TObject);
+begin
+  // teste
+end;
+
 procedure TfrmAmbulatoriais.BtnNovoClick(Sender: TObject);
 begin
+  mskDataAtendimento.Text := DateTimeToStr(Now);
   PgCtrlAtendimentos.ActivePageIndex := 1;
+  iTipoOperacao := iINCLUINDO;
 end;
 
 procedure TfrmAmbulatoriais.BtnSairClick(Sender: TObject);
@@ -270,7 +383,11 @@ procedure TfrmAmbulatoriais.BtnSalvarClick(Sender: TObject);
 begin
   if iTipoOperacao = iINCLUINDO then
     begin
-
+      AlimentaModel;
+      FController.Model.Status := 'A';
+      FController.IncluirAtendimento;
+      PgCtrlAtendimentos.ActivePageIndex := 0;
+      BtnConsultaClick(self);
     end;
 
   if iTipoOperacao = iALTERANDO then
@@ -290,12 +407,10 @@ begin
 end;
 
 procedure TfrmAmbulatoriais.edtCIDDefinitivoExit(Sender: TObject);
-var
-  vValue: integer;
 begin
   inherited;
-  if TryStrToInt(edtCIDDefinitivo.Text,vValue) then
-    lblCIDDefinitivo.Caption := FController.GetDescricaoCID(vValue,iINCLUINDO);
+  if (edtCIDDefinitivo.Text <> trim('0')) and (edtCIDDefinitivo.Text <> EmptyStr) then
+    lblCIDDefinitivo.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
 end;
 
 procedure TfrmAmbulatoriais.edtCIDProvisorioExit(Sender: TObject);
@@ -303,8 +418,8 @@ var
   vValue: integer;
 begin
   inherited;
-  if TryStrToInt(edtCIDProvisorio.Text,vValue) then
-    lblProvisorio.Caption := FController.GetDescricaoCID(vValue,iINCLUINDO);
+  if (edtCIDProvisorio.Text <> trim('0')) and (edtCIDProvisorio.Text <> EmptyStr) then
+    lblProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
 end;
 
 procedure TfrmAmbulatoriais.edtConvenioExit(Sender: TObject);
@@ -323,6 +438,15 @@ begin
   inherited;
   if TryStrToInt(edtMedicoResponsavel.Text,vValue) then
     lblMedicoResponsavel.Caption := FController.GetNomeMedico(vValue,iINCLUINDO);
+end;
+
+procedure TfrmAmbulatoriais.edtPacienteExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtPaciente.Text,vValue) then
+    lblPacienteNovo.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
 end;
 
 procedure TfrmAmbulatoriais.edtProcedimentoExit(Sender: TObject);
@@ -358,13 +482,19 @@ procedure TfrmAmbulatoriais.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if key = VK_ESCAPE then
     Self.Close;
+
+  if Key = VK_RETURN then
+    perform(WM_NEXTDLGCTL,0,0);
 end;
 
 procedure TfrmAmbulatoriais.FormShow(Sender: TObject);
 begin
-  frmAmbulatoriais.Height := 590;
-//  661 se for usar alta e transferencia
   PgCtrlAtendimentos.ActivePageIndex := 0;
+  mskInicial.Text := DateToStr(Date);
+  mskFinal.Text   := DateToStr(Date);
+  mskInicial.SetFocus;
+  frmAmbulatoriais.Height := 610;
+//  661 se for usar alta e transferencia
   GrdAmbulatoriais.DataSource := FController.Ds;
   VerificaTipoConsulta;
 end;

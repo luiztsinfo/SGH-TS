@@ -73,9 +73,6 @@ inherited frmPacientes: TfrmPacientes
       end
     end
     inherited TbShCadastro: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 814
       ExplicitHeight = 526
       inherited PnCampos: TPanel
         Height = 526
@@ -891,10 +888,6 @@ inherited frmPacientes: TfrmPacientes
         Color = 16704450
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 304
-        ExplicitTop = 176
-        ExplicitWidth = 185
-        ExplicitHeight = 41
       end
     end
   end

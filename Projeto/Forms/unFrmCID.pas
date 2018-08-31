@@ -96,6 +96,7 @@ begin
   lblGrupoCID.Caption := TControllerCID(FController).
                             GetDescricaoGrupoCID(TControllerCID(FController).
                                 Model.Id_grupo_cid, iALTERANDO);
+
   CbxCausaObito.ItemIndex := TControllerCID(FController).Model.Causa_obito;
   CbxSexo.ItemIndex       := TControllerCID(FController).Model.Sexo;
 end;
