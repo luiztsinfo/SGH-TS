@@ -38,7 +38,7 @@ unit Lca.Orm.Base;
 interface
 
 uses DB, SysUtils, Classes, Rtti, System.TypInfo,
-  System.Generics.Collections;
+  System.Generics.Collections, Vcl.Dialogs;
 
 type
   TCamposArray = array of string;
@@ -69,6 +69,9 @@ type
 
     function GerarSqlSelectLike(ATabela: TTabela; ACampos,
       ACamposWhere: array of string): string; overload;
+
+    function GerarSqlSelectBetween(ATabela: TTabela; ACampos: array of string;
+      ACamposWhere: array of string): string;
   end;
 
   TPadraoSql = class(TInterfacedObject, IBaseSql)
@@ -91,6 +94,9 @@ type
 
     function GerarSqlSelectLike(ATabela: TTabela; ACampos,
       ACamposWhere: array of string): string; overload;
+
+    function GerarSqlSelectBetween(ATabela: TTabela; ACampos: array of string;
+      ACamposWhere: array of string): string;
   end;
 
   IQueryParams = interface
@@ -119,6 +125,12 @@ type
 
   // pega campo autoincremento
     function GetID(ATabela:TTabela; ACampo: string): Integer;
+  // pega descricao pelo campo chave da tabela
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string;
+      AValue: Integer; iOperacao: integer): string; overload;
+
+    function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string;
+      AValue: string; iOperacao: integer): string; overload;
 
   // comandos crud
     function Inserir(ATabela: TTabela): Integer; overload;
@@ -337,6 +349,52 @@ begin
   finally
     ASql.Free;
   end;
+end;
+
+function TPadraoSql.GerarSqlSelectBetween(ATabela: TTabela; ACampos,
+  ACamposWhere: array of string): string;
+var
+  Campo, Separador: string;
+  ASql: TStringList;
+begin
+  ASql := TStringList.Create;
+  try
+    with ASql do
+    begin
+      Add('Select ');
+
+      if Length(ACampos)>0 then
+      begin
+        Separador := '';
+        for Campo in ACampos do
+        begin
+          Add(Separador + Campo);
+          Separador := ',';
+        end;
+      end
+      else
+        Add('*');
+
+      Add(' from ' + TAtributos.Get.PegaNomeTab(ATabela));
+
+      Add('Where 1=1');
+
+      Separador := ' and ';
+
+      for Campo in ACamposWhere do
+        begin
+          if Campo <> 'ID' then
+            Add(Separador + Campo + ' BETWEEN :' + Campo)
+          else
+            Add(Separador + Campo + ' AND :' + Campo);
+        end;
+
+    end;
+    Result := ASql.Text;
+  finally
+    ASql.Free;
+  end;
+
 end;
 
 function TPadraoSql.GerarSqlSelectLike(ATabela: TTabela; ACampos,

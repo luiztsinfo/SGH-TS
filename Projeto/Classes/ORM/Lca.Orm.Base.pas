@@ -69,6 +69,9 @@ type
 
     function GerarSqlSelectLike(ATabela: TTabela; ACampos,
       ACamposWhere: array of string): string; overload;
+
+    function GerarSqlSelectBetween(ATabela: TTabela; ACampos: array of string;
+      ACamposWhere, ACamposBetween: array of string): string;
   end;
 
   TPadraoSql = class(TInterfacedObject, IBaseSql)
@@ -91,6 +94,9 @@ type
 
     function GerarSqlSelectLike(ATabela: TTabela; ACampos,
       ACamposWhere: array of string): string; overload;
+
+    function GerarSqlSelectBetween(ATabela: TTabela; ACampos: array of string;
+      ACamposWhere, ACamposBetween: array of string): string;
   end;
 
   IQueryParams = interface
@@ -338,6 +344,55 @@ begin
 
       for Campo in ACamposWhere do
         Add(Separador + Campo + '= :' + Campo);
+    end;
+    Result := ASql.Text;
+  finally
+    ASql.Free;
+  end;
+end;
+
+function TPadraoSql.GerarSqlSelectBetween(ATabela: TTabela; ACampos,
+  ACamposWhere, ACamposBetween: array of string): string;
+var
+  Campo, Separador: string;
+  ASql: TStringList;
+  I : integer;
+begin
+  ASql := TStringList.Create;
+  try
+    with ASql do
+    begin
+      Add('Select ');
+
+      if Length(ACampos)>0 then
+      begin
+        Separador := '';
+        for Campo in ACampos do
+        begin
+          Add(Separador + Campo);
+          Separador := ',';
+        end;
+      end
+      else
+        Add('*');
+
+      Add(' from ' + TAtributos.Get.PegaNomeTab(ATabela));
+
+      Add('Where 1=1');
+
+      Separador := ' and ';
+
+      for Campo in ACamposWhere do
+        begin
+          Add(Separador + Campo + ' =:' + Campo);
+        end;
+
+      Add(Separador + 'BETWEEN ');
+
+      for I := -1 to 1 do
+        begin
+          Add(Campo + ' =: ' + Campo + Separador);
+        end;
     end;
     Result := ASql.Text;
   finally
