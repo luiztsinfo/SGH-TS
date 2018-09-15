@@ -153,6 +153,9 @@ begin
         if CompareText(AProp.PropertyType.Name, 'TDateTime') = 0 then
           AParams.SetParamDate(AProp, ACampo, ATabela, AQry)
         else
+        if CompareText(AProp.PropertyType.Name, 'TTime') = 0 then
+          AParams.SetParamTime(AProp, ACampo, ATabela, AQry)
+        else
           AParams.SetParamCurrency(AProp, ACampo, ATabela, AQry);
       end;
     tkVariant: AParams.SetParamVariant(AProp, ACampo, ATabela, AQry);
@@ -216,6 +219,10 @@ begin
         if CompareText(AProp.PropertyType.Name, 'TDateTime') = 0 then
           AParams.SetCamposDate(AProp, ACampo, ATabela, AQry)
         else
+        if CompareText(AProp.PropertyType.Name, 'TTime') = 0 then
+          AParams.SetCamposTime(AProp, ACampo, ATabela, AQry)
+        else
+
           AParams.SetCamposCurrency(AProp, ACampo, ATabela, AQry);
       end;
   else

@@ -55,12 +55,14 @@ type
     procedure SetParamDate(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetParamCurrency(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetParamVariant(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
+    procedure SetParamTime(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
 
     // métodos para setar os variados tipos de campos
     procedure SetCamposInteger(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposString(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposDate(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposCurrency(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
+    procedure SetCamposTime(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
   end;
 
   TTipoOperacao = (toInclusao, toEdicao);
@@ -102,6 +104,9 @@ type
 
     function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string;
       TipoOrdem: Integer = 0): TDataSet; overload;
+
+    function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string;
+      ACamposBetween: array of string; TipoOrdem: integer = 0): TDataSet; overload;
 
     function ConsultaGen<T: TTabela>(ATabela: TTabela; ACamposWhere: array of string)
       : TObjectList<T>;
@@ -197,6 +202,12 @@ begin
   TFDQuery(AQry).ParamByName(ACampo).AsString := AProp.GetValue(ATabela).AsString;
 end;
 
+procedure TQueryFireDac.SetParamTime(AProp: TRttiProperty; ACampo: string;
+  ATabela: TTabela; AQry: TObject);
+begin
+  TFDQuery(AQry).ParamByName(ACampo).AsTime := AProp.GetValue(ATabela).AsVariant;
+end;
+
 procedure TQueryFireDac.SetParamVariant(AProp: TRttiProperty;
   ACampo: string; ATabela: TTabela; AQry: TObject);
 begin
@@ -225,6 +236,12 @@ procedure TQueryFireDac.SetCamposString(AProp: TRttiProperty;
   ACampo: string; ATabela: TTabela; AQry: TObject);
 begin
   AProp.SetValue(ATabela, TFDQuery(AQry).FieldByName(ACampo).AsString);
+end;
+
+procedure TQueryFireDac.SetCamposTime(AProp: TRttiProperty; ACampo: string;
+  ATabela: TTabela; AQry: TObject);
+begin
+  AProp.SetValue(ATabela, TFDQuery(AQry).FieldByName(ACampo).AsDateTime);
 end;
 
 { TDaoFireDac }
@@ -435,10 +452,14 @@ begin
     if (Length(ParamList) > 0) and (Params.Count > 0) then
      for i := 0 to Params.Count -1 do
        if (i < Length(ParamList)) then
+       begin
          if VarIsType(ParamList[i], varDate) then
            Params[i].AsDateTime := VarToDateTime(ParamList[i])
          else
            Params[i].Value := ParamList[i];
+       end;
+
+    SQL.SaveToFile('C:\logs\between.sql');
     Open;
   end;
   Result := AQry;
@@ -459,6 +480,58 @@ begin
     Open;
   end;
   Result := AQry;
+end;
+
+function TDaoFireDac.ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere,
+  AOrdem, ACamposBetween: array of string; TipoOrdem: integer): TDataSet;
+var
+  Dados: TFDQuery;
+  Contexto: TRttiContext;
+  Campo: string;
+  TipoRtti: TRttiType;
+  PropRtti: TRttiProperty;
+  Separador: string;
+begin
+  Dados := TFDQuery.Create(Application);
+  Contexto := TRttiContext.Create;
+  try
+    TipoRtti := Contexto.GetType(ATabela.ClassType);
+
+    with Dados do
+    begin
+      Connection := FConexao;
+      sql.Text := FSql.GerarSqlSelect(ATabela, ACampos, ACamposWhere);
+
+      if Length(AOrdem)>0 then
+      begin
+        Separador := '';
+        SQL.Add('order by');
+        for Campo in AOrdem do
+        begin
+          if TipoOrdem = 1 then
+            sql.Add(Separador + Campo + ' Desc')
+          else
+            sql.Add(Separador + Campo);
+          Separador := ',';
+        end;
+      end;
+
+      if Length(ACamposWhere)>0 then
+      begin
+        for Campo in ACamposWhere do
+        begin
+          // setando os parâmetros
+          for PropRtti in TipoRtti.GetProperties do
+            if CompareText(PropRtti.Name, Campo) = 0 then
+              TAtributos.Get.ConfiguraParametro(PropRtti, Campo, ATabela, Dados, FParams);
+        end;
+      end;
+      Open;
+      Result := Dados;
+    end;
+  finally
+    Contexto.Free;
+  end;
 end;
 
 function TDaoFireDac.ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere,
@@ -505,7 +578,6 @@ begin
               TAtributos.Get.ConfiguraParametro(PropRtti, Campo, ATabela, Dados, FParams);
         end;
       end;
-      SQL.SaveToFile('C:\logs\consulta.sql');
       Open;
       Result := Dados;
     end;

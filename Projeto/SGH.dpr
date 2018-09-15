@@ -140,8 +140,8 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TDMRel, DMRel);
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.
 

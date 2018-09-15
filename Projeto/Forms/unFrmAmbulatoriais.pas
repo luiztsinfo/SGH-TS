@@ -103,6 +103,9 @@ type
     edtPaciente: TEdit;
     BtnBuscaPacienteNovoAtendimento: TBitBtn;
     lblPacienteNovo: TLabel;
+    mskHoraAtendimento: TMaskEdit;
+    mskHoraAlta: TMaskEdit;
+    Label10: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -126,9 +129,9 @@ type
     procedure BtnBuscaCIDProvisorioClick(Sender: TObject);
     procedure BtnBuscaSetorClick(Sender: TObject);
     procedure BtnBuscaCIDDefinitivoClick(Sender: TObject);
-    procedure BtnConsultaClick(Sender: TObject);
     procedure edtPacienteExit(Sender: TObject);
     procedure BtnBuscaPacienteNovoAtendimentoClick(Sender: TObject);
+    procedure BtnConsultaClick(Sender: TObject);
   private
 
     iTipoOperacao: integer;
@@ -154,6 +157,8 @@ var
   vMedicoResponsavel,vProcedimento,vCidProvisorio,vSetor,vConvenio,
   vResponsavelPaciente, vCIDDefinitivo, vPaciente: integer;
 begin
+  FController.Model.Hora_atendimento := StrToTime(mskHoraAtendimento.Text);
+
   if TryStrToInt(edtPaciente.Text,vPaciente) then
     FController.Model.Id_paciente := vPaciente
   else
@@ -164,7 +169,7 @@ begin
     end;
 
   if TryStrToDateTime(mskDataAtendimento.Text,vDataHoraAtendimento) then
-    FController.Model.DataHora_atendimento := vDataHoraAtendimento
+    FController.Model.Data_atendimento := vDataHoraAtendimento
   else
     begin
       MessageDlg('Informe a data e hora do atendimento!',mtWarning,[mbOk],0);
@@ -222,7 +227,8 @@ begin
 
   if iTipoOperacao <> iINCLUINDO then
     begin
-      FController.Model.DataHora_alta             := StrToDate(mskDataAlta.Text);
+      FController.Model.Data_alta             := StrToDate(mskDataAlta.Text);
+      FController.Model.Hora_alta             := StrToTime(mskHoraAlta.Text);
 
       if (edtCIDDefinitivo.Text <> trim('')) and (edtCIDDefinitivo.Text <> EmptyStr) then
         FController.Model.Id_cid_definitivo     := edtCIDDefinitivo.Text;
@@ -364,7 +370,7 @@ end;
 
 procedure TfrmAmbulatoriais.BtnConsultaClick(Sender: TObject);
 begin
-  // teste
+  FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
 end;
 
 procedure TfrmAmbulatoriais.BtnNovoClick(Sender: TObject);
@@ -372,6 +378,7 @@ begin
   mskDataAtendimento.Text := DateTimeToStr(Now);
   PgCtrlAtendimentos.ActivePageIndex := 1;
   iTipoOperacao := iINCLUINDO;
+  BtnConsultaClick(Self);
 end;
 
 procedure TfrmAmbulatoriais.BtnSairClick(Sender: TObject);
@@ -490,13 +497,14 @@ end;
 procedure TfrmAmbulatoriais.FormShow(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 0;
-  mskInicial.Text := DateToStr(Date);
-  mskFinal.Text   := DateToStr(Date);
+  mskInicial.Text := DateToStr(Now);
+  mskFinal.Text   := DateToStr(Now);
   mskInicial.SetFocus;
   frmAmbulatoriais.Height := 610;
 //  661 se for usar alta e transferencia
-  GrdAmbulatoriais.DataSource := FController.Ds;
+  GrdAmbulatoriais.DataSource := FController.DataSource;
   VerificaTipoConsulta;
+  BtnConsultaClick(Self);
 end;
 
 procedure TfrmAmbulatoriais.LimparControles;

@@ -5,7 +5,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
   BorderStyle = bsSingle
   Caption = '::. ATENDIMENTOS AMBULATORIAIS .::'
   ClientHeight = 632
-  ClientWidth = 802
+  ClientWidth = 969
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -24,22 +24,25 @@ object frmAmbulatoriais: TfrmAmbulatoriais
   object PgCtrlAtendimentos: TPageControl
     Left = 0
     Top = 0
-    Width = 802
+    Width = 969
     Height = 632
     ActivePage = TbShAtendimentos
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 802
     object TbShAtendimentos: TTabSheet
       Caption = 'Atendimentos'
+      ExplicitWidth = 794
       object PnConsulta: TPanel
         Left = 0
         Top = 0
-        Width = 794
+        Width = 961
         Height = 89
         Align = alTop
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 0
+        ExplicitWidth = 794
         object Label1: TLabel
           Left = 16
           Top = 8
@@ -48,9 +51,9 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Caption = 'Consulta por:'
         end
         object GrpBxAtendimento: TGroupBox
-          Left = 408
+          Left = 495
           Top = 8
-          Width = 258
+          Width = 355
           Height = 66
           Caption = 'Atendimento'
           TabOrder = 4
@@ -63,104 +66,10 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             TabOrder = 0
           end
         end
-        object BtnConsulta: TBitBtn
-          Left = 672
-          Top = 33
-          Width = 97
-          Height = 41
-          Caption = 'CONSULTA'
-          TabOrder = 0
-          OnClick = BtnConsultaClick
-        end
-        object CbxConsultaPor: TComboBox
-          Left = 16
-          Top = 27
-          Width = 105
-          Height = 21
-          Style = csDropDownList
-          ItemIndex = 0
-          TabOrder = 1
-          Text = 'TODOS'
-          OnExit = CbxConsultaPorExit
-          Items.Strings = (
-            'TODOS'
-            'ATENDIMENTO'
-            'PACIENTE')
-        end
-        object GrpBxDatas: TGroupBox
-          Left = 136
-          Top = 8
-          Width = 266
-          Height = 66
-          Caption = 'Filtros'
-          TabOrder = 2
-          object Label2: TLabel
-            Left = 16
-            Top = 16
-            Width = 27
-            Height = 13
-            Caption = 'Inicial'
-          end
-          object Label3: TLabel
-            Left = 97
-            Top = 16
-            Width = 22
-            Height = 13
-            Caption = 'Final'
-          end
-          object Label28: TLabel
-            Left = 176
-            Top = 16
-            Width = 31
-            Height = 13
-            Caption = 'Status'
-          end
-          object mskInicial: TMaskEdit
-            Left = 16
-            Top = 35
-            Width = 73
-            Height = 19
-            Ctl3D = False
-            EditMask = '99/99/9999;1;_'
-            MaxLength = 10
-            ParentCtl3D = False
-            TabOrder = 0
-            Text = '  /  /    '
-          end
-          object mskFinal: TMaskEdit
-            Left = 95
-            Top = 35
-            Width = 72
-            Height = 19
-            Ctl3D = False
-            EditMask = '99/99/9999;1;_'
-            MaxLength = 10
-            ParentCtl3D = False
-            TabOrder = 1
-            Text = '  /  /    '
-          end
-          object CbxStatus: TComboBox
-            Left = 173
-            Top = 34
-            Width = 68
-            Height = 21
-            Style = csDropDownList
-            Ctl3D = False
-            ItemIndex = 0
-            ParentCtl3D = False
-            TabOrder = 2
-            Text = 'TODOS'
-            Items.Strings = (
-              'TODOS'
-              'AGUARDANDO'
-              'EM ATENDIMENTO'
-              'ATENDIDO')
-          end
-        end
         object GrpBxPaciente: TGroupBox
-          Left = 408
+          Left = 495
           Top = 8
-          Width = 258
+          Width = 355
           Height = 66
           Caption = 'Paciente'
           TabOrder = 3
@@ -230,18 +139,113 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             TabOrder = 1
           end
         end
+        object BtnConsulta: TBitBtn
+          Left = 856
+          Top = 33
+          Width = 97
+          Height = 41
+          Caption = 'CONSULTA'
+          TabOrder = 0
+          OnClick = BtnConsultaClick
+        end
+        object CbxConsultaPor: TComboBox
+          Left = 16
+          Top = 27
+          Width = 105
+          Height = 21
+          Style = csDropDownList
+          ItemIndex = 0
+          TabOrder = 1
+          Text = 'TODOS'
+          OnExit = CbxConsultaPorExit
+          Items.Strings = (
+            'TODOS'
+            'ATENDIMENTO'
+            'PACIENTE')
+        end
+        object GrpBxDatas: TGroupBox
+          Left = 136
+          Top = 8
+          Width = 353
+          Height = 66
+          Caption = 'Filtros'
+          TabOrder = 2
+          object Label2: TLabel
+            Left = 16
+            Top = 16
+            Width = 27
+            Height = 13
+            Caption = 'Inicial'
+          end
+          object Label3: TLabel
+            Left = 136
+            Top = 16
+            Width = 22
+            Height = 13
+            Caption = 'Final'
+          end
+          object Label28: TLabel
+            Left = 254
+            Top = 16
+            Width = 31
+            Height = 13
+            Caption = 'Status'
+          end
+          object mskInicial: TMaskEdit
+            Left = 16
+            Top = 32
+            Width = 110
+            Height = 19
+            Ctl3D = False
+            EditMask = '99/99/9999;1;_'
+            MaxLength = 10
+            ParentCtl3D = False
+            TabOrder = 0
+            Text = '  /  /    '
+          end
+          object mskFinal: TMaskEdit
+            Left = 134
+            Top = 32
+            Width = 112
+            Height = 19
+            Ctl3D = False
+            EditMask = '99/99/9999;1;_'
+            MaxLength = 10
+            ParentCtl3D = False
+            TabOrder = 1
+            Text = '  /  /    '
+          end
+          object CbxStatus: TComboBox
+            Left = 254
+            Top = 31
+            Width = 91
+            Height = 21
+            Style = csDropDownList
+            Ctl3D = False
+            ItemIndex = 0
+            ParentCtl3D = False
+            TabOrder = 2
+            Text = 'TODOS'
+            Items.Strings = (
+              'TODOS'
+              'AGUARDANDO'
+              'EM ATENDIMENTO'
+              'ATENDIDO')
+          end
+        end
       end
       object PnAtendimentos: TPanel
         Left = 0
         Top = 89
-        Width = 794
+        Width = 961
         Height = 451
         Align = alClient
         TabOrder = 1
+        ExplicitWidth = 794
         object GrdAmbulatoriais: TDBGrid
           Left = 1
           Top = 1
-          Width = 792
+          Width = 959
           Height = 449
           Align = alClient
           TabOrder = 0
@@ -268,28 +272,27 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             end
             item
               Expanded = False
-              FieldName = 'PACIENTE'
+              FieldName = 'NOME'
               Title.Alignment = taCenter
               Title.Caption = 'Paciente'
-              Width = 317
+              Width = 290
               Visible = True
             end
             item
               Alignment = taCenter
               Expanded = False
-              FieldName = 'DATA'
+              FieldName = 'DATA_ATENDIMENTO'
               Title.Alignment = taCenter
-              Title.Caption = 'Data Atendimento'
-              Width = 102
+              Title.Caption = 'Data/Hora Atendimento'
+              Width = 162
               Visible = True
             end
             item
-              Alignment = taCenter
               Expanded = False
-              FieldName = 'HORA'
+              FieldName = 'DATA_ALTA'
               Title.Alignment = taCenter
-              Title.Caption = 'Hora Atendimento'
-              Width = 105
+              Title.Caption = 'Data/Hora Alta'
+              Width = 155
               Visible = True
             end>
         end
@@ -297,12 +300,13 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       object PnBotoes: TPanel
         Left = 0
         Top = 540
-        Width = 794
+        Width = 961
         Height = 64
         Align = alBottom
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 2
+        ExplicitWidth = 794
         object Label4: TLabel
           Left = 494
           Top = 21
@@ -360,7 +364,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Top = 16
           Width = 145
           Height = 33
-          Caption = 'F2 - NOVO ATENDIMENTO'
+          Caption = 'F2 - NOVO '
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -375,7 +379,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Top = 16
           Width = 144
           Height = 33
-          Caption = 'ALTERAR ATENDIMENTO'
+          Caption = 'ALTERAR '
           TabOrder = 1
         end
         object BtnCancelar: TBitBtn
@@ -383,7 +387,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Top = 16
           Width = 144
           Height = 33
-          Caption = 'CANCELAR ATENDIMENTO'
+          Caption = 'CANCELAR'
           TabOrder = 2
         end
         object BtnSair: TBitBtn
@@ -401,13 +405,15 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       Caption = 'Dados do Atendimento'
       ImageIndex = 1
       OnShow = TbShDadosAtendimentoShow
+      ExplicitWidth = 794
       object PnDadosAtendimento: TPanel
         Left = 0
         Top = 0
-        Width = 794
+        Width = 961
         Height = 548
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 794
         object Label8: TLabel
           Left = 16
           Top = 8
@@ -423,21 +429,21 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Caption = 'Data'
         end
         object Label11: TLabel
-          Left = 230
+          Left = 247
           Top = 8
           Width = 37
           Height = 13
           Caption = 'Car'#225'ter'
         end
         object Label12: TLabel
-          Left = 382
+          Left = 399
           Top = 8
           Width = 30
           Height = 13
           Caption = 'Cl'#237'nica'
         end
         object Label13: TLabel
-          Left = 535
+          Left = 552
           Top = 8
           Width = 84
           Height = 13
@@ -570,6 +576,13 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object Label10: TLabel
+          Left = 177
+          Top = 8
+          Width = 23
+          Height = 13
+          Caption = 'Hora'
+        end
         object edtIDAtendimento: TEdit
           Left = 16
           Top = 24
@@ -582,20 +595,20 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         object mskDataAtendimento: TMaskEdit
           Left = 104
           Top = 24
-          Width = 121
+          Width = 69
           Height = 21
-          EditMask = '99/99/9999 99:99:99;1;_'
-          MaxLength = 19
+          EditMask = '99/99/9999;1;_'
+          MaxLength = 10
           TabOrder = 1
-          Text = '  /  /       :  :  '
+          Text = '  /  /    '
         end
         object CbxCarater: TComboBox
-          Left = 231
+          Left = 248
           Top = 24
           Width = 145
           Height = 21
           Style = csDropDownList
-          TabOrder = 2
+          TabOrder = 3
           Items.Strings = (
             ''
             'NORMAL'
@@ -603,26 +616,26 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             'ELETIVO')
         end
         object CbxTipoClinica: TComboBox
-          Left = 383
-          Top = 24
-          Width = 145
-          Height = 21
-          Style = csDropDownList
-          ItemIndex = 0
-          TabOrder = 3
-          Items.Strings = (
-            ''
-            'AMBULATORIO'
-            'OBSTETRICA')
-        end
-        object CbxTipoAtendimento: TComboBox
-          Left = 534
+          Left = 400
           Top = 24
           Width = 145
           Height = 21
           Style = csDropDownList
           ItemIndex = 0
           TabOrder = 4
+          Items.Strings = (
+            ''
+            'AMBULATORIO'
+            'OBSTETRICA')
+        end
+        object CbxTipoAtendimento: TComboBox
+          Left = 551
+          Top = 24
+          Width = 145
+          Height = 21
+          Style = csDropDownList
+          ItemIndex = 0
+          TabOrder = 5
           Items.Strings = (
             ''
             'ITEM 1'
@@ -632,11 +645,12 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         object PnDadosAlta: TPanel
           Left = 1
           Top = 479
-          Width = 792
+          Width = 959
           Height = 68
           Align = alBottom
-          TabOrder = 17
+          TabOrder = 18
           Visible = False
+          ExplicitWidth = 792
           object Label21: TLabel
             Left = 13
             Top = 12
@@ -645,14 +659,14 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Caption = 'Data/Hora Alta'
           end
           object Label23: TLabel
-            Left = 141
+            Left = 173
             Top = 12
             Width = 54
             Height = 13
             Caption = 'Motivo Alta'
           end
           object Label24: TLabel
-            Left = 228
+            Left = 260
             Top = 12
             Width = 74
             Height = 13
@@ -661,28 +675,38 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           object mskDataAlta: TMaskEdit
             Left = 13
             Top = 29
-            Width = 121
+            Width = 72
             Height = 21
-            EditMask = '99/99/9999 99:99:99;1;_'
-            MaxLength = 19
+            EditMask = '99/99/9999;1;_'
+            MaxLength = 10
             TabOrder = 0
-            Text = '  /  /       :  :  '
+            Text = '  /  /    '
           end
           object CbxMotivoAlta: TComboBox
-            Left = 140
+            Left = 172
             Top = 29
             Width = 82
             Height = 21
             Style = csDropDownList
-            TabOrder = 1
+            TabOrder = 2
           end
           object CbxTipoSaidaTISS: TComboBox
-            Left = 228
+            Left = 260
             Top = 29
             Width = 146
             Height = 21
             Style = csDropDownList
-            TabOrder = 2
+            TabOrder = 3
+          end
+          object mskHoraAlta: TMaskEdit
+            Left = 91
+            Top = 29
+            Width = 64
+            Height = 21
+            EditMask = '99:99:99;1;_'
+            MaxLength = 8
+            TabOrder = 1
+            Text = '  :  :  '
           end
         end
         object BtnBuscaMedico: TBitBtn
@@ -725,7 +749,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 8
+          TabOrder = 9
           OnClick = BtnBuscaMedicoClick
         end
         object edtMedicoResponsavel: TEdit
@@ -734,7 +758,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 7
+          TabOrder = 8
           OnExit = edtMedicoResponsavelExit
         end
         object edtProcedimento: TEdit
@@ -743,7 +767,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 9
+          TabOrder = 10
           OnExit = edtProcedimentoExit
         end
         object BtnBuscaProcedimento: TBitBtn
@@ -786,7 +810,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 10
+          TabOrder = 11
           OnClick = BtnBuscaProcedimentoClick
         end
         object edtConvenio: TEdit
@@ -797,7 +821,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Ctl3D = True
           NumbersOnly = True
           ParentCtl3D = False
-          TabOrder = 5
+          TabOrder = 6
           OnExit = edtConvenioExit
         end
         object BtnBuscaConvenio: TBitBtn
@@ -840,7 +864,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 6
+          TabOrder = 7
           OnClick = BtnBuscaConvenioClick
         end
         object edtCIDProvisorio: TEdit
@@ -849,7 +873,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 11
+          TabOrder = 12
           OnExit = edtCIDProvisorioExit
         end
         object BtnBuscaCIDProvisorio: TBitBtn
@@ -892,7 +916,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 12
+          TabOrder = 13
           OnClick = BtnBuscaCIDProvisorioClick
         end
         object edtSetor: TEdit
@@ -901,7 +925,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 13
+          TabOrder = 14
           OnExit = edtSetorExit
         end
         object BtnBuscaSetor: TBitBtn
@@ -944,7 +968,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 14
+          TabOrder = 15
           OnClick = BtnBuscaSetorClick
         end
         object CbxResponsavel: TComboBox
@@ -953,7 +977,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           Style = csDropDownList
-          TabOrder = 15
+          TabOrder = 16
           OnExit = CbxResponsavelExit
           Items.Strings = (
             ''
@@ -965,7 +989,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Top = 322
           Width = 473
           Height = 41
-          TabOrder = 16
+          TabOrder = 17
           Visible = False
           object Label20: TLabel
             Left = 8
@@ -1041,11 +1065,12 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         object PnCIDDefinitivo: TPanel
           Left = 1
           Top = 424
-          Width = 792
+          Width = 959
           Height = 55
           Align = alBottom
-          TabOrder = 18
+          TabOrder = 19
           Visible = False
+          ExplicitWidth = 792
           object Label25: TLabel
             Left = 15
             Top = 7
@@ -1122,11 +1147,12 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         object PnTransferencia: TPanel
           Left = 1
           Top = 368
-          Width = 792
+          Width = 959
           Height = 56
           Align = alBottom
-          TabOrder = 19
+          TabOrder = 20
           Visible = False
+          ExplicitWidth = 792
           object Label26: TLabel
             Left = 323
             Top = 1
@@ -1162,7 +1188,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 20
+          TabOrder = 21
           OnExit = edtPacienteExit
         end
         object BtnBuscaPacienteNovoAtendimento: TBitBtn
@@ -1205,17 +1231,28 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 21
+          TabOrder = 22
           OnClick = BtnBuscaPacienteNovoAtendimentoClick
+        end
+        object mskHoraAtendimento: TMaskEdit
+          Left = 177
+          Top = 24
+          Width = 65
+          Height = 21
+          EditMask = '99:99:99;1;_'
+          MaxLength = 8
+          TabOrder = 2
+          Text = '  :  :  '
         end
       end
       object PnBotoesAtendimento: TPanel
         Left = 0
         Top = 548
-        Width = 794
+        Width = 961
         Height = 56
         Align = alBottom
         TabOrder = 1
+        ExplicitWidth = 794
         object BtnSalvar: TBitBtn
           Left = 280
           Top = 10

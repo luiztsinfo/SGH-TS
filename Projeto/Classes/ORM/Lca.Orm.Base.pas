@@ -70,8 +70,8 @@ type
     function GerarSqlSelectLike(ATabela: TTabela; ACampos,
       ACamposWhere: array of string): string; overload;
 
-    function GerarSqlSelectBetween(ATabela: TTabela; ACampos: array of string;
-      ACamposWhere, ACamposBetween: array of string): string;
+    function GerarSqlSelectBetween(ATabela: TTabela; ACampos, ACamposWhere,
+      ACamposBetween: array of string): string; overload;
   end;
 
   TPadraoSql = class(TInterfacedObject, IBaseSql)
@@ -95,8 +95,8 @@ type
     function GerarSqlSelectLike(ATabela: TTabela; ACampos,
       ACamposWhere: array of string): string; overload;
 
-    function GerarSqlSelectBetween(ATabela: TTabela; ACampos: array of string;
-      ACamposWhere, ACamposBetween: array of string): string;
+    function GerarSqlSelectBetween(ATabela: TTabela; ACampos, ACamposWhere,
+      ACamposBetween: array of string): string; overload;
   end;
 
   IQueryParams = interface
@@ -105,6 +105,7 @@ type
     procedure SetParamInteger(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetParamString(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetParamDate(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
+    procedure SetParamTime(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetParamCurrency(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetParamVariant(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
 
@@ -112,6 +113,7 @@ type
     procedure SetCamposInteger(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposString(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposDate(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
+    procedure SetCamposTime(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
     procedure SetCamposCurrency(AProp: TRttiProperty; ACampo: string; ATabela: TTabela; AQry: TObject);
   end;
 
@@ -156,8 +158,8 @@ type
     //function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere: array of string; Like: boolean): TDataSet; overload;
 
     function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string; Like: boolean; TipoOrdem: integer = 0): TDataSet; overload;
-
     function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string; TipoOrdem: Integer = 0): TDataSet; overload;
+    function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string; ACamposBetween: array of string; TipoOrdem: integer = 0): TDataSet; overload;
 
     // limpar campos da tabela
     procedure Limpar(ATabela: TTabela);
@@ -356,7 +358,7 @@ function TPadraoSql.GerarSqlSelectBetween(ATabela: TTabela; ACampos,
 var
   Campo, Separador: string;
   ASql: TStringList;
-  I : integer;
+  i : integer;
 begin
   ASql := TStringList.Create;
   try
@@ -387,11 +389,10 @@ begin
           Add(Separador + Campo + ' =:' + Campo);
         end;
 
-      Add(Separador + 'BETWEEN ');
-
       for I := -1 to 1 do
         begin
-          Add(Campo + ' =: ' + Campo + Separador);
+          Add(Separador + Campo + ' BETWEEN ' + '=:' +
+            ACamposBetween[i] + '1' + Separador + ACamposBetween[i] + '2');
         end;
     end;
     Result := ASql.Text;

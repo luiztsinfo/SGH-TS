@@ -13,13 +13,14 @@ type
       FDao: TDaoFireDac;
       FModel: TAmbulatorial;
       FRegistros: TDataSet;
-      FDataSource: TDataSource;
+      FDs: TDataSource;
       FConvenio: TConvenios;
       FColaborador: TColaboradores;
       FProcedimento: TProcedimentos;
       FCID: TCid;
       FSetor: TSetores;
       FPaciente: TPacientes;
+    function GetDataSource: TDataSource;
     public
       function GetDescricaoSetor(AID: Integer;iOperacao: integer): string;
       function GetDescricaoCID(AID: string; iOperacao: integer): string;
@@ -31,17 +32,20 @@ type
       function AlterarAtendimento(IDAtendimento: integer): boolean;
       function CancelarAtendimento(IDAtendimento: integer): boolean;
       function CarregarDadosAtendimento(IDAtendimento: integer): boolean;
-      function ConsultarAtendimento(DataInicial,DataFinal: TDate): integer; overload;
-      function ConsultarAtendimento(DataInicial,DataFinal: TDate;IDPaciente: integer): integer; overload;
+      function ConsultarAtendimento(DataInicial,DataFinal: TDateTime): integer; overload;
+      function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;IDPaciente: integer): integer; overload;
       function ConsultarAtendimento(IDAtendimento: integer): integer; overload;
 
       constructor Create;
       destructor Destroy; override;
       property Model: TAmbulatorial read FModel write FModel;
-      property Ds: TDataSource read FDataSource write FDataSource;
+      property DataSource: TDataSource read GetDataSource;
   end;
 
 implementation
+
+uses
+  Vcl.Dialogs, System.SysUtils;
 
 { TControllerAmbulatorial }
 
@@ -70,15 +74,26 @@ begin
 end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
-  DataFinal: TDate; IDPaciente: integer): integer;
+  DataFinal: TDateTime; IDPaciente: integer): integer;
 begin
 
 end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
-  DataFinal: TDate): integer;
+  DataFinal: TDateTime): integer;
+var
+  ConsultaSQL: String;
+  pParams: array[0..1] of Variant;
 begin
+  pParams[0] := DataInicial;
+  pParams[1] := DataFinal;
 
+  ConsultaSQL := Concat(FModel.ConsultaSQL,
+                  FModel.CondicaoBetween('amb.Data_atendimento'),
+                    FModel.OrderBySQL);
+
+  FRegistros := FDao.ConsultaSql(ConsultaSQL,pParams);
+  FDs.DataSet := FRegistros;
 end;
 
 constructor TControllerAmbulatorial.Create;
@@ -86,8 +101,7 @@ begin
   FConexao := TConexao.Create;
   FDao := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
   FModel := TAmbulatorial.Create;
-  FRegistros := TDataSet.Create(nil);
-  FDataSource := TDataSource.Create(nil);
+  FDs := TDataSource.Create(nil);
   FConvenio := TConvenios.Create;
   FColaborador := TColaboradores.Create;
   FProcedimento := TProcedimentos.Create;
@@ -99,9 +113,9 @@ end;
 
 destructor TControllerAmbulatorial.Destroy;
 begin
+  inherited;
   FModel.Free;
-  FRegistros.Free;
-  FDataSource.Free;
+  FDs.Free;
   FConexao.Free;
   FDao.Free;
   FConvenio.Free;
@@ -110,7 +124,11 @@ begin
   FCID.Free;
   FSetor.Free;
   FPaciente.Free;
-  inherited;
+end;
+
+function TControllerAmbulatorial.GetDataSource: TDataSource;
+begin
+  Result := FDs;
 end;
 
 function TControllerAmbulatorial.GetDescricaoCID(AID: string;
@@ -157,7 +175,7 @@ end;
 function TControllerAmbulatorial.IncluirAtendimento: boolean;
 begin
   Model.Id := FDao.GetID(Model,'id');
-  if FDao.Inserir(FModel) > 0 then
+  if FDao.Inserir(FModel,['ConsultaSQL','OrderBySQL']) > 0 then
     Result := True;
 end;
 
