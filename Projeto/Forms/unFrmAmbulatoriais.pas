@@ -110,7 +110,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure CbxConsultaPorExit(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShDadosAtendimentoShow(Sender: TObject);
     procedure CbxResponsavelExit(Sender: TObject);
@@ -132,6 +131,7 @@ type
     procedure edtPacienteExit(Sender: TObject);
     procedure BtnBuscaPacienteNovoAtendimentoClick(Sender: TObject);
     procedure BtnConsultaClick(Sender: TObject);
+    procedure CbxConsultaPorChange(Sender: TObject);
   private
 
     iTipoOperacao: integer;
@@ -370,7 +370,70 @@ end;
 
 procedure TfrmAmbulatoriais.BtnConsultaClick(Sender: TObject);
 begin
-  FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
+  if CbxConsultaPor.ItemIndex = 0 then
+  begin
+    if (mskInicial.Text <> dtVAZIA) and (mskFinal.Text <> dtVAZIA) then
+    begin
+      if CbxStatus.ItemIndex = 0 then
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stTODOS);
+
+      if CbxStatus.ItemIndex = 1 then
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stAGUARDANDO);
+
+      if CbxStatus.ItemIndex = 2 then
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stEMATENDIMENTO);
+
+      if CbxStatus.ItemIndex = 3 then
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stALTAOUENCAMINHADO);
+    end
+    else
+      begin
+        MessageDlg('Datas incorretas, por favor verifique!',mtWarning,[mbOk],0);
+        mskInicial.SetFocus;
+      end;
+  end;
+
+  if CbxConsultaPor.ItemIndex = 1 then
+  begin
+    if (edtAtendimento.Text <> EmptyStr) and (edtAtendimento.Text <> trim('0')) then
+      FController.ConsultarAtendimento(StrToInt(edtAtendimento.Text))
+    else
+      begin
+        MessageDlg('Número do atendimento incorreto, por favor verifique!',mtWarning,[mbOk],0);
+        edtAtendimento.SetFocus;
+      end;
+  end;
+
+  if CbxConsultaPor.ItemIndex = 2 then
+  begin
+    if (edtIDPaciente.Text <> EmptyStr) and (edtIDPaciente.Text <> trim('0')) then
+      begin
+        if CbxStatus.ItemIndex = 0 then
+          FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
+                                        StrToDateTime(mskFinal.Text),
+                                          StrToInt(edtIDPaciente.Text),stTODOS);
+
+        if CbxStatus.ItemIndex = 1 then
+          FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
+                                        StrToDateTime(mskFinal.Text),
+                                          StrToInt(edtIDPaciente.Text),stAGUARDANDO);
+
+        if CbxStatus.ItemIndex = 2 then
+          FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
+                              StrToDateTime(mskFinal.Text),
+                                StrToInt(edtIDPaciente.Text),stEMATENDIMENTO);
+
+        if CbxStatus.ItemIndex = 3 then
+          FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
+                                        StrToDateTime(mskFinal.Text),
+                                          StrToInt(edtIDPaciente.Text),stALTAOUENCAMINHADO);
+      end
+      else
+        begin
+          MessageDlg('Datas ou Paciente incorreto, por favor verifique!',mtWarning,[mbOk],0);
+          mskInicial.SetFocus;
+        end;
+  end;
 end;
 
 procedure TfrmAmbulatoriais.BtnNovoClick(Sender: TObject);
@@ -403,7 +466,7 @@ begin
     end;
 end;
 
-procedure TfrmAmbulatoriais.CbxConsultaPorExit(Sender: TObject);
+procedure TfrmAmbulatoriais.CbxConsultaPorChange(Sender: TObject);
 begin
   VerificaTipoConsulta;
 end;

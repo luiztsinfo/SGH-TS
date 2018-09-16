@@ -4,6 +4,11 @@ interface
 
 const
 
+  stTODOS             = 'T';
+  stAGUARDANDO        = 'A';
+  stEMATENDIMENTO     = 'E';
+  stALTAOUENCAMINHADO = 'C';
+
   sVAZIO = '';
   dtVAZIA = '  /  /    ';
   dtNula  = '30/12/1899';

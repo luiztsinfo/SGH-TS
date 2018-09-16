@@ -2,4 +2,10 @@
 <TgConfig Version="3" SubLevelDisabled="False">
   <Option Name="namespaceFolder.Controller" Type="System.String" Value="Controller" Category="General" IsBrowsable="False" />
   <Option Name="namespaceFolder.Model" Type="System.String" Value="Model" Category="General" IsBrowsable="False" />
+  <Option Name="namespaceFolder.Lca.Orm.Comp.FireDac" Type="System.String" Value="Lca\Orm\Comp\FireDac" Category="General" IsBrowsable="False" />
+  <Option Name="Gendoc.Images" Type="System.Boolean" Value="True" Category="General" IsBrowsable="False" />
+  <Option Name="Gendoc.NavigationTree" Type="System.Boolean" Value="True" Category="General" IsBrowsable="False" />
+  <Option Name="Gendoc.LaunchBrowser" Type="System.Boolean" Value="True" Category="General" IsBrowsable="False" />
+  <Option Name="Gendoc.OutputFolder" Type="System.String" Value="C:\Sistemas\SGH-TS\Projeto\out\doc" Category="General" IsBrowsable="False" />
+  <Option Name="namespaceFolder.Lca.Orm.Comp" Type="System.String" Value="Lca\Orm\Comp" Category="General" IsBrowsable="False" />
 </TgConfig>

@@ -32,8 +32,13 @@ type
       function AlterarAtendimento(IDAtendimento: integer): boolean;
       function CancelarAtendimento(IDAtendimento: integer): boolean;
       function CarregarDadosAtendimento(IDAtendimento: integer): boolean;
-      function ConsultarAtendimento(DataInicial,DataFinal: TDateTime): integer; overload;
-      function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;IDPaciente: integer): integer; overload;
+
+      function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
+        Status: string): integer; overload;
+
+      function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
+        IDPaciente: integer;Status: string): integer; overload;
+
       function ConsultarAtendimento(IDAtendimento: integer): integer; overload;
 
       constructor Create;
@@ -69,31 +74,91 @@ end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(
   IDAtendimento: integer): integer;
-begin
-  FRegistros := FDao.ConsultaSql('atendimentos.ambulatoriais','id');
-end;
-
-function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
-  DataFinal: TDateTime; IDPaciente: integer): integer;
-begin
-
-end;
-
-function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
-  DataFinal: TDateTime): integer;
 var
-  ConsultaSQL: String;
-  pParams: array[0..1] of Variant;
+  ConsultaSQL: TStringBuilder;
+  pParams: array[0..0] of Variant;
+begin
+  try
+    ConsultaSQL := TStringBuilder.Create;
+
+    pParams[0] := IDAtendimento;
+
+    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
+    ConsultaSQL.Append(' LEFT JOIN pacientes pac');
+    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+    ConsultaSQL.Append(' WHERE amb.ID = :param1');
+
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
+    FDs.DataSet := FRegistros;
+  finally
+    FreeAndNil(ConsultaSQL);
+  end;
+end;
+
+function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
+  DataFinal: TDateTime; IDPaciente: integer; Status: string): integer;
+var
+  ConsultaSQL: TStringBuilder;
+  pParams: array[0..3] of Variant;
+begin
+  pParams[0] := IDPaciente;
+  pParams[1] := DataInicial;
+  pParams[2] := DataFinal;
+
+  try
+    ConsultaSQL := TStringBuilder.Create;
+
+    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
+    ConsultaSQL.Append(' LEFT JOIN pacientes pac');
+    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+    ConsultaSQL.Append(' WHERE amb.id_paciente = :param1');
+    ConsultaSQL.Append(' AND amb.data_atendimento BETWEEN :param2 AND :param3');
+
+    if Status <> stTODOS then
+      begin
+        pParams[3] := Status;
+        ConsultaSQL.Append(' AND amb.status = :param4');
+      end;
+
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
+    FDs.DataSet := FRegistros;
+  finally
+    ConsultaSQL.Free;
+  end;
+end;
+
+function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
+  DataFinal: TDateTime; Status: string): integer;
+var
+  ConsultaSQL: TStringBuilder;
+  pParams: array[0..2] of Variant;
 begin
   pParams[0] := DataInicial;
   pParams[1] := DataFinal;
 
-  ConsultaSQL := Concat(FModel.ConsultaSQL,
-                  FModel.CondicaoBetween('amb.Data_atendimento'),
-                    FModel.OrderBySQL);
+  try
+    ConsultaSQL := TStringBuilder.Create;
 
-  FRegistros := FDao.ConsultaSql(ConsultaSQL,pParams);
-  FDs.DataSet := FRegistros;
+    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
+    ConsultaSQL.Append(' LEFT JOIN pacientes pac');
+    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+
+    ConsultaSQL.Append(' WHERE amb.data_atendimento BETWEEN :param1 AND :param2');
+
+    if Status <> stTODOS then
+      begin
+        pParams[2] := Status;
+        ConsultaSQL.Append(' AND amb.status = :param3');
+      end;
+
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
+    FDs.DataSet := FRegistros;
+  finally
+    ConsultaSQL.Free;
+  end;
 end;
 
 constructor TControllerAmbulatorial.Create;
@@ -175,7 +240,7 @@ end;
 function TControllerAmbulatorial.IncluirAtendimento: boolean;
 begin
   Model.Id := FDao.GetID(Model,'id');
-  if FDao.Inserir(FModel,['ConsultaSQL','OrderBySQL']) > 0 then
+  if FDao.Inserir(FModel,['ConsultaSQL','OrderBySQL','ExisteWhere']) > 0 then
     Result := True;
 end;
 

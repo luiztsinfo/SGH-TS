@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet version="1.0">
+  <view uin="o8yx4cej3ercxg0ff_v">
+    <property name="$defaultDiagram" value="true" />
+    <property name="$metaclass" value="Package Diagram" />
+    <property name="$name" value="default" />
+    <reference referencedUin="design:view:::ofp8k04o2lrp05vlm_v">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.TTipoOperacao" />
+      <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac" />
+      <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.@unitclass" />
+      <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac" />
+      <reference referencedUin="design:view:::86bnquxuhat_v" />
+    </reference>
+  </view>
+</nodeSet>

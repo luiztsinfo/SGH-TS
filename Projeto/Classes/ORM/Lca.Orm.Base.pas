@@ -155,11 +155,13 @@ type
     function ConsultaSql(ASql: string; const ParamList: Array of Variant): TDataSet; overload;
     function ConsultaSql(ATabela: string; AWhere: string): TDataSet; overload;
     function ConsultaTab(ATabela: TTabela; ACamposWhere: array of string): TDataSet; overload;
+
+    function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string;
+      ACamposBetween: array of string; TipoOrdem: integer = 0): TDataSet; overload;
     //function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere: array of string; Like: boolean): TDataSet; overload;
 
     function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string; Like: boolean; TipoOrdem: integer = 0): TDataSet; overload;
     function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string; TipoOrdem: Integer = 0): TDataSet; overload;
-    function ConsultaTab(ATabela: TTabela; ACampos, ACamposWhere, AOrdem: array of string; ACamposBetween: array of string; TipoOrdem: integer = 0): TDataSet; overload;
 
     // limpar campos da tabela
     procedure Limpar(ATabela: TTabela);

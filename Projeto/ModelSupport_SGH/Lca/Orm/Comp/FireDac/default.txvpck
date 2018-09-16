@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet version="1.0">
+  <view uin="ofp8k04o2lrp05vlm_v">
+    <property name="$defaultDiagram" value="true" />
+    <property name="$metaclass" value="Package Diagram" />
+    <property name="$name" value="default" />
+    <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.TTipoOperacao">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="10,10,104,83" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TTipoOperacao.toInclusao" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TTipoOperacao.toEdicao" />
+    </reference>
+    <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="133,1,261,729" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.FConexao" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.FTransacao" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.FQuery" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.FSql" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.FDataSet" />
+      <reference referencedUin="delphi:e_field:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.FParams" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.DbToTabela&lt;1&gt;(Lca.Orm.Base.TTabela,Data.DB.TDataSet)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.SetDataSet(Data.DB.TDataSet)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ExecutaQuery()" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Create(FireDAC.Comp.Client.TFDConnection,FireDAC.Comp.Client.TFDTransaction)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Destroy()" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GerarClasse(System.string,System.string,System.string)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaAll(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaSql(System.string)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaSql(System.string,System.Variant[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaSql(System.string,System.string)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaTab(Lca.Orm.Base.TTabela,System.string[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaTab(Lca.Orm.Base.TTabela,System.string[],System.string[],System.string[],System.Boolean,System.Integer)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaTab(Lca.Orm.Base.TTabela,System.string[],System.string[],System.string[],System.Integer)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaTab(Lca.Orm.Base.TTabela,System.string[],System.string[],System.string[],System.Integer,System.string[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ConsultaGen&lt;1&gt;(Lca.Orm.Base.TTabela,System.string[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Limpar(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GetID(Lca.Orm.Base.TTabela,System.string)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GetValueForeignKey(Lca.Orm.Base.TTabela,System.string,System.string,System.Integer,System.Integer)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GetValueForeignKey(Lca.Orm.Base.TTabela,System.string,System.string,System.string,System.Integer)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GetMax(Lca.Orm.Base.TTabela,System.string,System.string[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GetRecordCount(Lca.Orm.Base.TTabela,System.string[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.GetRecordCount(System.string,System.string)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Inserir(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Inserir(Lca.Orm.Base.TTabela,System.string[],Lca.Orm.Base.TFlagCampos)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Salvar(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Salvar(Lca.Orm.Base.TTabela,System.string[],Lca.Orm.Base.TFlagCampos)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Excluir(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Excluir(Lca.Orm.Base.TTabela,System.string[])" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Excluir(System.string,System.string)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.ExcluirTodos(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Buscar(Lca.Orm.Base.TTabela)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.StartTransaction()" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.Commit()" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.RollBack()" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.InTransaction()" />
+      <reference referencedUin="delphi:e_property:src:SGH:Lca.Orm.Comp.FireDac.TDaoFireDac.DataSet" />
+    </reference>
+    <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.@unitclass">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="delphi:e_class:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="413,1,145,260" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetParamInteger(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetParamString(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetParamDate(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetParamCurrency(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetParamVariant(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetParamTime(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetCamposInteger(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetCamposString(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetCamposDate(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetCamposCurrency(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+      <reference referencedUin="delphi:e_method:src:SGH:Lca.Orm.Comp.FireDac.TQueryFireDac.SetCamposTime(System.Rtti.TRttiProperty,System.string,Lca.Orm.Base.TTabela,System.TObject)" />
+    </reference>
+    <reference referencedUin="design:view:::86bnquxuhat_v">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="24,112,99,42" />
+    </reference>
+  </view>
+</nodeSet>
