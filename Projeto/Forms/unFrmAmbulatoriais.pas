@@ -132,6 +132,11 @@ type
     procedure BtnBuscaPacienteNovoAtendimentoClick(Sender: TObject);
     procedure BtnConsultaClick(Sender: TObject);
     procedure CbxConsultaPorChange(Sender: TObject);
+    procedure BtnCancelarClick(Sender: TObject);
+    procedure BtnAlterarClick(Sender: TObject);
+    procedure GrdAmbulatoriaisCellClick(Column: TColumn);
+    procedure GrdAmbulatoriaisDblClick(Sender: TObject);
+    procedure GrdAmbulatoriaisKeyPress(Sender: TObject; var Key: Char);
   private
 
     iTipoOperacao: integer;
@@ -140,6 +145,7 @@ type
     procedure VerificaTipoConsulta;
     procedure VerificaResponsavel;
     procedure LimparControles;
+    procedure CarregarControles;
   public
     { Public declarations }
   end;
@@ -237,6 +243,15 @@ begin
       FController.Model.Tipo_saida_tiss       := CbxTipoSaidaTISS.ItemIndex;
       FController.Model.Transferido_para      := edtTransferidoPara.Text;
     end;
+end;
+
+procedure TfrmAmbulatoriais.BtnAlterarClick(Sender: TObject);
+begin
+  iTipoOperacao := OPC_ALTERAR;
+  PgCtrlAtendimentos.ActivePageIndex := 1;
+  FController.CarregarDadosAtendimento;
+  CarregarControles;
+  edtPaciente.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaCIDDefinitivoClick(Sender: TObject);
@@ -362,6 +377,11 @@ begin
   end;
 end;
 
+procedure TfrmAmbulatoriais.BtnCancelarClick(Sender: TObject);
+begin
+  FController.CancelarAtendimento;
+end;
+
 procedure TfrmAmbulatoriais.BtnCancelarOperacaoClick(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 0;
@@ -462,8 +482,35 @@ begin
 
   if iTipoOperacao = iALTERANDO then
     begin
-
+      AlimentaModel;
+      FController.AlterarAtendimento(StrToInt(edtIDAtendimento.Text));
+      PgCtrlAtendimentos.ActivePageIndex := 0;
+      BtnConsultaClick(self);
     end;
+end;
+
+procedure TfrmAmbulatoriais.CarregarControles;
+begin
+  edtIDAtendimento.Text := IntToStr(FController.Model.Id);
+  mskDataAtendimento.Text := DateToStr(FController.Model.Data_atendimento);
+  mskHoraAtendimento.Text := TimeToStr(FController.Model.Hora_atendimento);
+  CbxCarater.ItemIndex    := FController.Model.Carater;
+  CbxTipoClinica.ItemIndex:= FController.Model.Tipo_clinica;
+  CbxTipoAtendimento.ItemIndex := FController.Model.Tipo_atendimento;
+  edtPaciente.Text := IntToStr(FController.Model.Id_paciente);
+  edtConvenio.Text := IntToStr(FController.Model.Id_convenio);
+  edtMedicoResponsavel.Text := IntToStr(FController.Model.Id_medico_responsavel);
+  edtProcedimento.Text := IntToStr(FController.Model.Id_procedimento);
+  edtCIDProvisorio.Text := FController.Model.Id_cid_provisorio;
+  edtSetor.Text := IntToStr(FController.Model.Id_setor);
+  CbxResponsavel.ItemIndex := FController.Model.Responsavel_paciente;
+  edtResponsavel.Text := IntToStr(FController.Model.Id_responsavel);
+  edtTransferidoPara.Text := FController.Model.Transferido_para;
+  edtCIDDefinitivo.Text := FController.Model.Id_cid_definitivo;
+  mskDataAlta.Text := DateToStr(FController.Model.Data_alta);
+  mskHoraAlta.Text := TimeToStr(FController.Model.Hora_alta);
+  CbxMotivoAlta.ItemIndex := FController.Model.Motivo_alta;
+  CbxTipoSaidaTISS.ItemIndex := FController.Model.Tipo_saida_tiss;
 end;
 
 procedure TfrmAmbulatoriais.CbxConsultaPorChange(Sender: TObject);
@@ -568,6 +615,22 @@ begin
   GrdAmbulatoriais.DataSource := FController.DataSource;
   VerificaTipoConsulta;
   BtnConsultaClick(Self);
+end;
+
+procedure TfrmAmbulatoriais.GrdAmbulatoriaisCellClick(Column: TColumn);
+begin
+  FController.CarregarDadosAtendimento;
+end;
+
+procedure TfrmAmbulatoriais.GrdAmbulatoriaisDblClick(Sender: TObject);
+begin
+  FController.CarregarDadosAtendimento;
+end;
+
+procedure TfrmAmbulatoriais.GrdAmbulatoriaisKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  FController.CarregarDadosAtendimento;
 end;
 
 procedure TfrmAmbulatoriais.LimparControles;

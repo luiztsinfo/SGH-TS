@@ -30,18 +30,9 @@ type
     FTransferido_para: string;
     FStatus: string;
     FID_paciente: integer;
-
-    FConsultaSQL: TStringBuilder;
-    FSQLOrderBy: String;
-    FExisteWhere: Boolean;
     FHora_alta: TTime;
 
   public
-    constructor create;
-    destructor destroy; override;
-    function CondicaoBetween(pCampoName: string): String;
-    function CondicaoWhere(pCampoName: array of string): string;
-
     [attPK]
     property Id: Integer read FId write FId;
     property Data_atendimento: TDateTime read FData_atendimento write FData_atendimento;
@@ -66,59 +57,12 @@ type
     property Hora_atendimento: TTime read FHora_atendimento write FHora_atendimento;
     property Hora_alta: TTime read FHora_alta write FHora_alta;
 
-    [fcIgnore]
-    property ConsultaSQL: TStringBuilder read FConsultaSQL;
-    [fcIgnore]
-    property OrderBySQL: String read FSQLOrderBy;
-    [fcIgnore]
-    property ExisteWhere : Boolean read FExisteWhere write FExisteWhere;
   end;
 
 implementation
 
 { TAmbulatorial }
 
-
-function TAmbulatorial.CondicaoWhere(pCampoName: array of string): string;
-var
-  sCondicao: string;
-begin
-  sCondicao := ' WHERE '+ pCampoName[0] +' = :VALOR3';
-
-  if Length(pCampoName[1]) > 0 then
-    sCondicao := sCondicao + pCampoName[1] + ' = :VALOR4';
-
-  Result := sCondicao;
-end;
-
-constructor TAmbulatorial.create;
-begin
-  FConsultaSQL := TStringBuilder.Create;
-  FConsultaSQL.Append(' SELECT amb.*, pac.nome');
-  FConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
-  FConsultaSQL.Append(' LEFT JOIN pacientes pac');
-  FConsultaSQL.Append(' ON pac.id = amb.id_paciente');
-  FSQLOrderBy     := ' ORDER BY amb.Data_atendimento';
-  FExisteWhere :=  False;
-end;
-
-destructor TAmbulatorial.destroy;
-begin
-  FreeAndNil(FConsultaSQL);
-  inherited;
-end;
-
-function TAmbulatorial.CondicaoBetween(pCampoName: String): String;
-var
-  Condicao: String;
-begin
-  if ExisteWhere then
-    Condicao := ' AND '
-  else
-    Condicao := ' WHERE ';
-
- Result := Condicao + pCampoName + ' BETWEEN :VALOR1 and :VALOR2';
-end;
 
 end.
 

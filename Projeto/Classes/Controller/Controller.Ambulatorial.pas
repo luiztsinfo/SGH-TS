@@ -4,7 +4,7 @@ interface
 
 uses Model.Ambulatorial, Data.DB, Lca.Orm.Comp.FireDac, Conexao, unConstantes,
   Model.Convenios, Model.Colaboradores, Model.Procedimento, Model.CID,
-  Model.Setor, Model.Paciente;
+  Model.Setor, Model.Paciente, Vcl.Controls;
 
 type
   TControllerAmbulatorial = class
@@ -30,8 +30,8 @@ type
       function GetNomeConvenio(AID: Integer;iOperacao: integer): string;
       function IncluirAtendimento: boolean;
       function AlterarAtendimento(IDAtendimento: integer): boolean;
-      function CancelarAtendimento(IDAtendimento: integer): boolean;
-      function CarregarDadosAtendimento(IDAtendimento: integer): boolean;
+      function CancelarAtendimento: boolean;
+      function CarregarDadosAtendimento: boolean;
 
       function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
         Status: string): integer; overload;
@@ -57,19 +57,44 @@ uses
 function TControllerAmbulatorial.AlterarAtendimento(
   IDAtendimento: integer): boolean;
 begin
-
+  FModel.Id := IDAtendimento;
+  FDao.Salvar(FModel);
 end;
 
-function TControllerAmbulatorial.CancelarAtendimento(
-  IDAtendimento: integer): boolean;
+function TControllerAmbulatorial.CancelarAtendimento: boolean;
 begin
-
+  if MessageDlg('Deseja realmente cancelar o atendimento selecionado?'+#13+#13+
+  'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes then
+    begin
+      FModel.Status := 'C';
+      FDao.Salvar(FModel);
+    end;
 end;
 
-function TControllerAmbulatorial.CarregarDadosAtendimento(
-  IDAtendimento: integer): boolean;
+function TControllerAmbulatorial.CarregarDadosAtendimento: boolean;
 begin
-
+  FModel.Id := FRegistros.FieldByName('id').AsInteger;
+  FModel.Data_atendimento := FRegistros.FieldByName('data_Atendimento').AsDateTime;
+  FModel.Carater := FRegistros.FieldByName('carater').AsInteger;
+  FModel.Id_medico_responsavel := FRegistros.FieldByName('id_medico_responsavel').AsInteger;
+  FModel.Id_procedimento := FRegistros.FieldByName('id_procedimento').AsInteger;
+  FModel.Id_cid_provisorio := FRegistros.FieldByName('id_cid_provisorio').AsString;
+  FModel.Id_setor := FRegistros.FieldByName('id_setor').AsInteger;
+  FModel.Tipo_clinica := FRegistros.FieldByName('tipo_clinica').AsInteger;
+  FModel.Tipo_atendimento := FRegistros.FieldByName('tipo_atendimento').AsInteger;
+  FModel.Id_convenio := FRegistros.FieldByName('id_convenio').AsInteger;
+  FModel.Id_responsavel := FRegistros.FieldByName('id_responsavel').AsInteger;
+  FModel.Responsavel_paciente := FRegistros.FieldByName('responsavel_paciente').AsInteger;
+  FModel.Data_alta := FRegistros.FieldByName('data_alta').AsDateTime;
+  FModel.Id_cid_definitivo := FRegistros.FieldByName('id_cid_definitivo').AsString;
+  FModel.Motivo_alta := FRegistros.FieldByName('motivo_alta').AsInteger;
+  FModel.Tipo_saida_tiss := FRegistros.FieldByName('tipo_saida_tiss').AsInteger;
+  FModel.Id_encaminhamento := FRegistros.FieldByName('id_encaminhamento').AsInteger;
+  FModel.Transferido_para := FRegistros.FieldByName('transferido_para').AsString;
+  FModel.Status := FRegistros.FieldByName('status').AsString;
+  FModel.Id_paciente := FRegistros.FieldByName('id_paciente').AsInteger;
+  FModel.Hora_atendimento := FRegistros.FieldByName('hora_atendimento').AsDateTime;
+  FModel.Hora_alta := FRegistros.FieldByName('hora_Alta').AsDateTime;
 end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(

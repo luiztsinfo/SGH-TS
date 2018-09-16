@@ -57,13 +57,16 @@ uses
 function TControllerAmbulatorial.AlterarAtendimento(
   IDAtendimento: integer): boolean;
 begin
-
+  FModel.Id := IDAtendimento;
+  FDao.Salvar(FModel);
 end;
 
 function TControllerAmbulatorial.CancelarAtendimento(
   IDAtendimento: integer): boolean;
 begin
-
+  FModel.Id     := IDAtendimento;
+  FModel.Status := 'C';
+  FDao.Salvar(FModel);
 end;
 
 function TControllerAmbulatorial.CarregarDadosAtendimento(
@@ -74,8 +77,26 @@ end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(
   IDAtendimento: integer): integer;
+var
+  ConsultaSQL: TStringBuilder;
+  pParams: array[0..0] of Variant;
 begin
-  FRegistros := FDao.ConsultaSql('atendimentos.ambulatoriais','id');
+  try
+    ConsultaSQL := TStringBuilder.Create;
+
+    pParams[0] := IDAtendimento;
+
+    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
+    ConsultaSQL.Append(' LEFT JOIN pacientes pac');
+    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+    ConsultaSQL.Append(' WHERE amb.ID = :param1');
+
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
+    FDs.DataSet := FRegistros;
+  finally
+    FreeAndNil(ConsultaSQL);
+  end;
 end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
@@ -85,18 +106,24 @@ var
   pParams: array[0..3] of Variant;
 begin
   pParams[0] := IDPaciente;
-  pParams[1] := Status;
-  pParams[2] := DataInicial;
-  pParams[3] := DataFinal;
+  pParams[1] := DataInicial;
+  pParams[2] := DataFinal;
 
   try
     ConsultaSQL := TStringBuilder.Create;
 
-    FModel.ExisteWhere := True;
-    ConsultaSQL.Append(FModel.ConsultaSQL);
-    ConsultaSQL.Append(FModel.CondicaoWhere(['amd.id_paciente','amb.status']));
-    ConsultaSQL.Append(FModel.CondicaoBetween('amd.data_atendimento'));
-    ConsultaSQL.Append(FModel.OrderBySQL);
+    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
+    ConsultaSQL.Append(' LEFT JOIN pacientes pac');
+    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+    ConsultaSQL.Append(' WHERE amb.id_paciente = :param1');
+    ConsultaSQL.Append(' AND amb.data_atendimento BETWEEN :param2 AND :param3');
+
+    if Status <> stTODOS then
+      begin
+        pParams[3] := Status;
+        ConsultaSQL.Append(' AND amb.status = :param4');
+      end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
     FDs.DataSet := FRegistros;
@@ -111,18 +138,24 @@ var
   ConsultaSQL: TStringBuilder;
   pParams: array[0..2] of Variant;
 begin
-  pParams[0] := Status;
-  pParams[1] := DataInicial;
-  pParams[2] := DataFinal;
+  pParams[0] := DataInicial;
+  pParams[1] := DataFinal;
 
   try
     ConsultaSQL := TStringBuilder.Create;
 
-    FModel.ExisteWhere := True;
-    ConsultaSQL.Append(FModel.ConsultaSQL);
-    ConsultaSQL.Append(FModel.CondicaoWhere(['amb.status']));
-    ConsultaSQL.Append(FModel.CondicaoBetween('amb.Data_atendimento'));
-    ConsultaSQL.Append(FModel.OrderBySQL);
+    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.ambulatorial amb');
+    ConsultaSQL.Append(' LEFT JOIN pacientes pac');
+    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+
+    ConsultaSQL.Append(' WHERE amb.data_atendimento BETWEEN :param1 AND :param2');
+
+    if Status <> stTODOS then
+      begin
+        pParams[2] := Status;
+        ConsultaSQL.Append(' AND amb.status = :param3');
+      end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
     FDs.DataSet := FRegistros;

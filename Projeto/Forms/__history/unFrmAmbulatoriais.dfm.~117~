@@ -29,10 +29,8 @@ object frmAmbulatoriais: TfrmAmbulatoriais
     ActivePage = TbShAtendimentos
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 802
     object TbShAtendimentos: TTabSheet
       Caption = 'Atendimentos'
-      ExplicitWidth = 794
       object PnConsulta: TPanel
         Left = 0
         Top = 0
@@ -42,7 +40,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 0
-        ExplicitWidth = 794
         object Label1: TLabel
           Left = 16
           Top = 8
@@ -56,7 +53,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 355
           Height = 66
           Caption = 'Atendimento'
-          TabOrder = 4
+          TabOrder = 3
           object edtAtendimento: TEdit
             Left = 8
             Top = 32
@@ -72,7 +69,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 355
           Height = 66
           Caption = 'Paciente'
-          TabOrder = 3
+          TabOrder = 2
           object lblPaciente: TLabel
             Left = 104
             Top = 37
@@ -90,10 +87,16 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Left = 8
             Top = 35
             Width = 49
-            Height = 19
+            Height = 22
             Ctl3D = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
             NumbersOnly = True
             ParentCtl3D = False
+            ParentFont = False
             TabOrder = 0
           end
           object BtnBuscaPaciente: TBitBtn
@@ -141,23 +144,35 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         end
         object BtnConsulta: TBitBtn
           Left = 856
-          Top = 33
+          Top = 24
           Width = 97
-          Height = 41
+          Height = 50
           Caption = 'CONSULTA'
-          TabOrder = 0
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 4
           OnClick = BtnConsultaClick
         end
         object CbxConsultaPor: TComboBox
           Left = 16
           Top = 27
           Width = 105
-          Height = 21
+          Height = 24
           Style = csDropDownList
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
           ItemIndex = 0
-          TabOrder = 1
+          ParentFont = False
+          TabOrder = 0
           Text = 'TODOS'
-          OnExit = CbxConsultaPorExit
+          OnChange = CbxConsultaPorChange
           Items.Strings = (
             'TODOS'
             'ATENDIMENTO'
@@ -169,68 +184,86 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 353
           Height = 66
           Caption = 'Filtros'
-          TabOrder = 2
+          TabOrder = 1
           object Label2: TLabel
-            Left = 16
+            Left = 9
             Top = 16
             Width = 27
             Height = 13
             Caption = 'Inicial'
           end
           object Label3: TLabel
-            Left = 136
+            Left = 102
             Top = 16
             Width = 22
             Height = 13
             Caption = 'Final'
           end
           object Label28: TLabel
-            Left = 254
-            Top = 16
+            Left = 201
+            Top = 17
             Width = 31
             Height = 13
             Caption = 'Status'
           end
           object mskInicial: TMaskEdit
-            Left = 16
+            Left = 9
             Top = 32
-            Width = 110
-            Height = 19
+            Width = 89
+            Height = 22
             Ctl3D = False
             EditMask = '99/99/9999;1;_'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
             MaxLength = 10
             ParentCtl3D = False
+            ParentFont = False
             TabOrder = 0
             Text = '  /  /    '
           end
           object mskFinal: TMaskEdit
-            Left = 134
+            Left = 102
             Top = 32
-            Width = 112
-            Height = 19
+            Width = 91
+            Height = 22
             Ctl3D = False
             EditMask = '99/99/9999;1;_'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
             MaxLength = 10
             ParentCtl3D = False
+            ParentFont = False
             TabOrder = 1
             Text = '  /  /    '
           end
           object CbxStatus: TComboBox
-            Left = 254
-            Top = 31
-            Width = 91
-            Height = 21
+            Left = 199
+            Top = 32
+            Width = 151
+            Height = 24
             Style = csDropDownList
             Ctl3D = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
             ItemIndex = 0
             ParentCtl3D = False
+            ParentFont = False
             TabOrder = 2
             Text = 'TODOS'
             Items.Strings = (
               'TODOS'
               'AGUARDANDO'
               'EM ATENDIMENTO'
-              'ATENDIDO')
+              'ALTA OU ENCAMINHADO')
           end
         end
       end
@@ -241,7 +274,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 451
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 794
         object GrdAmbulatoriais: TDBGrid
           Left = 1
           Top = 1
@@ -259,22 +291,52 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               Alignment = taCenter
               Expanded = False
               FieldName = 'ID'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
               Title.Alignment = taCenter
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
               Visible = True
             end
             item
               Alignment = taCenter
               Expanded = False
               FieldName = 'ID_PACIENTE'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
               Title.Alignment = taCenter
               Title.Caption = 'Prontu'#225'rio'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'NOME'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
               Title.Alignment = taCenter
               Title.Caption = 'Paciente'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
               Width = 290
               Visible = True
             end
@@ -282,16 +344,36 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               Alignment = taCenter
               Expanded = False
               FieldName = 'DATA_ATENDIMENTO'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
               Title.Alignment = taCenter
               Title.Caption = 'Data/Hora Atendimento'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
               Width = 162
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'DATA_ALTA'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
               Title.Alignment = taCenter
               Title.Caption = 'Data/Hora Alta'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
               Width = 155
               Visible = True
             end>
@@ -306,7 +388,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 2
-        ExplicitWidth = 794
         object Label4: TLabel
           Left = 494
           Top = 21
@@ -391,7 +472,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           TabOrder = 2
         end
         object BtnSair: TBitBtn
-          Left = 712
+          Left = 816
           Top = 16
           Width = 75
           Height = 33
@@ -405,7 +486,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       Caption = 'Dados do Atendimento'
       ImageIndex = 1
       OnShow = TbShDadosAtendimentoShow
-      ExplicitWidth = 794
       object PnDadosAtendimento: TPanel
         Left = 0
         Top = 0
@@ -413,7 +493,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 548
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 794
         object Label8: TLabel
           Left = 16
           Top = 8
@@ -650,7 +729,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Align = alBottom
           TabOrder = 18
           Visible = False
-          ExplicitWidth = 792
           object Label21: TLabel
             Left = 13
             Top = 12
@@ -1070,7 +1148,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Align = alBottom
           TabOrder = 19
           Visible = False
-          ExplicitWidth = 792
           object Label25: TLabel
             Left = 15
             Top = 7
@@ -1152,7 +1229,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Align = alBottom
           TabOrder = 20
           Visible = False
-          ExplicitWidth = 792
           object Label26: TLabel
             Left = 323
             Top = 1
@@ -1252,7 +1328,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 56
         Align = alBottom
         TabOrder = 1
-        ExplicitWidth = 794
         object BtnSalvar: TBitBtn
           Left = 280
           Top = 10

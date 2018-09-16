@@ -47,22 +47,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 13
           Caption = 'Consulta por:'
         end
-        object GrpBxAtendimento: TGroupBox
-          Left = 495
-          Top = 8
-          Width = 355
-          Height = 66
-          Caption = 'Atendimento'
-          TabOrder = 3
-          object edtAtendimento: TEdit
-            Left = 8
-            Top = 32
-            Width = 121
-            Height = 21
-            NumbersOnly = True
-            TabOrder = 0
-          end
-        end
         object GrpBxPaciente: TGroupBox
           Left = 495
           Top = 8
@@ -142,6 +126,24 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             TabOrder = 1
           end
         end
+        object GrpBxAtendimento: TGroupBox
+          Left = 495
+          Top = 8
+          Width = 355
+          Height = 66
+          Caption = 'Atendimento'
+          TabOrder = 3
+          object edtAtendimento: TEdit
+            Left = 8
+            Top = 32
+            Width = 121
+            Height = 21
+            Ctl3D = True
+            NumbersOnly = True
+            ParentCtl3D = False
+            TabOrder = 0
+          end
+        end
         object BtnConsulta: TBitBtn
           Left = 856
           Top = 24
@@ -159,7 +161,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         end
         object CbxConsultaPor: TComboBox
           Left = 16
-          Top = 27
+          Top = 39
           Width = 105
           Height = 24
           Style = csDropDownList
@@ -286,6 +288,9 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           TitleFont.Height = -11
           TitleFont.Name = 'Tahoma'
           TitleFont.Style = []
+          OnCellClick = GrdAmbulatoriaisCellClick
+          OnDblClick = GrdAmbulatoriaisDblClick
+          OnKeyPress = GrdAmbulatoriaisKeyPress
           Columns = <
             item
               Alignment = taCenter
@@ -462,6 +467,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 33
           Caption = 'ALTERAR '
           TabOrder = 1
+          OnClick = BtnAlterarClick
         end
         object BtnCancelar: TBitBtn
           Left = 316
@@ -470,6 +476,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 33
           Caption = 'CANCELAR'
           TabOrder = 2
+          OnClick = BtnCancelarClick
         end
         object BtnSair: TBitBtn
           Left = 816
