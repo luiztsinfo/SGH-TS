@@ -133,7 +133,8 @@ uses
   Controller.Cidade in 'Classes\Controller\Controller.Cidade.pas',
   unFrmAmbulatoriais in 'Forms\unFrmAmbulatoriais.pas' {frmAmbulatoriais},
   Controller.Ambulatorial in 'Classes\Controller\Controller.Ambulatorial.pas',
-  Model.Ambulatorial in 'Classes\Model\Model.Ambulatorial.pas';
+  Model.Ambulatorial in 'Classes\Model\Model.Ambulatorial.pas',
+  Model.Responsavel_Paciente in 'Classes\Model\Model.Responsavel_Paciente.pas';
 
 {$R *.res}
 
@@ -144,6 +145,7 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.
+
 
 
 

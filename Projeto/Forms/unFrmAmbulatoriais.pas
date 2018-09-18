@@ -54,7 +54,6 @@ type
     CbxTipoClinica: TComboBox;
     Label13: TLabel;
     CbxTipoAtendimento: TComboBox;
-    PnDadosAlta: TPanel;
     Label14: TLabel;
     lblMedicoResponsavel: TLabel;
     BtnBuscaMedico: TBitBtn;
@@ -70,7 +69,7 @@ type
     Label17: TLabel;
     edtCIDProvisorio: TEdit;
     BtnBuscaCIDProvisorio: TBitBtn;
-    lblProvisorio: TLabel;
+    lblCidProvisorio: TLabel;
     Label18: TLabel;
     edtSetor: TEdit;
     BtnBuscaSetor: TBitBtn;
@@ -82,21 +81,6 @@ type
     edtResponsavel: TEdit;
     BtnBuscaResponsavel: TBitBtn;
     lblResponsavelPaciente: TLabel;
-    Label21: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    mskDataAlta: TMaskEdit;
-    CbxMotivoAlta: TComboBox;
-    CbxTipoSaidaTISS: TComboBox;
-    PnCIDDefinitivo: TPanel;
-    edtCIDDefinitivo: TEdit;
-    Label25: TLabel;
-    BtnBuscaCIDDefinitivo: TBitBtn;
-    lblCIDDefinitivo: TLabel;
-    PnTransferencia: TPanel;
-    Label26: TLabel;
-    Label27: TLabel;
-    edtTransferidoPara: TEdit;
     Label28: TLabel;
     CbxStatus: TComboBox;
     Label29: TLabel;
@@ -104,8 +88,28 @@ type
     BtnBuscaPacienteNovoAtendimento: TBitBtn;
     lblPacienteNovo: TLabel;
     mskHoraAtendimento: TMaskEdit;
-    mskHoraAlta: TMaskEdit;
     Label10: TLabel;
+    BtnAltaTransferencia: TBitBtn;
+    PnAltaTransferencia: TPanel;
+    PnCIDDefinitivo: TPanel;
+    Label25: TLabel;
+    lblCIDDefinitivo: TLabel;
+    edtCIDDefinitivo: TEdit;
+    BtnBuscaCIDDefinitivo: TBitBtn;
+    PnDadosAlta: TPanel;
+    Label21: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    mskDataAlta: TMaskEdit;
+    CbxMotivoAlta: TComboBox;
+    CbxTipoSaidaTISS: TComboBox;
+    mskHoraAlta: TMaskEdit;
+    PnTransferencia: TPanel;
+    Label26: TLabel;
+    Label27: TLabel;
+    edtTransferidoPara: TEdit;
+    BtnConsumos: TBitBtn;
+    TbShConsumos: TTabSheet;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -137,6 +141,7 @@ type
     procedure GrdAmbulatoriaisCellClick(Column: TColumn);
     procedure GrdAmbulatoriaisDblClick(Sender: TObject);
     procedure GrdAmbulatoriaisKeyPress(Sender: TObject; var Key: Char);
+    procedure BtnAltaTransferenciaClick(Sender: TObject);
   private
 
     iTipoOperacao: integer;
@@ -245,8 +250,19 @@ begin
     end;
 end;
 
+procedure TfrmAmbulatoriais.BtnAltaTransferenciaClick(Sender: TObject);
+begin
+  iTipoOperacao := OPC_ALTERAR;
+  PgCtrlAtendimentos.ActivePageIndex := 1;
+  PnAltaTransferencia.Visible := True;
+  FController.CarregarDadosAtendimento;
+  CarregarControles;
+  edtCIDDefinitivo.SetFocus;
+end;
+
 procedure TfrmAmbulatoriais.BtnAlterarClick(Sender: TObject);
 begin
+  { FAZER VERIFICAÇÃO SE O ATENDIMENTO JÁ TEM ALTA E HABILITAR PARTE DE BAIXO }
   iTipoOperacao := OPC_ALTERAR;
   PgCtrlAtendimentos.ActivePageIndex := 1;
   FController.CarregarDadosAtendimento;
@@ -280,7 +296,7 @@ begin
     edtCIDProvisorio.Text := IntToStr(frmCID.FValueFieldKey);
 
     if (edtCIDProvisorio.Text <> trim('0')) and (edtCIDProvisorio.Text <> EmptyStr) then
-      lblProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
+      lblCidProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
 
     FreeAndNil(frmCID);
   end;
@@ -461,7 +477,9 @@ begin
   mskDataAtendimento.Text := DateTimeToStr(Now);
   PgCtrlAtendimentos.ActivePageIndex := 1;
   iTipoOperacao := iINCLUINDO;
-  BtnConsultaClick(Self);
+  PnDadosAlta.Visible := false;
+  PnTransferencia.Visible := false;
+  PnCIDDefinitivo.Visible := false;
 end;
 
 procedure TfrmAmbulatoriais.BtnSairClick(Sender: TObject);
@@ -497,16 +515,35 @@ begin
   CbxCarater.ItemIndex    := FController.Model.Carater;
   CbxTipoClinica.ItemIndex:= FController.Model.Tipo_clinica;
   CbxTipoAtendimento.ItemIndex := FController.Model.Tipo_atendimento;
+
   edtPaciente.Text := IntToStr(FController.Model.Id_paciente);
+  lblPacienteNovo.Caption  := FController.GetNomePaciente(FController.Model.Id_paciente,iALTERANDO);
+
   edtConvenio.Text := IntToStr(FController.Model.Id_convenio);
+  lblConvenio.Caption := FController.GetNomeConvenio(FController.Model.Id_convenio,iALTERANDO);
+
   edtMedicoResponsavel.Text := IntToStr(FController.Model.Id_medico_responsavel);
+  lblMedicoResponsavel.Caption := FController.GetNomeMedico(FController.Model.Id_medico_responsavel,iALTERANDO);
+
   edtProcedimento.Text := IntToStr(FController.Model.Id_procedimento);
+  lblProcedimento.Caption := FController.GetDescricaoProcedimento(FController.Model.Id_procedimento,iALTERANDO);
+
   edtCIDProvisorio.Text := FController.Model.Id_cid_provisorio;
+  lblCidProvisorio.Caption := FController.GetDescricaoCID(FController.Model.Id_cid_provisorio,iALTERANDO);
+
   edtSetor.Text := IntToStr(FController.Model.Id_setor);
+  lblSetor.Caption := FController.GetDescricaoSetor(FController.Model.Id_setor,iALTERANDO);
+
   CbxResponsavel.ItemIndex := FController.Model.Responsavel_paciente;
+
   edtResponsavel.Text := IntToStr(FController.Model.Id_responsavel);
+
+
   edtTransferidoPara.Text := FController.Model.Transferido_para;
+
   edtCIDDefinitivo.Text := FController.Model.Id_cid_definitivo;
+  lblCIDDefinitivo.Caption := FController.GetDescricaoCID(FController.Model.Id_cid_definitivo,iALTERANDO);
+
   mskDataAlta.Text := DateToStr(FController.Model.Data_alta);
   mskHoraAlta.Text := TimeToStr(FController.Model.Hora_alta);
   CbxMotivoAlta.ItemIndex := FController.Model.Motivo_alta;
@@ -536,7 +573,7 @@ var
 begin
   inherited;
   if (edtCIDProvisorio.Text <> trim('0')) and (edtCIDProvisorio.Text <> EmptyStr) then
-    lblProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
+    lblCidProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
 end;
 
 procedure TfrmAmbulatoriais.edtConvenioExit(Sender: TObject);
@@ -610,7 +647,7 @@ begin
   mskInicial.Text := DateToStr(Now);
   mskFinal.Text   := DateToStr(Now);
   mskInicial.SetFocus;
-  frmAmbulatoriais.Height := 610;
+//  frmAmbulatoriais.Height := 610;
 //  661 se for usar alta e transferencia
   GrdAmbulatoriais.DataSource := FController.DataSource;
   VerificaTipoConsulta;
@@ -638,6 +675,16 @@ var
   n : Integer;
   nTotComponentes : Integer;
 begin
+  FController.CleanModel;
+  lblPacienteNovo.Caption := '';
+  lblMedicoResponsavel.Caption := '';
+  lblProcedimento.Caption := '';
+  lblConvenio.Caption := '';
+  lblCidProvisorio.Caption := '';
+  lblSetor.Caption := '';
+  lblResponsavelPaciente.Caption := '';
+  lblCIDDefinitivo.Caption := '';
+
   nTotComponentes :=  Self.ComponentCount;
     for n := 0 to nTotComponentes-1 do
       begin

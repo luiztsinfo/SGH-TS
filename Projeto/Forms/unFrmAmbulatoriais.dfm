@@ -4,7 +4,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = '::. ATENDIMENTOS AMBULATORIAIS .::'
-  ClientHeight = 632
+  ClientHeight = 647
   ClientWidth = 969
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -25,12 +25,13 @@ object frmAmbulatoriais: TfrmAmbulatoriais
     Left = 0
     Top = 0
     Width = 969
-    Height = 632
+    Height = 647
     ActivePage = TbShAtendimentos
     Align = alClient
     TabOrder = 0
     object TbShAtendimentos: TTabSheet
       Caption = 'Atendimentos'
+      ExplicitHeight = 604
       object PnConsulta: TPanel
         Left = 0
         Top = 0
@@ -273,14 +274,15 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Left = 0
         Top = 89
         Width = 961
-        Height = 451
+        Height = 466
         Align = alClient
         TabOrder = 1
+        ExplicitHeight = 451
         object GrdAmbulatoriais: TDBGrid
           Left = 1
           Top = 1
           Width = 959
-          Height = 449
+          Height = 464
           Align = alClient
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
@@ -386,15 +388,16 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       end
       object PnBotoes: TPanel
         Left = 0
-        Top = 540
+        Top = 555
         Width = 961
         Height = 64
         Align = alBottom
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 2
+        ExplicitTop = 540
         object Label4: TLabel
-          Left = 494
+          Left = 644
           Top = 21
           Width = 98
           Height = 13
@@ -407,7 +410,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           ParentFont = False
         end
         object Label5: TLabel
-          Left = 494
+          Left = 644
           Top = 36
           Width = 79
           Height = 13
@@ -420,7 +423,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           ParentFont = False
         end
         object Label6: TLabel
-          Left = 624
+          Left = 774
           Top = 21
           Width = 57
           Height = 13
@@ -433,7 +436,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           ParentFont = False
         end
         object Label7: TLabel
-          Left = 624
+          Left = 774
           Top = 36
           Width = 65
           Height = 13
@@ -448,7 +451,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         object BtnNovo: TBitBtn
           Left = 16
           Top = 16
-          Width = 145
+          Width = 121
           Height = 33
           Caption = 'F2 - NOVO '
           Font.Charset = DEFAULT_CHARSET
@@ -461,31 +464,48 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           OnClick = BtnNovoClick
         end
         object BtnAlterar: TBitBtn
-          Left = 167
+          Left = 143
           Top = 16
-          Width = 144
+          Width = 121
           Height = 33
           Caption = 'ALTERAR '
           TabOrder = 1
           OnClick = BtnAlterarClick
         end
         object BtnCancelar: TBitBtn
-          Left = 316
+          Left = 270
           Top = 16
-          Width = 144
+          Width = 121
           Height = 33
           Caption = 'CANCELAR'
           TabOrder = 2
           OnClick = BtnCancelarClick
         end
         object BtnSair: TBitBtn
-          Left = 816
+          Left = 856
           Top = 16
-          Width = 75
+          Width = 81
           Height = 33
           Caption = 'SAIR - ESC'
           TabOrder = 3
           OnClick = BtnSairClick
+        end
+        object BtnAltaTransferencia: TBitBtn
+          Left = 400
+          Top = 16
+          Width = 121
+          Height = 33
+          Caption = 'ALTA/TRANSF.'
+          TabOrder = 4
+          OnClick = BtnAltaTransferenciaClick
+        end
+        object BtnConsumos: TBitBtn
+          Left = 528
+          Top = 16
+          Width = 110
+          Height = 33
+          Caption = 'CONSUMOS'
+          TabOrder = 5
         end
       end
     end
@@ -493,13 +513,16 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       Caption = 'Dados do Atendimento'
       ImageIndex = 1
       OnShow = TbShDadosAtendimentoShow
+      ExplicitHeight = 604
       object PnDadosAtendimento: TPanel
         Left = 0
         Top = 0
         Width = 961
-        Height = 548
+        Height = 563
         Align = alClient
         TabOrder = 0
+        ExplicitTop = 4
+        ExplicitHeight = 548
         object Label8: TLabel
           Left = 16
           Top = 8
@@ -602,7 +625,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 13
           Caption = 'CID Provis'#243'rio'
         end
-        object lblProvisorio: TLabel
+        object lblCidProvisorio: TLabel
           Left = 144
           Top = 250
           Width = 433
@@ -728,72 +751,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             'ITEM 2'
             'ITEM 3')
         end
-        object PnDadosAlta: TPanel
-          Left = 1
-          Top = 479
-          Width = 959
-          Height = 68
-          Align = alBottom
-          TabOrder = 18
-          Visible = False
-          object Label21: TLabel
-            Left = 13
-            Top = 12
-            Width = 72
-            Height = 13
-            Caption = 'Data/Hora Alta'
-          end
-          object Label23: TLabel
-            Left = 173
-            Top = 12
-            Width = 54
-            Height = 13
-            Caption = 'Motivo Alta'
-          end
-          object Label24: TLabel
-            Left = 260
-            Top = 12
-            Width = 74
-            Height = 13
-            Caption = 'Tipo Sa'#237'da TISS'
-          end
-          object mskDataAlta: TMaskEdit
-            Left = 13
-            Top = 29
-            Width = 72
-            Height = 21
-            EditMask = '99/99/9999;1;_'
-            MaxLength = 10
-            TabOrder = 0
-            Text = '  /  /    '
-          end
-          object CbxMotivoAlta: TComboBox
-            Left = 172
-            Top = 29
-            Width = 82
-            Height = 21
-            Style = csDropDownList
-            TabOrder = 2
-          end
-          object CbxTipoSaidaTISS: TComboBox
-            Left = 260
-            Top = 29
-            Width = 146
-            Height = 21
-            Style = csDropDownList
-            TabOrder = 3
-          end
-          object mskHoraAlta: TMaskEdit
-            Left = 91
-            Top = 29
-            Width = 64
-            Height = 21
-            EditMask = '99:99:99;1;_'
-            MaxLength = 8
-            TabOrder = 1
-            Text = '  :  :  '
-          end
-        end
         object BtnBuscaMedico: TBitBtn
           Left = 104
           Top = 161
@@ -834,7 +791,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 9
+          TabOrder = 11
           OnClick = BtnBuscaMedicoClick
         end
         object edtMedicoResponsavel: TEdit
@@ -843,7 +800,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 8
+          TabOrder = 10
           OnExit = edtMedicoResponsavelExit
         end
         object edtProcedimento: TEdit
@@ -852,7 +809,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 10
+          TabOrder = 12
           OnExit = edtProcedimentoExit
         end
         object BtnBuscaProcedimento: TBitBtn
@@ -895,7 +852,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 11
+          TabOrder = 13
           OnClick = BtnBuscaProcedimentoClick
         end
         object edtConvenio: TEdit
@@ -906,7 +863,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Ctl3D = True
           NumbersOnly = True
           ParentCtl3D = False
-          TabOrder = 6
+          TabOrder = 8
           OnExit = edtConvenioExit
         end
         object BtnBuscaConvenio: TBitBtn
@@ -949,7 +906,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 7
+          TabOrder = 9
           OnClick = BtnBuscaConvenioClick
         end
         object edtCIDProvisorio: TEdit
@@ -958,7 +915,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 12
+          TabOrder = 14
           OnExit = edtCIDProvisorioExit
         end
         object BtnBuscaCIDProvisorio: TBitBtn
@@ -1001,7 +958,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 13
+          TabOrder = 15
           OnClick = BtnBuscaCIDProvisorioClick
         end
         object edtSetor: TEdit
@@ -1010,7 +967,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 14
+          TabOrder = 16
           OnExit = edtSetorExit
         end
         object BtnBuscaSetor: TBitBtn
@@ -1053,7 +1010,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 15
+          TabOrder = 17
           OnClick = BtnBuscaSetorClick
         end
         object CbxResponsavel: TComboBox
@@ -1062,7 +1019,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           Style = csDropDownList
-          TabOrder = 16
+          TabOrder = 18
           OnExit = CbxResponsavelExit
           Items.Strings = (
             ''
@@ -1074,7 +1031,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Top = 322
           Width = 473
           Height = 41
-          TabOrder = 17
+          TabOrder = 19
           Visible = False
           object Label20: TLabel
             Left = 8
@@ -1147,131 +1104,13 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             TabOrder = 1
           end
         end
-        object PnCIDDefinitivo: TPanel
-          Left = 1
-          Top = 424
-          Width = 959
-          Height = 55
-          Align = alBottom
-          TabOrder = 19
-          Visible = False
-          object Label25: TLabel
-            Left = 15
-            Top = 7
-            Width = 66
-            Height = 13
-            Caption = 'CID Definitivo'
-          end
-          object lblCIDDefinitivo: TLabel
-            Left = 142
-            Top = 26
-            Width = 434
-            Height = 16
-            AutoSize = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = [fsBold]
-            ParentFont = False
-          end
-          object edtCIDDefinitivo: TEdit
-            Left = 15
-            Top = 23
-            Width = 82
-            Height = 21
-            NumbersOnly = True
-            TabOrder = 0
-            OnExit = edtCIDDefinitivoExit
-          end
-          object BtnBuscaCIDDefinitivo: TBitBtn
-            Left = 103
-            Top = 23
-            Width = 31
-            Height = 21
-            Glyph.Data = {
-              36040000424D3604000000000000360000002800000010000000100000000100
-              2000000000000004000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              000000000000000000020000000E0B14308329448DFB1D2F58A5000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000020000000E0D1937883C6DB2FF5BB1F9FF325196F4000000000000
-              00000000000100000004000000090000000D0000000F0000000F0000000C0000
-              00070000000E0F1D3C864A7CBCFF73C4FFFF467CC3FF17254485000000000000
-              0002000000081C130F465A3B31BC7C5043F87F5244FF7B4E42FA57382FC11E14
-              1059112142875686C2FF88D0FFFF5186C7FF142343880000000F000000010302
-              02104A332C91946B5DFDC6ACA1FFE4D1C6FFEDDDD2FFE2D0C5FFC0A599FF855C
-              50FF6E6B7EFF98D4F8FF5B8ECBFF152545840000000D00000002000000076046
-              3DA6B39288FFE9DAD0FFDAC0A1FFCBA87AFFC49B66FFCCAA7EFFDCC2A5FFE5D2
-              C6FF9A766AFF736A77FF162747850000000E00000002000000002A201D4AAE88
-              7CFFEFE6DFFFCDA67CFFCDA26BFFE3C28CFFEDD5A2FFE7CD9EFFD3B182FFD0AE
-              88FFE7D5CAFF885F53FF25181464000000070000000000000000755B53ACDFCE
-              C9FFDDC1A8FFC99865FFE8BE83FFE9C388FFEDCA97FFEFD3A7FFF2D9B0FFD5B1
-              87FFDBBEA6FFC5ACA2FF5A3D33C10000000C0000000000000000A9877CE9F8F4
-              F2FFC79873FFDEAB77FFEFCDABFFF0D0B1FFEDC9A1FFECC69AFFEFCFA9FFE9C9
-              A4FFC89B77FFE6D6CEFF7C5448F10000000F0000000000000000C09C90FFFDFD
-              FCFFBE875FFFEDCFB9FFF5DFD2FFF2D6C1FFF1CFB4FFEDC6A4FFECC19BFFEFC8
-              A6FFC08B67FFF1E6DFFF8B6154FF0000000F0000000000000000AF9186E6F9F5
-              F4FFC69474FFE8CDC3FFF9E8E4FFF6DED2FFF3D4C2FFF0CBB2FFEBB78EFFE5B7
-              92FFC59172FFEBDFD9FF866055EE0000000D0000000000000000876F68B0E7D9
-              D4FFE2C6B7FFC89072FFFAEFF2FFF9E7E4FFF6DDD3FFF1C8B2FFEBAF88FFC98E
-              6CFFDCBBAAFFD3C0B7FF6B4F46BC00000009000000000000000026201E36CCAF
-              A7FAFBF8F7FFCF9F88FFC78E72FFE9CDC6FFEDC7B5FFDD9F79FFC88865FFCE9D
-              84FFF5EFEBFFB39387FF2A201D52000000040000000000000000000000036454
-              4F84D9C2BAFFFDFBFAFFE2C6B8FFCB977EFFC08163FFCB977DFFE0C4B4FFFAF6
-              F5FFC9B0A7FF6B564EA700000009000000010000000000000000000000000202
-              020762534D81CEB2A9FAEADDD8FFF9F5F4FFFFFFFFFFF9F5F4FFE9DCD7FFC8AC
-              A2FC62504B900404031000000002000000000000000000000000000000000000
-              000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
-              1F3E000000060000000100000000000000000000000000000000}
-            TabOrder = 1
-            OnClick = BtnBuscaCIDDefinitivoClick
-          end
-        end
-        object PnTransferencia: TPanel
-          Left = 1
-          Top = 368
-          Width = 959
-          Height = 56
-          Align = alBottom
-          TabOrder = 20
-          Visible = False
-          object Label26: TLabel
-            Left = 323
-            Top = 1
-            Width = 147
-            Height = 13
-            Caption = 'Transfer'#234'ncia do Paciente'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = [fsBold]
-            ParentFont = False
-          end
-          object Label27: TLabel
-            Left = 15
-            Top = 15
-            Width = 76
-            Height = 13
-            Caption = 'Transferir para:'
-          end
-          object edtTransferidoPara: TEdit
-            Left = 15
-            Top = 29
-            Width = 300
-            Height = 21
-            CharCase = ecUpperCase
-            TabOrder = 0
-          end
-        end
         object edtPaciente: TEdit
           Left = 16
           Top = 71
           Width = 82
           Height = 21
           NumbersOnly = True
-          TabOrder = 21
+          TabOrder = 6
           OnExit = edtPacienteExit
         end
         object BtnBuscaPacienteNovoAtendimento: TBitBtn
@@ -1314,7 +1153,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 22
+          TabOrder = 7
           OnClick = BtnBuscaPacienteNovoAtendimentoClick
         end
         object mskHoraAtendimento: TMaskEdit
@@ -1327,16 +1166,215 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           TabOrder = 2
           Text = '  :  :  '
         end
+        object PnAltaTransferencia: TPanel
+          Left = 1
+          Top = 368
+          Width = 959
+          Height = 194
+          Align = alBottom
+          TabOrder = 20
+          Visible = False
+          object PnCIDDefinitivo: TPanel
+            Left = 1
+            Top = 14
+            Width = 957
+            Height = 55
+            Align = alBottom
+            TabOrder = 0
+            ExplicitLeft = -4
+            ExplicitTop = 370
+            ExplicitWidth = 959
+            object Label25: TLabel
+              Left = 14
+              Top = 7
+              Width = 66
+              Height = 13
+              Caption = 'CID Definitivo'
+            end
+            object lblCIDDefinitivo: TLabel
+              Left = 141
+              Top = 25
+              Width = 434
+              Height = 16
+              AutoSize = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object edtCIDDefinitivo: TEdit
+              Left = 14
+              Top = 23
+              Width = 82
+              Height = 21
+              NumbersOnly = True
+              TabOrder = 0
+              OnExit = edtCIDDefinitivoExit
+            end
+            object BtnBuscaCIDDefinitivo: TBitBtn
+              Left = 102
+              Top = 23
+              Width = 31
+              Height = 21
+              Glyph.Data = {
+                36040000424D3604000000000000360000002800000010000000100000000100
+                2000000000000004000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                000000000000000000020000000E0B14308329448DFB1D2F58A5000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000020000000E0D1937883C6DB2FF5BB1F9FF325196F4000000000000
+                00000000000100000004000000090000000D0000000F0000000F0000000C0000
+                00070000000E0F1D3C864A7CBCFF73C4FFFF467CC3FF17254485000000000000
+                0002000000081C130F465A3B31BC7C5043F87F5244FF7B4E42FA57382FC11E14
+                1059112142875686C2FF88D0FFFF5186C7FF142343880000000F000000010302
+                02104A332C91946B5DFDC6ACA1FFE4D1C6FFEDDDD2FFE2D0C5FFC0A599FF855C
+                50FF6E6B7EFF98D4F8FF5B8ECBFF152545840000000D00000002000000076046
+                3DA6B39288FFE9DAD0FFDAC0A1FFCBA87AFFC49B66FFCCAA7EFFDCC2A5FFE5D2
+                C6FF9A766AFF736A77FF162747850000000E00000002000000002A201D4AAE88
+                7CFFEFE6DFFFCDA67CFFCDA26BFFE3C28CFFEDD5A2FFE7CD9EFFD3B182FFD0AE
+                88FFE7D5CAFF885F53FF25181464000000070000000000000000755B53ACDFCE
+                C9FFDDC1A8FFC99865FFE8BE83FFE9C388FFEDCA97FFEFD3A7FFF2D9B0FFD5B1
+                87FFDBBEA6FFC5ACA2FF5A3D33C10000000C0000000000000000A9877CE9F8F4
+                F2FFC79873FFDEAB77FFEFCDABFFF0D0B1FFEDC9A1FFECC69AFFEFCFA9FFE9C9
+                A4FFC89B77FFE6D6CEFF7C5448F10000000F0000000000000000C09C90FFFDFD
+                FCFFBE875FFFEDCFB9FFF5DFD2FFF2D6C1FFF1CFB4FFEDC6A4FFECC19BFFEFC8
+                A6FFC08B67FFF1E6DFFF8B6154FF0000000F0000000000000000AF9186E6F9F5
+                F4FFC69474FFE8CDC3FFF9E8E4FFF6DED2FFF3D4C2FFF0CBB2FFEBB78EFFE5B7
+                92FFC59172FFEBDFD9FF866055EE0000000D0000000000000000876F68B0E7D9
+                D4FFE2C6B7FFC89072FFFAEFF2FFF9E7E4FFF6DDD3FFF1C8B2FFEBAF88FFC98E
+                6CFFDCBBAAFFD3C0B7FF6B4F46BC00000009000000000000000026201E36CCAF
+                A7FAFBF8F7FFCF9F88FFC78E72FFE9CDC6FFEDC7B5FFDD9F79FFC88865FFCE9D
+                84FFF5EFEBFFB39387FF2A201D52000000040000000000000000000000036454
+                4F84D9C2BAFFFDFBFAFFE2C6B8FFCB977EFFC08163FFCB977DFFE0C4B4FFFAF6
+                F5FFC9B0A7FF6B564EA700000009000000010000000000000000000000000202
+                020762534D81CEB2A9FAEADDD8FFF9F5F4FFFFFFFFFFF9F5F4FFE9DCD7FFC8AC
+                A2FC62504B900404031000000002000000000000000000000000000000000000
+                000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
+                1F3E000000060000000100000000000000000000000000000000}
+              TabOrder = 1
+              OnClick = BtnBuscaCIDDefinitivoClick
+            end
+          end
+          object PnDadosAlta: TPanel
+            Left = 1
+            Top = 69
+            Width = 957
+            Height = 68
+            Align = alBottom
+            TabOrder = 1
+            ExplicitTop = 479
+            ExplicitWidth = 959
+            object Label21: TLabel
+              Left = 14
+              Top = 12
+              Width = 72
+              Height = 13
+              Caption = 'Data/Hora Alta'
+            end
+            object Label23: TLabel
+              Left = 174
+              Top = 12
+              Width = 54
+              Height = 13
+              Caption = 'Motivo Alta'
+            end
+            object Label24: TLabel
+              Left = 261
+              Top = 12
+              Width = 74
+              Height = 13
+              Caption = 'Tipo Sa'#237'da TISS'
+            end
+            object mskDataAlta: TMaskEdit
+              Left = 14
+              Top = 29
+              Width = 72
+              Height = 21
+              EditMask = '99/99/9999;1;_'
+              MaxLength = 10
+              TabOrder = 0
+              Text = '  /  /    '
+            end
+            object CbxMotivoAlta: TComboBox
+              Left = 173
+              Top = 29
+              Width = 82
+              Height = 21
+              Style = csDropDownList
+              TabOrder = 2
+            end
+            object CbxTipoSaidaTISS: TComboBox
+              Left = 261
+              Top = 29
+              Width = 146
+              Height = 21
+              Style = csDropDownList
+              TabOrder = 3
+            end
+            object mskHoraAlta: TMaskEdit
+              Left = 92
+              Top = 29
+              Width = 64
+              Height = 21
+              EditMask = '99:99:99;1;_'
+              MaxLength = 8
+              TabOrder = 1
+              Text = '  :  :  '
+            end
+          end
+          object PnTransferencia: TPanel
+            Left = 1
+            Top = 137
+            Width = 957
+            Height = 56
+            Align = alBottom
+            TabOrder = 2
+            ExplicitLeft = 0
+            ExplicitTop = 511
+            ExplicitWidth = 959
+            object Label26: TLabel
+              Left = 323
+              Top = 1
+              Width = 147
+              Height = 13
+              Caption = 'Transfer'#234'ncia do Paciente'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label27: TLabel
+              Left = 14
+              Top = 15
+              Width = 76
+              Height = 13
+              Caption = 'Transferir para:'
+            end
+            object edtTransferidoPara: TEdit
+              Left = 14
+              Top = 29
+              Width = 300
+              Height = 21
+              CharCase = ecUpperCase
+              TabOrder = 0
+            end
+          end
+        end
       end
       object PnBotoesAtendimento: TPanel
         Left = 0
-        Top = 548
+        Top = 563
         Width = 961
         Height = 56
         Align = alBottom
         TabOrder = 1
+        ExplicitTop = 548
         object BtnSalvar: TBitBtn
-          Left = 280
+          Left = 364
           Top = 10
           Width = 114
           Height = 35
@@ -1345,7 +1383,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           OnClick = BtnSalvarClick
         end
         object BtnCancelarOperacao: TBitBtn
-          Left = 400
+          Left = 484
           Top = 10
           Width = 113
           Height = 35
@@ -1354,6 +1392,10 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           OnClick = BtnCancelarOperacaoClick
         end
       end
+    end
+    object TbShConsumos: TTabSheet
+      Caption = 'Consumos'
+      ImageIndex = 2
     end
   end
 end

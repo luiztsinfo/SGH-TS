@@ -4,7 +4,7 @@ interface
 
 uses Model.Ambulatorial, Data.DB, Lca.Orm.Comp.FireDac, Conexao, unConstantes,
   Model.Convenios, Model.Colaboradores, Model.Procedimento, Model.CID,
-  Model.Setor, Model.Paciente, Vcl.Controls;
+  Model.Setor, Model.Paciente, Vcl.Controls, Model.Responsavel_Paciente;
 
 type
   TControllerAmbulatorial = class
@@ -20,8 +20,11 @@ type
       FCID: TCid;
       FSetor: TSetores;
       FPaciente: TPacientes;
+      FResponsavel: TResponsavel_Paciente;
     function GetDataSource: TDataSource;
     public
+      procedure CleanModel;
+      function GetResponsavelPaciente(AID: Integer;iOperacao: integer): string;
       function GetDescricaoSetor(AID: Integer;iOperacao: integer): string;
       function GetDescricaoCID(AID: string; iOperacao: integer): string;
       function GetDescricaoProcedimento(AID: Integer;iOperacao: integer): string;
@@ -95,6 +98,32 @@ begin
   FModel.Id_paciente := FRegistros.FieldByName('id_paciente').AsInteger;
   FModel.Hora_atendimento := FRegistros.FieldByName('hora_atendimento').AsDateTime;
   FModel.Hora_alta := FRegistros.FieldByName('hora_Alta').AsDateTime;
+end;
+
+procedure TControllerAmbulatorial.CleanModel;
+begin
+  Model.Id := 0;
+  Model.Data_atendimento := 0;
+  Model.Carater := 0;
+  Model.Id_medico_responsavel := 0;
+  Model.Id_procedimento := 0;
+  Model.Id_cid_provisorio := '';
+  Model.Id_setor := 0;
+  Model.Tipo_clinica := 0;
+  Model.Tipo_atendimento := 0;
+  Model.Id_convenio := 0;
+  Model.Id_responsavel := 0;
+  Model.Responsavel_paciente := 0;
+  Model.Data_alta := 0;
+  Model.Id_cid_definitivo := '';
+  Model.Motivo_alta := 0;
+  Model.Tipo_saida_tiss := 0;
+  Model.Id_encaminhamento := 0;
+  Model.Transferido_para := '';
+  Model.Status := '';
+  Model.Id_paciente := 0;
+  Model.Hora_atendimento := 0;
+  Model.Hora_alta := 0;
 end;
 
 function TControllerAmbulatorial.ConsultarAtendimento(
@@ -198,6 +227,7 @@ begin
   FCID := TCid.Create;
   FSetor := TSetores.Create;
   FPaciente := TPacientes.Create;
+  FResponsavel := TResponsavel_Paciente.Create;
   inherited;
 end;
 
@@ -214,6 +244,7 @@ begin
   FCID.Free;
   FSetor.Free;
   FPaciente.Free;
+  FResponsavel.Free;
 end;
 
 function TControllerAmbulatorial.GetDataSource: TDataSource;
@@ -260,6 +291,13 @@ function TControllerAmbulatorial.GetNomePaciente(AID,
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FPaciente,'nome','id',AID,iOperacao);
+end;
+
+function TControllerAmbulatorial.GetResponsavelPaciente(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FResponsavel,'nome','id',AID,iOperacao);
 end;
 
 function TControllerAmbulatorial.IncluirAtendimento: boolean;
