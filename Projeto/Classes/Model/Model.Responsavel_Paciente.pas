@@ -20,6 +20,7 @@ type
       FEndereco: string;
       FId_cidade: integer;
       FTipo_documento: integer;
+      FSituacao: string;
 
     public
       [attPk]
@@ -34,6 +35,7 @@ type
       property Fone: string read FFone write FFone;
       property Parentesco: integer read FParentesco write FParentesco;
       property Local_Trabalho: string read FLocal_trabalho write FLocal_trabalho;
+      property Situacao: string read FSituacao write FSituacao;
 
   end;
 

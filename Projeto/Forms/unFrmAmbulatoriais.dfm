@@ -31,7 +31,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
     TabOrder = 0
     object TbShAtendimentos: TTabSheet
       Caption = 'Atendimentos'
-      ExplicitHeight = 604
       object PnConsulta: TPanel
         Left = 0
         Top = 0
@@ -48,6 +47,24 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Height = 13
           Caption = 'Consulta por:'
         end
+        object GrpBxAtendimento: TGroupBox
+          Left = 495
+          Top = 8
+          Width = 355
+          Height = 66
+          Caption = 'Atendimento'
+          TabOrder = 3
+          object edtAtendimento: TEdit
+            Left = 8
+            Top = 32
+            Width = 121
+            Height = 21
+            Ctl3D = True
+            NumbersOnly = True
+            ParentCtl3D = False
+            TabOrder = 0
+          end
+        end
         object GrpBxPaciente: TGroupBox
           Left = 495
           Top = 8
@@ -57,7 +74,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           TabOrder = 2
           object lblPaciente: TLabel
             Left = 104
-            Top = 37
+            Top = 34
             Width = 240
             Height = 16
             AutoSize = False
@@ -70,7 +87,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           end
           object edtIDPaciente: TEdit
             Left = 8
-            Top = 35
+            Top = 32
             Width = 49
             Height = 22
             Ctl3D = False
@@ -83,10 +100,11 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             ParentCtl3D = False
             ParentFont = False
             TabOrder = 0
+            OnExit = edtIDPacienteExit
           end
           object BtnBuscaPaciente: TBitBtn
             Left = 64
-            Top = 35
+            Top = 32
             Width = 34
             Height = 21
             Glyph.Data = {
@@ -125,24 +143,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
               1F3E000000060000000100000000000000000000000000000000}
             TabOrder = 1
-          end
-        end
-        object GrpBxAtendimento: TGroupBox
-          Left = 495
-          Top = 8
-          Width = 355
-          Height = 66
-          Caption = 'Atendimento'
-          TabOrder = 3
-          object edtAtendimento: TEdit
-            Left = 8
-            Top = 32
-            Width = 121
-            Height = 21
-            Ctl3D = True
-            NumbersOnly = True
-            ParentCtl3D = False
-            TabOrder = 0
+            OnClick = BtnBuscaPacienteClick
           end
         end
         object BtnConsulta: TBitBtn
@@ -204,7 +205,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           end
           object Label28: TLabel
             Left = 201
-            Top = 17
+            Top = 16
             Width = 31
             Height = 13
             Caption = 'Status'
@@ -247,7 +248,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           end
           object CbxStatus: TComboBox
             Left = 199
-            Top = 32
+            Top = 31
             Width = 151
             Height = 24
             Style = csDropDownList
@@ -277,7 +278,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 466
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 451
         object GrdAmbulatoriais: TDBGrid
           Left = 1
           Top = 1
@@ -395,7 +395,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 2
-        ExplicitTop = 540
         object Label4: TLabel
           Left = 644
           Top = 21
@@ -513,7 +512,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
       Caption = 'Dados do Atendimento'
       ImageIndex = 1
       OnShow = TbShDadosAtendimentoShow
-      ExplicitHeight = 604
       object PnDadosAtendimento: TPanel
         Left = 0
         Top = 0
@@ -521,8 +519,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 563
         Align = alClient
         TabOrder = 0
-        ExplicitTop = 4
-        ExplicitHeight = 548
         object Label8: TLabel
           Left = 16
           Top = 8
@@ -1019,8 +1015,9 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 82
           Height = 21
           Style = csDropDownList
+          ItemIndex = 0
           TabOrder = 18
-          OnExit = CbxResponsavelExit
+          OnChange = CbxResponsavelChange
           Items.Strings = (
             ''
             'PR'#211'PRIO'
@@ -1060,6 +1057,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Height = 21
             NumbersOnly = True
             TabOrder = 0
+            OnExit = edtResponsavelExit
           end
           object BtnBuscaResponsavel: TBitBtn
             Left = 75
@@ -1102,6 +1100,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
               1F3E000000060000000100000000000000000000000000000000}
             TabOrder = 1
+            OnClick = BtnBuscaResponsavelClick
           end
         end
         object edtPaciente: TEdit
@@ -1181,9 +1180,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Height = 55
             Align = alBottom
             TabOrder = 0
-            ExplicitLeft = -4
-            ExplicitTop = 370
-            ExplicitWidth = 959
             object Label25: TLabel
               Left = 14
               Top = 7
@@ -1264,8 +1260,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Height = 68
             Align = alBottom
             TabOrder = 1
-            ExplicitTop = 479
-            ExplicitWidth = 959
             object Label21: TLabel
               Left = 14
               Top = 12
@@ -1331,9 +1325,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             Height = 56
             Align = alBottom
             TabOrder = 2
-            ExplicitLeft = 0
-            ExplicitTop = 511
-            ExplicitWidth = 959
             object Label26: TLabel
               Left = 323
               Top = 1
@@ -1372,7 +1363,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
         Height = 56
         Align = alBottom
         TabOrder = 1
-        ExplicitTop = 548
         object BtnSalvar: TBitBtn
           Left = 364
           Top = 10

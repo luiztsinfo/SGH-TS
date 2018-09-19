@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons,
   Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Ambulatorial,
   Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase, unFrmColaboradores,
-  unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes;
+  unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes,
+  unFrmResponsavelPaciente;
 
 type
   TfrmAmbulatoriais = class(TForm)
@@ -116,7 +117,6 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShDadosAtendimentoShow(Sender: TObject);
-    procedure CbxResponsavelExit(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
     procedure edtConvenioExit(Sender: TObject);
     procedure BtnBuscaConvenioClick(Sender: TObject);
@@ -142,6 +142,11 @@ type
     procedure GrdAmbulatoriaisDblClick(Sender: TObject);
     procedure GrdAmbulatoriaisKeyPress(Sender: TObject; var Key: Char);
     procedure BtnAltaTransferenciaClick(Sender: TObject);
+    procedure edtIDPacienteExit(Sender: TObject);
+    procedure BtnBuscaPacienteClick(Sender: TObject);
+    procedure CbxResponsavelChange(Sender: TObject);
+    procedure edtResponsavelExit(Sender: TObject);
+    procedure BtnBuscaResponsavelClick(Sender: TObject);
   private
 
     iTipoOperacao: integer;
@@ -226,7 +231,7 @@ begin
     end;
 
   FController.Model.Responsavel_paciente  := CbxResponsavel.ItemIndex;
-  if CbxResponsavel.ItemIndex = 1 then
+  if CbxResponsavel.ItemIndex = 2 then
     if TryStrToInt(edtResponsavel.Text,vResponsavelPaciente) then
       FController.Model.Id_responsavel := vResponsavelPaciente
     else
@@ -267,6 +272,7 @@ begin
   PgCtrlAtendimentos.ActivePageIndex := 1;
   FController.CarregarDadosAtendimento;
   CarregarControles;
+  VerificaResponsavel;
   edtPaciente.SetFocus;
 end;
 
@@ -284,6 +290,11 @@ begin
 
     FreeAndNil(frmCID);
   end;
+
+  if lblCIDDefinitivo.Caption = trim('') then
+    BtnBuscaCIDDefinitivo.SetFocus
+  else
+    mskDataAlta.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaCIDProvisorioClick(Sender: TObject);
@@ -300,6 +311,11 @@ begin
 
     FreeAndNil(frmCID);
   end;
+
+  if lblCidProvisorio.Caption = trim('') then
+    BtnBuscaCIDProvisorio.SetFocus
+  else
+    edtSetor.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaConvenioClick(Sender: TObject);
@@ -318,6 +334,11 @@ begin
 
     FreeAndNil(frmConvenios);
   end;
+
+  if lblConvenio.Caption = trim('') then
+    BtnBuscaConvenio.SetFocus
+  else
+    edtMedicoResponsavel.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaMedicoClick(Sender: TObject);
@@ -336,6 +357,34 @@ begin
 
     FreeAndNil(frmColaborador);
   end;
+
+  if lblMedicoResponsavel.Caption = trim('') then
+    BtnBuscaMedico.SetFocus
+  else
+    edtProcedimento.SetFocus;
+end;
+
+procedure TfrmAmbulatoriais.BtnBuscaPacienteClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmPacientes := TfrmPacientes.Create(Self,toConsulta);
+    frmPacientes.ShowModal;
+  finally
+    edtIDPaciente.Text := IntToStr(frmPacientes.FValueFieldKey);
+
+    if TryStrToInt(edtIDPaciente.Text,vValue) then
+      lblPaciente.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
+
+    FreeAndNil(frmPacientes);
+  end;
+
+  if lblPaciente.Caption = trim('') then
+    BtnBuscaPaciente.SetFocus
+  else
+    BtnConsulta.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaPacienteNovoAtendimentoClick(
@@ -355,6 +404,11 @@ begin
 
     FreeAndNil(frmPacientes);
   end;
+
+  if lblPacienteNovo.Caption = trim('') then
+    BtnBuscaPacienteNovoAtendimento.SetFocus
+  else
+    edtConvenio.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaProcedimentoClick(Sender: TObject);
@@ -373,6 +427,34 @@ begin
 
     FreeAndNil(frmProcedimentos);
   end;
+
+  if lblProcedimento.Caption = trim('') then
+    BtnBuscaProcedimento.SetFocus
+  else
+    edtCIDProvisorio.SetFocus;
+end;
+
+procedure TfrmAmbulatoriais.BtnBuscaResponsavelClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmResponsavelPaciente := TfrmResponsavelPaciente.Create(Self,toConsulta);
+    frmResponsavelPaciente.ShowModal;
+  finally
+    edtResponsavel.Text := IntToStr(frmResponsavelPaciente.FValueFieldKey);
+
+    if TryStrToInt(edtResponsavel.Text,vValue) then
+      lblResponsavelPaciente.Caption := FController.GetResponsavelPaciente(vValue,iINCLUINDO);
+
+    FreeAndNil(frmResponsavelPaciente);
+  end;
+
+  if lblResponsavelPaciente.Caption = trim('') then
+    BtnBuscaResponsavel.SetFocus
+  else
+    BtnSalvar.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnBuscaSetorClick(Sender: TObject);
@@ -391,6 +473,11 @@ begin
 
     FreeAndNil(frmSetores);
   end;
+
+  if lblSetor.Caption = trim('') then
+    BtnBuscaSetor.SetFocus
+  else
+    CbxResponsavel.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.BtnCancelarClick(Sender: TObject);
@@ -537,7 +624,7 @@ begin
   CbxResponsavel.ItemIndex := FController.Model.Responsavel_paciente;
 
   edtResponsavel.Text := IntToStr(FController.Model.Id_responsavel);
-
+  lblResponsavelPaciente.Caption := FController.GetResponsavelPaciente(FController.Model.Id_responsavel,iALTERANDO);
 
   edtTransferidoPara.Text := FController.Model.Transferido_para;
 
@@ -555,7 +642,7 @@ begin
   VerificaTipoConsulta;
 end;
 
-procedure TfrmAmbulatoriais.CbxResponsavelExit(Sender: TObject);
+procedure TfrmAmbulatoriais.CbxResponsavelChange(Sender: TObject);
 begin
   VerificaResponsavel;
 end;
@@ -565,6 +652,11 @@ begin
   inherited;
   if (edtCIDDefinitivo.Text <> trim('0')) and (edtCIDDefinitivo.Text <> EmptyStr) then
     lblCIDDefinitivo.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
+
+  if lblCIDDefinitivo.Caption = trim('') then
+    BtnBuscaCIDDefinitivo.SetFocus
+  else
+    mskDataAlta.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.edtCIDProvisorioExit(Sender: TObject);
@@ -574,6 +666,11 @@ begin
   inherited;
   if (edtCIDProvisorio.Text <> trim('0')) and (edtCIDProvisorio.Text <> EmptyStr) then
     lblCidProvisorio.Caption := FController.GetDescricaoCID(edtCIDProvisorio.Text,iINCLUINDO);
+
+  if lblCidProvisorio.Caption = trim('') then
+    BtnBuscaCIDProvisorio.SetFocus
+  else
+    edtSetor.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.edtConvenioExit(Sender: TObject);
@@ -583,6 +680,25 @@ begin
   inherited;
   if TryStrToInt(edtConvenio.Text,vValue) then
     lblConvenio.Caption := FController.GetNomeConvenio(vValue,iINCLUINDO);
+
+  if lblConvenio.Caption = trim('') then
+    BtnBuscaConvenio.SetFocus
+  else
+    edtMedicoResponsavel.SetFocus;
+end;
+
+procedure TfrmAmbulatoriais.edtIDPacienteExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtIDPaciente.Text,vValue) then
+    lblPaciente.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
+
+  if lblPaciente.Caption = trim('') then
+    BtnBuscaPaciente.SetFocus
+  else
+    BtnConsulta.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.edtMedicoResponsavelExit(Sender: TObject);
@@ -592,6 +708,11 @@ begin
   inherited;
   if TryStrToInt(edtMedicoResponsavel.Text,vValue) then
     lblMedicoResponsavel.Caption := FController.GetNomeMedico(vValue,iINCLUINDO);
+
+  if lblMedicoResponsavel.Caption = trim('') then
+    BtnBuscaMedico.SetFocus
+  else
+    edtProcedimento.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.edtPacienteExit(Sender: TObject);
@@ -601,6 +722,11 @@ begin
   inherited;
   if TryStrToInt(edtPaciente.Text,vValue) then
     lblPacienteNovo.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
+
+  if lblPacienteNovo.Caption = trim('') then
+    BtnBuscaPacienteNovoAtendimento.SetFocus
+  else
+    edtConvenio.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.edtProcedimentoExit(Sender: TObject);
@@ -610,6 +736,28 @@ begin
   inherited;
   if TryStrToInt(edtProcedimento.Text,vValue) then
     lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+
+  if lblProcedimento.Caption = trim('') then
+    BtnBuscaProcedimento.SetFocus
+  else
+    edtCIDProvisorio.SetFocus;
+end;
+
+procedure TfrmAmbulatoriais.edtResponsavelExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtResponsavel.Text,vValue) then
+    lblResponsavelPaciente.Caption := FController.GetResponsavelPaciente(vValue,iINCLUINDO);
+
+  if lblResponsavelPaciente.Caption = trim('') then
+    BtnBuscaResponsavel.SetFocus
+  else
+    begin
+      if iTipoOperacao = OPC_INCLUIR then
+        BtnSalvar.SetFocus;
+    end;
 end;
 
 procedure TfrmAmbulatoriais.edtSetorExit(Sender: TObject);
@@ -619,6 +767,11 @@ begin
   inherited;
   if TryStrToInt(edtSetor.Text,vValue) then
     lblSetor.Caption := FController.GetDescricaoSetor(vValue,iINCLUINDO);
+
+  if lblSetor.Caption = trim('') then
+    BtnBuscaSetor.SetFocus
+  else
+    CbxResponsavel.SetFocus;
 end;
 
 procedure TfrmAmbulatoriais.FormCreate(Sender: TObject);

@@ -134,7 +134,9 @@ uses
   unFrmAmbulatoriais in 'Forms\unFrmAmbulatoriais.pas' {frmAmbulatoriais},
   Controller.Ambulatorial in 'Classes\Controller\Controller.Ambulatorial.pas',
   Model.Ambulatorial in 'Classes\Model\Model.Ambulatorial.pas',
-  Model.Responsavel_Paciente in 'Classes\Model\Model.Responsavel_Paciente.pas';
+  Model.Responsavel_Paciente in 'Classes\Model\Model.Responsavel_Paciente.pas',
+  Controller.Responsavel_Paciente in 'Classes\Controller\Controller.Responsavel_Paciente.pas',
+  unFrmResponsavelPaciente in 'Forms\unFrmResponsavelPaciente.pas' {frmResponsavelPaciente};
 
 {$R *.res}
 
@@ -145,6 +147,9 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.
+
+
+
 
 
 

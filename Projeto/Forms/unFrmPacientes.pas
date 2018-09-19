@@ -87,8 +87,6 @@ type
     edtLocalTrabalho: TEdit;
     edtEmail: TEdit;
     edtProfissao: TEdit;
-    TbShResponsavelPaciente: TTabSheet;
-    PnResponsavelPaciente: TPanel;
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);

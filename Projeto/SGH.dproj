@@ -283,6 +283,10 @@
         <DCCReference Include="Classes\Controller\Controller.Ambulatorial.pas"/>
         <DCCReference Include="Classes\Model\Model.Ambulatorial.pas"/>
         <DCCReference Include="Classes\Model\Model.Responsavel_Paciente.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Responsavel_Paciente.pas"/>
+        <DCCReference Include="Forms\unFrmResponsavelPaciente.pas">
+            <Form>frmResponsavelPaciente</Form>
+        </DCCReference>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>

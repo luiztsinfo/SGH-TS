@@ -877,20 +877,6 @@ inherited frmPacientes: TfrmPacientes
         end
       end
     end
-    object TbShResponsavelPaciente: TTabSheet
-      Caption = 'Respons'#225'vel do Paciente'
-      ImageIndex = 2
-      object PnResponsavelPaciente: TPanel
-        Left = 0
-        Top = 0
-        Width = 814
-        Height = 526
-        Align = alClient
-        Color = 16704450
-        ParentBackground = False
-        TabOrder = 0
-      end
-    end
   end
   inherited PnBotoes: TPanel
     Top = 554

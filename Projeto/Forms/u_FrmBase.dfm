@@ -44,13 +44,19 @@ object frmBase: TfrmBase
           Height = 245
           Align = alClient
           Color = 13565951
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
+          TitleFont.Color = clMenuHighlight
           TitleFont.Height = -11
           TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
+          TitleFont.Style = [fsBold]
           OnCellClick = GrdDadosCellClick
           OnDblClick = GrdDadosDblClick
           OnKeyPress = GrdDadosKeyPress
@@ -205,10 +211,6 @@ object frmBase: TfrmBase
     object TbShCadastro: TTabSheet
       Caption = 'Cadastro/Altera'#231#227'o'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PnCampos: TPanel
         Left = 0
         Top = 0

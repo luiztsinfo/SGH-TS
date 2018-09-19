@@ -1362,6 +1362,13 @@ object frmPrincipal: TfrmPrincipal
         Caption = 'Pacientes'
         OnClick = Pacientes1Click
       end
+      object ResponsveldePaciente1: TMenuItem
+        Caption = 'Respons'#225'vel de Paciente'
+        OnClick = ResponsveldePaciente1Click
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
       object Colaboradores1: TMenuItem
         Caption = 'Colaboradores'
         OnClick = Colaboradores1Click

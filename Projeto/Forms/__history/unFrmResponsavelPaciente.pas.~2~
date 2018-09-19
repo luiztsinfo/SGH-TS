@@ -1,0 +1,95 @@
+unit unFrmResponsavelPaciente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Responsavel_Paciente, unConstantes;
+
+type
+  TfrmResponsavelPaciente = class(TFrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    lblCidade: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  frmResponsavelPaciente: TfrmResponsavelPaciente;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmResponsavelPaciente.alimentaModel;
+begin
+  inherited;
+  TControllerResponsavelPaciente(FController).Model.Nome := edtDescricao.Text;
+end;
+
+procedure TfrmResponsavelPaciente.alterar;
+begin
+  inherited;
+  TControllerResponsavelPaciente(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerResponsavelPaciente(FController).FDao.Salvar(TControllerResponsavelPaciente(FController).Model)
+end;
+
+procedure TfrmResponsavelPaciente.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TfrmResponsavelPaciente.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerResponsavelPaciente(FController).Model.Id);
+  edtDescricao.Text := TControllerResponsavelPaciente(FController).Model.Descricao;
+end;
+
+procedure TfrmResponsavelPaciente.consultar;
+begin
+  TControllerResponsavelPaciente(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerResponsavelPaciente(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerResponsavelPaciente(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerResponsavelPaciente(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TfrmResponsavelPaciente.FormCreate(Sender: TObject);
+begin
+  FController := TControllerResponsavelPaciente.Create;
+  inherited;
+end;
+
+procedure TfrmResponsavelPaciente.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

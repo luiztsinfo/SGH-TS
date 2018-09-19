@@ -1,0 +1,104 @@
+unit Controller.Responsavel_Paciente;
+
+interface
+
+uses Controller.Interfaces, Model.Responsavel_Paciente, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes;
+
+type
+  TControllerResponsavelPaciente = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TResponsavel_Paciente;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TResponsavel_Paciente read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+ { TControllerResponsavelPaciente }
+
+procedure TControllerResponsavelPaciente.AlimentaCamposModel;
+begin
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+end;
+
+procedure TControllerResponsavelPaciente.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerResponsavelPaciente.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TResponsavel_Paciente.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerResponsavelPaciente.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+procedure TControllerResponsavelPaciente.Excluir;
+begin
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerResponsavelPaciente.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerResponsavelPaciente.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+procedure TControllerResponsavelPaciente.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerResponsavelPaciente.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+end.
+
