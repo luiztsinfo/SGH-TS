@@ -12,7 +12,8 @@ uses
   Controller.Interfaces, unFrmNacionalidades, unFrmGruposCID, unFrmCID,
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
   unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
-  unFrmProcedimentos, unFrmCidades, unFrmAmbulatoriais, unFrmResponsavelPaciente;
+  unFrmProcedimentos, unFrmCidades, unFrmAtendimentos, unFrmResponsavelPaciente,
+  unConstantes;
 
 type
   TfrmPrincipal = class(TForm)
@@ -54,6 +55,7 @@ type
     Ambulatoriais1: TMenuItem;
     ResponsveldePaciente1: TMenuItem;
     N4: TMenuItem;
+    Internao1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -79,6 +81,7 @@ type
     procedure CIdades1Click(Sender: TObject);
     procedure Ambulatoriais1Click(Sender: TObject);
     procedure ResponsveldePaciente1Click(Sender: TObject);
+    procedure Internao1Click(Sender: TObject);
   private
 
   public
@@ -125,7 +128,7 @@ end;
 procedure TfrmPrincipal.Ambulatoriais1Click(Sender: TObject);
 begin
   try
-    frmAtendimentos := TfrmAtendimentos.Create(self);
+    frmAtendimentos := TfrmAtendimentos.Create(self,tpAmbulatorial);
     frmAtendimentos.ShowModal;
   finally
     FreeAndNil(frmAtendimentos);
@@ -239,6 +242,16 @@ begin
     frmHE.ShowModal;
   finally
     FreeAndNil(frmHE);
+  end;
+end;
+
+procedure TfrmPrincipal.Internao1Click(Sender: TObject);
+begin
+  try
+    frmAtendimentos := TfrmAtendimentos.Create(self,tpInternacao);
+    frmAtendimentos.ShowModal;
+  finally
+    FreeAndNil(frmAtendimentos);
   end;
 end;
 

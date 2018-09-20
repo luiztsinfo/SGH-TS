@@ -4,6 +4,9 @@ interface
 
 const
 
+  iTpAMBULATORIAL = 1;
+  iTpINTERNACAO = 2;
+
   stTODOS             = 'T';
   stAGUARDANDO        = 'A';
   stEMATENDIMENTO     = 'E';

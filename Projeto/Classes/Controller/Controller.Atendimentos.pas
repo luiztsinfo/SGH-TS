@@ -7,7 +7,7 @@ uses Model.Atendimentos, Data.DB, Lca.Orm.Comp.FireDac, Conexao, unConstantes,
   Model.Setor, Model.Paciente, Vcl.Controls, Model.Responsavel_Paciente;
 
 type
-  TControllerAmbulatorial = class
+  TControllerAtendimento = class
     private
       FConexao: TConexao;
       FDao: TDaoFireDac;
@@ -37,12 +37,12 @@ type
       function CarregarDadosAtendimento: boolean;
 
       function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
-        Status: string): integer; overload;
+        Status: string; TipoAtendimento: integer): integer; overload;
 
       function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
-        IDPaciente: integer;Status: string): integer; overload;
+        IDPaciente: integer;Status: string; TipoAtendimento: integer): integer; overload;
 
-      function ConsultarAtendimento(IDAtendimento: integer): integer; overload;
+      function ConsultarAtendimento(IDAtendimento: integer;TipoAtendimento: integer): integer; overload;
 
       constructor Create;
       destructor Destroy; override;
@@ -57,14 +57,14 @@ uses
 
 { TControllerAmbulatorial }
 
-function TControllerAmbulatorial.AlterarAtendimento(
+function TControllerAtendimento.AlterarAtendimento(
   IDAtendimento: integer): boolean;
 begin
   FModel.Id := IDAtendimento;
   FDao.Salvar(FModel);
 end;
 
-function TControllerAmbulatorial.CancelarAtendimento: boolean;
+function TControllerAtendimento.CancelarAtendimento: boolean;
 begin
   if MessageDlg('Deseja realmente cancelar o atendimento selecionado?'+#13+#13+
   'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes then
@@ -74,7 +74,7 @@ begin
     end;
 end;
 
-function TControllerAmbulatorial.CarregarDadosAtendimento: boolean;
+function TControllerAtendimento.CarregarDadosAtendimento: boolean;
 begin
   FModel.Id := FRegistros.FieldByName('id').AsInteger;
   FModel.Data_atendimento := FRegistros.FieldByName('data_Atendimento').AsDateTime;
@@ -100,7 +100,7 @@ begin
   FModel.Hora_alta := FRegistros.FieldByName('hora_Alta').AsDateTime;
 end;
 
-procedure TControllerAmbulatorial.CleanModel;
+procedure TControllerAtendimento.CleanModel;
 begin
   Model.Id := 0;
   Model.Data_atendimento := 0;
@@ -126,11 +126,11 @@ begin
   Model.Hora_alta := 0;
 end;
 
-function TControllerAmbulatorial.ConsultarAtendimento(
-  IDAtendimento: integer): integer;
+function TControllerAtendimento.ConsultarAtendimento(
+  IDAtendimento: integer; TipoAtendimento: integer): integer;
 var
   ConsultaSQL: TStringBuilder;
-  pParams: array[0..0] of Variant;
+  pParams: array[0..1] of Variant;
 begin
   try
     ConsultaSQL := TStringBuilder.Create;
@@ -143,6 +143,12 @@ begin
     ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
     ConsultaSQL.Append(' WHERE amb.ID = :param1');
 
+    if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
+      begin
+        pParams[1] := TipoAtendimento;
+        ConsultaSQL.Append(' AND amb.tipo = :param2');
+      end;
+
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
     FDs.DataSet := FRegistros;
   finally
@@ -150,11 +156,12 @@ begin
   end;
 end;
 
-function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
-  DataFinal: TDateTime; IDPaciente: integer; Status: string): integer;
+function TControllerAtendimento.ConsultarAtendimento(DataInicial,
+  DataFinal: TDateTime; IDPaciente: integer; Status: string;
+  TipoAtendimento: integer): integer;
 var
   ConsultaSQL: TStringBuilder;
-  pParams: array[0..3] of Variant;
+  pParams: array[0..4] of Variant;
 begin
   pParams[0] := IDPaciente;
   pParams[1] := DataInicial;
@@ -170,10 +177,16 @@ begin
     ConsultaSQL.Append(' WHERE amb.id_paciente = :param1');
     ConsultaSQL.Append(' AND amb.data_atendimento BETWEEN :param2 AND :param3');
 
+    if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
+      begin
+        pParams[3] := TipoAtendimento;
+        ConsultaSQL.Append(' AND amb.tipo = :param4');
+      end;
+
     if Status <> stTODOS then
       begin
-        pParams[3] := Status;
-        ConsultaSQL.Append(' AND amb.status = :param4');
+        pParams[4] := Status;
+        ConsultaSQL.Append(' AND amb.status = :param5');
       end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
@@ -183,11 +196,11 @@ begin
   end;
 end;
 
-function TControllerAmbulatorial.ConsultarAtendimento(DataInicial,
-  DataFinal: TDateTime; Status: string): integer;
+function TControllerAtendimento.ConsultarAtendimento(DataInicial,
+  DataFinal: TDateTime; Status: string; TipoAtendimento: integer): integer;
 var
   ConsultaSQL: TStringBuilder;
-  pParams: array[0..2] of Variant;
+  pParams: array[0..3] of Variant;
 begin
   pParams[0] := DataInicial;
   pParams[1] := DataFinal;
@@ -202,10 +215,16 @@ begin
 
     ConsultaSQL.Append(' WHERE amb.data_atendimento BETWEEN :param1 AND :param2');
 
+    if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
+      begin
+        pParams[2] := TipoAtendimento;
+        ConsultaSQL.Append(' AND amb.tipo = :param3');
+      end;
+
     if Status <> stTODOS then
       begin
-        pParams[2] := Status;
-        ConsultaSQL.Append(' AND amb.status = :param3');
+        pParams[3] := Status;
+        ConsultaSQL.Append(' AND amb.status = :param4');
       end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
@@ -215,7 +234,7 @@ begin
   end;
 end;
 
-constructor TControllerAmbulatorial.Create;
+constructor TControllerAtendimento.Create;
 begin
   FConexao := TConexao.Create;
   FDao := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
@@ -231,7 +250,7 @@ begin
   inherited;
 end;
 
-destructor TControllerAmbulatorial.Destroy;
+destructor TControllerAtendimento.Destroy;
 begin
   inherited;
   FModel.Free;
@@ -247,60 +266,60 @@ begin
   FResponsavel.Free;
 end;
 
-function TControllerAmbulatorial.GetDataSource: TDataSource;
+function TControllerAtendimento.GetDataSource: TDataSource;
 begin
   Result := FDs;
 end;
 
-function TControllerAmbulatorial.GetDescricaoCID(AID: string;
+function TControllerAtendimento.GetDescricaoCID(AID: string;
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FCID,'descricao','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.GetDescricaoProcedimento(AID,
+function TControllerAtendimento.GetDescricaoProcedimento(AID,
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FProcedimento,'descricao','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.GetDescricaoSetor(AID,
+function TControllerAtendimento.GetDescricaoSetor(AID,
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FSetor,'descricao','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.GetNomeConvenio(AID,
+function TControllerAtendimento.GetNomeConvenio(AID,
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FConvenio,'nome','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.GetNomeMedico(AID, iOperacao: integer): string;
+function TControllerAtendimento.GetNomeMedico(AID, iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FColaborador,'nome','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.GetNomePaciente(AID,
+function TControllerAtendimento.GetNomePaciente(AID,
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FPaciente,'nome','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.GetResponsavelPaciente(AID,
+function TControllerAtendimento.GetResponsavelPaciente(AID,
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FResponsavel,'nome','id',AID,iOperacao);
 end;
 
-function TControllerAmbulatorial.IncluirAtendimento: boolean;
+function TControllerAtendimento.IncluirAtendimento: boolean;
 begin
   Model.Id := FDao.GetID(Model,'id');
   if FDao.Inserir(FModel,['ConsultaSQL','OrderBySQL','ExisteWhere']) > 0 then

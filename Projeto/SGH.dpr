@@ -131,7 +131,7 @@ uses
   unFuncoes in 'Classes\unFuncoes.pas',
   unFrmCidades in 'Forms\unFrmCidades.pas' {frmCidades},
   Controller.Cidade in 'Classes\Controller\Controller.Cidade.pas',
-  unFrmAmbulatoriais in 'Forms\unFrmAmbulatoriais.pas' {frmAtendimentos},
+  unFrmAtendimentos in 'Forms\unFrmAtendimentos.pas' {frmAtendimentos},
   Controller.Atendimentos in 'Classes\Controller\Controller.Atendimentos.pas',
   Model.Atendimentos in 'Classes\Model\Model.Atendimentos.pas',
   Model.Responsavel_Paciente in 'Classes\Model\Model.Responsavel_Paciente.pas',
@@ -147,6 +147,7 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.
+
 
 
 

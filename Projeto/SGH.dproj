@@ -277,7 +277,7 @@
             <Form>frmCidades</Form>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Cidade.pas"/>
-        <DCCReference Include="Forms\unFrmAmbulatoriais.pas">
+        <DCCReference Include="Forms\unFrmAtendimentos.pas">
             <Form>frmAtendimentos</Form>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Atendimentos.pas"/>

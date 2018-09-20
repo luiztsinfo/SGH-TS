@@ -1454,6 +1454,10 @@ object frmPrincipal: TfrmPrincipal
         Caption = 'Ambulatoriais'
         OnClick = Ambulatoriais1Click
       end
+      object Internao1: TMenuItem
+        Caption = 'Interna'#231#227'o'
+        OnClick = Internao1Click
+      end
     end
     object Enfermagem2: TMenuItem
       Caption = 'Enfermagem'

@@ -33,7 +33,7 @@ type
     FHora_alta: TTime;
     FObs: string;
     FId_Medico_Solicitante: integer;
-    FPrevisao_alta: TDate;
+    FPrevisao_alta: TDateTime;
     FId_leito: integer;
     FTipo: integer;
     FTipo_acomodacao: integer;
@@ -71,8 +71,9 @@ type
     property Id_Medico_solicitante: integer read FId_Medico_Solicitante write FId_Medico_solicitante;
     property Obs: string read FObs write FObs;
     property Origem: integer read FOrigem write FOrigem;
-    property Previsao_alta: TDate read FPrevisao_alta write FPrevisao_alta;
+    property Previsao_alta: TDateTime read FPrevisao_alta write FPrevisao_alta;
     property Tipo_acomodacao: integer read FTipo_acomodacao write FTipo_acomodacao;
+
     property Tipo: integer read FTipo write FTipo;
 
   end;
