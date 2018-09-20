@@ -125,10 +125,10 @@ end;
 procedure TfrmPrincipal.Ambulatoriais1Click(Sender: TObject);
 begin
   try
-    frmAmbulatoriais := TfrmAmbulatoriais.Create(self);
-    frmAmbulatoriais.ShowModal;
+    frmAtendimentos := TfrmAtendimentos.Create(self);
+    frmAtendimentos.ShowModal;
   finally
-    FreeAndNil(frmAmbulatoriais);
+    FreeAndNil(frmAtendimentos);
   end;
 end;
 

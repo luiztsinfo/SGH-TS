@@ -1,9 +1,9 @@
-object frmAmbulatoriais: TfrmAmbulatoriais
+object frmAtendimentos: TfrmAtendimentos
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = '::. ATENDIMENTOS AMBULATORIAIS .::'
+  Caption = '::. ATENDIMENTOS .::'
   ClientHeight = 647
   ClientWidth = 969
   Color = clBtnFace
@@ -284,6 +284,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           Width = 959
           Height = 464
           Align = alClient
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
@@ -357,13 +358,26 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               Title.Alignment = taCenter
-              Title.Caption = 'Data/Hora Atendimento'
+              Title.Caption = 'Data'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clMenuHighlight
               Title.Font.Height = -11
               Title.Font.Name = 'Tahoma'
               Title.Font.Style = [fsBold]
               Width = 162
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'HORA_ATENDIMENTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Hora '
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
               Visible = True
             end
             item
@@ -1275,7 +1289,7 @@ object frmAmbulatoriais: TfrmAmbulatoriais
               Caption = 'Motivo Alta'
             end
             object Label24: TLabel
-              Left = 261
+              Left = 579
               Top = 12
               Width = 74
               Height = 13
@@ -1294,13 +1308,13 @@ object frmAmbulatoriais: TfrmAmbulatoriais
             object CbxMotivoAlta: TComboBox
               Left = 173
               Top = 29
-              Width = 82
+              Width = 400
               Height = 21
               Style = csDropDownList
               TabOrder = 2
             end
             object CbxTipoSaidaTISS: TComboBox
-              Left = 261
+              Left = 579
               Top = 29
               Width = 146
               Height = 21
@@ -1382,10 +1396,6 @@ object frmAmbulatoriais: TfrmAmbulatoriais
           OnClick = BtnCancelarOperacaoClick
         end
       end
-    end
-    object TbShConsumos: TTabSheet
-      Caption = 'Consumos'
-      ImageIndex = 2
     end
   end
 end

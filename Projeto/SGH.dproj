@@ -278,10 +278,10 @@
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Cidade.pas"/>
         <DCCReference Include="Forms\unFrmAmbulatoriais.pas">
-            <Form>frmAmbulatoriais</Form>
+            <Form>frmAtendimentos</Form>
         </DCCReference>
-        <DCCReference Include="Classes\Controller\Controller.Ambulatorial.pas"/>
-        <DCCReference Include="Classes\Model\Model.Ambulatorial.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Atendimentos.pas"/>
+        <DCCReference Include="Classes\Model\Model.Atendimentos.pas"/>
         <DCCReference Include="Classes\Model\Model.Responsavel_Paciente.pas"/>
         <DCCReference Include="Classes\Controller\Controller.Responsavel_Paciente.pas"/>
         <DCCReference Include="Forms\unFrmResponsavelPaciente.pas">

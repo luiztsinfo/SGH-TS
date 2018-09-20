@@ -5,13 +5,13 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons,
-  Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Ambulatorial,
+  Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Atendimentos,
   Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase, unFrmColaboradores,
   unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes,
   unFrmResponsavelPaciente;
 
 type
-  TfrmAmbulatoriais = class(TForm)
+  TfrmAtendimentos = class(TForm)
     PgCtrlAtendimentos: TPageControl;
     TbShAtendimentos: TTabSheet;
     TbShDadosAtendimento: TTabSheet;
@@ -110,7 +110,6 @@ type
     Label27: TLabel;
     edtTransferidoPara: TEdit;
     BtnConsumos: TBitBtn;
-    TbShConsumos: TTabSheet;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -161,13 +160,13 @@ type
   end;
 
 var
-  frmAmbulatoriais: TfrmAmbulatoriais;
+  frmAtendimentos: TfrmAtendimentos;
 
 implementation
 
 {$R *.dfm}
 
-procedure TfrmAmbulatoriais.AlimentaModel;
+procedure TfrmAtendimentos.AlimentaModel;
 var
   vDataHoraAtendimento,vDataHoraAlta: TDateTime;
   vMedicoResponsavel,vProcedimento,vCidProvisorio,vSetor,vConvenio,
@@ -255,7 +254,7 @@ begin
     end;
 end;
 
-procedure TfrmAmbulatoriais.BtnAltaTransferenciaClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnAltaTransferenciaClick(Sender: TObject);
 begin
   iTipoOperacao := OPC_ALTERAR;
   PgCtrlAtendimentos.ActivePageIndex := 1;
@@ -265,7 +264,7 @@ begin
   edtCIDDefinitivo.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnAlterarClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnAlterarClick(Sender: TObject);
 begin
   { FAZER VERIFICAÇÃO SE O ATENDIMENTO JÁ TEM ALTA E HABILITAR PARTE DE BAIXO }
   iTipoOperacao := OPC_ALTERAR;
@@ -276,7 +275,7 @@ begin
   edtPaciente.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaCIDDefinitivoClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaCIDDefinitivoClick(Sender: TObject);
 begin
   inherited;
   try
@@ -297,7 +296,7 @@ begin
     mskDataAlta.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaCIDProvisorioClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaCIDProvisorioClick(Sender: TObject);
 begin
   inherited;
   try
@@ -318,7 +317,7 @@ begin
     edtSetor.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaConvenioClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaConvenioClick(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -341,7 +340,7 @@ begin
     edtMedicoResponsavel.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaMedicoClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaMedicoClick(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -364,7 +363,7 @@ begin
     edtProcedimento.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaPacienteClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaPacienteClick(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -387,7 +386,7 @@ begin
     BtnConsulta.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaPacienteNovoAtendimentoClick(
+procedure TfrmAtendimentos.BtnBuscaPacienteNovoAtendimentoClick(
   Sender: TObject);
 var
   vValue: integer;
@@ -411,7 +410,7 @@ begin
     edtConvenio.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaProcedimentoClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaProcedimentoClick(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -434,7 +433,7 @@ begin
     edtCIDProvisorio.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaResponsavelClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaResponsavelClick(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -457,7 +456,7 @@ begin
     BtnSalvar.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnBuscaSetorClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnBuscaSetorClick(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -480,18 +479,18 @@ begin
     CbxResponsavel.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.BtnCancelarClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnCancelarClick(Sender: TObject);
 begin
   FController.CancelarAtendimento;
 end;
 
-procedure TfrmAmbulatoriais.BtnCancelarOperacaoClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnCancelarOperacaoClick(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 0;
   LimparControles;
 end;
 
-procedure TfrmAmbulatoriais.BtnConsultaClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnConsultaClick(Sender: TObject);
 begin
   if CbxConsultaPor.ItemIndex = 0 then
   begin
@@ -559,7 +558,7 @@ begin
   end;
 end;
 
-procedure TfrmAmbulatoriais.BtnNovoClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnNovoClick(Sender: TObject);
 begin
   mskDataAtendimento.Text := DateTimeToStr(Now);
   PgCtrlAtendimentos.ActivePageIndex := 1;
@@ -569,12 +568,12 @@ begin
   PnCIDDefinitivo.Visible := false;
 end;
 
-procedure TfrmAmbulatoriais.BtnSairClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnSairClick(Sender: TObject);
 begin
   Self.Close;
 end;
 
-procedure TfrmAmbulatoriais.BtnSalvarClick(Sender: TObject);
+procedure TfrmAtendimentos.BtnSalvarClick(Sender: TObject);
 begin
   if iTipoOperacao = iINCLUINDO then
     begin
@@ -594,7 +593,7 @@ begin
     end;
 end;
 
-procedure TfrmAmbulatoriais.CarregarControles;
+procedure TfrmAtendimentos.CarregarControles;
 begin
   edtIDAtendimento.Text := IntToStr(FController.Model.Id);
   mskDataAtendimento.Text := DateToStr(FController.Model.Data_atendimento);
@@ -637,17 +636,17 @@ begin
   CbxTipoSaidaTISS.ItemIndex := FController.Model.Tipo_saida_tiss;
 end;
 
-procedure TfrmAmbulatoriais.CbxConsultaPorChange(Sender: TObject);
+procedure TfrmAtendimentos.CbxConsultaPorChange(Sender: TObject);
 begin
   VerificaTipoConsulta;
 end;
 
-procedure TfrmAmbulatoriais.CbxResponsavelChange(Sender: TObject);
+procedure TfrmAtendimentos.CbxResponsavelChange(Sender: TObject);
 begin
   VerificaResponsavel;
 end;
 
-procedure TfrmAmbulatoriais.edtCIDDefinitivoExit(Sender: TObject);
+procedure TfrmAtendimentos.edtCIDDefinitivoExit(Sender: TObject);
 begin
   inherited;
   if (edtCIDDefinitivo.Text <> trim('0')) and (edtCIDDefinitivo.Text <> EmptyStr) then
@@ -659,7 +658,7 @@ begin
     mskDataAlta.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtCIDProvisorioExit(Sender: TObject);
+procedure TfrmAtendimentos.edtCIDProvisorioExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -673,7 +672,7 @@ begin
     edtSetor.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtConvenioExit(Sender: TObject);
+procedure TfrmAtendimentos.edtConvenioExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -687,7 +686,7 @@ begin
     edtMedicoResponsavel.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtIDPacienteExit(Sender: TObject);
+procedure TfrmAtendimentos.edtIDPacienteExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -701,7 +700,7 @@ begin
     BtnConsulta.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtMedicoResponsavelExit(Sender: TObject);
+procedure TfrmAtendimentos.edtMedicoResponsavelExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -715,7 +714,7 @@ begin
     edtProcedimento.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtPacienteExit(Sender: TObject);
+procedure TfrmAtendimentos.edtPacienteExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -729,7 +728,7 @@ begin
     edtConvenio.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtProcedimentoExit(Sender: TObject);
+procedure TfrmAtendimentos.edtProcedimentoExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -743,7 +742,7 @@ begin
     edtCIDProvisorio.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.edtResponsavelExit(Sender: TObject);
+procedure TfrmAtendimentos.edtResponsavelExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -760,7 +759,7 @@ begin
     end;
 end;
 
-procedure TfrmAmbulatoriais.edtSetorExit(Sender: TObject);
+procedure TfrmAtendimentos.edtSetorExit(Sender: TObject);
 var
   vValue: integer;
 begin
@@ -774,17 +773,17 @@ begin
     CbxResponsavel.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.FormCreate(Sender: TObject);
+procedure TfrmAtendimentos.FormCreate(Sender: TObject);
 begin
   FController := TControllerAmbulatorial.Create;
 end;
 
-procedure TfrmAmbulatoriais.FormDestroy(Sender: TObject);
+procedure TfrmAtendimentos.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FController);
 end;
 
-procedure TfrmAmbulatoriais.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmAtendimentos.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if key = VK_ESCAPE then
@@ -794,7 +793,7 @@ begin
     perform(WM_NEXTDLGCTL,0,0);
 end;
 
-procedure TfrmAmbulatoriais.FormShow(Sender: TObject);
+procedure TfrmAtendimentos.FormShow(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 0;
   mskInicial.Text := DateToStr(Now);
@@ -807,23 +806,23 @@ begin
   BtnConsultaClick(Self);
 end;
 
-procedure TfrmAmbulatoriais.GrdAmbulatoriaisCellClick(Column: TColumn);
+procedure TfrmAtendimentos.GrdAmbulatoriaisCellClick(Column: TColumn);
 begin
   FController.CarregarDadosAtendimento;
 end;
 
-procedure TfrmAmbulatoriais.GrdAmbulatoriaisDblClick(Sender: TObject);
+procedure TfrmAtendimentos.GrdAmbulatoriaisDblClick(Sender: TObject);
 begin
   FController.CarregarDadosAtendimento;
 end;
 
-procedure TfrmAmbulatoriais.GrdAmbulatoriaisKeyPress(Sender: TObject;
+procedure TfrmAtendimentos.GrdAmbulatoriaisKeyPress(Sender: TObject;
   var Key: Char);
 begin
   FController.CarregarDadosAtendimento;
 end;
 
-procedure TfrmAmbulatoriais.LimparControles;
+procedure TfrmAtendimentos.LimparControles;
 var
   n : Integer;
   nTotComponentes : Integer;
@@ -869,12 +868,12 @@ begin
       end;
 end;
 
-procedure TfrmAmbulatoriais.TbShDadosAtendimentoShow(Sender: TObject);
+procedure TfrmAtendimentos.TbShDadosAtendimentoShow(Sender: TObject);
 begin
   mskDataAtendimento.SetFocus;
 end;
 
-procedure TfrmAmbulatoriais.VerificaResponsavel;
+procedure TfrmAtendimentos.VerificaResponsavel;
 begin
   if CbxResponsavel.ItemIndex = 1 then
     PnResponsavel.Visible := false;
@@ -886,7 +885,7 @@ begin
     end;
 end;
 
-procedure TfrmAmbulatoriais.VerificaTipoConsulta;
+procedure TfrmAtendimentos.VerificaTipoConsulta;
 begin
   if CbxConsultaPor.ItemIndex = 0 then
     begin
