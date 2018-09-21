@@ -4,7 +4,8 @@ interface
 
 uses Model.Atendimentos, Data.DB, Lca.Orm.Comp.FireDac, Conexao, unConstantes,
   Model.Convenios, Model.Colaboradores, Model.Procedimento, Model.CID,
-  Model.Setor, Model.Paciente, Vcl.Controls, Model.Responsavel_Paciente;
+  Model.Setor, Model.Paciente, Vcl.Controls, Model.Responsavel_Paciente,
+  Model.Quarto, Model.Leito;
 
 type
   TControllerAtendimento = class
@@ -21,9 +22,13 @@ type
       FSetor: TSetores;
       FPaciente: TPacientes;
       FResponsavel: TResponsavel_Paciente;
+      FQuarto: TQuartos;
+      FLeito: TLeitos;
     function GetDataSource: TDataSource;
     public
       procedure CleanModel;
+      function GetDescricaoLeito(AID: Integer;iOperacao: integer): string;
+      function GetDescricaoQuarto(AID: Integer;iOperacao: integer): string;
       function GetResponsavelPaciente(AID: Integer;iOperacao: integer): string;
       function GetDescricaoSetor(AID: Integer;iOperacao: integer): string;
       function GetDescricaoCID(AID: string; iOperacao: integer): string;
@@ -31,6 +36,7 @@ type
       function GetNomePaciente(AID: Integer;iOperacao: integer): string;
       function GetNomeMedico(AID: Integer;iOperacao: integer): string;
       function GetNomeConvenio(AID: Integer;iOperacao: integer): string;
+
       function IncluirAtendimento: boolean;
       function AlterarAtendimento(IDAtendimento: integer): boolean;
       function CancelarAtendimento: boolean;
@@ -124,6 +130,14 @@ begin
   Model.Id_paciente := 0;
   Model.Hora_atendimento := 0;
   Model.Hora_alta := 0;
+  Model.Id_leito := 0;
+  Model.Id_quarto := 0;
+  Model.Id_Medico_solicitante := 0;
+  Model.Obs := '';
+  Model.Origem := 0;
+  Model.Previsao_alta := 0;
+  Model.Tipo_acomodacao := 0;
+  Model.Tipo := 0;
 end;
 
 function TControllerAtendimento.ConsultarAtendimento(
@@ -247,6 +261,8 @@ begin
   FSetor := TSetores.Create;
   FPaciente := TPacientes.Create;
   FResponsavel := TResponsavel_Paciente.Create;
+  FQuarto := TQuartos.Create;
+  FLeito := TLeitos.Create;
   inherited;
 end;
 
@@ -264,6 +280,8 @@ begin
   FSetor.Free;
   FPaciente.Free;
   FResponsavel.Free;
+  FQuarto.Free;
+  FLeito.Free;
 end;
 
 function TControllerAtendimento.GetDataSource: TDataSource;
@@ -278,11 +296,25 @@ begin
     Result := FDao.GetValueForeignKey(FCID,'descricao','id',AID,iOperacao);
 end;
 
+function TControllerAtendimento.GetDescricaoLeito(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FLeito,'descricao','id',AID,iOperacao);
+end;
+
 function TControllerAtendimento.GetDescricaoProcedimento(AID,
   iOperacao: integer): string;
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FProcedimento,'descricao','id',AID,iOperacao);
+end;
+
+function TControllerAtendimento.GetDescricaoQuarto(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FQuarto,'descricao','id',AID,iOperacao);
 end;
 
 function TControllerAtendimento.GetDescricaoSetor(AID,

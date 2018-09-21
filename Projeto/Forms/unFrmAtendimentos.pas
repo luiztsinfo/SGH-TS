@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Atendimentos,
   Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase, unFrmColaboradores,
   unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes,
-  unFrmResponsavelPaciente;
+  unFrmResponsavelPaciente, unFrmQuartos, unFrmLeitos;
 
 type
   TTpAtendimento = (tpAmbulatorial, tpInternacao);
@@ -48,73 +48,92 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label11: TLabel;
-    edtIDAtendimento: TEdit;
-    mskDataAtendimento: TMaskEdit;
-    CbxCarater: TComboBox;
-    Label12: TLabel;
-    CbxTipoClinica: TComboBox;
-    Label13: TLabel;
-    CbxTipoAtendimento: TComboBox;
-    Label14: TLabel;
-    lblMedicoResponsavel: TLabel;
-    BtnBuscaMedico: TBitBtn;
-    edtMedicoResponsavel: TEdit;
-    Label15: TLabel;
-    edtProcedimento: TEdit;
-    BtnBuscaProcedimento: TBitBtn;
-    lblProcedimento: TLabel;
-    Label16: TLabel;
-    edtConvenio: TEdit;
-    BtnBuscaConvenio: TBitBtn;
-    lblConvenio: TLabel;
-    Label17: TLabel;
-    edtCIDProvisorio: TEdit;
-    BtnBuscaCIDProvisorio: TBitBtn;
-    lblCidProvisorio: TLabel;
-    Label18: TLabel;
-    edtSetor: TEdit;
-    BtnBuscaSetor: TBitBtn;
-    lblSetor: TLabel;
-    Label19: TLabel;
-    CbxResponsavel: TComboBox;
-    PnResponsavel: TPanel;
-    Label20: TLabel;
-    edtResponsavel: TEdit;
-    BtnBuscaResponsavel: TBitBtn;
-    lblResponsavelPaciente: TLabel;
     Label28: TLabel;
     CbxStatus: TComboBox;
-    Label29: TLabel;
-    edtPaciente: TEdit;
-    BtnBuscaPacienteNovoAtendimento: TBitBtn;
-    lblPacienteNovo: TLabel;
-    mskHoraAtendimento: TMaskEdit;
-    Label10: TLabel;
     BtnAltaTransferencia: TBitBtn;
     PnAltaTransferencia: TPanel;
-    PnCIDDefinitivo: TPanel;
-    Label25: TLabel;
-    lblCIDDefinitivo: TLabel;
-    edtCIDDefinitivo: TEdit;
-    BtnBuscaCIDDefinitivo: TBitBtn;
-    PnDadosAlta: TPanel;
-    Label21: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    mskDataAlta: TMaskEdit;
-    CbxMotivoAlta: TComboBox;
-    CbxTipoSaidaTISS: TComboBox;
-    mskHoraAlta: TMaskEdit;
-    PnTransferencia: TPanel;
-    Label26: TLabel;
-    Label27: TLabel;
-    edtTransferidoPara: TEdit;
     BtnConsumos: TBitBtn;
     Label22: TLabel;
     CbxConsultaTipoAtendimento: TComboBox;
+    PnDadosAtendimentos: TPanel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label14: TLabel;
+    lblMedicoResponsavel: TLabel;
+    Label15: TLabel;
+    lblProcedimento: TLabel;
+    Label16: TLabel;
+    lblConvenio: TLabel;
+    Label17: TLabel;
+    lblCidProvisorio: TLabel;
+    Label18: TLabel;
+    lblSetor: TLabel;
+    Label19: TLabel;
+    Label29: TLabel;
+    lblPacienteNovo: TLabel;
+    Label10: TLabel;
+    edtIDAtendimento: TEdit;
+    mskDataAtendimento: TMaskEdit;
+    CbxCarater: TComboBox;
+    CbxTipoClinica: TComboBox;
+    BtnBuscaMedico: TBitBtn;
+    edtMedicoResponsavel: TEdit;
+    edtProcedimento: TEdit;
+    BtnBuscaProcedimento: TBitBtn;
+    edtConvenio: TEdit;
+    BtnBuscaConvenio: TBitBtn;
+    edtCIDProvisorio: TEdit;
+    BtnBuscaCIDProvisorio: TBitBtn;
+    edtSetor: TEdit;
+    BtnBuscaSetor: TBitBtn;
+    CbxResponsavel: TComboBox;
+    PnResponsavel: TPanel;
+    Label20: TLabel;
+    lblResponsavelPaciente: TLabel;
+    edtResponsavel: TEdit;
+    BtnBuscaResponsavel: TBitBtn;
+    edtPaciente: TEdit;
+    BtnBuscaPacienteNovoAtendimento: TBitBtn;
+    mskHoraAtendimento: TMaskEdit;
+    CbxTipoAtendimento: TComboBox;
+    Label13: TLabel;
+    PnDadosInternacao: TPanel;
+    Label30: TLabel;
+    lblLeito: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
+    Label36: TLabel;
+    lblQuarto: TLabel;
+    Label38: TLabel;
+    Label39: TLabel;
+    lblMedicoSolicitante: TLabel;
+    edtLeito: TEdit;
+    BtnBuscaLeito: TBitBtn;
+    edtQuarto: TEdit;
+    BtnBuscaQuarto: TBitBtn;
+    edtMedicoSolicitante: TEdit;
+    BtnBuscaMedicoSolicitante: TBitBtn;
+    CbxOrigem: TComboBox;
+    CbxTipoAcomodacao: TComboBox;
+    mskPrevisaoAlta: TMaskEdit;
+    RchEdtObs: TRichEdit;
+    Label26: TLabel;
+    Label27: TLabel;
+    edtTransferidoPara: TEdit;
+    BtnBuscaCIDDefinitivo: TBitBtn;
+    edtCIDDefinitivo: TEdit;
+    Label25: TLabel;
+    mskDataAlta: TMaskEdit;
+    Label21: TLabel;
+    mskHoraAlta: TMaskEdit;
+    CbxMotivoAlta: TComboBox;
+    Label23: TLabel;
+    CbxTipoSaidaTISS: TComboBox;
+    Label24: TLabel;
+    lblCIDDefinitivo: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -151,6 +170,12 @@ type
     procedure CbxResponsavelChange(Sender: TObject);
     procedure edtResponsavelExit(Sender: TObject);
     procedure BtnBuscaResponsavelClick(Sender: TObject);
+    procedure edtQuartoExit(Sender: TObject);
+    procedure BtnBuscaQuartoClick(Sender: TObject);
+    procedure BtnBuscaLeitoClick(Sender: TObject);
+    procedure BtnBuscaMedicoSolicitanteClick(Sender: TObject);
+    procedure edtLeitoExit(Sender: TObject);
+    procedure edtMedicoSolicitanteExit(Sender: TObject);
   private
 
     iTipoAtendimento: TTpAtendimento;
@@ -347,6 +372,29 @@ begin
     edtMedicoResponsavel.SetFocus;
 end;
 
+procedure TfrmAtendimentos.BtnBuscaLeitoClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    FrmLeitos := TFrmLeitos.Create(Self,toConsulta);
+    FrmLeitos.ShowModal;
+  finally
+    edtLeito.Text := IntToStr(FrmLeitos.FValueFieldKey);
+
+    if TryStrToInt(edtLeito.Text,vValue) then
+      lblLeito.Caption := FController.GetDescricaoQuarto(vValue,iINCLUINDO);
+
+    FreeAndNil(FrmLeitos);
+  end;
+
+  if lblLeito.Caption = trim('') then
+    BtnBuscaLeito.SetFocus
+  else
+    CbxTipoAcomodacao.SetFocus;
+end;
+
 procedure TfrmAtendimentos.BtnBuscaMedicoClick(Sender: TObject);
 var
   vValue: integer;
@@ -368,6 +416,29 @@ begin
     BtnBuscaMedico.SetFocus
   else
     edtProcedimento.SetFocus;
+end;
+
+procedure TfrmAtendimentos.BtnBuscaMedicoSolicitanteClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmColaborador := TfrmColaborador.Create(Self,toConsulta);
+    frmColaborador.ShowModal;
+  finally
+    edtMedicoSolicitante.Text := IntToStr(frmColaborador.FValueFieldKey);
+
+    if TryStrToInt(edtMedicoSolicitante.Text,vValue) then
+      lblMedicoSolicitante.Caption := FController.GetNomeMedico(vValue,iINCLUINDO);
+
+    FreeAndNil(frmColaborador);
+  end;
+
+  if lblMedicoSolicitante.Caption = trim('') then
+    BtnBuscaMedicoSolicitante.SetFocus
+  else
+    CbxOrigem.SetFocus;
 end;
 
 procedure TfrmAtendimentos.BtnBuscaPacienteClick(Sender: TObject);
@@ -440,6 +511,29 @@ begin
     edtCIDProvisorio.SetFocus;
 end;
 
+procedure TfrmAtendimentos.BtnBuscaQuartoClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmQuartos := TfrmQuartos.Create(Self,toConsulta);
+    frmQuartos.ShowModal;
+  finally
+    edtQuarto.Text := IntToStr(frmQuartos.FValueFieldKey);
+
+    if TryStrToInt(edtQuarto.Text,vValue) then
+      lblQuarto.Caption := FController.GetDescricaoQuarto(vValue,iINCLUINDO);
+
+    FreeAndNil(frmQuartos);
+  end;
+
+  if lblQuarto.Caption = trim('') then
+    BtnBuscaQuarto.SetFocus
+  else
+    edtLeito.SetFocus;
+end;
+
 procedure TfrmAtendimentos.BtnBuscaResponsavelClick(Sender: TObject);
 var
   vValue: integer;
@@ -460,7 +554,12 @@ begin
   if lblResponsavelPaciente.Caption = trim('') then
     BtnBuscaResponsavel.SetFocus
   else
-    BtnSalvar.SetFocus;
+    begin
+      if iTipoAtendimento = tpAmbulatorial then
+        BtnSalvar.SetFocus
+      else
+        edtQuarto.SetFocus;
+    end;
 end;
 
 procedure TfrmAtendimentos.BtnBuscaSetorClick(Sender: TObject);
@@ -568,11 +667,10 @@ end;
 procedure TfrmAtendimentos.BtnNovoClick(Sender: TObject);
 begin
   mskDataAtendimento.Text := DateTimeToStr(Now);
+  mskHoraAtendimento.Text := TimeToStr(Now);
   PgCtrlAtendimentos.ActivePageIndex := 1;
   iTipoOperacao := iINCLUINDO;
-  PnDadosAlta.Visible := false;
-  PnTransferencia.Visible := false;
-  PnCIDDefinitivo.Visible := false;
+  PnAltaTransferencia.Visible := false;
 end;
 
 procedure TfrmAtendimentos.BtnSairClick(Sender: TObject);
@@ -720,6 +818,20 @@ begin
     BtnConsulta.SetFocus;
 end;
 
+procedure TfrmAtendimentos.edtLeitoExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtLeito.Text,vValue) then
+    lblLeito.Caption := FController.GetDescricaoLeito(vValue,iINCLUINDO);
+
+  if lblLeito.Caption = trim('') then
+    BtnBuscaLeito.SetFocus
+  else
+    CbxTipoAcomodacao.SetFocus;
+end;
+
 procedure TfrmAtendimentos.edtMedicoResponsavelExit(Sender: TObject);
 var
   vValue: integer;
@@ -732,6 +844,20 @@ begin
     BtnBuscaMedico.SetFocus
   else
     edtProcedimento.SetFocus;
+end;
+
+procedure TfrmAtendimentos.edtMedicoSolicitanteExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtMedicoSolicitante.Text,vValue) then
+    lblMedicoSolicitante.Caption := FController.GetNomeMedico(vValue,iINCLUINDO);
+
+  if lblMedicoSolicitante.Caption = trim('') then
+    BtnBuscaMedicoSolicitante.SetFocus
+  else
+    CbxOrigem.SetFocus;
 end;
 
 procedure TfrmAtendimentos.edtPacienteExit(Sender: TObject);
@@ -762,6 +888,20 @@ begin
     edtCIDProvisorio.SetFocus;
 end;
 
+procedure TfrmAtendimentos.edtQuartoExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtQuarto.Text,vValue) then
+    lblQuarto.Caption := FController.GetDescricaoQuarto(vValue,iINCLUINDO);
+
+  if lblQuarto.Caption = trim('') then
+    BtnBuscaQuarto.SetFocus
+  else
+    edtLeito.SetFocus;
+end;
+
 procedure TfrmAtendimentos.edtResponsavelExit(Sender: TObject);
 var
   vValue: integer;
@@ -775,7 +915,12 @@ begin
   else
     begin
       if iTipoOperacao = OPC_INCLUIR then
-        BtnSalvar.SetFocus;
+        begin
+          if iTipoAtendimento = tpAmbulatorial then
+            BtnSalvar.SetFocus
+          else
+            edtQuarto.SetFocus;
+        end;
     end;
 end;
 
