@@ -26,11 +26,12 @@ object frmAtendimentos: TfrmAtendimentos
     Top = 0
     Width = 1081
     Height = 731
-    ActivePage = TbShAtendimentos
+    ActivePage = TbShDadosAtendimento
     Align = alClient
     TabOrder = 0
     object TbShAtendimentos: TTabSheet
       Caption = 'Atendimentos'
+      OnShow = TbShAtendimentosShow
       object PnConsulta: TPanel
         Left = 0
         Top = 0
@@ -1385,12 +1386,13 @@ object frmAtendimentos: TfrmAtendimentos
           end
           object PnDadosInternacao: TPanel
             Left = -1
-            Top = 360
+            Top = 361
             Width = 1069
             Height = 135
             Color = 16774634
             ParentBackground = False
             TabOrder = 20
+            Visible = False
             object Label30: TLabel
               Left = 310
               Top = 3

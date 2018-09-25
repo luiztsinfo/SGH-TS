@@ -26,7 +26,7 @@ object frmAtendimentos: TfrmAtendimentos
     Top = 0
     Width = 1081
     Height = 731
-    ActivePage = TbShDadosAtendimento
+    ActivePage = TbShAtendimentos
     Align = alClient
     TabOrder = 0
     object TbShAtendimentos: TTabSheet
@@ -437,25 +437,12 @@ object frmAtendimentos: TfrmAtendimentos
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 2
-        object Label4: TLabel
-          Left = 644
-          Top = 21
-          Width = 98
-          Height = 13
-          Caption = 'EM ATENDIMENTO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGreen
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
         object Label5: TLabel
           Left = 644
-          Top = 36
-          Width = 79
+          Top = 6
+          Width = 44
           Height = 13
-          Caption = 'AGUARDANDO'
+          Caption = 'ABERTO'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
           Font.Height = -11
@@ -464,8 +451,8 @@ object frmAtendimentos: TfrmAtendimentos
           ParentFont = False
         end
         object Label6: TLabel
-          Left = 774
-          Top = 21
+          Left = 644
+          Top = 25
           Width = 57
           Height = 13
           Caption = 'ATENDIDO'
@@ -477,8 +464,8 @@ object frmAtendimentos: TfrmAtendimentos
           ParentFont = False
         end
         object Label7: TLabel
-          Left = 774
-          Top = 36
+          Left = 644
+          Top = 44
           Width = 65
           Height = 13
           Caption = 'CANCELADO'
@@ -1386,7 +1373,7 @@ object frmAtendimentos: TfrmAtendimentos
           end
           object PnDadosInternacao: TPanel
             Left = -1
-            Top = 358
+            Top = 361
             Width = 1069
             Height = 135
             Color = 16774634

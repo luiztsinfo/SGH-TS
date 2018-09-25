@@ -44,7 +44,6 @@ type
     PnBotoesAtendimento: TPanel;
     BtnSalvar: TBitBtn;
     BtnCancelarOperacao: TBitBtn;
-    Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
@@ -312,25 +311,52 @@ end;
 procedure TfrmAtendimentos.BtnAltaTransferenciaClick(Sender: TObject);
 begin
   iTipoOperacao := OPC_ALTERAR;
-
   DefinirHeightPosition;
-
   PgCtrlAtendimentos.ActivePageIndex := 1;
   PnDadosInternacao.Visible := True;
   PnAltaTransferencia.Visible := True;
   FController.CarregarDadosAtendimento;
   CarregarControles;
+  FController.Model.Status := 'E';
   edtCIDDefinitivo.SetFocus;
 end;
 
 procedure TfrmAtendimentos.BtnAlterarClick(Sender: TObject);
 begin
-  { FAZER VERIFICAÇÃO SE O ATENDIMENTO JÁ TEM ALTA E HABILITAR PARTE DE BAIXO }
   iTipoOperacao := OPC_ALTERAR;
-  PgCtrlAtendimentos.ActivePageIndex := 1;
   FController.CarregarDadosAtendimento;
   CarregarControles;
+
+  if iTipoAtendimento = tpAmbulatorial then
+  begin
+    frmAtendimentos.Height := 600;
+    frmAtendimentos.Position := poScreenCenter;
+  end;
+
+  if iTipoAtendimento = tpInternacao then       //////
+  begin
+    if FController.Model.Status = 'E' then
+    begin
+      PnAltaTransferencia.Visible := true;
+      frmAtendimentos.Height := 820;
+    end
+    else if FController.Model.Status =  'A' then
+    begin
+      PnAltaTransferencia.Visible := false;
+      frmAtendimentos.Height := 760;
+    end;
+
+    PnDadosInternacao.Visible := true;
+    frmAtendimentos.Position := poScreenCenter;
+  end;
+
+  if FController.Model.Tipo = iTpAMBULATORIAL then
+    PnDadosInternacao.Visible := false
+  else
+    PnDadosInternacao.Visible := true;
+
   VerificaResponsavel;
+  PgCtrlAtendimentos.ActivePageIndex := 1;
   edtPaciente.SetFocus;
 end;
 
@@ -702,6 +728,9 @@ begin
     FreeAndNil(frmOpcaoAtendimento);
   end;
 
+  LimparControles;
+  FController.CleanModel;
+
   if iTipoAtendimento = tpAmbulatorial then
   begin
     frmAtendimentos.Height := 600;
@@ -709,11 +738,11 @@ begin
   end;
 
   if iTipoAtendimento = tpInternacao then
-    begin
-      PnDadosInternacao.Visible := true;
-      frmAtendimentos.Height := 760;
-      frmAtendimentos.Position := poScreenCenter;
-    end;
+  begin
+    PnDadosInternacao.Visible := true;
+    frmAtendimentos.Height := 760;
+    frmAtendimentos.Position := poScreenCenter;
+  end;
 
   mskDataAtendimento.Text := DateTimeToStr(Now);
   mskHoraAtendimento.Text := TimeToStr(Now);
@@ -798,7 +827,6 @@ begin
   if FController.Model.Tipo = 1 then
     iTipoAtendimento := tpAmbulatorial
   else
-  if FController.Model.Tipo = 2 then
     iTipoAtendimento := tpInternacao;
 
   edtQuarto.Text := IntToStr(FController.Model.Id_quarto);
@@ -820,17 +848,16 @@ end;
 
 procedure TfrmAtendimentos.DefinirHeightPosition;
 begin
-
   case FController.Model.Tipo of
     iTpAMBULATORIAL:
     begin
-      frmAtendimentos.Height := 780;
+      frmAtendimentos.Height := 775;
       frmAtendimentos.Position := poScreenCenter;
     end;
 
     iTpINTERNACAO:
     begin
-      frmAtendimentos.Height := 900;
+      frmAtendimentos.Height := 910;
       frmAtendimentos.Position := poScreenCenter;
     end;
   end;
@@ -1132,13 +1159,9 @@ end;
 procedure TfrmAtendimentos.VerificaResponsavel;
 begin
   if CbxResponsavel.ItemIndex = 1 then
-    PnResponsavel.Visible := false;
-
-  if CbxResponsavel.ItemIndex = 2 then
-    begin
-      PnResponsavel.Visible := true;
-      BtnBuscaResponsavel.SetFocus;
-    end;
+    PnResponsavel.Visible := false
+  else if CbxResponsavel.ItemIndex = 2 then
+    PnResponsavel.Visible := true;
 end;
 
 procedure TfrmAtendimentos.VerificaTipoConsulta;

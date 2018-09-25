@@ -1234,7 +1234,6 @@ object frmAtendimentos: TfrmAtendimentos
             Width = 471
             Height = 41
             TabOrder = 15
-            Visible = False
             object Label20: TLabel
               Left = 8
               Top = 0
@@ -1386,7 +1385,7 @@ object frmAtendimentos: TfrmAtendimentos
           end
           object PnDadosInternacao: TPanel
             Left = -1
-            Top = 360
+            Top = 358
             Width = 1069
             Height = 135
             Color = 16774634

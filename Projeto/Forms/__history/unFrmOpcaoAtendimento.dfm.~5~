@@ -23,7 +23,6 @@ object frmOpcaoAtendimento: TfrmOpcaoAtendimento
     Width = 193
     Height = 54
     Caption = 'AMBULATORIAL'
-    Flat = True
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -73,7 +72,6 @@ object frmOpcaoAtendimento: TfrmOpcaoAtendimento
     Width = 193
     Height = 54
     Caption = 'INTERNA'#199#195'O'
-    Flat = True
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
