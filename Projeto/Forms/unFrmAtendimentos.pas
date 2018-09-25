@@ -204,6 +204,7 @@ var
   vMedicoResponsavel,vProcedimento,vCidProvisorio,vSetor,vConvenio,
   vResponsavelPaciente, vCIDDefinitivo, vPaciente: integer;
 begin
+
   FController.Model.Hora_atendimento := StrToTime(mskHoraAtendimento.Text);
 
   if TryStrToInt(edtPaciente.Text,vPaciente) then
@@ -317,6 +318,8 @@ begin
   PnAltaTransferencia.Visible := True;
   FController.CarregarDadosAtendimento;
   CarregarControles;
+  mskDataAlta.Text := DateToStr(Now);
+  mskHoraAlta.Text := TimeToStr(Now);
   FController.Model.Status := 'E';
   edtCIDDefinitivo.SetFocus;
 end;
@@ -659,19 +662,19 @@ begin
         FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stTODOS,CbxConsultaTipoAtendimento.ItemIndex);
 
       if CbxStatus.ItemIndex = 1 then
-        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stAGUARDANDO,CbxConsultaTipoAtendimento.ItemIndex);
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stABERTO,CbxConsultaTipoAtendimento.ItemIndex);
 
       if CbxStatus.ItemIndex = 2 then
-        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stEMATENDIMENTO,CbxConsultaTipoAtendimento.ItemIndex);
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stCONCLUIDO,CbxConsultaTipoAtendimento.ItemIndex);
 
       if CbxStatus.ItemIndex = 3 then
-        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stALTAOUENCAMINHADO,CbxConsultaTipoAtendimento.ItemIndex);
+        FController.ConsultarAtendimento(StrToDate(mskInicial.Text),StrToDate(mskFinal.Text),stCANCELADO,CbxConsultaTipoAtendimento.ItemIndex);
     end
     else
-      begin
-        MessageDlg('Datas incorretas, por favor verifique!',mtWarning,[mbOk],0);
-        mskInicial.SetFocus;
-      end;
+    begin
+      MessageDlg('Datas incorretas, por favor verifique!',mtWarning,[mbOk],0);
+      mskInicial.SetFocus;
+    end;
   end;
 
   if CbxConsultaPor.ItemIndex = 1 then
@@ -697,17 +700,17 @@ begin
         if CbxStatus.ItemIndex = 1 then
           FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
                                         StrToDateTime(mskFinal.Text),
-                                          StrToInt(edtIDPaciente.Text),stAGUARDANDO,CbxConsultaTipoAtendimento.ItemIndex);
+                                          StrToInt(edtIDPaciente.Text),stABERTO,CbxConsultaTipoAtendimento.ItemIndex);
 
         if CbxStatus.ItemIndex = 2 then
           FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
                               StrToDateTime(mskFinal.Text),
-                                StrToInt(edtIDPaciente.Text),stEMATENDIMENTO,CbxConsultaTipoAtendimento.ItemIndex);
+                                StrToInt(edtIDPaciente.Text),stCONCLUIDO,CbxConsultaTipoAtendimento.ItemIndex);
 
         if CbxStatus.ItemIndex = 3 then
           FController.ConsultarAtendimento(StrToDateTime(mskInicial.Text),
                                         StrToDateTime(mskFinal.Text),
-                                          StrToInt(edtIDPaciente.Text),stALTAOUENCAMINHADO,CbxConsultaTipoAtendimento.ItemIndex);
+                                          StrToInt(edtIDPaciente.Text),stCANCELADO,CbxConsultaTipoAtendimento.ItemIndex);
       end
       else
         begin
@@ -784,6 +787,7 @@ end;
 
 procedure TfrmAtendimentos.CarregarControles;
 begin
+  LimparControles;
   edtIDAtendimento.Text := IntToStr(FController.Model.Id);
   mskDataAtendimento.Text := DateToStr(FController.Model.Data_atendimento);
   mskHoraAtendimento.Text := TimeToStr(FController.Model.Hora_atendimento);
@@ -857,7 +861,7 @@ begin
 
     iTpINTERNACAO:
     begin
-      frmAtendimentos.Height := 910;
+      frmAtendimentos.Height := 945;
       frmAtendimentos.Position := poScreenCenter;
     end;
   end;
@@ -1085,6 +1089,7 @@ end;
 procedure TfrmAtendimentos.GrdAmbulatoriaisCellClick(Column: TColumn);
 begin
   FController.CarregarDadosAtendimento;
+  //ShowMessage(IntToStr(FController.Model.Id));
 end;
 
 procedure TfrmAtendimentos.GrdAmbulatoriaisDblClick(Sender: TObject);
@@ -1103,7 +1108,6 @@ var
   n : Integer;
   nTotComponentes : Integer;
 begin
-  FController.CleanModel;
   lblPacienteNovo.Caption := '';
   lblMedicoResponsavel.Caption := '';
   lblProcedimento.Caption := '';
@@ -1112,6 +1116,9 @@ begin
   lblSetor.Caption := '';
   lblResponsavelPaciente.Caption := '';
   lblCIDDefinitivo.Caption := '';
+  lblQuarto.Caption := '';
+  lblLeito.Caption := '';
+  lblMedicoSolicitante.Caption := '';
 
   nTotComponentes :=  Self.ComponentCount;
     for n := 0 to nTotComponentes-1 do
@@ -1167,28 +1174,28 @@ end;
 procedure TfrmAtendimentos.VerificaTipoConsulta;
 begin
   if CbxConsultaPor.ItemIndex = 0 then
-    begin
-      GrpBxAtendimento.Visible := False;
-      GrpBxPaciente.Visible := False;
-      GrpBxDatas.Visible := True;
-      mskInicial.SetFocus;
-    end;
+  begin
+    GrpBxAtendimento.Visible := False;
+    GrpBxPaciente.Visible := False;
+    GrpBxDatas.Visible := True;
+    mskInicial.SetFocus;
+  end;
 
-    if CbxConsultaPor.ItemIndex = 1 then // atendimento
-      begin
-        GrpBxAtendimento.Visible := true;
-        GrpBxDatas.Visible := false;
-        GrpBxPaciente.Visible := false;
-        edtAtendimento.SetFocus;
-      end;
+  if CbxConsultaPor.ItemIndex = 1 then // atendimento
+  begin
+    GrpBxAtendimento.Visible := true;
+    GrpBxDatas.Visible := false;
+    GrpBxPaciente.Visible := false;
+    edtAtendimento.SetFocus;
+  end;
 
-    if CbxConsultaPor.ItemIndex = 2 then
-      begin
-        GrpBxAtendimento.Visible := False;
-        GrpBxDatas.Visible := true;
-        GrpBxPaciente.Visible := true;
-        mskInicial.SetFocus;
-      end;
+  if CbxConsultaPor.ItemIndex = 2 then
+  begin
+    GrpBxAtendimento.Visible := False;
+    GrpBxDatas.Visible := true;
+    GrpBxPaciente.Visible := true;
+    mskInicial.SetFocus;
+  end;
 end;
 
 end.

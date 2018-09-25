@@ -159,16 +159,16 @@ begin
 
     pParams[0] := IDAtendimento;
 
-    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
-    ConsultaSQL.Append(' FROM atendimentos.atendimentos amb');
+    ConsultaSQL.Append(' SELECT atend.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.atendimentos atend');
     ConsultaSQL.Append(' LEFT JOIN pacientes pac');
-    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
-    ConsultaSQL.Append(' WHERE amb.ID = :param1');
+    ConsultaSQL.Append(' ON pac.id = atend.id_paciente');
+    ConsultaSQL.Append(' WHERE atend.ID = :param1');
 
     if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
       begin
         pParams[1] := TipoAtendimento;
-        ConsultaSQL.Append(' AND amb.tipo = :param2');
+        ConsultaSQL.Append(' AND atend.tipo = :param2');
       end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
@@ -184,32 +184,35 @@ function TControllerAtendimento.ConsultarAtendimento(DataInicial,
 var
   ConsultaSQL: TStringBuilder;
   pParams: array[0..4] of Variant;
+  i : integer;
 begin
   pParams[0] := IDPaciente;
   pParams[1] := DataInicial;
   pParams[2] := DataFinal;
+  i := 3;
 
   try
     ConsultaSQL := TStringBuilder.Create;
 
-    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
-    ConsultaSQL.Append(' FROM atendimentos.atendimentos amb');
+    ConsultaSQL.Append(' SELECT atend.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.atendimentos atend');
     ConsultaSQL.Append(' LEFT JOIN pacientes pac');
-    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
-    ConsultaSQL.Append(' WHERE amb.id_paciente = :param1');
-    ConsultaSQL.Append(' AND amb.data_atendimento BETWEEN :param2 AND :param3');
+    ConsultaSQL.Append(' ON pac.id = atend.id_paciente');
+    ConsultaSQL.Append(' WHERE atend.id_paciente = :param1');
+    ConsultaSQL.Append(' AND atend.data_atendimento BETWEEN :param2 AND :param3');
 
     if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
-      begin
-        pParams[3] := TipoAtendimento;
-        ConsultaSQL.Append(' AND amb.tipo = :param4');
-      end;
+    begin
+      pParams[i] := TipoAtendimento;
+      ConsultaSQL.Append(' AND atend.tipo = :param4');
+      Inc(i);
+    end;
 
     if Status <> stTODOS then
-      begin
-        pParams[4] := Status;
-        ConsultaSQL.Append(' AND amb.status = :param5');
-      end;
+    begin
+      pParams[i] := Status;
+      ConsultaSQL.Append(' AND atend.status = :param5');
+    end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
     FDs.DataSet := FRegistros;
@@ -223,31 +226,37 @@ function TControllerAtendimento.ConsultarAtendimento(DataInicial,
 var
   ConsultaSQL: TStringBuilder;
   pParams: array[0..3] of Variant;
+  i : integer;
 begin
+  i := 0;
+
   pParams[0] := DataInicial;
   pParams[1] := DataFinal;
 
   try
     ConsultaSQL := TStringBuilder.Create;
 
-    ConsultaSQL.Append(' SELECT amb.*, pac.nome');
-    ConsultaSQL.Append(' FROM atendimentos.atendimentos amb');
+    ConsultaSQL.Append(' SELECT atend.*, pac.nome');
+    ConsultaSQL.Append(' FROM atendimentos.atendimentos atend');
     ConsultaSQL.Append(' LEFT JOIN pacientes pac');
-    ConsultaSQL.Append(' ON pac.id = amb.id_paciente');
+    ConsultaSQL.Append(' ON pac.id = atend.id_paciente');
 
-    ConsultaSQL.Append(' WHERE amb.data_atendimento BETWEEN :param1 AND :param2');
+    ConsultaSQL.Append(' WHERE atend.data_atendimento BETWEEN :param1 AND :param2');
 
-    if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
-      begin
-        pParams[2] := TipoAtendimento;
-        ConsultaSQL.Append(' AND amb.tipo = :param3');
-      end;
+    i := 2;
 
     if Status <> stTODOS then
-      begin
-        pParams[3] := Status;
-        ConsultaSQL.Append(' AND amb.status = :param4');
-      end;
+    begin
+      pParams[i] := Status;
+      ConsultaSQL.Append(' AND atend.status = :param3');
+      Inc(i);
+    end;
+
+    if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
+    begin
+      pParams[i] := TipoAtendimento;
+      ConsultaSQL.Append(' AND atend.tipo = :param4');
+    end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
     FDs.DataSet := FRegistros;

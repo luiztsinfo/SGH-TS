@@ -171,7 +171,7 @@ procedure TQueryFireDac.SetParamDate(AProp: TRttiProperty;
   ACampo: string; ATabela: TTabela; AQry: TObject);
 begin
   inherited;
-  if AProp.GetValue(ATabela).AsType<TDateTime> = 0 then
+  if (AProp.GetValue(ATabela).AsType<TDateTime> = 0) then
     begin
       TFDQuery(AQry).ParamByName(ACampo).Clear;
       { IMPLEMENTADO POR LUIZ EDUARDO 06.04.2018 - DAVA ERRO AO TENTAR PASSAR UMA DATA NULA }

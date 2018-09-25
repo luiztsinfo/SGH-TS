@@ -8,9 +8,9 @@ const
   iTpINTERNACAO = 2;
 
   stTODOS             = 'T';
-  stAGUARDANDO        = 'A';
-  stEMATENDIMENTO     = 'E';
-  stALTAOUENCAMINHADO = 'C';
+  stABERTO            = 'A';
+  stCONCLUIDO         = 'E';
+  stCANCELADO         = 'C';
 
   sVAZIO = '';
   dtVAZIA = '  /  /    ';

@@ -26,7 +26,7 @@ object frmAtendimentos: TfrmAtendimentos
     Top = 0
     Width = 1081
     Height = 731
-    ActivePage = TbShAtendimentos
+    ActivePage = TbShDadosAtendimento
     Align = alClient
     TabOrder = 0
     object TbShAtendimentos: TTabSheet
@@ -273,9 +273,9 @@ object frmAtendimentos: TfrmAtendimentos
             Text = 'TODOS'
             Items.Strings = (
               'TODOS'
-              'AGUARDANDO'
-              'EM ATENDIMENTO'
-              'ALTA OU ENCAMINHADO')
+              'ABERTO'
+              'ENCERRADO'
+              'CANCELADO')
           end
         end
         object CbxConsultaTipoAtendimento: TComboBox
@@ -600,7 +600,7 @@ object frmAtendimentos: TfrmAtendimentos
             Caption = 'Motivo Alta'
           end
           object Label24: TLabel
-            Left = 579
+            Left = 702
             Top = 4
             Width = 74
             Height = 13
@@ -702,18 +702,64 @@ object frmAtendimentos: TfrmAtendimentos
           object CbxMotivoAlta: TComboBox
             Left = 173
             Top = 21
-            Width = 400
+            Width = 523
             Height = 21
             Style = csDropDownList
+            ItemIndex = 0
             TabOrder = 5
+            Items.Strings = (
+              ''
+              'ALTA CURADO'
+              'ALTA MELHORADO'
+              'ALTA DA MAE / PUERPERA E REC'#201'M NASCIDO'
+              'ALTA A PEDIDO'
+              'ALTA COM PREVIS'#195'O DE RETORNO PARA ACOMPANHAMENTO DO PACIENTE'
+              'ALTA POR EVAS'#195'O'
+              'ALTA DA MAE / PUERPERA E PARMAN'#202'NCIA DO REC'#201'M NASCIDO'
+              'ALTA POR OUTROS MOTIVOS'
+              'PERMAN'#202'NCIA POR CARACTER'#205'STICAS PR'#211'PRIAS DA DOEN'#199'A'
+              'PERMAN'#202'NCIA POR INTERCORR'#202'NCIA'
+              'PERMAN'#202'NCIA POR IMPOSSIBILIDADE S'#211'CIO-FAMILIAR'
+              
+                'PERMAN'#202'NCIA POR PROCESSO DE DOA'#199#195'O DE ORG'#195'OS, TECIDOS E CELULAS ' +
+                '- DOADOR VIVO'
+              
+                'PERMAN'#202'NCIA POR PROCESSO DE DOA'#199#195'O DE ORG'#195'OS, TECIDOS E CELULAS ' +
+                '- DOADOR MORTO'
+              'TRANSFER'#202'NCIA PARA OUTRO ESTABELECIMENTO'
+              #211'BITO COM DECLARA'#199#195'O DE '#211'BITO FORNECIDA PELO M'#201'DICO ASSISTENTE'
+              
+                #211'BITO COM DECLARA'#199#195'O DE '#211'BITO FORNECIDA PELO INSTITUTO M'#201'DICO LE' +
+                'GAL - IML'
+              
+                #211'BITO COM DECLARA'#199#195'O DE '#211'BITO FORNECIDA PELO SERVI'#199'O DE VERIFICA' +
+                #199#195'O DE '#211'BITO - SVO'
+              'ENCERRAMENTO ADMINISTRATIVO'
+              'PERMAN'#202'NCIA POR MUDAN'#199'A DE PROCEDIMENTO'
+              'PERMAN'#202'NCIA POR REOPERA'#199#195'O'
+              'PERMAN'#202'NCIA POR OUTROS MOTIVOS'
+              'ALTA DE PACIENTE AGUDO EM PSIQUIATRIA'
+              'TRANSFER'#202'NCIA PARA INTERNA'#199#195'O DOMICILIAR'
+              'ALTA DA M'#195'E / PUERPERA E '#211'BITO REC'#201'M NASCIDO'
+              'ALTA DA M'#195'E / PUERPERA COM '#211'BITO FETAL'
+              #211'BITO DA GESTANTE E DO CONCEPTO'
+              #211'BITO DA M'#195'E / PUERPERA E ALTA DO REC'#201'M-NASCIDO'
+              #211'BITO DA M'#195'E / PUERPERA E PERMAN'#202'NCIA DO REC'#201'M-NASCIDO')
           end
           object CbxTipoSaidaTISS: TComboBox
-            Left = 579
+            Left = 702
             Top = 21
             Width = 146
             Height = 21
             Style = csDropDownList
+            ItemIndex = 0
             TabOrder = 6
+            Items.Strings = (
+              ''
+              'Interna'#231#227'o'
+              'Alta'
+              #211'bito'
+              'Retorno')
           end
         end
         object PnDadosAtendimentos: TPanel

@@ -15,6 +15,7 @@ object frmPrincipal: TfrmPrincipal
   Font.Style = []
   Menu = MnMnuPrincipal
   OldCreateOrder = False
+  Position = poDefault
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
