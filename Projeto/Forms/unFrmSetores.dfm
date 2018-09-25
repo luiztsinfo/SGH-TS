@@ -52,6 +52,8 @@ inherited frmSetores: TfrmSetores
     end
     inherited TbShCadastro: TTabSheet
       OnShow = TbShCadastroShow
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 639
       ExplicitHeight = 217
       inherited PnCampos: TPanel

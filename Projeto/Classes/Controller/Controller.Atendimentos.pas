@@ -104,6 +104,14 @@ begin
   FModel.Id_paciente := FRegistros.FieldByName('id_paciente').AsInteger;
   FModel.Hora_atendimento := FRegistros.FieldByName('hora_atendimento').AsDateTime;
   FModel.Hora_alta := FRegistros.FieldByName('hora_Alta').AsDateTime;
+  FModel.Tipo := FRegistros.FieldByName('tipo').AsInteger;
+  FModel.Id_quarto := FRegistros.FieldByName('id_quarto').AsInteger;
+  FModel.Id_leito := FRegistros.FieldByName('id_leito').AsInteger;
+  FModel.Tipo_acomodacao := FRegistros.FieldByName('tipo_acomodacao').AsInteger;
+  FModel.Id_Medico_solicitante := FRegistros.FieldByName('id_medico_solicitante').AsInteger;
+  FModel.Origem := FRegistros.FieldByName('origem').AsInteger;
+  FModel.Previsao_alta := FRegistros.FieldByName('previsao_alta').AsDateTime;
+  FModel.Obs := FRegistros.FieldByName('obs').AsString;
 end;
 
 procedure TControllerAtendimento.CleanModel;

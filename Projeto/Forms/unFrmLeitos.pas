@@ -25,6 +25,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure edtIDQuartoExit(Sender: TObject);
     procedure BtnBuscaQuartoClick(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -126,6 +127,16 @@ procedure TFrmLeitos.FormCreate(Sender: TObject);
 begin
   FController := TControllerLeito.Create;
   inherited;
+end;
+
+procedure TFrmLeitos.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerLeito(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TFrmLeitos.TbShCadastroShow(Sender: TObject);

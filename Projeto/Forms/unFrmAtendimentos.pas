@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Atendimentos,
   Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase, unFrmColaboradores,
   unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes,
-  unFrmResponsavelPaciente, unFrmQuartos, unFrmLeitos;
+  unFrmResponsavelPaciente, unFrmQuartos, unFrmLeitos, unFrmOpcaoAtendimento;
 
 type
   TTpAtendimento = (tpAmbulatorial, tpInternacao);
@@ -176,18 +176,19 @@ type
     procedure BtnBuscaMedicoSolicitanteClick(Sender: TObject);
     procedure edtLeitoExit(Sender: TObject);
     procedure edtMedicoSolicitanteExit(Sender: TObject);
-  private
-
-    iTipoAtendimento: TTpAtendimento;
+    procedure TbShAtendimentosShow(Sender: TObject);
+  strict private
     iTipoOperacao: integer;
     FController: TControllerAtendimento;
+  private
     procedure AlimentaModel;
     procedure VerificaTipoConsulta;
     procedure VerificaResponsavel;
     procedure LimparControles;
     procedure CarregarControles;
+    procedure DefinirHeightPosition;
   public
-
+    iTipoAtendimento: TTpAtendimento;
     constructor Create(AOwner: TComponent; ATpAtendimento: TTpAtendimento); reintroduce;
   end;
 
@@ -200,7 +201,7 @@ implementation
 
 procedure TfrmAtendimentos.AlimentaModel;
 var
-  vDataHoraAtendimento,vDataHoraAlta: TDateTime;
+  vDataHoraAtendimento,vDataHoraAlta, vPrevisaoAlta: TDateTime;
   vMedicoResponsavel,vProcedimento,vCidProvisorio,vSetor,vConvenio,
   vResponsavelPaciente, vCIDDefinitivo, vPaciente: integer;
 begin
@@ -209,31 +210,31 @@ begin
   if TryStrToInt(edtPaciente.Text,vPaciente) then
     FController.Model.Id_paciente := vPaciente
   else
-    begin
-      MessageDlg('Informe o paciente a ser atendido!',mtWarning,[mbOk],0);
-      edtPaciente.SetFocus;
-      Exit;
-    end;
+  begin
+    MessageDlg('Informe o paciente a ser atendido!',mtWarning,[mbOk],0);
+    edtPaciente.SetFocus;
+    Exit;
+  end;
 
   if TryStrToDateTime(mskDataAtendimento.Text,vDataHoraAtendimento) then
     FController.Model.Data_atendimento := vDataHoraAtendimento
   else
-    begin
-      MessageDlg('Informe a data e hora do atendimento!',mtWarning,[mbOk],0);
-      mskDataAtendimento.SetFocus;
-      Exit;
-    end;
+  begin
+    MessageDlg('Informe a data e hora do atendimento!',mtWarning,[mbOk],0);
+    mskDataAtendimento.SetFocus;
+    Exit;
+  end;
 
   FController.Model.Carater          := CbxCarater.ItemIndex;
 
   if TryStrToInt(edtMedicoResponsavel.Text,vMedicoResponsavel) then
     FController.Model.Id_medico_responsavel := vMedicoResponsavel
   else
-    begin
-      MessageDlg('Informe o médico responsável pelo atendimento!',mtWarning,[mbOk],0);
-      edtMedicoResponsavel.SetFocus;
-      Exit;
-    end;
+  begin
+    MessageDlg('Informe o médico responsável pelo atendimento!',mtWarning,[mbOk],0);
+    edtMedicoResponsavel.SetFocus;
+    Exit;
+  end;
 
   if TryStrToInt(edtProcedimento.Text,vProcedimento) then
     FController.Model.Id_procedimento       := vProcedimento;
@@ -243,11 +244,11 @@ begin
   if TryStrToInt(edtSetor.Text,vSetor) then
     FController.Model.Id_setor := vSetor
   else
-    begin
-      MessageDlg('Informe o setor!',mtWarning,[mbOk],0);
-      edtSetor.SetFocus;
-      Exit;
-    end;
+  begin
+    MessageDlg('Informe o setor!',mtWarning,[mbOk],0);
+    edtSetor.SetFocus;
+    Exit;
+  end;
 
   FController.Model.Tipo_clinica          := CbxTipoClinica.ItemIndex;
   FController.Model.Tipo_atendimento      := CbxTipoAtendimento.ItemIndex;
@@ -255,41 +256,67 @@ begin
   if TryStrToInt(edtConvenio.Text,vConvenio) then
     FController.Model.Id_convenio           := vConvenio
   else
-    begin
-      MessageDlg('Informe o convênio que o paciente será atendido!',mtWarning,[mbOK],0);
-      edtConvenio.SetFocus;
-      Exit;
-    end;
+  begin
+    MessageDlg('Informe o convênio que o paciente será atendido!',mtWarning,[mbOK],0);
+    edtConvenio.SetFocus;
+    Exit;
+  end;
 
   FController.Model.Responsavel_paciente  := CbxResponsavel.ItemIndex;
   if CbxResponsavel.ItemIndex = 2 then
     if TryStrToInt(edtResponsavel.Text,vResponsavelPaciente) then
       FController.Model.Id_responsavel := vResponsavelPaciente
     else
-      begin
-        MessageDlg('Informe o responsável pelo paciente!',mtWarning,[mbOk],0);
-        edtResponsavel.SetFocus;
-        Exit;
-      end;
+    begin
+      MessageDlg('Informe o responsável pelo paciente!',mtWarning,[mbOk],0);
+      edtResponsavel.SetFocus;
+      Exit;
+    end;
+
+  if (edtQuarto.Text <> trim('')) and (edtQuarto.Text <> EmptyStr) then
+    FController.Model.Id_quarto := StrToInt(edtQuarto.Text);
+
+  if (edtLeito.Text <> trim('')) and (edtLeito.Text <> EmptyStr) then
+    FController.Model.Id_leito := StrToInt(edtLeito.Text);
+
+  FController.Model.Tipo_acomodacao := CbxTipoAcomodacao.ItemIndex;
+  if (edtMedicoSolicitante.Text <> trim('')) and (edtMedicoSolicitante.Text <> EmptyStr) then
+    FController.Model.Id_Medico_solicitante := StrToInt(edtMedicoSolicitante.Text);
+
+  FController.Model.Origem := CbxOrigem.ItemIndex;
+
+  if TryStrToDateTime(mskPrevisaoAlta.Text,vPrevisaoAlta) then
+    FController.Model.Previsao_alta := vPrevisaoAlta;
+
+  FController.Model.Obs := RchEdtObs.Text;
 
   if iTipoOperacao <> iINCLUINDO then
+  begin
+    FController.Model.Data_alta             := StrToDate(mskDataAlta.Text);
+    FController.Model.Hora_alta             := StrToTime(mskHoraAlta.Text);
+
+    if (edtCIDDefinitivo.Text <> trim('')) and (edtCIDDefinitivo.Text <> EmptyStr) then
+      FController.Model.Id_cid_definitivo     := edtCIDDefinitivo.Text;
+
+    FController.Model.Motivo_alta           := CbxMotivoAlta.ItemIndex;
+    FController.Model.Tipo_saida_tiss       := CbxTipoSaidaTISS.ItemIndex;
+    FController.Model.Transferido_para      := edtTransferidoPara.Text;
+
+    if (FController.Model.Data_alta > 0) and (FController.Model.Hora_alta > 0) then
     begin
-      FController.Model.Data_alta             := StrToDate(mskDataAlta.Text);
-      FController.Model.Hora_alta             := StrToTime(mskHoraAlta.Text);
-
-      if (edtCIDDefinitivo.Text <> trim('')) and (edtCIDDefinitivo.Text <> EmptyStr) then
-        FController.Model.Id_cid_definitivo     := edtCIDDefinitivo.Text;
-
-      FController.Model.Motivo_alta           := CbxMotivoAlta.ItemIndex;
-      FController.Model.Tipo_saida_tiss       := CbxTipoSaidaTISS.ItemIndex;
-      FController.Model.Transferido_para      := edtTransferidoPara.Text;
+      FController.Model.Status := 'E';
     end;
+  end;
 end;
 
 procedure TfrmAtendimentos.BtnAltaTransferenciaClick(Sender: TObject);
 begin
   iTipoOperacao := OPC_ALTERAR;
+
+  DefinirHeightPosition;
+
   PgCtrlAtendimentos.ActivePageIndex := 1;
+  PnDadosInternacao.Visible := True;
   PnAltaTransferencia.Visible := True;
   FController.CarregarDadosAtendimento;
   CarregarControles;
@@ -384,7 +411,7 @@ begin
     edtLeito.Text := IntToStr(FrmLeitos.FValueFieldKey);
 
     if TryStrToInt(edtLeito.Text,vValue) then
-      lblLeito.Caption := FController.GetDescricaoQuarto(vValue,iINCLUINDO);
+      lblLeito.Caption := FController.GetDescricaoLeito(vValue,iINCLUINDO);
 
     FreeAndNil(FrmLeitos);
   end;
@@ -665,7 +692,29 @@ begin
 end;
 
 procedure TfrmAtendimentos.BtnNovoClick(Sender: TObject);
+var
+  frmOpcaoAtendimento: TfrmOpcaoAtendimento;
 begin
+  frmOpcaoAtendimento := TfrmOpcaoAtendimento.Create(nil);
+  try
+    frmOpcaoAtendimento.ShowModal;
+  finally
+    FreeAndNil(frmOpcaoAtendimento);
+  end;
+
+  if iTipoAtendimento = tpAmbulatorial then
+  begin
+    frmAtendimentos.Height := 600;
+    frmAtendimentos.Position := poScreenCenter;
+  end;
+
+  if iTipoAtendimento = tpInternacao then
+    begin
+      PnDadosInternacao.Visible := true;
+      frmAtendimentos.Height := 760;
+      frmAtendimentos.Position := poScreenCenter;
+    end;
+
   mskDataAtendimento.Text := DateTimeToStr(Now);
   mskHoraAtendimento.Text := TimeToStr(Now);
   PgCtrlAtendimentos.ActivePageIndex := 1;
@@ -745,6 +794,46 @@ begin
   mskHoraAlta.Text := TimeToStr(FController.Model.Hora_alta);
   CbxMotivoAlta.ItemIndex := FController.Model.Motivo_alta;
   CbxTipoSaidaTISS.ItemIndex := FController.Model.Tipo_saida_tiss;
+
+  if FController.Model.Tipo = 1 then
+    iTipoAtendimento := tpAmbulatorial
+  else
+  if FController.Model.Tipo = 2 then
+    iTipoAtendimento := tpInternacao;
+
+  edtQuarto.Text := IntToStr(FController.Model.Id_quarto);
+  lblQuarto.Caption := FController.GetDescricaoQuarto(FController.Model.Id_quarto,iALTERANDO);
+
+  edtLeito.Text := IntToStr(FController.Model.Id_leito);
+  lblLeito.Caption := FController.GetDescricaoLeito(FController.Model.Id_leito,iALTERANDO);
+
+  CbxTipoAcomodacao.ItemIndex := FController.Model.Tipo_acomodacao;
+
+  edtMedicoSolicitante.Text := IntToStr(FController.Model.Id_Medico_solicitante);
+  lblMedicoSolicitante.Caption := FController.GetNomeMedico(FController.Model.Id_Medico_solicitante,iALTERANDO);
+
+  CbxOrigem.ItemIndex := FController.Model.Origem;
+  mskPrevisaoAlta.Text := DateToStr(FController.Model.Previsao_alta);
+
+  RchEdtObs.Text := FController.Model.Obs;
+end;
+
+procedure TfrmAtendimentos.DefinirHeightPosition;
+begin
+
+  case FController.Model.Tipo of
+    iTpAMBULATORIAL:
+    begin
+      frmAtendimentos.Height := 780;
+      frmAtendimentos.Position := poScreenCenter;
+    end;
+
+    iTpINTERNACAO:
+    begin
+      frmAtendimentos.Height := 900;
+      frmAtendimentos.Position := poScreenCenter;
+    end;
+  end;
 end;
 
 procedure TfrmAtendimentos.CbxConsultaPorChange(Sender: TObject);
@@ -961,11 +1050,6 @@ end;
 procedure TfrmAtendimentos.FormShow(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 0;
-  mskInicial.Text := DateToStr(Now);
-  mskFinal.Text   := DateToStr(Now);
-  mskInicial.SetFocus;
-//  frmAmbulatoriais.Height := 610;
-//  661 se for usar alta e transferencia
   GrdAmbulatoriais.DataSource := FController.DataSource;
   VerificaTipoConsulta;
   BtnConsultaClick(Self);
@@ -1031,6 +1115,13 @@ begin
           (Self.Components[n] as TRichEdit).Lines.Text := '';
         end;
       end;
+end;
+
+procedure TfrmAtendimentos.TbShAtendimentosShow(Sender: TObject);
+begin
+  mskInicial.Text := DateToStr(Now);
+  mskFinal.Text   := DateToStr(Now);
+  mskInicial.SetFocus;
 end;
 
 procedure TfrmAtendimentos.TbShDadosAtendimentoShow(Sender: TObject);

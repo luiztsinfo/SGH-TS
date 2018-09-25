@@ -1,0 +1,41 @@
+unit unFrmOpcaoAtendimento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, unConstantes;
+
+type
+  TfrmOpcaoAtendimento = class(TForm)
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmOpcaoAtendimento: TfrmOpcaoAtendimento;
+
+implementation
+
+uses
+  unFrmAtendimentos;
+
+{$R *.dfm}
+
+procedure TfrmOpcaoAtendimento.SpeedButton1Click(Sender: TObject);
+begin
+  frmAtendimentos.iTipoAtendimento := tpAmbulatorial;
+end;
+
+procedure TfrmOpcaoAtendimento.SpeedButton2Click(Sender: TObject);
+begin
+  frmAtendimentos.iTipoAtendimento := tpInternacao;
+end;
+
+end.

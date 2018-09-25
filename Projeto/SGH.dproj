@@ -287,6 +287,9 @@
         <DCCReference Include="Forms\unFrmResponsavelPaciente.pas">
             <Form>frmResponsavelPaciente</Form>
         </DCCReference>
+        <DCCReference Include="Forms\unFrmOpcaoAtendimento.pas">
+            <Form>frmOpcaoAtendimento</Form>
+        </DCCReference>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>

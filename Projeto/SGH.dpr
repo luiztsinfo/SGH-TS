@@ -136,7 +136,8 @@ uses
   Model.Atendimentos in 'Classes\Model\Model.Atendimentos.pas',
   Model.Responsavel_Paciente in 'Classes\Model\Model.Responsavel_Paciente.pas',
   Controller.Responsavel_Paciente in 'Classes\Controller\Controller.Responsavel_Paciente.pas',
-  unFrmResponsavelPaciente in 'Forms\unFrmResponsavelPaciente.pas' {frmResponsavelPaciente};
+  unFrmResponsavelPaciente in 'Forms\unFrmResponsavelPaciente.pas' {frmResponsavelPaciente},
+  unFrmOpcaoAtendimento in 'Forms\unFrmOpcaoAtendimento.pas' {frmOpcaoAtendimento};
 
 {$R *.res}
 
@@ -147,6 +148,9 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.
+
+
+
 
 
 
