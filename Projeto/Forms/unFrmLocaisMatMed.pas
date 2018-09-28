@@ -1,0 +1,98 @@
+unit unFrmLocaisMatMed;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Local_MatMed, unConstantes, u_FrmBase;
+
+type
+  TFrmLocaisMatMed = class(TFrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtDescricao: TEdit;
+    edtID: TEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  FrmLocaisMatMed: TFrmLocaisMatMed;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmLocaisMatMed.alimentaModel;
+begin
+  inherited;
+  TControllerLocal_MatMed(FController).Model.Descricao := edtDescricao.Text;
+end;
+
+procedure TFrmLocaisMatMed.alterar;
+begin
+  inherited;
+  TControllerLocal_MatMed(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerLocal_MatMed(FController).FDao.Salvar(TControllerLocal_MatMed(FController).Model)
+end;
+
+procedure TFrmLocaisMatMed.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TFrmLocaisMatMed.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerLocal_MatMed(FController).Model.Id);
+  edtDescricao.Text := TControllerLocal_MatMed(FController).Model.Descricao;
+end;
+
+procedure TFrmLocaisMatMed.consultar;
+begin
+  TControllerLocal_MatMed(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerLocal_MatMed(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerLocal_MatMed(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerLocal_MatMed(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmLocaisMatMed.FormCreate(Sender: TObject);
+begin
+  FController := TControllerLocal_MatMed.Create;
+  inherited;
+end;
+
+procedure TFrmLocaisMatMed.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerLocal_MatMed(FController).Model.Id;
+      Self.Close;
+    end;
+end;
+
+procedure TFrmLocaisMatMed.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

@@ -2,9 +2,7 @@ object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
   AutoSize = True
-  Caption = 
-    'Sistema de Gest'#227'o Hospitalar - Hospital Nossa Senhora das Dores ' +
-    'Capinzal'
+  Caption = 'SISTEMA DE GEST'#195'O HOSPITAL - HNSDD'
   ClientHeight = 403
   ClientWidth = 809
   Color = 16758639
@@ -1432,6 +1430,25 @@ object frmPrincipal: TfrmPrincipal
       object Fornecedores1: TMenuItem
         Caption = 'Fornecedores'
         OnClick = Fornecedores1Click
+      end
+      object Estoque1: TMenuItem
+        Caption = 'Estoque'
+        object MatMeds1: TMenuItem
+          Caption = 'MatMed'#39's'
+          OnClick = MatMeds1Click
+        end
+        object UnidadesdeMedida1: TMenuItem
+          Caption = 'Unidades de Medida'
+          OnClick = UnidadesdeMedida1Click
+        end
+        object Grupos1: TMenuItem
+          Caption = 'Grupos'
+          OnClick = Grupos1Click
+        end
+        object Locais1: TMenuItem
+          Caption = 'Locais'
+          OnClick = Locais1Click
+        end
       end
       object N01: TMenuItem
         Caption = '-'

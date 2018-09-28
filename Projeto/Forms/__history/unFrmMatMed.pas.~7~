@@ -1,0 +1,110 @@
+unit unFrmMatMed;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.MatMed, unConstantes;
+
+type
+  TFrmMatMeds = class(TfrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    edtID: TEdit;
+    edtDescricao: TEdit;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    lblUnidadeMedida: TLabel;
+    Label11: TLabel;
+    lblGrupo: TLabel;
+    Label13: TLabel;
+    lblLocal: TLabel;
+    edtEstoqueMinimo: TEdit;
+    edtCodInterno: TEdit;
+    edtCustoMedio: TEdit;
+    edtUnidadeMedida: TEdit;
+    edtGrupo: TEdit;
+    edtLocal: TEdit;
+    CbxControlado: TComboBox;
+    CbxTipoApresentacao: TComboBox;
+    BtnBuscaUnidadeMedida: TBitBtn;
+    BtnBuscaGrupo: TBitBtn;
+    BtnBuscaLocal: TBitBtn;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  TFrmMatMed: TFrmMatMeds;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmMatMeds.alimentaModel;
+begin
+  inherited;
+  TControllerMatMed(FController).Model.Descricao := edtDescricao.Text;
+end;
+
+procedure TFrmMatMeds.alterar;
+begin
+  inherited;
+  TControllerMatMed(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerMatMed(FController).FDao.Salvar(TControllerMatMed(FController).Model)
+end;
+
+procedure TFrmMatMeds.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TFrmMatMeds.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerMatMed(FController).Model.Id);
+  edtDescricao.Text := TControllerMatMed(FController).Model.Descricao;
+end;
+
+procedure TFrmMatMeds.consultar;
+begin
+  TControllerMatMed(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerMatMed(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerMatMed(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerMatMed(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmMatMeds.FormCreate(Sender: TObject);
+begin
+  FController := TControllerMatMed.Create;
+  inherited;
+end;
+
+procedure TFrmMatMeds.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.
+

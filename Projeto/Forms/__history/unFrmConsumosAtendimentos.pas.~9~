@@ -1,0 +1,49 @@
+unit unFrmConsumosAtendimentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TfrmConsumosAtendimentos = class(TForm)
+    PnConsulta: TPanel;
+    PnBotoes: TPanel;
+    Label1: TLabel;
+    edtAtendimento: TEdit;
+    lblNomePaciente: TLabel;
+    Bevel1: TBevel;
+    Label2: TLabel;
+    lblTipoAtendimento: TLabel;
+    BtnNovo: TBitBtn;
+    BtnExcluir: TBitBtn;
+    BtnSair: TBitBtn;
+    PnServicos: TPanel;
+    PnMateriais: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    PnServico: TPanel;
+    BitBtn2: TBitBtn;
+    PnItem: TPanel;
+    Label5: TLabel;
+    lblMatMed: TLabel;
+    Label6: TLabel;
+    edtIDMatMed: TEdit;
+    BtnBuscaMatMed: TBitBtn;
+    edtQuantidade: TEdit;
+    BtnIncluirMatMed: TBitBtn;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsumosAtendimentos: TfrmConsumosAtendimentos;
+
+implementation
+
+{$R *.dfm}
+
+end.

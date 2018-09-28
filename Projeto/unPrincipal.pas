@@ -56,6 +56,11 @@ type
     ResponsveldePaciente1: TMenuItem;
     N4: TMenuItem;
     Internao1: TMenuItem;
+    Estoque1: TMenuItem;
+    MatMeds1: TMenuItem;
+    Grupos1: TMenuItem;
+    Locais1: TMenuItem;
+    UnidadesdeMedida1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -82,6 +87,10 @@ type
     procedure Ambulatoriais1Click(Sender: TObject);
     procedure ResponsveldePaciente1Click(Sender: TObject);
     procedure Internao1Click(Sender: TObject);
+    procedure MatMeds1Click(Sender: TObject);
+    procedure Grupos1Click(Sender: TObject);
+    procedure Locais1Click(Sender: TObject);
+    procedure UnidadesdeMedida1Click(Sender: TObject);
   private
 
   public
@@ -94,6 +103,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses unFrmMatMed, unFrmFundo, unFrmGrupos_MatMed, unFrmLocaisMatMed,
+  unFrmUnidades_MatMed;
 
 procedure TfrmPrincipal.abeladePreosMatMed1Click(Sender: TObject);
 begin
@@ -225,6 +237,20 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.Grupos1Click(Sender: TObject);
+var
+  frmGrupos_MatMed: TfrmGruposMatMed;
+begin
+  frmGrupos_MatMed := TfrmGruposMatMed.Create(self,toCadastro);
+  try
+    frmFundo.Show;
+    frmGrupos_MatMed.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmGrupos_MatMed);
+  end;
+end;
+
 procedure TfrmPrincipal.GruposCID1Click(Sender: TObject);
 begin
   try
@@ -265,6 +291,34 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.Locais1Click(Sender: TObject);
+var
+  frmLocaisMatMed: TFrmLocaisMatMed;
+begin
+  frmLocaisMatMed := TFrmLocaisMatMed.Create(self,toCadastro);
+  try
+    frmFundo.Show;
+    frmLocaisMatMed.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmLocaisMatMed);
+  end;
+end;
+
+procedure TfrmPrincipal.MatMeds1Click(Sender: TObject);
+var
+  frmMatMeds : TFrmMatMeds;
+begin
+  frmMatMeds := TFrmMatMeds.Create(Self,toCadastro);
+  try
+    frmFundo.Show;
+    frmMatMeds.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmMatMeds);
+  end;
+end;
+
 procedure TfrmPrincipal.Nacionalidades1Click(Sender: TObject);
 begin
   try
@@ -279,8 +333,10 @@ procedure TfrmPrincipal.Pacientes1Click(Sender: TObject);
 begin
   try
     frmPacientes := TfrmPacientes.Create(Self,toCadastro);
+    frmFundo.Show;
     frmPacientes.ShowModal;
   finally
+    frmFundo.Hide;
     FreeAndNil(frmPacientes);
   end;
 end;
@@ -352,6 +408,20 @@ begin
     frmSetores.ShowModal;
   finally
     FreeAndNil(frmSetores);
+  end;
+end;
+
+procedure TfrmPrincipal.UnidadesdeMedida1Click(Sender: TObject);
+var
+  frmUnidades_MatMed: TFrmUnidades_MatMed;
+begin
+  frmUnidades_MatMed := TFrmUnidades_MatMed.Create(self,toCadastro);
+  try
+    frmFundo.Show;
+    frmUnidades_MatMed.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmUnidades_MatMed);
   end;
 end;
 

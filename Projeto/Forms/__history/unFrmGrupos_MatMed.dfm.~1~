@@ -1,0 +1,5 @@
+inherited frmBaseBasico2: TfrmBaseBasico2
+  Caption = 'frmBaseBasico2'
+  PixelsPerInch = 96
+  TextHeight = 13
+end

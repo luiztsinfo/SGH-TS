@@ -1,0 +1,186 @@
+unit unFrmMatMed;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.MatMed, unConstantes;
+
+type
+  TFrmMatMed = class(TFrmBaseBasico)
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  TFrmMatMed: TFrmMatMed;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmMatMed.alimentaModel;
+begin
+  inherited;
+  TControllerMatMed(FController).Model.Descricao := edtDescricao.Text;
+end;
+
+procedure TFrmMatMed.alterar;
+begin
+  inherited;
+  TControllerMatMed(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerMatMed(FController).FDao.Salvar(TControllerMatMed(FController).Model)
+end;
+
+procedure TFrmMatMed.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TFrmMatMed.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerMatMed(FController).Model.Id);
+  edtDescricao.Text := TControllerMatMed(FController).Model.Descricao;
+end;
+
+procedure TFrmMatMed.consultar;
+begin
+  TControllerMatMed(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerMatMed(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerMatMed(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerMatMed(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmMatMed.FormCreate(Sender: TObject);
+begin
+  FController := TControllerMatMed.Create;
+  inherited;
+end;
+
+procedure TFrmMatMed.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.
+unit Controller.Grupo_MatMed;
+
+interface
+
+uses Controller.Interfaces, Model.Grupos_MatMed, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes;
+
+type
+  TControllerGrupo_MatMed = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TGrupos_MatMed;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TGrupos_MatMed read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+ { TControllerGrupo_MatMed }
+
+procedure TControllerGrupo_MatMed.AlimentaCamposModel;
+begin
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+end;
+
+procedure TControllerGrupo_MatMed.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerGrupo_MatMed.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TGrupos_MatMed.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerGrupo_MatMed.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+procedure TControllerGrupo_MatMed.Excluir;
+begin
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerGrupo_MatMed.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerGrupo_MatMed.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+procedure TControllerGrupo_MatMed.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerGrupo_MatMed.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+end.

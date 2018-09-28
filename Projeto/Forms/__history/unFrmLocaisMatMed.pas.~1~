@@ -1,0 +1,25 @@
+unit unFrmLocaisMatMed;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmLocaisMatMed = class(TfrmBaseBasico)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLocaisMatMed: TfrmLocaisMatMed;
+
+implementation
+
+{$R *.dfm}
+
+end.

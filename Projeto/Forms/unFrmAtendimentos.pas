@@ -8,7 +8,8 @@ uses
   Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.Atendimentos,
   Vcl.ComCtrls, unConstantes, unFrmConvenios, u_FrmBase, unFrmColaboradores,
   unFrmProcedimentos, unFrmCID, unFrmSetores, unFrmPacientes,
-  unFrmResponsavelPaciente, unFrmQuartos, unFrmLeitos, unFrmOpcaoAtendimento;
+  unFrmResponsavelPaciente, unFrmQuartos, unFrmLeitos, unFrmOpcaoAtendimento,
+  Vcl.AppEvnts;
 
 type
   TTpAtendimento = (tpAmbulatorial, tpInternacao);
@@ -175,14 +176,16 @@ type
     procedure BtnBuscaMedicoSolicitanteClick(Sender: TObject);
     procedure edtLeitoExit(Sender: TObject);
     procedure edtMedicoSolicitanteExit(Sender: TObject);
-    procedure TbShAtendimentosShow(Sender: TObject);
+    procedure BtnConsumosClick(Sender: TObject);
+    procedure ApplicationEvents1ModalBegin(Sender: TObject);
+    procedure ApplicationEvents1ModalEnd(Sender: TObject);
   strict private
     iTipoOperacao: integer;
     FController: TControllerAtendimento;
   private
-    procedure AlimentaModel;
-    procedure VerificaTipoConsulta;
-    procedure VerificaResponsavel;
+    procedure AlimentarModel;
+    procedure VerificarTipoConsulta;
+    procedure VerificarResponsavel;
     procedure LimparControles;
     procedure CarregarControles;
     procedure DefinirHeightPosition;
@@ -198,7 +201,9 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmAtendimentos.AlimentaModel;
+uses unFrmConsumosAtendimentos, unFrmFundo;
+
+procedure TfrmAtendimentos.AlimentarModel;
 var
   vDataHoraAtendimento,vDataHoraAlta, vPrevisaoAlta: TDateTime;
   vMedicoResponsavel,vProcedimento,vCidProvisorio,vSetor,vConvenio,
@@ -309,6 +314,16 @@ begin
   end;
 end;
 
+procedure TfrmAtendimentos.ApplicationEvents1ModalBegin(Sender: TObject);
+begin
+  frmFundo.ShowModal;
+end;
+
+procedure TfrmAtendimentos.ApplicationEvents1ModalEnd(Sender: TObject);
+begin
+  frmFundo.Hide;
+end;
+
 procedure TfrmAtendimentos.BtnAltaTransferenciaClick(Sender: TObject);
 begin
   iTipoOperacao := OPC_ALTERAR;
@@ -333,10 +348,9 @@ begin
   if iTipoAtendimento = tpAmbulatorial then
   begin
     frmAtendimentos.Height := 600;
-    frmAtendimentos.Position := poScreenCenter;
   end;
 
-  if iTipoAtendimento = tpInternacao then       //////
+  if iTipoAtendimento = tpInternacao then
   begin
     if FController.Model.Status = 'E' then
     begin
@@ -350,7 +364,6 @@ begin
     end;
 
     PnDadosInternacao.Visible := true;
-    frmAtendimentos.Position := poScreenCenter;
   end;
 
   if FController.Model.Tipo = iTpAMBULATORIAL then
@@ -358,7 +371,7 @@ begin
   else
     PnDadosInternacao.Visible := true;
 
-  VerificaResponsavel;
+  VerificarResponsavel;
   PgCtrlAtendimentos.ActivePageIndex := 1;
   edtPaciente.SetFocus;
 end;
@@ -718,6 +731,22 @@ begin
           mskInicial.SetFocus;
         end;
   end;
+  FController.CarregarDadosAtendimento;
+  CarregarControles;
+end;
+
+procedure TfrmAtendimentos.BtnConsumosClick(Sender: TObject);
+var
+  frmConsumosAtendimentos: TfrmConsumosAtendimentos;
+begin
+  frmConsumosAtendimentos := TfrmConsumosAtendimentos.Create(nil);
+  try
+    frmFundo.Show;
+    frmConsumosAtendimentos.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmConsumosAtendimentos);
+  end;
 end;
 
 procedure TfrmAtendimentos.BtnNovoClick(Sender: TObject);
@@ -737,14 +766,12 @@ begin
   if iTipoAtendimento = tpAmbulatorial then
   begin
     frmAtendimentos.Height := 600;
-    frmAtendimentos.Position := poScreenCenter;
   end;
 
   if iTipoAtendimento = tpInternacao then
   begin
     PnDadosInternacao.Visible := true;
     frmAtendimentos.Height := 760;
-    frmAtendimentos.Position := poScreenCenter;
   end;
 
   mskDataAtendimento.Text := DateTimeToStr(Now);
@@ -763,7 +790,7 @@ procedure TfrmAtendimentos.BtnSalvarClick(Sender: TObject);
 begin
   if iTipoOperacao = iINCLUINDO then
     begin
-      AlimentaModel;
+      AlimentarModel;
       FController.Model.Status := 'A';
 
       if iTipoAtendimento = tpAmbulatorial then
@@ -778,7 +805,7 @@ begin
 
   if iTipoOperacao = iALTERANDO then
     begin
-      AlimentaModel;
+      AlimentarModel;
       FController.AlterarAtendimento(StrToInt(edtIDAtendimento.Text));
       PgCtrlAtendimentos.ActivePageIndex := 0;
       BtnConsultaClick(self);
@@ -787,7 +814,6 @@ end;
 
 procedure TfrmAtendimentos.CarregarControles;
 begin
-  LimparControles;
   edtIDAtendimento.Text := IntToStr(FController.Model.Id);
   mskDataAtendimento.Text := DateToStr(FController.Model.Data_atendimento);
   mskHoraAtendimento.Text := TimeToStr(FController.Model.Hora_atendimento);
@@ -853,28 +879,22 @@ end;
 procedure TfrmAtendimentos.DefinirHeightPosition;
 begin
   case FController.Model.Tipo of
-    iTpAMBULATORIAL:
-    begin
-      frmAtendimentos.Height := 775;
-      frmAtendimentos.Position := poScreenCenter;
-    end;
+  iTpAMBULATORIAL:
+    frmAtendimentos.Height := 775;
 
-    iTpINTERNACAO:
-    begin
-      frmAtendimentos.Height := 945;
-      frmAtendimentos.Position := poScreenCenter;
-    end;
+  iTpINTERNACAO:
+    frmAtendimentos.Height := 945;
   end;
 end;
 
 procedure TfrmAtendimentos.CbxConsultaPorChange(Sender: TObject);
 begin
-  VerificaTipoConsulta;
+  VerificarTipoConsulta;
 end;
 
 procedure TfrmAtendimentos.CbxResponsavelChange(Sender: TObject);
 begin
-  VerificaResponsavel;
+  VerificarResponsavel;
 end;
 
 constructor TfrmAtendimentos.Create(AOwner: TComponent;
@@ -1081,15 +1101,17 @@ end;
 procedure TfrmAtendimentos.FormShow(Sender: TObject);
 begin
   PgCtrlAtendimentos.ActivePageIndex := 0;
+  mskInicial.Text := DateToStr(Now);
+  mskFinal.Text   := DateToStr(Now);
+  mskInicial.SetFocus;
   GrdAmbulatoriais.DataSource := FController.DataSource;
-  VerificaTipoConsulta;
+  VerificarTipoConsulta;
   BtnConsultaClick(Self);
 end;
 
 procedure TfrmAtendimentos.GrdAmbulatoriaisCellClick(Column: TColumn);
 begin
   FController.CarregarDadosAtendimento;
-  //ShowMessage(IntToStr(FController.Model.Id));
 end;
 
 procedure TfrmAtendimentos.GrdAmbulatoriaisDblClick(Sender: TObject);
@@ -1121,41 +1143,33 @@ begin
   lblMedicoSolicitante.Caption := '';
 
   nTotComponentes :=  Self.ComponentCount;
-    for n := 0 to nTotComponentes-1 do
-      begin
-      if(Self.Components[n] is TEdit)then
-        begin
-          (Self.Components[n] as TEdit).Clear;
-        end
-      else
-      if(Self.Components[n] is TMemo)then
-        begin
-         (Self.Components[n] as TMemo).Clear;
-        end
-      else
-      if(Self.Components[n] is TMaskEdit)then
-        begin
-          (Self.Components[n] as TMaskEdit).Clear
-        end
-      else
-      if (Self.Components[n] is TComboBox)then
-        begin
-          (Self.Components[n] as TComboBox).ItemIndex := 0;
-          (Self.Components[n] as TComboBox).Text := '';
-         end
-      else
-      if (Self.Components[n] is TRichEdit) then
-        begin
-          (Self.Components[n] as TRichEdit).Lines.Text := '';
-        end;
-      end;
-end;
-
-procedure TfrmAtendimentos.TbShAtendimentosShow(Sender: TObject);
-begin
-  mskInicial.Text := DateToStr(Now);
-  mskFinal.Text   := DateToStr(Now);
-  mskInicial.SetFocus;
+  for n := 0 to nTotComponentes-1 do
+  begin if(Self.Components[n] is TEdit) and
+            ((Self.Components[n].Name <> 'edtIDPaciente') and
+              (Self.Components[n].Name <> 'edtAtendimento')) then
+    begin
+      (Self.Components[n] as TEdit).Clear;
+    end
+    else if(Self.Components[n] is TMemo)then
+    begin
+     (Self.Components[n] as TMemo).Clear;
+    end
+    else if(Self.Components[n] is TMaskEdit) and
+            ((Self.Components[n].Name <> 'mskInicial') and
+              (Self.Components[n].Name <> 'mskFinal')) then
+    begin
+      (Self.Components[n] as TMaskEdit).Clear
+    end
+    else if (Self.Components[n] is TComboBox)then
+    begin
+      (Self.Components[n] as TComboBox).ItemIndex := 0;
+      (Self.Components[n] as TComboBox).Text := '';
+    end
+    else if (Self.Components[n] is TRichEdit) then
+    begin
+      (Self.Components[n] as TRichEdit).Lines.Text := '';
+    end;
+  end;
 end;
 
 procedure TfrmAtendimentos.TbShDadosAtendimentoShow(Sender: TObject);
@@ -1163,7 +1177,7 @@ begin
   mskDataAtendimento.SetFocus;
 end;
 
-procedure TfrmAtendimentos.VerificaResponsavel;
+procedure TfrmAtendimentos.VerificarResponsavel;
 begin
   if CbxResponsavel.ItemIndex = 1 then
     PnResponsavel.Visible := false
@@ -1171,7 +1185,7 @@ begin
     PnResponsavel.Visible := true;
 end;
 
-procedure TfrmAtendimentos.VerificaTipoConsulta;
+procedure TfrmAtendimentos.VerificarTipoConsulta;
 begin
   if CbxConsultaPor.ItemIndex = 0 then
   begin
@@ -1179,17 +1193,15 @@ begin
     GrpBxPaciente.Visible := False;
     GrpBxDatas.Visible := True;
     mskInicial.SetFocus;
-  end;
-
-  if CbxConsultaPor.ItemIndex = 1 then // atendimento
+  end
+  else if CbxConsultaPor.ItemIndex = 1 then // atendimento
   begin
     GrpBxAtendimento.Visible := true;
     GrpBxDatas.Visible := false;
     GrpBxPaciente.Visible := false;
     edtAtendimento.SetFocus;
-  end;
-
-  if CbxConsultaPor.ItemIndex = 2 then
+  end
+  else if CbxConsultaPor.ItemIndex = 2 then
   begin
     GrpBxAtendimento.Visible := False;
     GrpBxDatas.Visible := true;

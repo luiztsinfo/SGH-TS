@@ -7,7 +7,6 @@ inherited frmPacientes: TfrmPacientes
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 554
-    ActivePage = TbShCadastro
     ExplicitHeight = 554
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 526

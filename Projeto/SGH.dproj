@@ -290,6 +290,33 @@
         <DCCReference Include="Forms\unFrmOpcaoAtendimento.pas">
             <Form>frmOpcaoAtendimento</Form>
         </DCCReference>
+        <DCCReference Include="Forms\unFrmConsumosAtendimentos.pas">
+            <Form>frmConsumosAtendimentos</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\unFrmFundo.pas">
+            <Form>frmFundo</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.ConsumoAtendimento.pas"/>
+        <DCCReference Include="Classes\Model\Model.MatMed.pas"/>
+        <DCCReference Include="Forms\unFrmMatMed.pas">
+            <Form>frmMatMeds</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.MatMed.pas"/>
+        <DCCReference Include="Classes\Model\Model.Grupos_MatMed.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Grupo_MatMed.pas"/>
+        <DCCReference Include="Forms\unFrmGrupos_MatMed.pas">
+            <Form>frmGruposMatMed</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Locais_MatMed.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Local_MatMed.pas"/>
+        <DCCReference Include="Forms\unFrmLocaisMatMed.pas">
+            <Form>frmLocaisMatMed</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Unidades_MatMed.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Unidade_MatMed.pas"/>
+        <DCCReference Include="Forms\unFrmUnidades_MatMed.pas">
+            <Form>frmUnidades_MatMed</Form>
+        </DCCReference>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>
