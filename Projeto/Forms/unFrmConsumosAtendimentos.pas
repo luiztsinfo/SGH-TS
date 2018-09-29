@@ -44,11 +44,12 @@ type
     BtnConcluirFaturamento: TBitBtn;
     BtnNaoCobrar: TBitBtn;
     BtnSair: TBitBtn;
-    ApplicationEvents1: TApplicationEvents;
     procedure BtnSairClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    { Private declarations }
+    procedure LimparTudo;
+    procedure LimparMatMeds;
+    procedure LimparProcedimentos;
   public
     { Public declarations }
   end;
@@ -75,6 +76,24 @@ begin
 
   if Key = VK_RETURN then
     perform(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TfrmConsumosAtendimentos.LimparMatMeds;
+begin
+  edtQuantidade.Text := '1';
+  edtIDMatMed.Clear;
+end;
+
+procedure TfrmConsumosAtendimentos.LimparProcedimentos;
+begin
+  edtQuantidadeProcedimento.Text := '1';
+  edtProcedimento.Clear;
+end;
+
+procedure TfrmConsumosAtendimentos.LimparTudo;
+begin
+  LimparMatMeds;
+  LimparProcedimentos;
 end;
 
 end.

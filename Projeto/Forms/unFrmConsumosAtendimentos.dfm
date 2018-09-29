@@ -25,7 +25,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 65
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 605
     object Label1: TLabel
       Left = 8
       Top = 8
@@ -130,7 +129,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 45
     Align = alTop
     TabOrder = 3
-    ExplicitTop = 90
     object Label5: TLabel
       Left = 8
       Top = 0
@@ -355,7 +353,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 169
     Align = alTop
     TabOrder = 6
-    ExplicitTop = 341
     object GrdTaxasServicos: TDBGrid
       Left = 1
       Top = 1
@@ -377,7 +374,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 51
     Align = alBottom
     TabOrder = 7
-    ExplicitTop = 632
     object BtnConcluirFaturamento: TBitBtn
       Left = 160
       Top = 8
@@ -403,9 +399,5 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       TabOrder = 2
       OnClick = BtnSairClick
     end
-  end
-  object ApplicationEvents1: TApplicationEvents
-    Left = 744
-    Top = 192
   end
 end
