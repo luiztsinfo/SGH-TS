@@ -1,0 +1,9 @@
+rdexames - exames
+movest - estoque atual
+pacientes - cadastro de pacientes
+intern - atendimentos
+matmeds - medicamentos
+procedimento - procedimentos
+tabproc - tabelas de procedimentos
+procedim - outra tabela de procedimentos
+tabmat - tabelas de materias

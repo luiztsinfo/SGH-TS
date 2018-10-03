@@ -1,5 +1,0 @@
-inherited frmTabelasMatMed: TfrmTabelasMatMed
-  Caption = '::. Tabelas de Pre'#231'os - MatMed ..::'
-  PixelsPerInch = 96
-  TextHeight = 13
-end

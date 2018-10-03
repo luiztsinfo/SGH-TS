@@ -152,7 +152,10 @@ uses
   unFrmLocaisMatMed in 'Forms\unFrmLocaisMatMed.pas' {frmLocaisMatMed},
   Model.Unidades_MatMed in 'Classes\Model\Model.Unidades_MatMed.pas',
   Controller.Unidade_MatMed in 'Classes\Controller\Controller.Unidade_MatMed.pas',
-  unFrmUnidades_MatMed in 'Forms\unFrmUnidades_MatMed.pas' {frmUnidades_MatMed};
+  unFrmUnidades_MatMed in 'Forms\unFrmUnidades_MatMed.pas' {frmUnidades_MatMed},
+  unFrmItensTabelaPrecoMatMed in 'Forms\unFrmItensTabelaPrecoMatMed.pas' {frmItensTabelaPrecoMatMed},
+  Model.Itens_Tabela_Preco_Matmed in 'Classes\Model\Model.Itens_Tabela_Preco_Matmed.pas',
+  Controller.Item_Tabela_Preco_MatMed in 'Classes\Controller\Controller.Item_Tabela_Preco_MatMed.pas';
 
 {$R *.res}
 
@@ -164,6 +167,8 @@ begin
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.Run;
 end.
+
+
 
 
 

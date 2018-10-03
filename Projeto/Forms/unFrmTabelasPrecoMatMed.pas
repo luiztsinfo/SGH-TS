@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.TabelaPrecoMatMed, Vcl.Mask, unConstantes, u_FrmBase;
+  Controller.TabelaPrecoMatMed, Vcl.Mask, unConstantes, u_FrmBase,
+  unFrmItensTabelaPrecoMatMed, unFrmFundo;
 
 type
   TfrmTabelasMatMed = class(TfrmBaseBasico)
@@ -16,10 +17,12 @@ type
     edtID: TEdit;
     edtDescricao: TEdit;
     mskDataVigencia: TMaskEdit;
+    BtnItensTabela: TBitBtn;
     procedure BtnNovoClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure GrdDadosDblClick(Sender: TObject);
+    procedure BtnItensTabelaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +57,30 @@ begin
   inherited;
   TControllerTabelaPrecoMatMed(FController).Model.Id := StrToInt(edtID.Text);
   TControllerTabelaPrecoMatMed(FController).FDao.Salvar(TControllerTabelaPrecoMatMed(FController).Model);
+end;
+
+procedure TfrmTabelasMatMed.BtnItensTabelaClick(Sender: TObject);
+var
+  frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed;
+begin
+  inherited;
+  frmItensTabelaPrecoMatMed := TfrmItensTabelaPrecoMatMed.Create(self);
+  try
+    frmFundo.Show;
+
+    frmItensTabelaPrecoMatMed.iID_TabelaPrecoMatMed :=
+      TControllerTabelaPrecoMatMed(FController).Model.Id;
+
+    frmItensTabelaPrecoMatMed.lblTabelaPreco.Caption :=
+      IntToStr(TControllerTabelaPrecoMatMed(FController).Model.Id)
+      + ' - ' +
+      TControllerTabelaPrecoMatMed(FController).Model.Descricao;
+
+    frmItensTabelaPrecoMatMed.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmItensTabelaPrecoMatMed);
+  end;
 end;
 
 procedure TfrmTabelasMatMed.BtnNovoClick(Sender: TObject);

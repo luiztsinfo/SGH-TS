@@ -49,6 +49,7 @@ begin
   FModel.Id_local := FRegistros.FieldByName('id_local').AsInteger;
   FModel.Estoque_minimo := FRegistros.FieldByName('estoque_minimo').AsFloat;
   FModel.Custo_medio := FRegistros.FieldByName('custo_medio').AsFloat;
+  TNumericField(FRegistros.FieldByName('custo_medio')).DisplayFormat := ',0.00;-,0.00';
   FModel.Id_unidade := FRegistros.FieldByName('id_unidade').AsInteger;
 end;
 
