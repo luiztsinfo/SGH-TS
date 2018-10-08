@@ -153,9 +153,12 @@ uses
   Model.Unidades_MatMed in 'Classes\Model\Model.Unidades_MatMed.pas',
   Controller.Unidade_MatMed in 'Classes\Controller\Controller.Unidade_MatMed.pas',
   unFrmUnidades_MatMed in 'Forms\unFrmUnidades_MatMed.pas' {frmUnidades_MatMed},
-  unFrmItensTabelaPrecoMatMed in 'Forms\unFrmItensTabelaPrecoMatMed.pas' {frmItensTabelaPrecoMatMed},
   Model.Itens_Tabela_Preco_Matmed in 'Classes\Model\Model.Itens_Tabela_Preco_Matmed.pas',
-  Controller.Item_Tabela_Preco_MatMed in 'Classes\Controller\Controller.Item_Tabela_Preco_MatMed.pas';
+  Controller.Item_Tabela_Preco_MatMed in 'Classes\Controller\Controller.Item_Tabela_Preco_MatMed.pas',
+  unFrmItensTabelaPrecoProcedimento in 'Forms\unFrmItensTabelaPrecoProcedimento.pas' {frmItensTabelaPrecoProcedimento},
+  Model.Itens_Tabela_Preco_Procedimento in 'Classes\Model\Model.Itens_Tabela_Preco_Procedimento.pas',
+  unFrmItensTabelaPrecoMatMed in 'Forms\unFrmItensTabelaPrecoMatMed.pas' {frmItensTabelaPrecoMatMed},
+  Controller.Item_Tabela_Preco_Procedimento in 'Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas';
 
 {$R *.res}
 
@@ -167,6 +170,11 @@ begin
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.Run;
 end.
+
+
+
+
+
 
 
 

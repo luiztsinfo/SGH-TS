@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.TabelaPrecoProcedimentos, unConstantes, Vcl.Mask, u_FrmBase;
+  Controller.TabelaPrecoProcedimentos, unConstantes, Vcl.Mask, u_FrmBase,
+  unFrmItensTabelaPrecoProcedimento, unFrmFundo;
 
 type
   TfrmTabelasPrecoProcedimentos = class(TfrmBaseBasico)
@@ -16,10 +17,12 @@ type
     edtID: TEdit;
     edtDescricao: TEdit;
     mskDataVigencia: TMaskEdit;
+    BtnItens: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure GrdDadosDblClick(Sender: TObject);
+    procedure BtnItensClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +57,28 @@ begin
   inherited;
   TControllerTabelaPrecoProcedimentos(FController).Model.Id := StrToInt(edtID.Text);
   TControllerTabelaPrecoProcedimentos(FController).FDao.Salvar(TControllerTabelaPrecoProcedimentos(FController).Model);
+end;
+
+procedure TfrmTabelasPrecoProcedimentos.BtnItensClick(Sender: TObject);
+begin
+  inherited;
+  frmItensTabelaPrecoProcedimento := TfrmItensTabelaPrecoProcedimento.Create(self);
+  try
+    frmFundo.Show;
+
+    frmItensTabelaPrecoProcedimento.iID_TabelaPrecoProcedimento :=
+      TControllerTabelaPrecoProcedimentos(FController).Model.Id;
+
+    frmItensTabelaPrecoProcedimento.lblTabelaPreco.Caption :=
+      IntToStr(TControllerTabelaPrecoProcedimentos(FController).Model.Id)
+      + ' - ' +
+      TControllerTabelaPrecoProcedimentos(FController).Model.Descricao;
+
+    frmItensTabelaPrecoProcedimento.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmFundo);
+  end;
 end;
 
 procedure TfrmTabelasPrecoProcedimentos.BtnNovoClick(Sender: TObject);

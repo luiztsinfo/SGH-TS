@@ -1,0 +1,203 @@
+unit Controller.Item_Tabela_Preco_Procedimento;
+
+interface
+
+uses Model.Itens_Tabela_Preco_Procedimento, Data.DB, Model.Procedimento,
+  Vcl.Controls, Lca.Orm.Comp.FireDac, Conexao;
+
+type
+  TControllerItensTabelaPrecoProcedimento = class
+
+    private
+      FRegistros: TDataSet;
+      FDataSource: TDataSource;
+      FModel: TItens_Tabela_Preco_Procedimento;
+      FDao: TDaoFiredac;
+      FProcedimento: TProcedimentos;
+      FConexao: TConexao;
+
+      FIDTabelaProcedimento: integer;
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      function GetDescricaoProcedimento(AID: Integer;iOperacao: integer): string;
+      function MostrarTodosItens(pIDTabela: integer): Boolean;
+      function ConsultarItemTabelaProcedimento(pTipoConsulta: integer;pValue: Variant): Boolean;
+      function IncluirItem: Boolean;
+      function ExcluirItem: Boolean;
+      function ExcluirTodos: Boolean;
+      property IDTabelaProcedimento: integer read FIDTabelaProcedimento write FIDTabelaProcedimento;
+      property Model: TItens_Tabela_Preco_Procedimento read FModel write FModel;
+      property DataSource: TDataSource read FDataSource write FDataSource;
+  end;
+
+implementation
+
+uses
+  System.SysUtils, Vcl.Dialogs;
+
+{ TControllerItensTabelaPrecoProcedimento }
+
+function TControllerItensTabelaPrecoProcedimento.ConsultarItemTabelaProcedimento(
+  pTipoConsulta: integer; pValue: Variant): Boolean;
+var
+  ConsultaSQL: TStringBuilder;
+  Params: array[0..1] of Variant;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+  Params[0] := IDTabelaProcedimento;
+
+  try
+    ConsultaSQL.Append(' SELECT it.id_procedimento, p.descricao, it.valor_total');
+    ConsultaSQL.Append(' FROM faturamento.itens_tabela_preco_procedimentos it');
+    ConsultaSQL.Append(' INNER JOIN procedimentos p');
+    ConsultaSQL.Append(' ON p.id = it.id_procedimento');
+    ConsultaSQL.Append(' WHERE it.id_tabela_procedimentos = :param1');
+
+    if pTipoConsulta = 0 then
+    begin
+      Params[1] := StrToInt(pValue);
+      ConsultaSQL.Append(' AND it.id_procedimento = :param2')
+    end
+    else
+    begin
+      if pValue <> trim('') then
+      begin
+        Params[1] := '%' + pValue + '%';
+        ConsultaSQL.Append(' AND p.descricao LIKE :param2');
+      end
+      else
+        Params[1] := '';
+    end;
+
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,Params);
+    FDataSource.DataSet := FRegistros;
+    FreeAndNil(ConsultaSQL);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao consultar item na tabela de preço!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
+end;
+
+constructor TControllerItensTabelaPrecoProcedimento.Create;
+begin
+  FConexao := TConexao.Create;
+  FDataSource := TDataSource.Create(nil);
+  FModel := TItens_Tabela_Preco_Procedimento.Create;
+  FProcedimento := TProcedimentos.Create;
+  FDao := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerItensTabelaPrecoProcedimento.Destroy;
+begin
+  inherited;
+  FDataSource.Free;
+  FModel.Free;
+  FDao.Free;
+  FProcedimento.Free;
+  FConexao.Free;
+end;
+
+function TControllerItensTabelaPrecoProcedimento.ExcluirItem: Boolean;
+begin
+  try
+    Model.Id_Procedimento := FRegistros.FieldByName('id_procedimento').AsInteger;
+    Model.Id_tabela_procedimentos := IDTabelaProcedimento;
+    FDao.Excluir(FModel,['id_tabela_procedimentos','id_procedimento']);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao excluir item!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
+end;
+
+function TControllerItensTabelaPrecoProcedimento.ExcluirTodos: Boolean;
+begin
+  if not(MessageDlg('Deseja realmente excluir todos os itens da tabela?'+#13+#13+
+    'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes) then
+      Exit
+  else
+  try
+    Model.Id_tabela_procedimentos := IDTabelaProcedimento;
+    FDao.Excluir(FModel,['id_tabela_procedimentos']);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro excluir todos os itens da tabela!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
+end;
+
+function TControllerItensTabelaPrecoProcedimento.GetDescricaoProcedimento(AID,
+  iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FProcedimento,'descricao','id',AID,iOperacao);
+end;
+
+function TControllerItensTabelaPrecoProcedimento.IncluirItem: Boolean;
+begin
+  if (Model.Id_Procedimento <= 0) and (Model.Valor_total <= 0) then
+  begin
+    MessageDlg('Procedimento ou Valor não informado!',mtWarning,[mbOk],0);
+    Exit;
+  end;
+
+  try
+    Model.Id := FDao.GetID(Model,'id');
+    if FDao.Inserir(FModel) > 0 then
+      Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao incluir item na tabela de preço!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
+end;
+
+function TControllerItensTabelaPrecoProcedimento.MostrarTodosItens(
+  pIDTabela: integer): Boolean;
+var
+  ConsultaSQL: TStringBuilder;
+  Params : array[0..0] of Variant;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+  Params[0] := pIDTabela;
+
+  try
+    ConsultaSQL.Append(' SELECT it.id_procedimento, p.descricao, it.valor_total,');
+    ConsultaSQL.Append(' it.custo_operacional, it.honorarios_medicos');
+    ConsultaSQL.Append(' FROM faturamento.itens_tabela_preco_procedimentos it');
+    ConsultaSQL.Append(' INNER JOIN procedimentos p');
+    ConsultaSQL.Append(' ON p.id = it.id_procedimento');
+    ConsultaSQL.Append(' WHERE it.id_tabela_procedimentos = :param1');
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,Params);
+    TNumericField(FRegistros.FieldByName('valor_total')).DisplayFormat := ',0.00;-,0.00';
+    TNumericField(FRegistros.FieldByName('custo_operacional')).DisplayFormat := ',0.00;-,0.00';
+    TNumericField(FRegistros.FieldByName('honorarios_medicos')).DisplayFormat := ',0.00;-,0.00';
+    FDataSource.DataSet := FRegistros;
+    FreeAndNil(ConsultaSQL);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao mostrar todos os itens da Tabela de Preço!' +#13+ e.Message);
+      FreeAndNil(ConsultaSQL);
+      Result := False;
+    end;
+  end;
+end;
+
+end.

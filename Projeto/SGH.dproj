@@ -317,11 +317,16 @@
         <DCCReference Include="Forms\unFrmUnidades_MatMed.pas">
             <Form>frmUnidades_MatMed</Form>
         </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Itens_Tabela_Preco_Matmed.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Item_Tabela_Preco_MatMed.pas"/>
+        <DCCReference Include="Forms\unFrmItensTabelaPrecoProcedimento.pas">
+            <Form>frmItensTabelaPrecoProcedimento</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Model\Model.Itens_Tabela_Preco_Procedimento.pas"/>
         <DCCReference Include="Forms\unFrmItensTabelaPrecoMatMed.pas">
             <Form>frmItensTabelaPrecoMatMed</Form>
         </DCCReference>
-        <DCCReference Include="Classes\Model\Model.Itens_Tabela_Preco_Matmed.pas"/>
-        <DCCReference Include="Classes\Controller\Controller.Item_Tabela_Preco_MatMed.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>

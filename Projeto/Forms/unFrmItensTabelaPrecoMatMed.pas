@@ -134,11 +134,9 @@ procedure TfrmItensTabelaPrecoMatMed.BtnIncluirItemClick(Sender: TObject);
 begin
   AlimentarModel;
   if FController.IncluirItem then
-  begin
-    FController.MostrarTodosItens(iID_TabelaPrecoMatMed);
     LimparControles;
-  end;
 
+  FController.MostrarTodosItens(iID_TabelaPrecoMatMed);
   edtCodInicial.SetFocus;
 end;
 

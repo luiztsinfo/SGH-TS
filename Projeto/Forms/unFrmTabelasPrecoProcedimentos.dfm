@@ -1,20 +1,25 @@
 inherited frmTabelasPrecoProcedimentos: TfrmTabelasPrecoProcedimentos
   Caption = '::. TABELAS DE PRE'#199'O PARA PROCEDIMENTOS .::'
-  ClientHeight = 304
+  ClientHeight = 386
+  ClientWidth = 726
   OnCreate = FormCreate
-  ExplicitHeight = 333
+  ExplicitWidth = 732
+  ExplicitHeight = 415
   PixelsPerInch = 96
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
-    Height = 249
+    Width = 726
+    Height = 331
     ExplicitHeight = 249
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 221
       inherited PnDados: TPanel
-        Height = 154
+        Width = 718
+        Height = 236
         ExplicitHeight = 154
         inherited GrdDados: TDBGrid
-          Height = 148
+          Width = 712
+          Height = 230
           Columns = <
             item
               Alignment = taCenter
@@ -43,6 +48,7 @@ inherited frmTabelasPrecoProcedimentos: TfrmTabelasPrecoProcedimentos
         end
       end
       inherited PnFiltro: TPanel
+        Width = 718
         inherited CbxConsulta: TComboBox
           ItemIndex = 1
           Text = 'DESCRICAO'
@@ -63,10 +69,12 @@ inherited frmTabelasPrecoProcedimentos: TfrmTabelasPrecoProcedimentos
       OnShow = TbShCadastroShow
       ExplicitLeft = 4
       ExplicitTop = 24
-      ExplicitWidth = 639
+      ExplicitWidth = 718
       ExplicitHeight = 221
       inherited PnCampos: TPanel
-        Height = 221
+        Width = 718
+        Height = 303
+        ExplicitWidth = 718
         ExplicitHeight = 221
         object Label1: TLabel
           Left = 24
@@ -122,7 +130,37 @@ inherited frmTabelasPrecoProcedimentos: TfrmTabelasPrecoProcedimentos
     end
   end
   inherited PnBotoes: TPanel
-    Top = 249
+    Top = 331
+    Width = 726
     ExplicitTop = 249
+    inherited BtnRelatorios: TBitBtn
+      Left = 455
+      ExplicitLeft = 455
+    end
+    inherited BtnSair: TBitBtn
+      Left = 599
+      ExplicitLeft = 599
+    end
+    inherited BtnCancelar: TBitBtn
+      Left = 323
+      Top = 4
+      ExplicitLeft = 323
+      ExplicitTop = 4
+    end
+    object BtnItens: TBitBtn
+      Left = 315
+      Top = 4
+      Width = 89
+      Height = 38
+      Caption = 'Itens'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 7
+      OnClick = BtnItensClick
+    end
   end
 end

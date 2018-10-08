@@ -87,7 +87,6 @@ end;
 constructor TControllerItensTabelaPrecoMatMed.Create;
 begin
   FConexao := TConexao.Create;
-//  FRegistros := TDataSet.Create(nil);
   FDataSource := TDataSource.Create(nil);
   FModel := TItens_Tabela_Preco_Matmed.Create;
   FMatMed := TMatMed.Create;
@@ -98,12 +97,11 @@ end;
 destructor TControllerItensTabelaPrecoMatMed.Destroy;
 begin
   inherited;
-//  FRegistros.Free;
-  FDataSource.Free;
-  FModel.Free;
-  FDao.Free;
-  FMatMed.Free;
-  FConexao.Free;
+  FreeAndNil(FDataSource);
+  FreeAndNil(FModel);
+  FreeAndNil(FDao);
+  FreeAndNil(FMatMed);
+  FreeAndNil(FConexao);
 end;
 
 function TControllerItensTabelaPrecoMatMed.ExcluirItem: Boolean;
@@ -124,7 +122,7 @@ end;
 
 function TControllerItensTabelaPrecoMatMed.ExcluirTodos: Boolean;
 begin
-  if not(MessageDlg('Deseja realmente inativar o registro selecionado?'+#13+#13+
+  if not(MessageDlg('Deseja realmente excluir todos os itens da tabela?'+#13+#13+
     'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes) then
       Exit
   else
@@ -150,9 +148,17 @@ end;
 
 function TControllerItensTabelaPrecoMatMed.IncluirItem: Boolean;
 begin
+  if ConsultarItemTabelaMatMed(0,FModel.Id_MatMed) then
+  begin
+    MessageDlg('Item já está na tabela!',mtInformation,[mbOk],0);
+    Result := False;
+    Exit;
+  end;
+
   if (Model.Id_MatMed <= 0) and (Model.Valor <= 0) then
   begin
     MessageDlg('MatMed ou Valor para o item na tabela não informado!',mtWarning,[mbOk],0);
+    Result := False;
     Exit;
   end;
 

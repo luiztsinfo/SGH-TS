@@ -276,7 +276,6 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
     Height = 64
     Align = alTop
     TabOrder = 2
-    ExplicitTop = 193
     object Label2: TLabel
       Left = 280
       Top = 3
@@ -293,7 +292,7 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
     object Label6: TLabel
       Left = 540
       Top = 38
-      Width = 57
+      Width = 41
       Height = 13
       Caption = ' - Enter'
       Font.Charset = DEFAULT_CHARSET
