@@ -10,11 +10,16 @@ inherited frmMatMeds: TfrmMatMeds
   inherited PgCtrlCadastro: TPageControl
     Width = 721
     Height = 339
-    ActivePage = TbShCadastro
+    ExplicitWidth = 721
+    ExplicitHeight = 339
     inherited TbShConsulta: TTabSheet
+      ExplicitWidth = 713
+      ExplicitHeight = 311
       inherited PnDados: TPanel
         Width = 713
         Height = 244
+        ExplicitWidth = 713
+        ExplicitHeight = 244
         inherited GrdDados: TDBGrid
           Width = 707
           Height = 238
@@ -47,6 +52,7 @@ inherited frmMatMeds: TfrmMatMeds
       end
       inherited PnFiltro: TPanel
         Width = 713
+        ExplicitWidth = 713
         inherited CbxConsulta: TComboBox
           ItemIndex = 2
           Text = 'DESCRICAO'
@@ -66,14 +72,13 @@ inherited frmMatMeds: TfrmMatMeds
       end
     end
     inherited TbShCadastro: TTabSheet
-      ExplicitWidth = 639
-      ExplicitHeight = 287
+      ExplicitWidth = 713
+      ExplicitHeight = 311
       inherited PnCampos: TPanel
         Width = 713
         Height = 311
-        ExplicitTop = -2
         ExplicitWidth = 713
-        ExplicitHeight = 330
+        ExplicitHeight = 311
         object Label1: TLabel
           Left = 16
           Top = 16
@@ -417,5 +422,7 @@ inherited frmMatMeds: TfrmMatMeds
   inherited PnBotoes: TPanel
     Top = 339
     Width = 721
+    ExplicitTop = 339
+    ExplicitWidth = 721
   end
 end

@@ -6,7 +6,7 @@ uses
   Lca.Orm.base, Lca.Orm.Atributos;
 
 type
-  [attTabela('itens_tabela_preco_matmed')]
+  [attTabela('faturamento.itens_tabela_preco_matmed')]
   TItens_Tabela_Preco_Matmed = class(TTabela)
     private
       FValor: Double;

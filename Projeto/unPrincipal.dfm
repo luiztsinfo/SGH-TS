@@ -2,7 +2,7 @@ object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
   AutoSize = True
-  Caption = 'SISTEMA DE GEST'#195'O HOSPITAL - HNSDD'
+  Caption = 'SISTEMA DE GEST'#195'O HOSPITALAR - HNSDD'
   ClientHeight = 403
   ClientWidth = 809
   Color = 16758639

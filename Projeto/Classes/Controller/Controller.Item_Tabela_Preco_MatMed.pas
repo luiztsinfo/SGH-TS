@@ -2,94 +2,200 @@ unit Controller.Item_Tabela_Preco_MatMed;
 
 interface
 
-uses Model.Itens_Tabela_Preco_Matmed, Data.DB, FireDAC.Comp.Client;
+uses Model.Itens_Tabela_Preco_Matmed, Data.DB, FireDAC.Comp.Client, Vcl.Dialogs,
+  Vcl.Controls, Lca.Orm.Comp.FireDac, Model.MatMed, Conexao;
 
 type
   TControllerItensTabelaPrecoMatMed = class
 
     private
-      FQuery: TFDQuery;
+      FRegistros: TDataSet;
       FDataSource: TDataSource;
       FModel: TItens_Tabela_Preco_Matmed;
+      FDao: TDaoFiredac;
+      FMatMed: TMatMed;
+      FConexao: TConexao;
 
       FIDTabelaMatMed: integer;
+    public
       constructor Create;
       destructor Destroy; override;
-    public
-      property IDTabelaMatMed: integer read FIDTabelaMatMed write FIDTabelaMatMed;
-    protected
-      function MostrarTodosItens: Boolean;
-      function ConsultarItensTabelaMatMed(pDescricao: string): Boolean;
-      function ConsultarItemTabelaMatMed(pIDMatMed: integer): Boolean;
-      function IncluirItem(pIDMatMed: integer; pValor: Double): Boolean;
-      function ExcluirItem(pID: integer): Boolean;
+
+      function GetDescricaoMatMed(AID: Integer;iOperacao: integer): string;
+      function MostrarTodosItens(pIDTabela: integer): Boolean;
+      function ConsultarItemTabelaMatMed(pTipoConsulta: integer;pValue: Variant): Boolean;
+      function IncluirItem: Boolean;
+      function ExcluirItem: Boolean;
       function ExcluirTodos: Boolean;
+      property IDTabelaMatMed: integer read FIDTabelaMatMed write FIDTabelaMatMed;
+      property Model: TItens_Tabela_Preco_Matmed read FModel write FModel;
+      property DataSource: TDataSource read FDataSource write FDataSource;
   end;
 
 implementation
 
+uses
+  System.SysUtils;
+
 { TControllerItensTabelaPrecoMatMed }
 
 function TControllerItensTabelaPrecoMatMed.ConsultarItemTabelaMatMed(
-  pIDMatMed: integer): Boolean;
+  pTipoConsulta: integer; pValue: Variant): Boolean;
+var
+  ConsultaSQL: TStringBuilder;
+  Params: array[0..1] of Variant;
 begin
+  ConsultaSQL := TStringBuilder.Create;
+  Params[0] := IDTabelaMatMed;
+
   try
-    FQuery.Close;
-    FQuery.SQL.Clear;
-    FQuery.SQL.Add('SELECT itens.id_matmed, matmed.descricao, itens.valor');
-    FQuery.SQL.Add('FROM itens_tabela_preco_matmed itens');
-    FQuery.SQL.Add('INNER JOIN matmed');
-    FQuery.SQL.Add('ON matmed.id = itens.id_matmed');
-    FQuery.SQL.Add('WHERE itens.id_matmed = :id_matmed');
-    FQuery.ParamByName('id_matmed').AsInteger := pIDMatMed;
-    FQuery.Open;
-    Result := true;
+    ConsultaSQL.Append(' SELECT it.id_matmed, mm.descricao, it.valor');
+    ConsultaSQL.Append(' FROM faturamento.itens_tabela_preco_matmed it');
+    ConsultaSQL.Append(' INNER JOIN estoque.matmed mm');
+    ConsultaSQL.Append(' ON mm.id = it.id_matmed');
+    ConsultaSQL.Append(' WHERE it.id_tabela_preco_matmed = :param1');
+
+    if pTipoConsulta = 0 then
+    begin
+      Params[1] := StrToInt(pValue);
+      ConsultaSQL.Append(' AND it.id_matmed = :param2')
+    end
+    else
+    begin
+      if pValue <> trim('') then
+      begin
+        Params[1] := '%' + pValue + '%';
+        ConsultaSQL.Append(' AND mm.descricao LIKE :param2');
+      end
+      else
+        Params[1] := '';
+    end;
+
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,Params);
+    FDataSource.DataSet := FRegistros;
+    FreeAndNil(ConsultaSQL);
+    Result := True;
   except
-    Result := false;
-    // mensagem de erro aqui.
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao consultar item na tabela de preço!' +#13+ e.Message);
+      Result := False;
+    end;
   end;
-end;
-
-function TControllerItensTabelaPrecoMatMed.ConsultarItensTabelaMatMed(
-  pDescricao: string): Boolean;
-begin
-
 end;
 
 constructor TControllerItensTabelaPrecoMatMed.Create;
 begin
-  FQuery := TDataSet.Create(nil);
+  FConexao := TConexao.Create;
+//  FRegistros := TDataSet.Create(nil);
   FDataSource := TDataSource.Create(nil);
   FModel := TItens_Tabela_Preco_Matmed.Create;
+  FMatMed := TMatMed.Create;
+  FDao := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
 end;
 
 destructor TControllerItensTabelaPrecoMatMed.Destroy;
 begin
-  FQuery.Free;
+  inherited;
+//  FRegistros.Free;
   FDataSource.Free;
   FModel.Free;
-  inherited;
+  FDao.Free;
+  FMatMed.Free;
+  FConexao.Free;
 end;
 
-function TControllerItensTabelaPrecoMatMed.ExcluirItem(pID: integer): Boolean;
+function TControllerItensTabelaPrecoMatMed.ExcluirItem: Boolean;
 begin
-
+  try
+    Model.Id_MatMed := FRegistros.FieldByName('id_matmed').AsInteger;
+    Model.Id_tabela_preco_matmed := IDTabelaMatMed;
+    FDao.Excluir(FModel,['id_tabela_preco_matmed','id_matmed']);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao excluir item!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
 end;
 
 function TControllerItensTabelaPrecoMatMed.ExcluirTodos: Boolean;
 begin
-
+  if not(MessageDlg('Deseja realmente inativar o registro selecionado?'+#13+#13+
+    'Processo irreversível!',mtInformation,[mbYes,mbNo],0)=mrYes) then
+      Exit
+  else
+  try
+    Model.Id_tabela_preco_matmed := IDTabelaMatMed;
+    FDao.Excluir(FModel,['id_tabela_preco_matmed']);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro excluir todos os itens da tabela!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
 end;
 
-function TControllerItensTabelaPrecoMatMed.IncluirItem(pIDMatMed: integer;
-  pValor: Double): Boolean;
+function TControllerItensTabelaPrecoMatMed.GetDescricaoMatMed(AID,
+  iOperacao: integer): string;
 begin
-
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FMatMed,'descricao','id',AID,iOperacao);
 end;
 
-function TControllerItensTabelaPrecoMatMed.MostrarTodosItens: Boolean;
+function TControllerItensTabelaPrecoMatMed.IncluirItem: Boolean;
 begin
+  if (Model.Id_MatMed <= 0) and (Model.Valor <= 0) then
+  begin
+    MessageDlg('MatMed ou Valor para o item na tabela não informado!',mtWarning,[mbOk],0);
+    Exit;
+  end;
 
+  try
+    Model.Id := FDao.GetID(Model,'id');
+    if FDao.Inserir(FModel) > 0 then
+      Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao incluir item na tabela de preço!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
+end;
+
+function TControllerItensTabelaPrecoMatMed.MostrarTodosItens(pIDTabela: integer): Boolean;
+var
+  ConsultaSQL: TStringBuilder;
+  Params : array[0..0] of Variant;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+  Params[0] := pIDTabela;
+
+  try
+    ConsultaSQL.Append(' SELECT it.id_matmed, mm.descricao, it.valor');
+    ConsultaSQL.Append(' FROM faturamento.itens_tabela_preco_matmed it');
+    ConsultaSQL.Append(' INNER JOIN estoque.matmed mm');
+    ConsultaSQL.Append(' ON mm.id = it.id_matmed');
+    ConsultaSQL.Append(' WHERE it.id_tabela_preco_matmed = :param1');
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,Params);
+    TNumericField(FRegistros.FieldByName('valor')).DisplayFormat := ',0.00;-,0.00';
+    FDataSource.DataSet := FRegistros;
+    FreeAndNil(ConsultaSQL);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao mostrar todos os itens da Tabela de Preço!' +#13+ e.Message);
+      FreeAndNil(ConsultaSQL);
+      Result := False;
+    end;
+  end;
 end;
 
 end.

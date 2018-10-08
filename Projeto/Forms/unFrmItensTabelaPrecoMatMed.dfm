@@ -14,7 +14,10 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PnDadosTabela: TPanel
@@ -24,7 +27,6 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
     Height = 49
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 616
     object lblTabelaPreco: TLabel
       Left = 8
       Top = 13
@@ -43,10 +45,9 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
     Left = 0
     Top = 49
     Width = 716
-    Height = 144
+    Height = 96
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 616
     object Label1: TLabel
       Left = 8
       Top = 8
@@ -55,8 +56,8 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
       Caption = 'C'#243'd. Inicial'
     end
     object lblMatMedFinal: TLabel
-      Left = 135
-      Top = 67
+      Left = 374
+      Top = 66
       Width = 338
       Height = 16
       AutoSize = False
@@ -66,13 +67,15 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      Visible = False
     end
     object Label3: TLabel
-      Left = 8
-      Top = 49
+      Left = 247
+      Top = 52
       Width = 48
       Height = 13
       Caption = 'C'#243'd. Final'
+      Visible = False
     end
     object lblMatMedInicial: TLabel
       Left = 135
@@ -100,6 +103,13 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
       Font.Style = [fsBold, fsItalic]
       ParentFont = False
     end
+    object Label5: TLabel
+      Left = 8
+      Top = 55
+      Width = 24
+      Height = 13
+      Caption = 'Valor'
+    end
     object edtCodInicial: TEdit
       Left = 8
       Top = 24
@@ -107,14 +117,17 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
       Height = 21
       NumbersOnly = True
       TabOrder = 0
+      OnExit = edtCodInicialExit
     end
     object edtCodFinal: TEdit
-      Left = 8
-      Top = 65
+      Left = 247
+      Top = 68
       Width = 81
       Height = 21
       NumbersOnly = True
       TabOrder = 1
+      Visible = False
+      OnExit = edtCodFinalExit
     end
     object BtnBuscaMatMedInicial: TBitBtn
       Left = 96
@@ -156,11 +169,12 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
         A2FC62504B900404031000000002000000000000000000000000000000000000
         000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
         1F3E000000060000000100000000000000000000000000000000}
-      TabOrder = 3
+      TabOrder = 4
+      OnClick = BtnBuscaMatMedInicialClick
     end
     object BtnBuscaMatMedFinal: TBitBtn
-      Left = 96
-      Top = 65
+      Left = 335
+      Top = 68
       Width = 33
       Height = 21
       Glyph.Data = {
@@ -198,11 +212,13 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
         A2FC62504B900404031000000002000000000000000000000000000000000000
         000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
         1F3E000000060000000100000000000000000000000000000000}
-      TabOrder = 4
+      TabOrder = 5
+      Visible = False
+      OnClick = BtnBuscaMatMedFinalClick
     end
     object BtnIncluirItem: TBitBtn
-      Left = 8
-      Top = 97
+      Left = 135
+      Top = 66
       Width = 89
       Height = 25
       Caption = 'Incluir Iten'#39's'
@@ -241,22 +257,45 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
         B9FFE3C5A3FFC59973F24C392A67000000060000000100000000000000000000
         000000000001000000022019122C6C543E89A47E5FCCC59770F1C19570EEA47E
         60CD6C543F8B16110D2200000003000000010000000000000000}
+      TabOrder = 3
+      OnClick = BtnIncluirItemClick
+    end
+    object edtValor: TEdit
+      Left = 8
+      Top = 70
+      Width = 81
+      Height = 21
       TabOrder = 2
+      Text = '0,00'
     end
   end
   object PnConsultaItem: TPanel
     Left = 0
-    Top = 193
+    Top = 145
     Width = 716
     Height = 64
     Align = alTop
     TabOrder = 2
+    ExplicitTop = 193
     object Label2: TLabel
       Left = 280
       Top = 3
       Width = 157
       Height = 13
       Caption = 'Consulta de Itens na Tabela'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 540
+      Top = 38
+      Width = 57
+      Height = 13
+      Caption = ' - Enter'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -284,22 +323,21 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
       Height = 21
       CharCase = ecUpperCase
       TabOrder = 1
+      OnKeyDown = edtConsultaKeyDown
     end
   end
   object PnItens: TPanel
     Left = 0
-    Top = 257
+    Top = 209
     Width = 716
-    Height = 255
+    Height = 304
     Align = alTop
     TabOrder = 3
-    ExplicitTop = 241
-    ExplicitWidth = 616
     object GrdItensMatMed: TDBGrid
       Left = 0
       Top = 0
       Width = 609
-      Height = 249
+      Height = 305
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -376,6 +414,7 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
         000000000000000000031213232D40437D935D61B5D07378DFFC7378DFFC5D61
         B5D040437D951212223000000004000000010000000000000000}
       TabOrder = 1
+      OnClick = BtnExcluirItemClick
     end
     object BtnExcluirTudo: TBitBtn
       Left = 613
@@ -419,6 +458,7 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
         94FFCFA393FFCEA393FFCEA393FFCEA292FFCEA292FFCDA292FFCDA191FFCDA0
         90FFCCA090FFCC9F8FFFCB9E8EFFCB9E8EFF967569C000000003}
       TabOrder = 2
+      OnClick = BtnExcluirTudoClick
     end
   end
   object StatusBar1: TStatusBar
@@ -434,8 +474,5 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
         Text = 'Sair - ESC'
         Width = 50
       end>
-    ExplicitLeft = 400
-    ExplicitTop = 512
-    ExplicitWidth = 0
   end
 end

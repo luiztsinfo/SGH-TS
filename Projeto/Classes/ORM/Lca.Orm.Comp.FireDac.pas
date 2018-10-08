@@ -700,7 +700,7 @@ begin
     sql.Clear;
     sql.Add('select max(' + ACampo + ') from ' + TAtributos.Get.PegaNomeTab(ATabela));
     Open;
-    SQL.SaveToFile('C:\logs\logs.sql');
+    SQL.SaveToFile('C:\logs\logs.txt');
     Result := fields[0].AsInteger + 1;
   end;
 end;

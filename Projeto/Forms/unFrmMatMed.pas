@@ -46,6 +46,7 @@ type
     procedure BtnBuscaUnidadeMedidaClick(Sender: TObject);
     procedure BtnBuscaGrupoClick(Sender: TObject);
     procedure BtnBuscaLocalClick(Sender: TObject);
+    procedure GrdDadosDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,11 +65,16 @@ implementation
 
 procedure TFrmMatMeds.alimentaModel;
 var
-  vGrupo, vUnidade, vLocal: integer;
+  vGrupo, vUnidade, vLocal, vCodInterno: integer;
 begin
   inherited;
   TControllerMatMed(FController).Model.Descricao := edtDescricao.Text;
-  TControllerMatMed(FController).Model.Cod_Interno := StrToInt(edtCodInterno.Text);
+
+  if TryStrToInt(edtCodInterno.Text,vCodInterno) then
+    TControllerMatMed(FController).Model.Cod_Interno := StrToInt(edtCodInterno.Text)
+  else
+    TControllerMatMed(FController).Model.Cod_Interno := 0;
+
   TControllerMatMed(FController).Model.Estoque_minimo := StrToFloat(edtEstoqueMinimo.Text);
   TControllerMatMed(FController).Model.Custo_medio := StrToFloat(edtCustoMedio.Text);
   TControllerMatMed(FController).Model.Controlado := CbxControlado.ItemIndex;
@@ -222,6 +228,16 @@ procedure TFrmMatMeds.FormCreate(Sender: TObject);
 begin
   FController := TControllerMatMed.Create;
   inherited;
+end;
+
+procedure TFrmMatMeds.GrdDadosDblClick(Sender: TObject);
+begin
+  inherited;
+  if (FTipoOperacao = toConsulta) then
+    begin
+      FValueFieldKey := TControllerMatMed(FController).Model.Id;
+      Self.Close;
+    end;
 end;
 
 procedure TFrmMatMeds.TbShCadastroShow(Sender: TObject);

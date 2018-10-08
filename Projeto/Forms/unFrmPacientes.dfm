@@ -73,6 +73,9 @@ inherited frmPacientes: TfrmPacientes
       end
     end
     inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 814
       ExplicitHeight = 526
       inherited PnCampos: TPanel
         Height = 526
