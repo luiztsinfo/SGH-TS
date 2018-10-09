@@ -111,8 +111,8 @@ object frmItensTabelaPrecoMatMed: TfrmItensTabelaPrecoMatMed
       Caption = 'Valor'
     end
     object edtCodInicial: TEdit
-      Left = 8
-      Top = 24
+      Left = 9
+      Top = 27
       Width = 81
       Height = 21
       NumbersOnly = True

@@ -742,6 +742,7 @@ begin
   frmConsumosAtendimentos := TfrmConsumosAtendimentos.Create(nil);
   try
     frmFundo.Show;
+    frmConsumosAtendimentos.edtAtendimento.Text := FController.Model.Id.ToString;
     frmConsumosAtendimentos.ShowModal;
   finally
     frmFundo.Hide;

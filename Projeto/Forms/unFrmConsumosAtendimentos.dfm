@@ -4,7 +4,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = '::. CONSUMOS DO ATENDIMENTO .::'
-  ClientHeight = 562
+  ClientHeight = 590
   ClientWidth = 818
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,16 +15,20 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PnConsulta: TPanel
     Left = 0
     Top = 0
     Width = 818
-    Height = 65
+    Height = 83
     Align = alTop
     TabOrder = 0
+    ExplicitLeft = -1
     object Label1: TLabel
       Left = 8
       Top = 8
@@ -52,16 +56,48 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       Height = 50
     end
     object Label2: TLabel
-      Left = 424
-      Top = 8
-      Width = 24
-      Height = 13
+      Left = 8
+      Top = 54
+      Width = 30
+      Height = 14
       Caption = 'Tipo:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object lblTipoAtendimento: TLabel
-      Left = 440
-      Top = 28
+      Left = 88
+      Top = 54
       Width = 124
+      Height = 16
+      AutoSize = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 427
+      Top = 29
+      Width = 64
+      Height = 16
+      Caption = 'Conv'#234'nio:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblConvenio: TLabel
+      Left = 499
+      Top = 29
+      Width = 304
       Height = 16
       AutoSize = False
       Font.Charset = DEFAULT_CHARSET
@@ -78,15 +114,17 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       Height = 21
       NumbersOnly = True
       TabOrder = 0
+      OnExit = edtAtendimentoExit
     end
   end
   object PnTituloMatMed: TPanel
     Left = 0
-    Top = 65
+    Top = 83
     Width = 818
     Height = 24
     Align = alTop
     TabOrder = 1
+    ExplicitTop = 65
     object Label3: TLabel
       Left = 8
       Top = 6
@@ -103,11 +141,12 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
   end
   object PnTituloServicos: TPanel
     Left = 0
-    Top = 267
+    Top = 285
     Width = 818
     Height = 24
     Align = alTop
     TabOrder = 2
+    ExplicitTop = 267
     object Label4: TLabel
       Left = 8
       Top = 6
@@ -124,11 +163,12 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
   end
   object PnItem: TPanel
     Left = 0
-    Top = 89
+    Top = 107
     Width = 818
     Height = 45
     Align = alTop
     TabOrder = 3
+    ExplicitTop = 89
     object Label5: TLabel
       Left = 8
       Top = 0
@@ -139,7 +179,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     object lblMatMed: TLabel
       Left = 122
       Top = 21
-      Width = 431
+      Width = 295
       Height = 16
       AutoSize = False
       Font.Charset = DEFAULT_CHARSET
@@ -150,11 +190,32 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       ParentFont = False
     end
     object Label6: TLabel
-      Left = 639
-      Top = 0
+      Left = 415
+      Top = 2
       Width = 56
       Height = 13
       Caption = 'Quantidade'
+    end
+    object Label10: TLabel
+      Left = 641
+      Top = 2
+      Width = 70
+      Height = 13
+      Caption = 'Data Consumo'
+    end
+    object Label12: TLabel
+      Left = 487
+      Top = 2
+      Width = 50
+      Height = 13
+      Caption = 'Valor Unit.'
+    end
+    object Label14: TLabel
+      Left = 567
+      Top = 2
+      Width = 51
+      Height = 13
+      Caption = 'Valor Total'
     end
     object edtIDMatMed: TEdit
       Left = 8
@@ -163,6 +224,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       Height = 21
       NumbersOnly = True
       TabOrder = 0
+      OnExit = edtIDMatMedExit
     end
     object BtnBuscaMatMed: TBitBtn
       Left = 88
@@ -204,15 +266,16 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         A2FC62504B900404031000000002000000000000000000000000000000000000
         000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
         1F3E000000060000000100000000000000000000000000000000}
-      TabOrder = 1
+      TabOrder = 6
+      OnClick = BtnBuscaMatMedClick
     end
     object edtQuantidade: TEdit
-      Left = 639
-      Top = 16
+      Left = 415
+      Top = 19
       Width = 66
       Height = 21
       NumbersOnly = True
-      TabOrder = 2
+      TabOrder = 1
       Text = '1'
     end
     object BtnIncluirMatMed: TBitBtn
@@ -221,16 +284,46 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       Width = 75
       Height = 25
       Caption = 'Incluir'
+      TabOrder = 5
+      OnClick = BtnIncluirMatMedClick
+    end
+    object mskDataConsumoMatMed: TMaskEdit
+      Left = 641
+      Top = 19
+      Width = 81
+      Height = 21
+      EditMask = '99/99/9999;1;_'
+      MaxLength = 10
+      TabOrder = 4
+      Text = '  /  /    '
+    end
+    object edtValorUnitMatMed: TEdit
+      Left = 487
+      Top = 19
+      Width = 74
+      Height = 21
+      TabOrder = 2
+      Text = '0,00'
+      OnExit = edtValorUnitMatMedExit
+    end
+    object edtValorTotalMatMed: TEdit
+      Left = 567
+      Top = 19
+      Width = 68
+      Height = 21
       TabOrder = 3
+      Text = '0,00'
+      OnExit = edtValorTotalMatMedExit
     end
   end
   object PnMatMeds: TPanel
     Left = 0
-    Top = 134
+    Top = 152
     Width = 818
     Height = 133
     Align = alTop
     TabOrder = 4
+    ExplicitTop = 134
     object GrdMatMeds: TDBGrid
       Left = 1
       Top = 1
@@ -243,15 +336,67 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'ID_MATMED'
+          Title.Alignment = taCenter
+          Title.Caption = 'ID MatMed'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MATMED'
+          Title.Alignment = taCenter
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 378
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'VALOR'
+          Title.Alignment = taCenter
+          Title.Caption = 'Unit'#225'rio'
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'QUANTIDADE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Qtd.'
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'VALOR_TOTAL'
+          Title.Alignment = taCenter
+          Title.Caption = 'Total'
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'DATA_CONSUMO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Data Consumo'
+          Width = 99
+          Visible = True
+        end>
     end
   end
   object PnServico: TPanel
     Left = 0
-    Top = 291
+    Top = 309
     Width = 818
     Height = 45
     Align = alTop
     TabOrder = 5
+    ExplicitLeft = -1
+    ExplicitTop = 313
     object Label7: TLabel
       Left = 8
       Top = 3
@@ -262,7 +407,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     object lblProcedimento: TLabel
       Left = 122
       Top = 23
-      Width = 424
+      Width = 287
       Height = 16
       AutoSize = False
       Font.Charset = DEFAULT_CHARSET
@@ -273,11 +418,32 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       ParentFont = False
     end
     object Label9: TLabel
-      Left = 639
-      Top = 0
+      Left = 415
+      Top = 3
       Width = 56
       Height = 13
       Caption = 'Quantidade'
+    end
+    object Label11: TLabel
+      Left = 487
+      Top = 3
+      Width = 70
+      Height = 13
+      Caption = 'Data Consumo'
+    end
+    object Label13: TLabel
+      Left = 574
+      Top = 3
+      Width = 50
+      Height = 13
+      Caption = 'Valor Unit.'
+    end
+    object Label15: TLabel
+      Left = 654
+      Top = 3
+      Width = 51
+      Height = 13
+      Caption = 'Valor Total'
     end
     object BtnIncluirTaxaServico: TBitBtn
       Left = 728
@@ -296,8 +462,8 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       TabOrder = 1
     end
     object edtQuantidadeProcedimento: TEdit
-      Left = 639
-      Top = 16
+      Left = 415
+      Top = 19
       Width = 66
       Height = 21
       TabOrder = 2
@@ -345,14 +511,41 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         1F3E000000060000000100000000000000000000000000000000}
       TabOrder = 3
     end
+    object mskDataConsumoProcedimento: TMaskEdit
+      Left = 487
+      Top = 19
+      Width = 80
+      Height = 21
+      EditMask = '99/99/9999;1;_'
+      MaxLength = 10
+      TabOrder = 4
+      Text = '  /  /    '
+    end
+    object edtValorUnitProcedimento: TEdit
+      Left = 574
+      Top = 18
+      Width = 74
+      Height = 21
+      TabOrder = 5
+      Text = '0,00'
+    end
+    object edtValorTotalProcedimento: TEdit
+      Left = 654
+      Top = 18
+      Width = 68
+      Height = 21
+      TabOrder = 6
+      Text = '0,00'
+    end
   end
   object PnTaxasServicos: TPanel
     Left = 0
-    Top = 336
+    Top = 354
     Width = 818
     Height = 169
     Align = alTop
     TabOrder = 6
+    ExplicitTop = 336
     object GrdTaxasServicos: TDBGrid
       Left = 1
       Top = 1
@@ -369,11 +562,12 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
   end
   object PnBotoes: TPanel
     Left = 0
-    Top = 511
+    Top = 539
     Width = 818
     Height = 51
     Align = alBottom
     TabOrder = 7
+    ExplicitTop = 511
     object BtnConcluirFaturamento: TBitBtn
       Left = 160
       Top = 8

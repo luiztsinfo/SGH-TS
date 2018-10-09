@@ -140,7 +140,7 @@ uses
   unFrmOpcaoAtendimento in 'Forms\unFrmOpcaoAtendimento.pas' {frmOpcaoAtendimento},
   unFrmConsumosAtendimentos in 'Forms\unFrmConsumosAtendimentos.pas' {frmConsumosAtendimentos},
   unFrmFundo in 'Forms\unFrmFundo.pas' {frmFundo},
-  Controller.ConsumoAtendimento in 'Classes\Controller\Controller.ConsumoAtendimento.pas',
+  Controller.ConsumosAtendimento in 'Classes\Controller\Controller.ConsumosAtendimento.pas',
   Model.MatMed in 'Classes\Model\Model.MatMed.pas',
   unFrmMatMed in 'Forms\unFrmMatMed.pas' {frmMatMeds},
   Controller.MatMed in 'Classes\Controller\Controller.MatMed.pas',
@@ -158,7 +158,8 @@ uses
   unFrmItensTabelaPrecoProcedimento in 'Forms\unFrmItensTabelaPrecoProcedimento.pas' {frmItensTabelaPrecoProcedimento},
   Model.Itens_Tabela_Preco_Procedimento in 'Classes\Model\Model.Itens_Tabela_Preco_Procedimento.pas',
   unFrmItensTabelaPrecoMatMed in 'Forms\unFrmItensTabelaPrecoMatMed.pas' {frmItensTabelaPrecoMatMed},
-  Controller.Item_Tabela_Preco_Procedimento in 'Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas';
+  Controller.Item_Tabela_Preco_Procedimento in 'Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas',
+  Model.Itens_Atendimento in 'Classes\Model\Model.Itens_Atendimento.pas';
 
 {$R *.res}
 
@@ -170,6 +171,8 @@ begin
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.Run;
 end.
+
+
 
 
 

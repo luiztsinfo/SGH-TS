@@ -1,0 +1,19 @@
+unit Model.Itens_Atendimento;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('faturamento.itens_atendimento')]
+  TItens_Atendimento = class(TTabela)
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

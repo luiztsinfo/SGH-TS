@@ -4,6 +4,10 @@ interface
 
 const
 
+  // TIPO ITEM CONSUMO - ATENDIMENTO
+  iTpMatMed = 1;
+  iTpProcedimento = 2;
+
   iTpAMBULATORIAL = 1;
   iTpINTERNACAO = 2;
 

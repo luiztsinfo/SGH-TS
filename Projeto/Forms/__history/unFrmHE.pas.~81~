@@ -1,0 +1,192 @@
+unit unFrmHE;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Mask,
+  Vcl.Buttons, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.HE, {unFrmPaciente, até criar novo cadastro de paciente}
+  unFrmColaboradores, unConstantes, Vcl.ComCtrls, Vcl.DBCtrls,
+  unFrmPreenchimentoHE, frxClass, frxDBSet, unDMRel;
+
+type
+  TfrmHE = class(TForm)
+    PnConsulta: TPanel;
+    PnDados: TPanel;
+    PnBotoes: TPanel;
+    Label1: TLabel;
+    CbxConsultaPor: TComboBox;
+    Label2: TLabel;
+    CbxOrdenarPor: TComboBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    mskInicial: TMaskEdit;
+    mskFinal: TMaskEdit;
+    Label5: TLabel;
+    edtConsulta: TEdit;
+    BtnConsultar: TBitBtn;
+    BtnIncluir: TBitBtn;
+    BtnModificar: TBitBtn;
+    BtnConcluir: TBitBtn;
+    BtnImprimirConsulta: TBitBtn;
+    BtnImprimirHistorico: TBitBtn;
+    BtnSair: TBitBtn;
+    GrdHistoricos: TDBGrid;
+    Label6: TLabel;
+    CbxFiltroData: TComboBox;
+    GrdPessoas: TDBGrid;
+    frxRptPrincipal: TfrxReport;
+    frxDBDsPrincipalHE: TfrxDBDataset;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure edtConsultaKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure GrdPessoasDblClick(Sender: TObject);
+    procedure GrdPessoasKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure CbxConsultaPorExit(Sender: TObject);
+    procedure BtnConsultarClick(Sender: TObject);
+    procedure BtnSairClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure GrdPessoasExit(Sender: TObject);
+    procedure edtConsultaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure BtnIncluirClick(Sender: TObject);
+    procedure BtnImprimirConsultaClick(Sender: TObject);
+  private
+    FControllerHE: TControllerHE;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmHE: TfrmHE;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmHE.GrdPessoasDblClick(Sender: TObject);
+begin
+  edtConsulta.Text := FControllerHE.FRegistrosPessoas.FieldByName('nome').AsString;
+  FControllerHE.FPessoa.Nome := FControllerHE.FRegistrosPessoas.FieldByName('nome').AsString;
+
+  case CbxConsultaPor.ItemIndex of
+    iCONSULTA_POR_PACIENTE:
+      FControllerHE.FModel.ID_Paciente := FControllerHE.FRegistrosPessoas.FieldByName('id').AsInteger;
+
+    iCONSULTA_POR_ENFERMEIRO:
+      FControllerHE.FModel.ID_Enfermeiro := FControllerHE.FRegistrosPessoas.FieldByName('id').AsInteger;
+  end;
+
+  GrdPessoas.Visible := false;
+  BtnConsultar.SetFocus;
+end;
+
+procedure TfrmHE.GrdPessoasExit(Sender: TObject);
+begin
+  GrdPessoas.Visible := false;
+end;
+
+procedure TfrmHE.GrdPessoasKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if ((key = VK_ESCAPE) or (Key = VK_RETURN)) then
+    GrdPessoasDblClick(self);
+end;
+
+procedure TfrmHE.BtnConsultarClick(Sender: TObject);
+begin
+  GrdPessoas.Visible := false;
+  FControllerHE.FPessoa.Nome := edtConsulta.Text;
+
+  FControllerHE.FDtInicial := StrToDateTime(mskInicial.Text);
+  FControllerHE.FDtFinal := StrToDateTime(mskFinal.Text);
+  FControllerHE.MostrarTodosHE(CbxConsultaPor.ItemIndex,CbxOrdenarPor.ItemIndex,CbxFiltroData.ItemIndex);
+end;
+
+procedure TfrmHE.BtnImprimirConsultaClick(Sender: TObject);
+begin
+  frxRptPrincipal.ShowReport();
+end;
+
+procedure TfrmHE.BtnIncluirClick(Sender: TObject);
+begin
+  try
+    frmPreenchimentoHE := TfrmPreenchimentoHE.Create(nil);
+    frmPreenchimentoHE.ShowModal;
+  finally
+    FreeAndNil(frmPreenchimentoHE);
+    FControllerHE.MostrarTodosHE(CbxConsultaPor.ItemIndex,CbxOrdenarPor.ItemIndex,CbxFiltroData.ItemIndex);
+  end;
+end;
+
+procedure TfrmHE.BtnSairClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TfrmHE.CbxConsultaPorExit(Sender: TObject);
+begin
+  if CbxConsultaPor.ItemIndex = iCONSULTA_POR_ID then
+    edtConsulta.NumbersOnly := true
+  else
+    edtConsulta.NumbersOnly := false;
+end;
+
+procedure TfrmHE.edtConsultaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_DOWN then
+    GrdPessoas.SetFocus;
+end;
+
+procedure TfrmHE.edtConsultaKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if ((edtConsulta.Text <> sVAZIO) and
+    ((CbxConsultaPor.ItemIndex = iCONSULTA_POR_PACIENTE) or
+    (CbxConsultaPor.ItemIndex = iCONSULTA_POR_ENFERMEIRO))) then
+    begin
+      GrdPessoas.Visible := True;
+      GrdPessoas.DataSource := FControllerHE.FDsPessoas;
+
+      case CbxConsultaPor.ItemIndex of
+        iCONSULTA_POR_PACIENTE: FControllerHE.FPessoa.Tipo_pessoa := sTIPO_PESSOA_PACIENTE;
+        iCONSULTA_POR_ENFERMEIRO: FControllerHE.FPessoa.Tipo_pessoa := sTIPO_PESSOA_COLABORADOR;
+      end;
+
+      FControllerHE.FPessoa.Situacao    := sATIVO;
+      FControllerHE.FPessoa.Nome        := '%'+edtConsulta.Text+'%';
+      FControllerHE.RetornaPessoaPorNome;
+    end;
+end;
+
+procedure TfrmHE.FormCreate(Sender: TObject);
+begin
+  FControllerHE := TControllerHE.Create;
+  GrdHistoricos.DataSource := FControllerHE.FDsHE;
+end;
+
+procedure TfrmHE.FormDestroy(Sender: TObject);
+begin
+  FControllerHE.Free;
+end;
+
+procedure TfrmHE.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_ESCAPE then
+    Self.Close;
+end;
+
+procedure TfrmHE.FormShow(Sender: TObject);
+begin
+  FControllerHE.FDtInicial := StrToDateTime(mskInicial.Text);
+  FControllerHE.FDtFinal   := StrToDateTime(mskFinal.Text);
+  FControllerHE.MostrarTodosHE(CbxConsultaPor.ItemIndex,CbxOrdenarPor.ItemIndex,CbxFiltroData.ItemIndex);
+end;
+
+end.

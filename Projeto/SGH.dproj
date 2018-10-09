@@ -296,7 +296,7 @@
         <DCCReference Include="Forms\unFrmFundo.pas">
             <Form>frmFundo</Form>
         </DCCReference>
-        <DCCReference Include="Classes\Controller\Controller.ConsumoAtendimento.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.ConsumosAtendimento.pas"/>
         <DCCReference Include="Classes\Model\Model.MatMed.pas"/>
         <DCCReference Include="Forms\unFrmMatMed.pas">
             <Form>frmMatMeds</Form>
@@ -327,6 +327,7 @@
             <Form>frmItensTabelaPrecoMatMed</Form>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas"/>
+        <DCCReference Include="Classes\Model\Model.Itens_Atendimento.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>

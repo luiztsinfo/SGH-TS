@@ -1,0 +1,37 @@
+unit Model.Itens_Atendimento;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('faturamento.itens_atendimento')]
+  TItens_Atendimento = class(TTabela)
+    private
+      FID_atendimento: integer;
+      FValor: Double;
+      FDataConsumo: TDateTime;
+      FId: integer;
+      FQuantidade: Double;
+      FExame: Integer;
+      FId_itens_tabela_procedimentos: integer;
+      FId_itens_tabela_matmed: integer;
+
+    public
+      [attPk]
+      property Id: integer read FId write FId;
+      property Id_itens_tabela_matmed : integer read FId_itens_tabela_matmed write
+        FId_itens_tabela_matmed;
+      property Id_itens_tabela_procedimentos : integer read FId_itens_tabela_procedimentos
+        write FId_itens_tabela_procedimentos;
+      property DataConsumo: TDateTime read FDataConsumo write FDataConsumo;
+      property Quantidade: Double read FQuantidade write FQuantidade;
+      property Valor: Double read FValor write FValor;
+      property Exame: Integer read FExame write FExame;
+      property Id_Atendimento: integer read FID_atendimento write FID_atendimento;
+  end;
+
+implementation
+
+end.

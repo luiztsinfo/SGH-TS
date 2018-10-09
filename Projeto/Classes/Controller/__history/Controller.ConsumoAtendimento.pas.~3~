@@ -1,0 +1,22 @@
+unit Controller.ConsumoAtendimento;
+
+interface
+
+uses
+  Conexao, Lca.Orm.Comp.FireDac, Model.Itens_Atendimento, Data.DB;
+
+type
+  TControllerConsumoAtendimento = class
+    private
+      FConexao: TConexao;
+      FDao: TDaoFireDac;
+      FModel: TItens_Atendimento;
+      FRegistros: TDataSet;
+      FDs: TDataSource;
+    public
+      function ConsultarDadosAtendimento(pID: integer): string;
+  end;
+
+implementation
+
+end.
