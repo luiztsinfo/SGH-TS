@@ -1,0 +1,226 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'SISTEMA DE GEST'#195'O HOSPITALAR - HNSDD'
+  ClientHeight = 408
+  ClientWidth = 871
+  Color = 16758639
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MnMnuPrincipal
+  OldCreateOrder = True
+  Position = poDefault
+  PrintScale = poNone
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 698
+    Top = 381
+    Width = 165
+    Height = 19
+    Caption = 'Deus acima de tudo!'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 871
+    Height = 97
+    Align = alTop
+    TabOrder = 0
+    object SpeedButton1: TSpeedButton
+      Left = 16
+      Top = 8
+      Width = 89
+      Height = 81
+      Caption = 'Pacientes'
+      Flat = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
+    end
+    object SpeedButton2: TSpeedButton
+      Left = 128
+      Top = 8
+      Width = 97
+      Height = 81
+      Caption = 'Atendimentos'
+      Flat = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
+    end
+  end
+  object MnMnuPrincipal: TMainMenu
+    OwnerDraw = True
+    Left = 72
+    Top = 120
+    object Cadastros1: TMenuItem
+      Caption = 'Cadastros'
+      object Pacientes1: TMenuItem
+        Caption = 'Pacientes'
+        OnClick = Pacientes1Click
+      end
+      object ResponsveldePaciente1: TMenuItem
+        Caption = 'Respons'#225'vel de Paciente'
+        OnClick = ResponsveldePaciente1Click
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object Colaboradores1: TMenuItem
+        Caption = 'Colaboradores'
+        OnClick = Colaboradores1Click
+      end
+      object abelas1: TMenuItem
+        Caption = 'Tabelas'
+        object Religies1: TMenuItem
+          Caption = 'Religi'#245'es'
+          OnClick = Religies1Click
+        end
+        object Cirurgias1: TMenuItem
+          Caption = 'Cirurgias'
+          OnClick = Cirurgias1Click
+        end
+        object Nacionalidades1: TMenuItem
+          Caption = 'Nacionalidades'
+          OnClick = Nacionalidades1Click
+        end
+        object CIdades1: TMenuItem
+          Caption = 'CIdades'
+          OnClick = CIdades1Click
+        end
+        object N1: TMenuItem
+          Caption = '-'
+        end
+        object GruposCID1: TMenuItem
+          Caption = 'Grupos CID'
+          OnClick = GruposCID1Click
+        end
+        object CID1: TMenuItem
+          Caption = 'CID'
+          OnClick = CID1Click
+        end
+      end
+      object Faturamento1: TMenuItem
+        Caption = 'Faturamento'
+        object abeladePreosProcedimentos1: TMenuItem
+          Caption = 'Tabela de Pre'#231'os - Procedimentos'
+          OnClick = abeladePreosProcedimentos1Click
+        end
+        object abeladePreosMatMed1: TMenuItem
+          Caption = 'Tabela de Pre'#231'os - MatMed'
+          OnClick = abeladePreosMatMed1Click
+        end
+        object N2: TMenuItem
+          Caption = '-'
+        end
+        object Convnios1: TMenuItem
+          Caption = 'Conv'#234'nios'
+          OnClick = Convnios1Click
+        end
+        object N3: TMenuItem
+          Caption = '-'
+        end
+        object Procedimentos1: TMenuItem
+          Caption = 'Procedimentos'
+          OnClick = Procedimentos1Click
+        end
+      end
+      object Fornecedores1: TMenuItem
+        Caption = 'Fornecedores'
+        OnClick = Fornecedores1Click
+      end
+      object Estoque1: TMenuItem
+        Caption = 'Estoque'
+        object MatMeds1: TMenuItem
+          Caption = 'MatMed'#39's'
+          OnClick = MatMeds1Click
+        end
+        object UnidadesdeMedida1: TMenuItem
+          Caption = 'Unidades de Medida'
+          OnClick = UnidadesdeMedida1Click
+        end
+        object Grupos1: TMenuItem
+          Caption = 'Grupos'
+          OnClick = Grupos1Click
+        end
+        object Locais1: TMenuItem
+          Caption = 'Locais'
+          OnClick = Locais1Click
+        end
+      end
+      object N01: TMenuItem
+        Caption = '-'
+      end
+      object Setores1: TMenuItem
+        Caption = 'Setores'
+        OnClick = Setores1Click
+      end
+      object Quartos1: TMenuItem
+        Caption = 'Quartos'
+        OnClick = Quartos1Click
+      end
+      object Leitos1: TMenuItem
+        Caption = 'Leitos'
+        OnClick = Leitos1Click
+      end
+    end
+    object Atendimentos1: TMenuItem
+      Caption = 'Atendimentos'
+      object Ambulatoriais1: TMenuItem
+        Caption = 'Ambulatoriais'
+        OnClick = Ambulatoriais1Click
+      end
+      object Internao1: TMenuItem
+        Caption = 'Interna'#231#227'o'
+        OnClick = Internao1Click
+      end
+    end
+    object Enfermagem2: TMenuItem
+      Caption = 'Enfermagem'
+      object Cadastros2: TMenuItem
+        Caption = 'Cadastros'
+        object Prescries1: TMenuItem
+          Caption = 'Prescri'#231#245'es'
+          OnClick = Prescries1Click
+        end
+        object Antecedentes1: TMenuItem
+          Caption = 'Antecedentes'
+          OnClick = Antecedentes1Click
+        end
+        object Alergias1: TMenuItem
+          Caption = 'Alergias'
+          OnClick = Alergias1Click
+        end
+        object AtividadesReligiosas1: TMenuItem
+          Caption = 'Atividades Religiosas'
+          OnClick = AtividadesReligiosas1Click
+        end
+        object Diagnsticos1: TMenuItem
+          Caption = 'Diagn'#243'sticos'
+          OnClick = Diagnsticos1Click
+        end
+      end
+      object HistoricodeEvoluo1: TMenuItem
+        Caption = 'Historico de Evolu'#231#227'o'
+        OnClick = HistoricodeEvoluo1Click
+      end
+    end
+  end
+end

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.AppEvnts, Controller.ConsumosAtendimento,
-  Vcl.Mask, unConstantes, unFrmMatMed, u_FrmBase;
+  Vcl.Mask, unConstantes, unFrmMatMed, u_FrmBase, unFrmProcedimentos;
 
 type
   TfrmConsumosAtendimentos = class(TForm)
@@ -40,7 +40,6 @@ type
     Label9: TLabel;
     edtProcedimento: TEdit;
     edtQuantidadeProcedimento: TEdit;
-    BtnBuscaProcedimento: TBitBtn;
     PnBotoes: TPanel;
     BtnConcluirFaturamento: TBitBtn;
     BtnNaoCobrar: TBitBtn;
@@ -59,6 +58,13 @@ type
     edtValorTotalMatMed: TEdit;
     edtValorUnitProcedimento: TEdit;
     edtValorTotalProcedimento: TEdit;
+    SpdBtnBuscaProcedimento: TSpeedButton;
+    BtnExcluirItem: TBitBtn;
+    BtnExcluirProcedimento: TBitBtn;
+    Label16: TLabel;
+    Label17: TLabel;
+    lblTotalMatMeds: TLabel;
+    lblTotalProcedimentos: TLabel;
     procedure BtnSairClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtAtendimentoExit(Sender: TObject);
@@ -70,9 +76,15 @@ type
     procedure edtIDMatMedExit(Sender: TObject);
     procedure edtValorUnitMatMedExit(Sender: TObject);
     procedure edtValorTotalMatMedExit(Sender: TObject);
+    procedure edtProcedimentoExit(Sender: TObject);
+    procedure SpdBtnBuscaProcedimentoClick(Sender: TObject);
+    procedure edtValorUnitProcedimentoExit(Sender: TObject);
+    procedure edtValorTotalProcedimentoEnter(Sender: TObject);
+    procedure BtnIncluirTaxaServicoClick(Sender: TObject);
   private
     FController: TControllerConsumosAtendimento;
     function CalcularTotalMatMeds: Double;
+    function CalcularTotalProcedimentos: Double;
     procedure LimparTudo;
     procedure LimparMatMeds;
     procedure LimparProcedimentos;
@@ -164,6 +176,62 @@ begin
     FController.ConsultarMatMedsAtendimento(vAtendimento);
 end;
 
+procedure TfrmConsumosAtendimentos.BtnIncluirTaxaServicoClick(Sender: TObject);
+var
+  vProcedimento, vAtendimento: integer;
+  vDataConsumo: TDateTime;
+  vQuantidade, vValor, vValorTotal: Double;
+begin
+  FController.LimparModel;
+
+  if not(TryStrToInt(edtAtendimento.Text,vAtendimento)) and
+    not(FController.ConsultarDadosAtendimento(StrToInt(edtAtendimento.Text))) then
+      Exit;
+
+  if TryStrToInt(edtProcedimento.Text,vProcedimento) then
+    FController.Model.Id_procedimento := vProcedimento
+  else
+  begin
+    MessageDlg('Procedimento inválido ou não informado!',mtWarning,[mbOk],0);
+    Exit;
+  end;
+
+  if TryStrToDate(mskDataConsumoProcedimento.Text,vDataConsumo) then
+    FController.Model.Data_Consumo :=vDataConsumo
+  else
+  begin
+    MessageDlg('Data de consumo do Procedimento não informada ou inválida!',mtWarning,[mbOk],0);
+    Exit;
+  end;
+
+  if TryStrToFloat(edtQuantidadeProcedimento.Text,vQuantidade) then
+    FController.Model.Quantidade := vQuantidade
+  else
+  begin
+    MessageDlg('Quantidade inválida ou não informada!',mtWarning,[mbOk],0);
+    Exit;
+  end;
+
+  if TryStrToFloat(edtValorUnitProcedimento.Text,vValor) then
+    FController.Model.Valor := vValor
+  else
+  begin
+    MessageDlg('Valor unitário inválido ou não informado!',mtWarning,[mbOk],0);
+    Exit;
+  end;
+
+  if TryStrToFloat(edtValorTotalProcedimento.Text,vValorTotal) then
+    FController.Model.Valor_Total := vValorTotal
+  else
+  begin
+    MessageDlg('Valor total inválido ou não informado!',mtWarning,[mbOk],0);
+    Exit;
+  end;
+
+  if FController.IncluirItem(iTpProcedimento,vAtendimento) then
+    FController.ConsultarProcedimentosAtendimento(vAtendimento);
+end;
+
 procedure TfrmConsumosAtendimentos.BtnSairClick(Sender: TObject);
 begin
   Self.Close;
@@ -183,6 +251,20 @@ begin
       MessageDlg('Quantidade ou Valor Unitário do MatMed incorreto!',mtWarning,[mbOk],0);
 end;
 
+function TfrmConsumosAtendimentos.CalcularTotalProcedimentos: Double;
+var
+  vQuantidade, vValorUnitario: Double;
+begin
+  if TryStrToFloat(edtQuantidadeProcedimento.Text,vQuantidade) and
+    TryStrToFloat(edtValorUnitProcedimento.Text,vValorUnitario) then
+    begin
+      Result := vValorUnitario * vQuantidade;
+      edtValorTotalProcedimento.Text := FloatToStr(Result)
+    end
+    else
+      MessageDlg('Quantidade ou Valor Unitário do Procedimento incorreto!',mtWarning,[mbOk],0);
+end;
+
 procedure TfrmConsumosAtendimentos.edtAtendimentoExit(Sender: TObject);
 var
   vAtendimento: integer;
@@ -191,11 +273,14 @@ begin
   begin
     FController.Model.Id_Atendimento := vAtendimento;
     if FController.ConsultarDadosAtendimento(vAtendimento) then
+    begin
       FController.ConsultarMatMedsAtendimento(vAtendimento);
+      FController.ConsultarProcedimentosAtendimento(vAtendimento);
+    end;
 
     lblNomePaciente.Caption := FController.Registros.FieldByName('nome').AsString;
     lblConvenio.Caption := FController.Registros.FieldByName('convenio').AsString;
-    lblTipoAtendimento.Caption := FController.Registros.FieldByName('tipo').AsString;
+    lblTipoAtendimento.Caption := FController.Registros.FieldByName('tipoatendimento').AsString;
   end;
 end;
 
@@ -208,14 +293,35 @@ begin
     lblMatMed.Caption := FController.GetDescricaoMatMed(vValue,iINCLUINDO);
 end;
 
+procedure TfrmConsumosAtendimentos.edtProcedimentoExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtProcedimento.Text,vValue) then
+    lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+end;
+
 procedure TfrmConsumosAtendimentos.edtValorTotalMatMedExit(Sender: TObject);
 begin
   CalcularTotalMatMeds;
 end;
 
+procedure TfrmConsumosAtendimentos.edtValorTotalProcedimentoEnter(
+  Sender: TObject);
+begin
+  CalcularTotalProcedimentos;
+end;
+
 procedure TfrmConsumosAtendimentos.edtValorUnitMatMedExit(Sender: TObject);
 begin
   CalcularTotalMatMeds;
+end;
+
+procedure TfrmConsumosAtendimentos.edtValorUnitProcedimentoExit(
+  Sender: TObject);
+begin
+  CalcularTotalProcedimentos;
 end;
 
 procedure TfrmConsumosAtendimentos.FormCreate(Sender: TObject);
@@ -248,7 +354,10 @@ begin
   begin
     FController.Model.Id_Atendimento := vAtendimento;
     if FController.ConsultarDadosAtendimento(vAtendimento) then
+    begin
       FController.ConsultarMatMedsAtendimento(vAtendimento);
+      FController.ConsultarProcedimentosAtendimento(vAtendimento);
+    end;
 
     lblNomePaciente.Caption := FController.Registros.FieldByName('nome').AsString;
     lblConvenio.Caption := FController.Registros.FieldByName('convenio').AsString;
@@ -275,6 +384,26 @@ procedure TfrmConsumosAtendimentos.LimparTudo;
 begin
   LimparMatMeds;
   LimparProcedimentos;
+end;
+
+procedure TfrmConsumosAtendimentos.SpdBtnBuscaProcedimentoClick(
+  Sender: TObject);
+var
+  vValue: integer;
+  frmProcedimento: TfrmProcedimentos;
+begin
+  inherited;
+  try
+    frmProcedimento := TfrmProcedimentos.Create(Self,toConsulta);
+    frmProcedimento.ShowModal;
+  finally
+    edtProcedimento.Text := IntToStr(frmProcedimento.FValueFieldKey);
+
+    if TryStrToInt(edtProcedimento.Text,vValue) then
+      lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+
+    FreeAndNil(frmProcedimento);
+  end;
 end;
 
 end.

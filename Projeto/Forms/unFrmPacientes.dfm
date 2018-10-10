@@ -7,6 +7,7 @@ inherited frmPacientes: TfrmPacientes
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Height = 554
+    ActivePage = TbShCadastro
     ExplicitHeight = 554
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 526
@@ -363,6 +364,48 @@ inherited frmPacientes: TfrmPacientes
           Height = 13
           Caption = 'E-mail'
         end
+        object BtnBuscaCidade: TSpeedButton
+          Left = 77
+          Top = 157
+          Width = 28
+          Height = 22
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            000000000000000000020000000E0B14308329448DFB1D2F58A5000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000020000000E0D1937883C6DB2FF5BB1F9FF325196F4000000000000
+            00000000000100000004000000090000000D0000000F0000000F0000000C0000
+            00070000000E0F1D3C864A7CBCFF73C4FFFF467CC3FF17254485000000000000
+            0002000000081C130F465A3B31BC7C5043F87F5244FF7B4E42FA57382FC11E14
+            1059112142875686C2FF88D0FFFF5186C7FF142343880000000F000000010302
+            02104A332C91946B5DFDC6ACA1FFE4D1C6FFEDDDD2FFE2D0C5FFC0A599FF855C
+            50FF6E6B7EFF98D4F8FF5B8ECBFF152545840000000D00000002000000076046
+            3DA6B39288FFE9DAD0FFDAC0A1FFCBA87AFFC49B66FFCCAA7EFFDCC2A5FFE5D2
+            C6FF9A766AFF736A77FF162747850000000E00000002000000002A201D4AAE88
+            7CFFEFE6DFFFCDA67CFFCDA26BFFE3C28CFFEDD5A2FFE7CD9EFFD3B182FFD0AE
+            88FFE7D5CAFF885F53FF25181464000000070000000000000000755B53ACDFCE
+            C9FFDDC1A8FFC99865FFE8BE83FFE9C388FFEDCA97FFEFD3A7FFF2D9B0FFD5B1
+            87FFDBBEA6FFC5ACA2FF5A3D33C10000000C0000000000000000A9877CE9F8F4
+            F2FFC79873FFDEAB77FFEFCDABFFF0D0B1FFEDC9A1FFECC69AFFEFCFA9FFE9C9
+            A4FFC89B77FFE6D6CEFF7C5448F10000000F0000000000000000C09C90FFFDFD
+            FCFFBE875FFFEDCFB9FFF5DFD2FFF2D6C1FFF1CFB4FFEDC6A4FFECC19BFFEFC8
+            A6FFC08B67FFF1E6DFFF8B6154FF0000000F0000000000000000AF9186E6F9F5
+            F4FFC69474FFE8CDC3FFF9E8E4FFF6DED2FFF3D4C2FFF0CBB2FFEBB78EFFE5B7
+            92FFC59172FFEBDFD9FF866055EE0000000D0000000000000000876F68B0E7D9
+            D4FFE2C6B7FFC89072FFFAEFF2FFF9E7E4FFF6DDD3FFF1C8B2FFEBAF88FFC98E
+            6CFFDCBBAAFFD3C0B7FF6B4F46BC00000009000000000000000026201E36CCAF
+            A7FAFBF8F7FFCF9F88FFC78E72FFE9CDC6FFEDC7B5FFDD9F79FFC88865FFCE9D
+            84FFF5EFEBFFB39387FF2A201D52000000040000000000000000000000036454
+            4F84D9C2BAFFFDFBFAFFE2C6B8FFCB977EFFC08163FFCB977DFFE0C4B4FFFAF6
+            F5FFC9B0A7FF6B564EA700000009000000010000000000000000000000000202
+            020762534D81CEB2A9FAEADDD8FFF9F5F4FFFFFFFFFFF9F5F4FFE9DCD7FFC8AC
+            A2FC62504B900404031000000002000000000000000000000000000000000000
+            000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
+            1F3E000000060000000100000000000000000000000000000000}
+          OnClick = SpeedButton1Click
+        end
         object CbxEstadoCivil: TComboBox
           Left = 16
           Top = 118
@@ -464,52 +507,9 @@ inherited frmPacientes: TfrmPacientes
           Height = 21
           CharCase = ecUpperCase
           NumbersOnly = True
-          TabOrder = 19
+          TabOrder = 18
           Text = 'EDTRELIGIAO'
           OnExit = edtReligiaoExit
-        end
-        object BtnBuscaCidade: TBitBtn
-          Left = 77
-          Top = 158
-          Width = 28
-          Height = 21
-          Glyph.Data = {
-            36040000424D3604000000000000360000002800000010000000100000000100
-            2000000000000004000000000000000000000000000000000000000000000000
-            0000000000000000000000000000000000000000000000000000000000000000
-            000000000000000000020000000E0B14308329448DFB1D2F58A5000000000000
-            0000000000000000000000000000000000000000000000000000000000000000
-            0000000000020000000E0D1937883C6DB2FF5BB1F9FF325196F4000000000000
-            00000000000100000004000000090000000D0000000F0000000F0000000C0000
-            00070000000E0F1D3C864A7CBCFF73C4FFFF467CC3FF17254485000000000000
-            0002000000081C130F465A3B31BC7C5043F87F5244FF7B4E42FA57382FC11E14
-            1059112142875686C2FF88D0FFFF5186C7FF142343880000000F000000010302
-            02104A332C91946B5DFDC6ACA1FFE4D1C6FFEDDDD2FFE2D0C5FFC0A599FF855C
-            50FF6E6B7EFF98D4F8FF5B8ECBFF152545840000000D00000002000000076046
-            3DA6B39288FFE9DAD0FFDAC0A1FFCBA87AFFC49B66FFCCAA7EFFDCC2A5FFE5D2
-            C6FF9A766AFF736A77FF162747850000000E00000002000000002A201D4AAE88
-            7CFFEFE6DFFFCDA67CFFCDA26BFFE3C28CFFEDD5A2FFE7CD9EFFD3B182FFD0AE
-            88FFE7D5CAFF885F53FF25181464000000070000000000000000755B53ACDFCE
-            C9FFDDC1A8FFC99865FFE8BE83FFE9C388FFEDCA97FFEFD3A7FFF2D9B0FFD5B1
-            87FFDBBEA6FFC5ACA2FF5A3D33C10000000C0000000000000000A9877CE9F8F4
-            F2FFC79873FFDEAB77FFEFCDABFFF0D0B1FFEDC9A1FFECC69AFFEFCFA9FFE9C9
-            A4FFC89B77FFE6D6CEFF7C5448F10000000F0000000000000000C09C90FFFDFD
-            FCFFBE875FFFEDCFB9FFF5DFD2FFF2D6C1FFF1CFB4FFEDC6A4FFECC19BFFEFC8
-            A6FFC08B67FFF1E6DFFF8B6154FF0000000F0000000000000000AF9186E6F9F5
-            F4FFC69474FFE8CDC3FFF9E8E4FFF6DED2FFF3D4C2FFF0CBB2FFEBB78EFFE5B7
-            92FFC59172FFEBDFD9FF866055EE0000000D0000000000000000876F68B0E7D9
-            D4FFE2C6B7FFC89072FFFAEFF2FFF9E7E4FFF6DDD3FFF1C8B2FFEBAF88FFC98E
-            6CFFDCBBAAFFD3C0B7FF6B4F46BC00000009000000000000000026201E36CCAF
-            A7FAFBF8F7FFCF9F88FFC78E72FFE9CDC6FFEDC7B5FFDD9F79FFC88865FFCE9D
-            84FFF5EFEBFFB39387FF2A201D52000000040000000000000000000000036454
-            4F84D9C2BAFFFDFBFAFFE2C6B8FFCB977EFFC08163FFCB977DFFE0C4B4FFFAF6
-            F5FFC9B0A7FF6B564EA700000009000000010000000000000000000000000202
-            020762534D81CEB2A9FAEADDD8FFF9F5F4FFFFFFFFFFF9F5F4FFE9DCD7FFC8AC
-            A2FC62504B900404031000000002000000000000000000000000000000000000
-            000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
-            1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 16
-          OnClick = BtnBuscaCidadeClick
         end
         object BtnBuscaReligiao: TBitBtn
           Left = 77
@@ -551,7 +551,7 @@ inherited frmPacientes: TfrmPacientes
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 20
+          TabOrder = 19
           OnClick = BtnBuscaReligiaoClick
         end
         object edtMae: TEdit
@@ -560,7 +560,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 315
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 23
+          TabOrder = 22
           Text = 'EDTMAE'
         end
         object edtPai: TEdit
@@ -569,7 +569,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 281
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 24
+          TabOrder = 23
           Text = 'EDTPAI'
         end
         object edtNaturalidade: TEdit
@@ -578,7 +578,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 55
           Height = 21
           NumbersOnly = True
-          TabOrder = 17
+          TabOrder = 16
           Text = 'edtNaturalidade'
           OnExit = edtNaturalidadeExit
         end
@@ -588,7 +588,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 55
           Height = 21
           NumbersOnly = True
-          TabOrder = 21
+          TabOrder = 20
           Text = 'edtNacionalidade'
           OnExit = edtNacionalidadeExit
         end
@@ -632,7 +632,7 @@ inherited frmPacientes: TfrmPacientes
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 18
+          TabOrder = 17
           OnClick = BtnBuscaNaturalidadeClick
         end
         object BtnBuscaNacionalidade: TBitBtn
@@ -675,7 +675,7 @@ inherited frmPacientes: TfrmPacientes
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 22
+          TabOrder = 21
           OnClick = BtnBuscaNacionalidadeClick
         end
         object edtConjuge: TEdit
@@ -684,7 +684,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 314
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 25
+          TabOrder = 24
           Text = 'EDTCONJUGE'
         end
         object CbxEtnia: TComboBox
@@ -710,7 +710,7 @@ inherited frmPacientes: TfrmPacientes
           Height = 21
           EditMask = '(99) 99999-9999;1;_'
           MaxLength = 15
-          TabOrder = 26
+          TabOrder = 25
           Text = '(  )      -    '
         end
         object mskFoneAdicional1: TMaskEdit
@@ -720,7 +720,7 @@ inherited frmPacientes: TfrmPacientes
           Height = 21
           EditMask = '(99) 99999-9999;1;_'
           MaxLength = 15
-          TabOrder = 27
+          TabOrder = 26
           Text = '(  )      -    '
         end
         object mskFoneAdicional2: TMaskEdit
@@ -730,7 +730,7 @@ inherited frmPacientes: TfrmPacientes
           Height = 21
           EditMask = '(99) 99999-9999;1;_'
           MaxLength = 15
-          TabOrder = 29
+          TabOrder = 28
           Text = '(  )      -    '
         end
         object edtDescricaoFoneAdicional1: TEdit
@@ -739,7 +739,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 121
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 28
+          TabOrder = 27
         end
         object edtDescricaoFoneAdicional2: TEdit
           Left = 434
@@ -747,7 +747,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 121
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 30
+          TabOrder = 29
         end
         object edtCNS: TEdit
           Left = 505
@@ -810,7 +810,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 278
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 31
+          TabOrder = 30
           Text = 'EDTENDERECO'
         end
         object edtNumero: TEdit
@@ -819,7 +819,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 66
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 32
+          TabOrder = 31
           Text = 'EDTNUMERO'
         end
         object mskCEP: TMaskEdit
@@ -829,7 +829,7 @@ inherited frmPacientes: TfrmPacientes
           Height = 21
           EditMask = '99.999-999;1;_'
           MaxLength = 10
-          TabOrder = 33
+          TabOrder = 32
           Text = '  .   -   '
         end
         object edtBairro: TEdit
@@ -838,7 +838,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 131
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 34
+          TabOrder = 33
           Text = 'EDTBAIRRO'
         end
         object edtComplemento: TEdit
@@ -847,7 +847,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 204
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 35
+          TabOrder = 34
           Text = 'EDTCOMPLEMENTO'
         end
         object edtLocalTrabalho: TEdit
@@ -856,7 +856,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 204
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 36
+          TabOrder = 35
           Text = 'EDTLOCALTRABALHO'
         end
         object edtEmail: TEdit
@@ -865,7 +865,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 186
           Height = 21
           CharCase = ecLowerCase
-          TabOrder = 38
+          TabOrder = 37
           Text = 'edtemail'
         end
         object edtProfissao: TEdit
@@ -874,7 +874,7 @@ inherited frmPacientes: TfrmPacientes
           Width = 158
           Height = 21
           CharCase = ecUpperCase
-          TabOrder = 37
+          TabOrder = 36
           Text = 'EDTPROFISSAO'
         end
       end

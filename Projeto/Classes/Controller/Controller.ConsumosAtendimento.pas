@@ -29,6 +29,7 @@ type
       function IncluirItem(pTipoItem,pID: integer): Boolean;
       function ConsultarDadosAtendimento(pID: integer): boolean;
       function ConsultarMatMedsAtendimento(pID: integer): boolean;
+      function ConsultarProcedimentosAtendimento(pID: integer): boolean;
       property Model : TItens_Atendimento read FModel write FModel;
       property Registros: TDataSet read FRegistros write FRegistros;
       property DsMatMeds: TDataSource read FDsMatMeds write FDsMatMeds;
@@ -90,7 +91,7 @@ begin
   try
     ConsultaSQL.Append(' SELECT it.*, mm.descricao As MatMed');
     ConsultaSQL.Append(' FROM atendimentos.itens_atendimento it');
-    ConsultaSQL.Append(' LEFT JOIN estoque.matmed mm');
+    ConsultaSQL.Append(' INNER JOIN estoque.matmed mm');
     ConsultaSQL.Append(' ON it.id_matmed = mm.id');
     ConsultaSQL.Append(' WHERE it.id_atendimento = :param1');
 
@@ -105,7 +106,33 @@ begin
       Result := False;
     end;
   end;
+end;
 
+function TControllerConsumosAtendimento.ConsultarProcedimentosAtendimento(
+  pID: integer): boolean;
+var
+  ConsultaSQL: TStringBuilder;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+
+  try
+    ConsultaSQL.Append(' SELECT it.*, p.descricao As Procedimento');
+    ConsultaSQL.Append(' FROM atendimentos.itens_atendimento it');
+    ConsultaSQL.Append(' INNER JOIN procedimentos p');
+    ConsultaSQL.Append(' ON it.id_procedimento = p.id');
+    ConsultaSQL.Append(' WHERE it.id_atendimento = :param1');
+
+    FRegistrosProcedimentos := FDao.ConsultaSql(ConsultaSQL.ToString,[pID]);
+    DsProcedimentos.DataSet := FRegistrosProcedimentos;
+    FreeAndNil(ConsultaSQL);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao buscar procedimentos consumidos no atendimento!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
 end;
 
 constructor TControllerConsumosAtendimento.Create;

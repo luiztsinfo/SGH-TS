@@ -31,7 +31,6 @@ type
     CbxCor: TComboBox;
     edtIDCidade: TEdit;
     edtReligiao: TEdit;
-    BtnBuscaCidade: TBitBtn;
     BtnBuscaReligiao: TBitBtn;
     Label11: TLabel;
     Label12: TLabel;
@@ -87,6 +86,7 @@ type
     edtLocalTrabalho: TEdit;
     edtEmail: TEdit;
     edtProfissao: TEdit;
+    BtnBuscaCidade: TSpeedButton;
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -94,11 +94,11 @@ type
     procedure edtNaturalidadeExit(Sender: TObject);
     procedure edtReligiaoExit(Sender: TObject);
     procedure edtNacionalidadeExit(Sender: TObject);
-    procedure BtnBuscaCidadeClick(Sender: TObject);
     procedure BtnBuscaReligiaoClick(Sender: TObject);
     procedure BtnBuscaNacionalidadeClick(Sender: TObject);
     procedure BtnBuscaNaturalidadeClick(Sender: TObject);
     procedure GrdDadosDblClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -172,24 +172,6 @@ begin
   inherited;
   TControllerPaciente(FController).Model.Id := StrToInt(edtID.Text);
   TControllerPaciente(FController).FDao.Salvar(TControllerPaciente(FController).Model)
-end;
-
-procedure TFrmPacientes.BtnBuscaCidadeClick(Sender: TObject);
-var
-  vValue: integer;
-begin
-  inherited;
-  try
-    FrmCidades := TFrmCidades.Create(Self,toConsulta);
-    FrmCidades.ShowModal;
-  finally
-    edtIDCidade.Text := IntToStr(FrmCidades.FValueFieldKey);
-
-    if TryStrToInt(edtIDCidade.Text,vValue) then
-      lblCidade.Caption := TControllerPaciente(FController).GetNomeCidade(vValue,iINCLUINDO);
-
-    FreeAndNil(FrmCidades);
-  end;
 end;
 
 procedure TFrmPacientes.BtnBuscaNacionalidadeClick(Sender: TObject);
@@ -374,6 +356,24 @@ begin
       FValueFieldKey := TControllerPaciente(FController).Model.Id;
       Self.Close;
     end;
+end;
+
+procedure TFrmPacientes.SpeedButton1Click(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    FrmCidades := TFrmCidades.Create(Self,toConsulta);
+    FrmCidades.ShowModal;
+  finally
+    edtIDCidade.Text := IntToStr(FrmCidades.FValueFieldKey);
+
+    if TryStrToInt(edtIDCidade.Text,vValue) then
+      lblCidade.Caption := TControllerPaciente(FController).GetNomeCidade(vValue,iINCLUINDO);
+
+    FreeAndNil(FrmCidades);
+  end;
 end;
 
 procedure TFrmPacientes.TbShCadastroShow(Sender: TObject);

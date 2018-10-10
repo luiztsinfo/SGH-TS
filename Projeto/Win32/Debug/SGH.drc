@@ -19,6 +19,8 @@
 #define Datasnap_MidConst_SOutOfMemory 64664
 #define Datasnap_MidConst_SInvalidArg 64665
 #define Datasnap_MidConst_SUnableToLoadICU 64666
+#define dxGDIPlusAPI_scxGdipInvalidOperation 64667
+#define dxGDIPlusAPI_scxGdipInvalidOperationWin32Error 64668
 #define Datasnap_MidConst_SCannotCreateDataSet 64672
 #define Datasnap_MidConst_SNoConnectToBroker 64673
 #define Datasnap_MidConst_SNoParentConnection 64674
@@ -896,6 +898,8 @@ BEGIN
 	Datasnap_MidConst_SOutOfMemory,	L"Out of memory"
 	Datasnap_MidConst_SInvalidArg,	L"Invalid argument"
 	Datasnap_MidConst_SUnableToLoadICU,	L"Unable to load Midas due to missing code page conversion library."
+	dxGDIPlusAPI_scxGdipInvalidOperation,	L"Invalid operation in GDI+ (Code: %d)"
+	dxGDIPlusAPI_scxGdipInvalidOperationWin32Error,	L"Invalid operation in GDI+ (Win32 error code: %d)"
 	Datasnap_MidConst_SCannotCreateDataSet,	L"No fields defined.  Cannot create dataset"
 	Datasnap_MidConst_SNoConnectToBroker,	L"Connection not allowed to TConnectionBroker"
 	Datasnap_MidConst_SNoParentConnection,	L"ParentConnection is not assigned"

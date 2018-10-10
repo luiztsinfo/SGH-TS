@@ -13,7 +13,7 @@ uses
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
   unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
   unFrmProcedimentos, unFrmCidades, unFrmAtendimentos, unFrmResponsavelPaciente,
-  unConstantes;
+  unConstantes, dxGDIPlusClasses;
 
 type
   TfrmPrincipal = class(TForm)
@@ -26,7 +26,6 @@ type
     HistoricodeEvoluo1: TMenuItem;
     abelas1: TMenuItem;
     Religies1: TMenuItem;
-    Image1: TImage;
     Cadastros2: TMenuItem;
     Antecedentes1: TMenuItem;
     Prescries1: TMenuItem;
@@ -61,6 +60,10 @@ type
     Grupos1: TMenuItem;
     Locais1: TMenuItem;
     UnidadesdeMedida1: TMenuItem;
+    Panel1: TPanel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    Image1: TImage;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -91,6 +94,8 @@ type
     procedure Grupos1Click(Sender: TObject);
     procedure Locais1Click(Sender: TObject);
     procedure UnidadesdeMedida1Click(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
   private
 
   public
@@ -408,6 +413,28 @@ begin
     frmSetores.ShowModal;
   finally
     FreeAndNil(frmSetores);
+  end;
+end;
+
+procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
+begin
+  try
+    frmPacientes := TfrmPacientes.Create(Self,toCadastro);
+    frmFundo.Show;
+    frmPacientes.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmPacientes);
+  end;
+end;
+
+procedure TfrmPrincipal.SpeedButton2Click(Sender: TObject);
+begin
+  try
+    frmAtendimentos := TfrmAtendimentos.Create(self,tpAmbulatorial);
+    frmAtendimentos.ShowModal;
+  finally
+    FreeAndNil(frmAtendimentos);
   end;
 end;
 
