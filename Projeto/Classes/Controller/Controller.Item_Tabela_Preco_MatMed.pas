@@ -74,7 +74,12 @@ begin
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,Params);
     FDataSource.DataSet := FRegistros;
     FreeAndNil(ConsultaSQL);
-    Result := True;
+
+    if FRegistros.RecordCount > 0 then
+      Result := True
+    else
+      Result := False;
+
   except
     on e: Exception do
     begin

@@ -739,7 +739,7 @@ procedure TfrmAtendimentos.BtnConsumosClick(Sender: TObject);
 var
   frmConsumosAtendimentos: TfrmConsumosAtendimentos;
 begin
-  frmConsumosAtendimentos := TfrmConsumosAtendimentos.Create(nil);
+  frmConsumosAtendimentos := TfrmConsumosAtendimentos.Create(self);
   try
     frmFundo.Show;
     frmConsumosAtendimentos.edtAtendimento.Text := FController.Model.Id.ToString;

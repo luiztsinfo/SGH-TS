@@ -26,7 +26,6 @@ type
     lblMatMed: TLabel;
     Label6: TLabel;
     edtIDMatMed: TEdit;
-    BtnBuscaMatMed: TBitBtn;
     edtQuantidade: TEdit;
     BtnIncluirMatMed: TBitBtn;
     PnMatMeds: TPanel;
@@ -65,6 +64,11 @@ type
     Label17: TLabel;
     lblTotalMatMeds: TLabel;
     lblTotalProcedimentos: TLabel;
+    BtnBuscaMatMed: TSpeedButton;
+    Label18: TLabel;
+    lblHonorariosMedicos: TLabel;
+    Label19: TLabel;
+    lblTotalGeral: TLabel;
     procedure BtnSairClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtAtendimentoExit(Sender: TObject);
@@ -81,6 +85,8 @@ type
     procedure edtValorUnitProcedimentoExit(Sender: TObject);
     procedure edtValorTotalProcedimentoEnter(Sender: TObject);
     procedure BtnIncluirTaxaServicoClick(Sender: TObject);
+    procedure BtnExcluirItemClick(Sender: TObject);
+    procedure BtnExcluirProcedimentoClick(Sender: TObject);
   private
     FController: TControllerConsumosAtendimento;
     function CalcularTotalMatMeds: Double;
@@ -114,9 +120,30 @@ begin
     edtIDMatMed.Text := IntToStr(frmMatMed.FValueFieldKey);
 
     if TryStrToInt(edtIDMatMed.Text,vValue) then
+    begin
       lblMatMed.Caption := FController.GetDescricaoMatMed(vValue,iINCLUINDO);
+      edtValorUnitMatMed.Text := FloatToStr(FController.GetValorMatMed(vValue));
+    end;
 
     FreeAndNil(frmMatMed);
+  end;
+end;
+
+procedure TfrmConsumosAtendimentos.BtnExcluirItemClick(Sender: TObject);
+begin
+  if FController.ExcluirItem(iTpMatMed) then
+  begin
+    FController.ConsultarMatMedsAtendimento(StrToInt(edtAtendimento.Text));
+    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(StrToInt(edtAtendimento.Text)));
+  end;
+end;
+
+procedure TfrmConsumosAtendimentos.BtnExcluirProcedimentoClick(Sender: TObject);
+begin
+  if FController.ExcluirItem(iTpProcedimento) then
+  begin
+    FController.ConsultarProcedimentosAtendimento(StrToInt(edtAtendimento.Text));
+    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(StrToInt(edtAtendimento.Text)));
   end;
 end;
 
@@ -127,6 +154,7 @@ var
   vQuantidade, vValor, vValorTotal: Double;
 begin
   FController.LimparModel;
+  CalcularTotalMatMeds;
 
   if not(TryStrToInt(edtAtendimento.Text,vAtendimento)) and
     not(FController.ConsultarDadosAtendimento(StrToInt(edtAtendimento.Text))) then
@@ -173,7 +201,11 @@ begin
   end;
 
   if FController.IncluirItem(iTpMatMed,vAtendimento) then
+  begin
     FController.ConsultarMatMedsAtendimento(vAtendimento);
+    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+    LimparMatMeds;
+  end;
 end;
 
 procedure TfrmConsumosAtendimentos.BtnIncluirTaxaServicoClick(Sender: TObject);
@@ -183,6 +215,7 @@ var
   vQuantidade, vValor, vValorTotal: Double;
 begin
   FController.LimparModel;
+  CalcularTotalProcedimentos;
 
   if not(TryStrToInt(edtAtendimento.Text,vAtendimento)) and
     not(FController.ConsultarDadosAtendimento(StrToInt(edtAtendimento.Text))) then
@@ -229,7 +262,11 @@ begin
   end;
 
   if FController.IncluirItem(iTpProcedimento,vAtendimento) then
+  begin
     FController.ConsultarProcedimentosAtendimento(vAtendimento);
+    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+    LimparProcedimentos;
+  end;
 end;
 
 procedure TfrmConsumosAtendimentos.BtnSairClick(Sender: TObject);
@@ -274,13 +311,15 @@ begin
     FController.Model.Id_Atendimento := vAtendimento;
     if FController.ConsultarDadosAtendimento(vAtendimento) then
     begin
+      lblNomePaciente.Caption := FController.Registros.FieldByName('nome').AsString;
+      lblConvenio.Caption := FController.Registros.FieldByName('convenio').AsString;
+      lblTipoAtendimento.Caption := FController.Registros.FieldByName('tipoatendimento').AsString;
+
       FController.ConsultarMatMedsAtendimento(vAtendimento);
       FController.ConsultarProcedimentosAtendimento(vAtendimento);
-    end;
 
-    lblNomePaciente.Caption := FController.Registros.FieldByName('nome').AsString;
-    lblConvenio.Caption := FController.Registros.FieldByName('convenio').AsString;
-    lblTipoAtendimento.Caption := FController.Registros.FieldByName('tipoatendimento').AsString;
+      lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+    end;
   end;
 end;
 
@@ -290,7 +329,10 @@ var
 begin
   inherited;
   if TryStrToInt(edtIDMatMed.Text,vValue) then
+  begin
     lblMatMed.Caption := FController.GetDescricaoMatMed(vValue,iINCLUINDO);
+    edtValorUnitMatMed.Text := FloatToStr(FController.GetValorMatMed(vValue));
+  end;
 end;
 
 procedure TfrmConsumosAtendimentos.edtProcedimentoExit(Sender: TObject);
@@ -299,7 +341,10 @@ var
 begin
   inherited;
   if TryStrToInt(edtProcedimento.Text,vValue) then
+  begin
     lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+    edtValorUnitProcedimento.Text := FloatToStr(FController.GetValorProcedimento(vValue));
+  end;
 end;
 
 procedure TfrmConsumosAtendimentos.edtValorTotalMatMedExit(Sender: TObject);
@@ -355,13 +400,15 @@ begin
     FController.Model.Id_Atendimento := vAtendimento;
     if FController.ConsultarDadosAtendimento(vAtendimento) then
     begin
+      lblNomePaciente.Caption := FController.Registros.FieldByName('nome').AsString;
+      lblConvenio.Caption := FController.Registros.FieldByName('convenio').AsString;
+      lblTipoAtendimento.Caption := FController.Registros.FieldByName('tipoatendimento').AsString;
+
       FController.ConsultarMatMedsAtendimento(vAtendimento);
       FController.ConsultarProcedimentosAtendimento(vAtendimento);
-    end;
 
-    lblNomePaciente.Caption := FController.Registros.FieldByName('nome').AsString;
-    lblConvenio.Caption := FController.Registros.FieldByName('convenio').AsString;
-    lblTipoAtendimento.Caption := FController.Registros.FieldByName('tipoatendimento').AsString;
+      lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+    end;
   end;
 
   mskDataConsumoMatMed.Text := DateToStr(Now);
@@ -400,7 +447,10 @@ begin
     edtProcedimento.Text := IntToStr(frmProcedimento.FValueFieldKey);
 
     if TryStrToInt(edtProcedimento.Text,vValue) then
+    begin
       lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+      edtValorUnitProcedimento.Text := FloatToStr(FController.GetValorProcedimento(vValue));
+    end;
 
     FreeAndNil(frmProcedimento);
   end;

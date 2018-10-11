@@ -37,6 +37,8 @@ type
     BtnBuscaUnidadeMedida: TBitBtn;
     BtnBuscaGrupo: TBitBtn;
     BtnBuscaLocal: TBitBtn;
+    Label10: TLabel;
+    edtValorPadrao: TEdit;
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -77,6 +79,7 @@ begin
 
   TControllerMatMed(FController).Model.Estoque_minimo := StrToFloat(edtEstoqueMinimo.Text);
   TControllerMatMed(FController).Model.Custo_medio := StrToFloat(edtCustoMedio.Text);
+  TControllerMatMed(FController).Model.Valor_Padrao := StrToFloat(edtValorPadrao.Text);
   TControllerMatMed(FController).Model.Controlado := CbxControlado.ItemIndex;
   TControllerMatMed(FController).Model.Tipo_Apresentacao := CbxTipoApresentacao.ItemIndex;
 
@@ -167,6 +170,7 @@ begin
   CbxTipoApresentacao.ItemIndex := TControllerMatMed(FController).Model.Tipo_Apresentacao;
   edtEstoqueMinimo.Text := FloatToStr(TControllerMatMed(FController).Model.Estoque_minimo);
   edtCustoMedio.Text := FloatToStr(TControllerMatMed(FController).Model.Custo_medio);
+  edtValorPadrao.Text := FloatToStr(TControllerMatMed(FController).Model.Valor_Padrao);
 
   edtUnidadeMedida.Text := IntToStr(TControllerMatMed(FController).Model.Id_unidade);
   lblUnidadeMedida.Caption := TControllerMatMed(FController).

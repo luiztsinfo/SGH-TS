@@ -10,6 +10,7 @@ inherited frmMatMeds: TfrmMatMeds
   inherited PgCtrlCadastro: TPageControl
     Width = 721
     Height = 339
+    ActivePage = TbShCadastro
     ExplicitWidth = 721
     ExplicitHeight = 339
     inherited TbShConsulta: TTabSheet
@@ -47,6 +48,15 @@ inherited frmMatMeds: TfrmMatMeds
               Title.Caption = 'Descri'#231#227'o'
               Width = 401
               Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VALOR_PADRAO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Valor Padr'#227'o'
+              Width = 90
+              Visible = True
             end>
         end
       end
@@ -72,6 +82,8 @@ inherited frmMatMeds: TfrmMatMeds
       end
     end
     inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 713
       ExplicitHeight = 311
       inherited PnCampos: TPanel
@@ -185,6 +197,13 @@ inherited frmMatMeds: TfrmMatMeds
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object Label10: TLabel
+          Left = 180
+          Top = 102
+          Width = 61
+          Height = 13
+          Caption = 'Valor Padr'#227'o'
+        end
         object edtID: TEdit
           Left = 16
           Top = 32
@@ -235,7 +254,7 @@ inherited frmMatMeds: TfrmMatMeds
           Width = 66
           Height = 21
           NumbersOnly = True
-          TabOrder = 7
+          TabOrder = 8
           Text = 'edtUnidadeMedida'
           OnExit = edtUnidadeMedidaExit
         end
@@ -245,7 +264,7 @@ inherited frmMatMeds: TfrmMatMeds
           Width = 66
           Height = 21
           NumbersOnly = True
-          TabOrder = 8
+          TabOrder = 9
           Text = 'edtGrupo'
           OnExit = edtGrupoExit
         end
@@ -255,7 +274,7 @@ inherited frmMatMeds: TfrmMatMeds
           Width = 66
           Height = 21
           NumbersOnly = True
-          TabOrder = 9
+          TabOrder = 10
           Text = 'edtLocal'
           OnExit = edtLocalExit
         end
@@ -327,7 +346,7 @@ inherited frmMatMeds: TfrmMatMeds
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 10
+          TabOrder = 11
           OnClick = BtnBuscaUnidadeMedidaClick
         end
         object BtnBuscaGrupo: TBitBtn
@@ -370,7 +389,7 @@ inherited frmMatMeds: TfrmMatMeds
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 11
+          TabOrder = 12
           OnClick = BtnBuscaGrupoClick
         end
         object BtnBuscaLocal: TBitBtn
@@ -413,8 +432,16 @@ inherited frmMatMeds: TfrmMatMeds
             A2FC62504B900404031000000002000000000000000000000000000000000000
             000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
             1F3E000000060000000100000000000000000000000000000000}
-          TabOrder = 12
+          TabOrder = 13
           OnClick = BtnBuscaLocalClick
+        end
+        object edtValorPadrao: TEdit
+          Left = 180
+          Top = 121
+          Width = 69
+          Height = 21
+          TabOrder = 7
+          Text = 'edtValorPadrao'
         end
       end
     end

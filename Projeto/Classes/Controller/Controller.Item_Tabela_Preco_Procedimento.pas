@@ -22,11 +22,14 @@ type
       destructor Destroy; override;
 
       function GetDescricaoProcedimento(AID: Integer;iOperacao: integer): string;
+
       function MostrarTodosItens(pIDTabela: integer): Boolean;
       function ConsultarItemTabelaProcedimento(pTipoConsulta: integer;pValue: Variant): Boolean;
+
       function IncluirItem: Boolean;
       function ExcluirItem: Boolean;
       function ExcluirTodos: Boolean;
+
       property IDTabelaProcedimento: integer read FIDTabelaProcedimento write FIDTabelaProcedimento;
       property Model: TItens_Tabela_Preco_Procedimento read FModel write FModel;
       property DataSource: TDataSource read FDataSource write FDataSource;
@@ -74,7 +77,11 @@ begin
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,Params);
     FDataSource.DataSet := FRegistros;
     FreeAndNil(ConsultaSQL);
-    Result := True;
+
+    if FRegistros.RecordCount > 0 then
+      Result := True
+    else
+      Result := False;
   except
     on e: Exception do
     begin

@@ -4,7 +4,7 @@ interface
 
 uses
   Conexao, Lca.Orm.Comp.FireDac, Model.Itens_Atendimento, Data.DB,
-  System.SysUtils, Vcl.Dialogs, Model.MatMed, Model.Procedimento;
+  System.SysUtils, Vcl.Dialogs, Model.MatMed, Model.Procedimento, unConstantes;
 
 type
   TControllerConsumosAtendimento = class
@@ -20,20 +20,31 @@ type
       FDs: TDataSource;
       FMatMed: TMatMed;
       FProcedimento: TProcedimentos;
+      FID_Convenio: integer;
     public
       constructor Create;
-      destructor Destroy;
+      destructor Destroy; override;
+
       procedure LimparModel;
+
       function GetDescricaoProcedimento(AID: Integer;iOperacao: integer): string;
       function GetDescricaoMatMed(AID: Integer;iOperacao: integer): string;
+      function GetValorProcedimento(AID: Integer): Double;
+      function GetValorMatMed(AID: integer): Double;
+      function GetValorTotalGeral(pIDAtendimento: integer): Double;
+
       function IncluirItem(pTipoItem,pID: integer): Boolean;
+      function ExcluirItem(pTipoItem: integer): Boolean;
+
       function ConsultarDadosAtendimento(pID: integer): boolean;
       function ConsultarMatMedsAtendimento(pID: integer): boolean;
       function ConsultarProcedimentosAtendimento(pID: integer): boolean;
+
       property Model : TItens_Atendimento read FModel write FModel;
       property Registros: TDataSet read FRegistros write FRegistros;
       property DsMatMeds: TDataSource read FDsMatMeds write FDsMatMeds;
       property DsProcedimentos: TDataSource read FDsProcedimentos write FDsProcedimentos;
+      property ID_Convenio: integer read FID_Convenio write FID_Convenio;
   end;
 
 implementation
@@ -62,6 +73,7 @@ begin
     ConsultaSQL.Append(' ON c.id_tabela_preco_procedimentos = tp.id');
     ConsultaSQL.Append(' WHERE at.id = :param3');
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,['Ambulatório','Internação',pID]);
+    ID_Convenio := FRegistros.FieldByName('id_convenio').AsInteger;
     FDs.DataSet := FRegistros;
     FreeAndNil(ConsultaSQL);
 
@@ -145,19 +157,39 @@ begin
   FDsProcedimentos := TDataSource.Create(nil);
   FMatMed := TMatMed.Create;
   FProcedimento := TProcedimentos.Create;
+  inherited;
 end;
 
 destructor TControllerConsumosAtendimento.Destroy;
 begin
-  FreeAndNil(FConexao);
-  FreeAndNil(FDao);
-  FreeAndNil(FModel);
-  FreeAndNil(FDs);
-  FreeAndNil(FDsMatMeds);
-  FreeAndNil(FDsProcedimentos);
-  FreeAndNil(FMatMed);
-  FreeAndNil(FProcedimento);
   inherited;
+  FConexao.Free;
+  FDao.Free;
+  FModel.Free;
+  FDs.Free;
+  FDsMatMeds.Free;
+  FDsProcedimentos.Free;
+  FMatMed.Free;
+  FProcedimento.Free;
+end;
+
+function TControllerConsumosAtendimento.ExcluirItem(pTipoItem: integer): Boolean;
+begin
+  try
+    if pTipoItem = iTpMatMed then
+      FModel.Id := FRegistrosMatMeds.FieldByName('id').AsInteger
+    else
+      FModel.Id := FRegistrosProcedimentos.FieldByName('id').AsInteger;
+
+    FDao.Excluir(FModel,['id']);
+    Result := true;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao excluir item do atendimento!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
 end;
 
 function TControllerConsumosAtendimento.GetDescricaoMatMed(AID,
@@ -172,6 +204,112 @@ function TControllerConsumosAtendimento.GetDescricaoProcedimento(AID,
 begin
   if Assigned(FDao) then
     Result := FDao.GetValueForeignKey(FProcedimento,'descricao','id',AID,iOperacao);
+end;
+
+function TControllerConsumosAtendimento.GetValorMatMed(AID: integer): Double;
+var
+  ConsultaSQL: TStringBuilder;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+  try
+    ConsultaSQL.Append(' SELECT it.valor');
+    ConsultaSQL.Append(' FROM faturamento.itens_tabela_preco_matmed it');
+    ConsultaSQL.Append(' INNER JOIN faturamento.tabela_preco_matmed tb');
+    ConsultaSQL.Append(' ON tb.id = it.id_tabela_preco_matmed');
+    ConsultaSQL.Append(' INNER JOIN convenios c');
+    ConsultaSQL.Append(' ON c.id_tabela_preco_matmed = tb.id');
+    ConsultaSQL.Append(' INNER JOIN estoque.matmed mm');
+    ConsultaSQL.Append(' ON mm.id = it.id_matmed');
+    ConsultaSQL.Append(' WHERE c.id = :convenio');
+    ConsultaSQL.Append(' AND it.id_matmed = :matmed');
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,[ID_Convenio,AID]);
+
+    if (FRegistros.RecordCount > 0) and (FRegistros.FieldByName('valor').AsFloat > 0) then
+      Result := FRegistros.FieldByName('valor').AsFloat
+    else
+    begin
+      ConsultaSQL.Clear;
+      ConsultaSQL.Append(' SELECT valor_padrao');
+      ConsultaSQL.Append(' FROM estoque.matmed');
+      ConsultaSQL.Append(' WHERE id = :matmed');
+      FRegistros.Close;
+      FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,[AID]);
+      Result := FRegistros.FieldByName('valor_padrao').AsFloat;
+    end;
+
+    FreeAndNil(ConsultaSQL);
+  except
+  on e: Exception do
+    begin
+      raise Exception.Create('Erro ao buscar valor na tabela de preço!' +#13+ e.Message);
+      Result := 0;
+    end;
+  end;
+end;
+
+function TControllerConsumosAtendimento.GetValorProcedimento(AID: integer): Double;
+var
+  ConsultaSQL: TStringBuilder;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+  try
+    ConsultaSQL.Append(' SELECT it.valor_total');
+    ConsultaSQL.Append(' FROM faturamento.itens_tabela_preco_procedimentos it');
+    ConsultaSQL.Append(' INNER JOIN faturamento.tabela_preco_procedimentos tb');
+    ConsultaSQL.Append(' ON tb.id = it.id_tabela_procedimentos');
+    ConsultaSQL.Append(' INNER JOIN convenios c');
+    ConsultaSQL.Append(' ON c.id_tabela_preco_procedimentos = tb.id');
+    ConsultaSQL.Append(' INNER JOIN procedimentos p');
+    ConsultaSQL.Append(' ON p.id = it.id_procedimento');
+    ConsultaSQL.Append(' WHERE c.id = :convenio');
+    ConsultaSQL.Append(' AND it.id_procedimento = :procedimento');
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,[ID_Convenio,AID]);
+
+    if (FRegistros.RecordCount > 0) and (FRegistros.FieldByName('valor').AsFloat > 0) then
+      Result := FRegistros.FieldByName('valor').AsFloat
+    else
+    begin
+      ConsultaSQL.Clear;
+      ConsultaSQL.Append(' SELECT valor_padrao');
+      ConsultaSQL.Append(' FROM procedimentos');
+      ConsultaSQL.Append(' WHERE id = :procedimento');
+      FRegistros.Close;
+      FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,[AID]);
+      Result := FRegistros.FieldByName('valor_padrao').AsFloat;
+    end;
+
+    FreeAndNil(ConsultaSQL);
+  except
+  on e: Exception do
+    begin
+      raise Exception.Create('Erro ao buscar valor na tabela de preço!' +#13+ e.Message);
+      Result := 0;
+    end;
+  end;
+end;
+
+function TControllerConsumosAtendimento.GetValorTotalGeral(
+  pIDAtendimento: integer): Double;
+var
+  ConsultaSQL: TStringBuilder;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+  try
+    ConsultaSQL.Append(' SELECT SUM(ia.valor_total) as ValorTotal');
+    ConsultaSQL.Append(' FROM atendimentos.itens_atendimento ia');
+    ConsultaSQL.Append(' WHERE ia.id_atendimento = :atendimento');
+    FRegistros.Close;
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,[pIDAtendimento]);
+    FreeAndNil(ConsultaSQL);
+    TNumericField(FRegistros.FieldByName('ValorTotal')).DisplayFormat := ',0.00;-,0.00';
+    Result := FRegistros.FieldByName('ValorTotal').AsFloat;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao calcular total geral do atendimento!' +#13+ e.Message);
+      Result := 0;
+    end;
+  end;
 end;
 
 function TControllerConsumosAtendimento.IncluirItem(pTipoItem, pID: integer): Boolean;

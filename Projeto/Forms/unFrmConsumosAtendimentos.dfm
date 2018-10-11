@@ -73,6 +73,58 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label18: TLabel
+    Left = 352
+    Top = 528
+    Width = 124
+    Height = 14
+    Caption = 'Honor'#225'rios M'#233'dicos:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lblHonorariosMedicos: TLabel
+    Left = 499
+    Top = 529
+    Width = 117
+    Height = 13
+    AutoSize = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label19: TLabel
+    Left = 352
+    Top = 552
+    Width = 69
+    Height = 14
+    Caption = 'Total Geral:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lblTotalGeral: TLabel
+    Left = 499
+    Top = 553
+    Width = 117
+    Height = 13
+    AutoSize = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object PnConsulta: TPanel
     Left = 0
     Top = 0
@@ -80,7 +132,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 83
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 818
     object Label1: TLabel
       Left = 8
       Top = 8
@@ -176,7 +227,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 24
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 818
     object Label3: TLabel
       Left = 8
       Top = 6
@@ -198,7 +248,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 24
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 818
     object Label4: TLabel
       Left = 8
       Top = 6
@@ -220,7 +269,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 45
     Align = alTop
     TabOrder = 3
-    ExplicitWidth = 818
     object Label5: TLabel
       Left = 8
       Top = 0
@@ -269,20 +317,11 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
       Height = 13
       Caption = 'Valor Total'
     end
-    object edtIDMatMed: TEdit
-      Left = 8
-      Top = 17
-      Width = 73
-      Height = 21
-      NumbersOnly = True
-      TabOrder = 0
-      OnExit = edtIDMatMedExit
-    end
-    object BtnBuscaMatMed: TBitBtn
+    object BtnBuscaMatMed: TSpeedButton
       Left = 88
-      Top = 17
-      Width = 28
-      Height = 21
+      Top = 16
+      Width = 23
+      Height = 22
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000000000000000000000000000000000000000000000000
@@ -318,8 +357,16 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         A2FC62504B900404031000000002000000000000000000000000000000000000
         000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
         1F3E000000060000000100000000000000000000000000000000}
-      TabOrder = 6
       OnClick = BtnBuscaMatMedClick
+    end
+    object edtIDMatMed: TEdit
+      Left = 8
+      Top = 17
+      Width = 73
+      Height = 21
+      NumbersOnly = True
+      TabOrder = 0
+      OnExit = edtIDMatMedExit
     end
     object edtQuantidade: TEdit
       Left = 415
@@ -443,7 +490,8 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         DEFF7D81DEFF7D80DEFF7D7FDEFF7C7FDDFF5C5EA3C100000004000000000000
         0002000000030000000400000004000000040000000400000004000000040000
         0004000000040000000400000005000000050000000300000001}
-      TabOrder = 7
+      TabOrder = 6
+      OnClick = BtnExcluirItemClick
     end
   end
   object PnMatMeds: TPanel
@@ -453,7 +501,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 133
     Align = alTop
     TabOrder = 4
-    ExplicitWidth = 818
     object GrdMatMeds: TDBGrid
       Left = 1
       Top = 1
@@ -525,7 +572,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 45
     Align = alTop
     TabOrder = 5
-    ExplicitWidth = 818
     object Label7: TLabel
       Left = 8
       Top = 3
@@ -747,6 +793,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         000000000000000000031213232D40437D935D61B5D07378DFFC7378DFFC5D61
         B5D040437D951212223000000004000000010000000000000000}
       TabOrder = 6
+      OnClick = BtnExcluirProcedimentoClick
     end
   end
   object PnTaxasServicos: TPanel
@@ -756,7 +803,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 169
     Align = alTop
     TabOrder = 6
-    ExplicitWidth = 818
     object GrdTaxasServicos: TDBGrid
       Left = 1
       Top = 1
@@ -830,8 +876,6 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
     Height = 51
     Align = alBottom
     TabOrder = 7
-    ExplicitTop = 539
-    ExplicitWidth = 818
     object BtnConcluirFaturamento: TBitBtn
       Left = 280
       Top = 9
