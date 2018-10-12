@@ -38,9 +38,13 @@ begin
   FModel.Descricao        := FRegistros.FieldByName('descricao').AsString;
   FModel.Codigo_tuss      := FRegistros.FieldByName('codigo_tuss').AsString;
 
-  TNumericField(FRegistros.FieldByName('valor_padrao')).DisplayFormat := ',0.00;-,0.00';
+  TNumericField(FRegistros.FieldByName('valor_padrao_total')).DisplayFormat := ',0.00;-,0.00';
+  TNumericField(FRegistros.FieldByName('valor_padrao_operacional')).DisplayFormat := ',0.00;-,0.00';
+  TNumericField(FRegistros.FieldByName('valor_padrao_honorarios_medicos')).DisplayFormat := ',0.00;-,0.00';
 
-  FModel.Valor_Padrao     := FRegistros.FieldByName('valor_padrao').AsFloat;
+  FModel.Valor_Padrao_Total     := FRegistros.FieldByName('valor_padrao_total').AsFloat;
+  FModel.Valor_Padrao_Operacional := FRegistros.FieldByName('valor_padrao_operacional').AsFloat;
+  FModel.Valor_Padrao_Honorarios_Medicos := FRegistros.FieldByName('valor_padrao_honorarios_medicos').AsFloat;
 end;
 
 procedure TControllerProcedimento.Consultar(sCampoWhere, sOrderBy: string);

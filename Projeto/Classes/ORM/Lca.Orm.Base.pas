@@ -129,10 +129,10 @@ type
     function GetID(ATabela:TTabela; ACampo: string): Integer;
   // pega descricao pelo campo chave da tabela
     function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string;
-      AValue: Integer; iOperacao: integer): string; overload;
+      AValue: Integer; iOperacao: integer): Variant; overload;
 
     function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string;
-      AValue: string; iOperacao: integer): string; overload;
+      AValue: string; iOperacao: integer): Variant; overload;
 
   // comandos crud
     function Inserir(ATabela: TTabela): Integer; overload;

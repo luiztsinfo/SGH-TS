@@ -1,21 +1,34 @@
 inherited frmProcedimentos: TfrmProcedimentos
   Caption = '::. PROCEDIMENTOS ,::'
   ClientHeight = 332
+  ClientWidth = 737
   OnCreate = FormCreate
+  ExplicitWidth = 743
   ExplicitHeight = 361
   PixelsPerInch = 96
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
+    Width = 737
     Height = 277
     ExplicitHeight = 277
     inherited TbShConsulta: TTabSheet
       ExplicitHeight = 249
       inherited PnDados: TPanel
+        Width = 729
         Height = 182
         ExplicitHeight = 182
         inherited GrdDados: TDBGrid
+          Width = 723
           Height = 176
           Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'ID'
+              Title.Alignment = taCenter
+              Width = 55
+              Visible = True
+            end
             item
               Expanded = False
               FieldName = 'DESCRICAO'
@@ -27,33 +40,34 @@ inherited frmProcedimentos: TfrmProcedimentos
             item
               Alignment = taCenter
               Expanded = False
-              FieldName = 'CODIGO_AMB_CHPM'
+              FieldName = 'VALOR_PADRAO_OPERACIONAL'
               Title.Alignment = taCenter
-              Title.Caption = 'C'#243'd. AMB/CHPM'
-              Width = 92
-              Visible = True
-            end
-            item
-              Alignment = taCenter
-              Expanded = False
-              FieldName = 'CODIGO_TUSS'
-              Title.Alignment = taCenter
-              Title.Caption = 'TUSS'
-              Width = 94
-              Visible = True
-            end
-            item
-              Alignment = taCenter
-              Expanded = False
-              FieldName = 'VALOR_PADRAO'
-              Title.Alignment = taCenter
-              Title.Caption = 'Valor Padr'#227'o'
+              Title.Caption = 'Operacional'
               Width = 74
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VALOR_PADRAO_HONORARIOS_MEDICOS'
+              Title.Alignment = taCenter
+              Title.Caption = 'Honor'#225'rios M'#233'dicos'
+              Width = 126
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'VALOR_PADRAO_TOTAL'
+              Title.Alignment = taCenter
+              Title.Caption = 'Valor Total'
+              Width = 104
               Visible = True
             end>
         end
       end
       inherited PnFiltro: TPanel
+        Width = 729
         inherited CbxConsulta: TComboBox
           ItemIndex = 0
           Text = 'DESCRICAO'
@@ -78,6 +92,7 @@ inherited frmProcedimentos: TfrmProcedimentos
       ExplicitWidth = 639
       ExplicitHeight = 249
       inherited PnCampos: TPanel
+        Width = 729
         Height = 249
         ExplicitHeight = 249
         object Label1: TLabel
@@ -110,10 +125,24 @@ inherited frmProcedimentos: TfrmProcedimentos
         end
         object Label6: TLabel
           Left = 16
-          Top = 102
-          Width = 61
+          Top = 106
+          Width = 84
           Height = 13
-          Caption = 'Valor Padr'#227'o'
+          Caption = 'Valor Operacional'
+        end
+        object Label7: TLabel
+          Left = 123
+          Top = 106
+          Width = 87
+          Height = 13
+          Caption = 'Hoor'#225'rios M'#233'dicos'
+        end
+        object Label8: TLabel
+          Left = 232
+          Top = 106
+          Width = 119
+          Height = 13
+          Caption = 'Valor Total Procedimento'
         end
         object edtID: TEdit
           Left = 16
@@ -151,20 +180,40 @@ inherited frmProcedimentos: TfrmProcedimentos
           TabOrder = 3
           Text = 'edtTUSS'
         end
-        object edtValorPadrao: TEdit
+        object edtOperacional: TEdit
           Left = 16
           Top = 121
           Width = 89
           Height = 21
           TabOrder = 4
-          Text = 'edtValorPadrao'
-          OnExit = edtValorPadraoExit
+          Text = 'edtOperacional'
+          OnExit = edtOperacionalExit
+        end
+        object edtValorTotal: TEdit
+          Left = 232
+          Top = 121
+          Width = 89
+          Height = 21
+          TabOrder = 6
+          Text = 'edtValorTotal'
+          OnEnter = edtValorTotalEnter
+          OnExit = edtValorTotalExit
+        end
+        object edtHonorariosMedicos: TEdit
+          Left = 123
+          Top = 121
+          Width = 89
+          Height = 21
+          TabOrder = 5
+          Text = 'edtHonorariosMedicos'
+          OnExit = edtHonorariosMedicosExit
         end
       end
     end
   end
   inherited PnBotoes: TPanel
     Top = 277
+    Width = 737
     ExplicitTop = 277
   end
 end

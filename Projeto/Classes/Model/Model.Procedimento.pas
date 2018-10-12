@@ -14,7 +14,9 @@ type
     FDescricao: string;
     FCodigo_tuss: string;
     FSituacao: string;
-    FValor_Padrao: Double;
+    FValor_Padrao_Total: Double;
+    FValor_Padrao_Operacional: Double;
+    FValor_Padrao_Honorarios_Medicos: Double;
   public
     [attPK]
     property Id: Integer read FId write FId;
@@ -22,7 +24,13 @@ type
     property Descricao: string read FDescricao write FDescricao;
     property Codigo_tuss: string read FCodigo_tuss write FCodigo_tuss;
     property Situacao: string read FSituacao write FSituacao;
-    property Valor_Padrao: Double read FValor_Padrao write FValor_Padrao;
+    property Valor_Padrao_Total: Double read FValor_Padrao_Total write FValor_Padrao_Total;
+
+    property Valor_Padrao_Operacional: Double read FValor_Padrao_Operacional
+      write FValor_Padrao_Operacional;
+
+    property Valor_Padrao_Honorarios_Medicos: Double read FValor_Padrao_Honorarios_Medicos
+      write FValor_Padrao_Honorarios_Medicos;
   end;
 
 implementation

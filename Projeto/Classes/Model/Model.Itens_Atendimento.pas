@@ -18,6 +18,8 @@ type
       FId_Procedimento: integer;
       FId_matmed: integer;
       FValor_Total: Double;
+      FValor_operacional: Double;
+      FValor_honorarios_medicos: Double;
 
     public
       [attPk]
@@ -30,6 +32,10 @@ type
       property Valor_Total: Double read FValor_Total write FValor_Total;
       property Exame: Integer read FExame write FExame;
       property Id_Atendimento: integer read FID_atendimento write FID_atendimento;
+      property Valor_honorarios_medicos: Double read FValor_honorarios_medicos
+        write FValor_honorarios_medicos;
+      property Valor_operacional: Double read FValor_operacional
+        write Fvalor_Operacional;
   end;
 
 implementation

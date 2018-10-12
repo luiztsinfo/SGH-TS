@@ -117,10 +117,10 @@ type
     // pega campo autoincremento
     function GetID(ATabela: TTabela; ACampo: string): Integer;
     function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: Integer;
-      iOperacao: integer): string; overload;
+      iOperacao: integer): Variant; overload;
 
     function GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey: string; AValue: string;
-      iOperacao: integer): string; overload;
+      iOperacao: integer): Variant; overload;
 
     function GetMax(ATabela: TTabela; ACampo: string;
       ACamposChave: array of string): Integer;
@@ -780,7 +780,7 @@ begin
 end;
 
 function TDaoFireDac.GetValueForeignKey(ATabela: TTabela; AFieldDesc, AFieldKey,
-  AValue: string; iOperacao: integer): string;
+  AValue: string; iOperacao: integer): Variant;
 var
   AQry: TFDQuery;
 begin
@@ -805,7 +805,7 @@ begin
 end;
 
 function TDaoFireDac.GetValueForeignKey(ATabela: TTabela; AFieldDesc,
-  AFieldKey: string; AValue: integer; iOperacao: integer): string;
+  AFieldKey: string; AValue: integer; iOperacao: integer): Variant;
 var
   AQry: TFDQuery;
 begin
@@ -816,6 +816,7 @@ begin
     sql.Clear;
     sql.Add('select ' + AFieldDesc + ',situacao from ' + TAtributos.Get.PegaNomeTab(ATabela) + ' where '+
     AFieldKey + ' = ' + AValue.ToString);
+    SQL.SaveToFile('C:\logs\getvaluefk.sql');
     Open;
 
     if (AQry.FieldByName('situacao').AsString = 'I') and (iOperacao = iINCLUINDO) then

@@ -19,12 +19,19 @@ type
     edtDescricao: TEdit;
     edtCodAMBCHPM: TEdit;
     edtTUSS: TEdit;
-    edtValorPadrao: TEdit;
+    edtOperacional: TEdit;
+    Label7: TLabel;
+    Label8: TLabel;
+    edtValorTotal: TEdit;
+    edtHonorariosMedicos: TEdit;
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure edtValorPadraoExit(Sender: TObject);
+    procedure edtOperacionalExit(Sender: TObject);
     procedure GrdDadosDblClick(Sender: TObject);
+    procedure edtHonorariosMedicosExit(Sender: TObject);
+    procedure edtValorTotalExit(Sender: TObject);
+    procedure edtValorTotalEnter(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,6 +39,7 @@ type
     procedure carregarCampos; override;
     procedure consultar; override;
     procedure alterar; override;
+    procedure CalcularTotal;
   end;
 
 var
@@ -47,7 +55,9 @@ begin
   TControllerProcedimento(FController).Model.Descricao       := edtDescricao.Text;
   TControllerProcedimento(FController).Model.Codigo_amb_chpm := edtCodAMBCHPM.Text;
   TControllerProcedimento(FController).Model.Codigo_tuss     := edtTUSS.Text;
-  TControllerProcedimento(FController).Model.Valor_Padrao    := StrToFloat(edtValorPadrao.Text);
+  TControllerProcedimento(FController).Model.Valor_Padrao_Total    := StrToFloat(edtValorTotal.Text);
+  TControllerProcedimento(FController).Model.Valor_Padrao_Operacional := StrToFloat(edtOperacional.Text);
+  TControllerProcedimento(FController).Model.Valor_Padrao_Honorarios_Medicos := StrToFloat(edtHonorariosMedicos.Text);
 end;
 
 procedure TfrmProcedimentos.alterar;
@@ -63,6 +73,18 @@ begin
   edtDescricao.SetFocus;
 end;
 
+procedure TfrmProcedimentos.CalcularTotal;
+var
+  vHonorarios, vOperacional, vTotal: Double;
+begin
+  if (TryStrToFloat(edtOperacional.Text,vOperacional))
+    and (TryStrToFloat(edtHonorariosMedicos.Text,vHonorarios)) then
+    begin
+      vTotal := vHonorarios + vOperacional;
+      edtValorTotal.Text := FloatToStr(vTotal);
+    end;
+end;
+
 procedure TfrmProcedimentos.carregarCampos;
 begin
   inherited;
@@ -70,7 +92,9 @@ begin
   edtDescricao.Text := TControllerProcedimento(FController).Model.Descricao;
   edtCodAMBCHPM.Text:= TControllerProcedimento(FController).Model.Codigo_amb_chpm;
   edtTUSS.Text      := TControllerProcedimento(FController).Model.Codigo_tuss;
-  edtValorPadrao.Text := FloatToStr(TControllerProcedimento(FController).Model.Valor_Padrao);
+  edtValorTotal.Text := FloatToStr(TControllerProcedimento(FController).Model.Valor_Padrao_Total);
+  edtOperacional.Text:= FloatToStr(TControllerProcedimento(FController).Model.Valor_Padrao_Operacional);
+  edtHonorariosMedicos.Text := FloatToStr(TControllerProcedimento(FController).Model.Valor_Padrao_Honorarios_Medicos);
 end;
 
 procedure TfrmProcedimentos.consultar;
@@ -84,13 +108,43 @@ begin
   TControllerProcedimento(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
 end;
 
-procedure TfrmProcedimentos.edtValorPadraoExit(Sender: TObject);
+procedure TfrmProcedimentos.edtHonorariosMedicosExit(Sender: TObject);
 var
   FFuncoes: TFuncoes;
 begin
   inherited;
   FFuncoes            := TFuncoes.Create;
-  edtValorPadrao.Text := FFuncoes.TrataReal(edtValorPadrao.Text);
+  edtHonorariosMedicos.Text := FFuncoes.TrataReal(edtHonorariosMedicos.Text);
+  FreeAndNil(FFuncoes);
+
+  CalcularTotal;
+end;
+
+procedure TfrmProcedimentos.edtOperacionalExit(Sender: TObject);
+var
+  FFuncoes: TFuncoes;
+begin
+  inherited;
+  FFuncoes            := TFuncoes.Create;
+  edtOperacional.Text := FFuncoes.TrataReal(edtOperacional.Text);
+  FreeAndNil(FFuncoes);
+
+  CalcularTotal;
+end;
+
+procedure TfrmProcedimentos.edtValorTotalEnter(Sender: TObject);
+begin
+  inherited;
+  CalcularTotal;
+end;
+
+procedure TfrmProcedimentos.edtValorTotalExit(Sender: TObject);
+var
+  FFuncoes: TFuncoes;
+begin
+  inherited;
+  FFuncoes            := TFuncoes.Create;
+  edtValorTotal.Text := FFuncoes.TrataReal(edtValorTotal.Text);
   FreeAndNil(FFuncoes);
 end;
 

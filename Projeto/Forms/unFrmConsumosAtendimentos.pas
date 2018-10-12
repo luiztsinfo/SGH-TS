@@ -87,6 +87,8 @@ type
     procedure BtnIncluirTaxaServicoClick(Sender: TObject);
     procedure BtnExcluirItemClick(Sender: TObject);
     procedure BtnExcluirProcedimentoClick(Sender: TObject);
+    procedure edtQuantidadeProcedimentoExit(Sender: TObject);
+    procedure edtValorTotalProcedimentoExit(Sender: TObject);
   private
     FController: TControllerConsumosAtendimento;
     function CalcularTotalMatMeds: Double;
@@ -94,6 +96,8 @@ type
     procedure LimparTudo;
     procedure LimparMatMeds;
     procedure LimparProcedimentos;
+    procedure CalcularTotais(pIDAtendimento: integer);
+
   public
     { Public declarations }
   end;
@@ -134,7 +138,7 @@ begin
   if FController.ExcluirItem(iTpMatMed) then
   begin
     FController.ConsultarMatMedsAtendimento(StrToInt(edtAtendimento.Text));
-    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(StrToInt(edtAtendimento.Text)));
+    CalcularTotais(StrToInt(edtAtendimento.Text));
   end;
 end;
 
@@ -143,7 +147,7 @@ begin
   if FController.ExcluirItem(iTpProcedimento) then
   begin
     FController.ConsultarProcedimentosAtendimento(StrToInt(edtAtendimento.Text));
-    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(StrToInt(edtAtendimento.Text)));
+    CalcularTotais(StrToInt(edtAtendimento.Text));
   end;
 end;
 
@@ -151,7 +155,7 @@ procedure TfrmConsumosAtendimentos.BtnIncluirMatMedClick(Sender: TObject);
 var
   vMatMed, vAtendimento: integer;
   vDataConsumo: TDateTime;
-  vQuantidade, vValor, vValorTotal: Double;
+  vQuantidade, vValor, vValorTotal, vOperacional, vHonorarios: Double;
 begin
   FController.LimparModel;
   CalcularTotalMatMeds;
@@ -203,7 +207,7 @@ begin
   if FController.IncluirItem(iTpMatMed,vAtendimento) then
   begin
     FController.ConsultarMatMedsAtendimento(vAtendimento);
-    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+    CalcularTotais(vAtendimento);
     LimparMatMeds;
   end;
 end;
@@ -261,10 +265,13 @@ begin
     Exit;
   end;
 
+  FController.Model.Valor_honorarios_medicos := FController.GetValorHonorariosMedicos(vProcedimento) * vQuantidade;
+  FController.Model.Valor_operacional := FController.GetvalorOperacional(vProcedimento) * vQuantidade;
+
   if FController.IncluirItem(iTpProcedimento,vAtendimento) then
   begin
     FController.ConsultarProcedimentosAtendimento(vAtendimento);
-    lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+    CalcularTotais(vAtendimento);
     LimparProcedimentos;
   end;
 end;
@@ -272,6 +279,14 @@ end;
 procedure TfrmConsumosAtendimentos.BtnSairClick(Sender: TObject);
 begin
   Self.Close;
+end;
+
+procedure TfrmConsumosAtendimentos.CalcularTotais(pIDAtendimento: integer);
+begin
+  lblTotalMatMeds.Caption := FloatToStr(FController.GetTotalMatMeds(pIDAtendimento));
+  lblTotalProcedimentos.Caption := FloatToStr(FController.GetTotalCustoOperacional(pIDAtendimento));
+  lblHonorariosMedicos.Caption := FormatFloat('###,###',FController.GetTotalHonorariosMedicos(pIDAtendimento));
+  lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(pIDAtendimento));
 end;
 
 function TfrmConsumosAtendimentos.CalcularTotalMatMeds: Double;
@@ -318,7 +333,7 @@ begin
       FController.ConsultarMatMedsAtendimento(vAtendimento);
       FController.ConsultarProcedimentosAtendimento(vAtendimento);
 
-      lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+      CalcularTotais(vAtendimento);
     end;
   end;
 end;
@@ -344,7 +359,14 @@ begin
   begin
     lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
     edtValorUnitProcedimento.Text := FloatToStr(FController.GetValorProcedimento(vValue));
+    CalcularTotalProcedimentos;
   end;
+end;
+
+procedure TfrmConsumosAtendimentos.edtQuantidadeProcedimentoExit(
+  Sender: TObject);
+begin
+  CalcularTotalProcedimentos;
 end;
 
 procedure TfrmConsumosAtendimentos.edtValorTotalMatMedExit(Sender: TObject);
@@ -353,6 +375,12 @@ begin
 end;
 
 procedure TfrmConsumosAtendimentos.edtValorTotalProcedimentoEnter(
+  Sender: TObject);
+begin
+  CalcularTotalProcedimentos;
+end;
+
+procedure TfrmConsumosAtendimentos.edtValorTotalProcedimentoExit(
   Sender: TObject);
 begin
   CalcularTotalProcedimentos;
@@ -407,7 +435,7 @@ begin
       FController.ConsultarMatMedsAtendimento(vAtendimento);
       FController.ConsultarProcedimentosAtendimento(vAtendimento);
 
-      lblTotalGeral.Caption := FloatToStr(FController.GetValorTotalGeral(vAtendimento));
+      CalcularTotais(vAtendimento);
     end;
   end;
 
@@ -450,6 +478,7 @@ begin
     begin
       lblProcedimento.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
       edtValorUnitProcedimento.Text := FloatToStr(FController.GetValorProcedimento(vValue));
+      CalcularTotalProcedimentos;
     end;
 
     FreeAndNil(frmProcedimento);

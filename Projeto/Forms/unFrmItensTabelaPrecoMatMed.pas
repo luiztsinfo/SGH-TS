@@ -181,6 +181,9 @@ procedure TfrmItensTabelaPrecoMatMed.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   if key = VK_ESCAPE then
     Self.Close;
+
+  if Key = VK_RETURN then
+    perform(WM_NEXTDLGCTL,0,0);
 end;
 
 procedure TfrmItensTabelaPrecoMatMed.FormShow(Sender: TObject);

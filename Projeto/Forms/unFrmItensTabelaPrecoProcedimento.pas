@@ -54,12 +54,14 @@ type
     procedure BtnExcluirItemClick(Sender: TObject);
     procedure edtHonorariosMedicosExit(Sender: TObject);
     procedure edtValorTotalExit(Sender: TObject);
+    procedure edtCustoOperacionalExit(Sender: TObject);
+    procedure edtValorTotalEnter(Sender: TObject);
   private
     FController: TControllerItensTabelaPrecoProcedimento;
     procedure LimparControles;
     procedure AlimentarModel;
     procedure AlimentarControles;
-    function CalcularValorTotal: Double;
+    procedure CalcularValorTotal;
   public
     iID_TabelaPrecoProcedimento: integer;
   end;
@@ -82,12 +84,18 @@ begin
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.AlimentarModel;
+var
+  vHonorarios: Double;
 begin
+  vHonorarios := 0;
+
   FController.Model.Id_tabela_procedimentos := iID_TabelaPrecoProcedimento;
   FController.Model.Id_Procedimento := StrToInt(edtCodInicial.Text);
   FController.Model.Valor_total := StrToFloat(edtValorTotal.Text);
   FController.Model.Custo_Operacional := StrToFloat(edtCustoOperacional.Text);
-  FController.Model.Honorarios_medicos := StrToFloat(edtHonorariosMedicos.Text);
+
+  if TryStrToFloat(edtHonorariosMedicos.Text,vHonorarios) then
+    FController.Model.Honorarios_medicos := vHonorarios;
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.BtnBuscaMatMedFinalClick(Sender: TObject);
@@ -123,7 +131,12 @@ begin
     edtCodInicial.Text := IntToStr(frmProcedimento.FValueFieldKey);
 
     if TryStrToInt(edtCodInicial.Text,vValue) then
+    begin
       lblProcedimentoInicial.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+      edtCustoOperacional.Text := FController.GetOperacionalProcedimento(vValue,iINCLUINDO);
+      edtHonorariosMedicos.Text := FController.GetHonorariosProcedimento(vValue,iINCLUINDO);
+      CalcularValorTotal;
+    end;
 
     FreeAndNil(frmProcedimento);
   end;
@@ -151,13 +164,22 @@ begin
   edtCodInicial.SetFocus;
 end;
 
-function TfrmItensTabelaPrecoProcedimento.CalcularValorTotal: Double;
+procedure TfrmItensTabelaPrecoProcedimento.CalcularValorTotal;
 var
-  vOperacional, vMedicos: Double;
+  vOperacional, vMedicos, vTotal: Double;
 begin
-  if (TryStrToFloat(edtCustoOperacional.Text,vOperacional)) and
-    (TryStrToFloat(edtHonorariosMedicos.Text,vMedicos)) then
-      Result := vOperacional + vMedicos;
+  vOperacional := 0;
+  vMedicos := 0;
+  vTotal := 0;
+
+  if not(TryStrToFloat(edtCustoOperacional.Text,vOperacional)) then
+    vOperacional := 0;
+
+  if not(TryStrToFloat(edtHonorariosMedicos.Text,vMedicos)) then
+    vMedicos := 0;
+
+  vTotal := vOperacional + vMedicos;
+  edtValorTotal.Text := FloatToStr(vTotal);
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.edtCodFinalExit(Sender: TObject);
@@ -175,7 +197,12 @@ var
 begin
   inherited;
   if TryStrToInt(edtCodInicial.Text,vValue) then
+  begin
     lblProcedimentoInicial.Caption := FController.GetDescricaoProcedimento(vValue,iINCLUINDO);
+    edtCustoOperacional.Text := FController.GetOperacionalProcedimento(vValue,iINCLUINDO);
+    edtHonorariosMedicos.Text := FController.GetOperacionalProcedimento(vValue,iINCLUINDO);
+    CalcularValorTotal;
+  end;
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.edtConsultaKeyDown(Sender: TObject;
@@ -185,15 +212,26 @@ begin
     FController.ConsultarItemTabelaProcedimento(RdGrpTipoBusca.ItemIndex,edtConsulta.Text);
 end;
 
+procedure TfrmItensTabelaPrecoProcedimento.edtCustoOperacionalExit(
+  Sender: TObject);
+begin
+  CalcularValorTotal;
+end;
+
 procedure TfrmItensTabelaPrecoProcedimento.edtHonorariosMedicosExit(
   Sender: TObject);
 begin
-  edtValorTotal.Text := FloatToStr(CalcularValorTotal);
+  CalcularValorTotal;
+end;
+
+procedure TfrmItensTabelaPrecoProcedimento.edtValorTotalEnter(Sender: TObject);
+begin
+  CalcularValorTotal;
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.edtValorTotalExit(Sender: TObject);
 begin
-  edtValorTotal.Text := FloatToStr(CalcularValorTotal);
+  CalcularValorTotal;
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.FormCreate(Sender: TObject);
@@ -212,6 +250,9 @@ procedure TfrmItensTabelaPrecoProcedimento.FormKeyDown(Sender: TObject; var Key:
 begin
   if key = VK_ESCAPE then
     Self.Close;
+
+  if Key = VK_RETURN then
+    perform(WM_NEXTDLGCTL,0,0);
 end;
 
 procedure TfrmItensTabelaPrecoProcedimento.FormShow(Sender: TObject);
@@ -227,6 +268,7 @@ begin
   edtValorTotal.Text := '0,00';
   edtCustoOperacional.Text := '0,00';
   edtHonorariosMedicos.Text := '0,00';
+  lblProcedimentoInicial.Caption := '';
 end;
 
 end.
