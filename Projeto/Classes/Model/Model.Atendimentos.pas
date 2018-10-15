@@ -39,6 +39,8 @@ type
     FTipo_acomodacao: integer;
     FOrigem: integer;
     FId_quarto: integer;
+    FStatus_Faturamento: string;
+    FMotivo_Nao_Cobranca: integer;
 
   public
     [attPK]
@@ -75,6 +77,8 @@ type
     property Tipo_acomodacao: integer read FTipo_acomodacao write FTipo_acomodacao;
 
     property Tipo: integer read FTipo write FTipo;
+    property Status_Faturamento : string read FStatus_Faturamento write FStatus_Faturamento;
+    property Motivo_Nao_Cobranca: integer read FMotivo_Nao_Cobranca write FMotivo_Nao_Cobranca;
 
   end;
 

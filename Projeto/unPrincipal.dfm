@@ -2365,7 +2365,7 @@ object frmPrincipal: TfrmPrincipal
         OnClick = Colaboradores1Click
       end
       object abelas1: TMenuItem
-        Caption = 'Tabelas'
+        Caption = 'Auxiliares'
         object Religies1: TMenuItem
           Caption = 'Religi'#245'es'
           OnClick = Religies1Click
@@ -2394,6 +2394,44 @@ object frmPrincipal: TfrmPrincipal
           OnClick = CID1Click
         end
       end
+      object Fornecedores1: TMenuItem
+        Caption = 'Fornecedores'
+        OnClick = Fornecedores1Click
+      end
+      object N01: TMenuItem
+        Caption = '-'
+      end
+      object Setores1: TMenuItem
+        Caption = 'Setores'
+        OnClick = Setores1Click
+      end
+      object Quartos1: TMenuItem
+        Caption = 'Quartos'
+        OnClick = Quartos1Click
+      end
+      object Leitos1: TMenuItem
+        Caption = 'Leitos'
+        OnClick = Leitos1Click
+      end
+      object Estoque1: TMenuItem
+        Caption = 'Estoque'
+        object MatMeds1: TMenuItem
+          Caption = 'MatMed'#39's'
+          OnClick = MatMeds1Click
+        end
+        object UnidadesdeMedida1: TMenuItem
+          Caption = 'Unidades de Medida'
+          OnClick = UnidadesdeMedida1Click
+        end
+        object Grupos1: TMenuItem
+          Caption = 'Grupos'
+          OnClick = Grupos1Click
+        end
+        object Locais1: TMenuItem
+          Caption = 'Locais'
+          OnClick = Locais1Click
+        end
+      end
       object Faturamento1: TMenuItem
         Caption = 'Faturamento'
         object abeladePreosProcedimentos1: TMenuItem
@@ -2418,44 +2456,17 @@ object frmPrincipal: TfrmPrincipal
           Caption = 'Procedimentos'
           OnClick = Procedimentos1Click
         end
-      end
-      object Fornecedores1: TMenuItem
-        Caption = 'Fornecedores'
-        OnClick = Fornecedores1Click
-      end
-      object Estoque1: TMenuItem
-        Caption = 'Estoque'
-        object MatMeds1: TMenuItem
-          Caption = 'MatMed'#39's'
-          OnClick = MatMeds1Click
+        object N5: TMenuItem
+          Caption = '-'
         end
-        object UnidadesdeMedida1: TMenuItem
-          Caption = 'Unidades de Medida'
-          OnClick = UnidadesdeMedida1Click
+        object Competncias1: TMenuItem
+          Caption = 'Compet'#234'ncias'
+          OnClick = Competncias1Click
         end
-        object Grupos1: TMenuItem
-          Caption = 'Grupos'
-          OnClick = Grupos1Click
+        object Faturas1: TMenuItem
+          Caption = 'Faturas'
+          OnClick = Faturas1Click
         end
-        object Locais1: TMenuItem
-          Caption = 'Locais'
-          OnClick = Locais1Click
-        end
-      end
-      object N01: TMenuItem
-        Caption = '-'
-      end
-      object Setores1: TMenuItem
-        Caption = 'Setores'
-        OnClick = Setores1Click
-      end
-      object Quartos1: TMenuItem
-        Caption = 'Quartos'
-        OnClick = Quartos1Click
-      end
-      object Leitos1: TMenuItem
-        Caption = 'Leitos'
-        OnClick = Leitos1Click
       end
     end
     object Atendimentos1: TMenuItem

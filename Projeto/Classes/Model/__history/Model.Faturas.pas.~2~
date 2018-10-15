@@ -1,0 +1,29 @@
+unit Model.Faturas;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('faturamento.faturas')]
+  TFaturas = class(TTabela)
+    private
+    FId_Convenio: integer;
+    FDescricao: string;
+    FId: integer;
+    FStatus: integer;
+    FSituacao: string;
+
+    public
+      [attPk]
+      property Id: integer read FId write FId;
+      property Descricao: string read FDescricao write FDescricao;
+      property Status: integer read FStatus write FStatus;
+      property Id_Convenio: integer read FId_Convenio write FId_Convenio;
+      property Situacao: string read FSituacao write FSituacao;
+  end;
+
+implementation
+
+end.

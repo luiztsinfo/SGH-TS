@@ -1,0 +1,121 @@
+unit Controller.Faturas;
+
+interface
+
+uses Controller.Interfaces, Model.Faturas, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes, Model.Convenios;
+
+type
+  TControllerFaturas = class(TInterfacedObject, iControllerCadastros)
+    private
+      FConvenio              : TConvenios;
+      FModel                 : TFaturas;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      function GetNomeConvenio(AID, iOperacao: integer): string;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TFaturas read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+ { TControllerFaturas }
+
+procedure TControllerFaturas.AlimentaCamposModel;
+begin
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+  FModel.Id := FRegistros.FieldByName('id').AsInteger;
+  FModel.Descricao := FRegistros.FieldByName('descricao').AsString;
+  FModel.Status := FRegistros.FieldByName('status').AsInteger;
+  FModel.Id_Convenio := FRegistros.FieldByName('id_convenio').AsInteger;
+  FModel.Data_Abertura := FRegistros.FieldByName('data_abertura').AsDateTime;
+  FModel.Data_Fechamento := FRegistros.FieldByName('data_fechamento').AsDateTime;
+ // FModel.Situacao := FRegistros.FieldByName('situacao').AsString;
+end;
+
+procedure TControllerFaturas.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerFaturas.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TFaturas.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  FConvenio        := TConvenios.Create;
+  inherited;
+end;
+
+destructor TControllerFaturas.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+  FConvenio.Free;
+end;
+
+procedure TControllerFaturas.Excluir;
+begin
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerFaturas.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerFaturas.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+function TControllerFaturas.GetNomeConvenio(AID, iOperacao: integer): string;
+begin
+  if Assigned(FDao) then
+    Result := FDao.GetValueForeignKey(FConvenio,'nome','id',AID,iOperacao);
+end;
+
+procedure TControllerFaturas.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerFaturas.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+end.
+

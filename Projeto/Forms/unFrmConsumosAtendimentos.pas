@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.AppEvnts, Controller.ConsumosAtendimento,
-  Vcl.Mask, unConstantes, unFrmMatMed, u_FrmBase, unFrmProcedimentos;
+  Vcl.Mask, unConstantes, unFrmMatMed, u_FrmBase, unFrmProcedimentos,
+  unFrmConcluirFaturamento, unFrmNaoCobrar;
 
 type
   TfrmConsumosAtendimentos = class(TForm)
@@ -89,6 +90,8 @@ type
     procedure BtnExcluirProcedimentoClick(Sender: TObject);
     procedure edtQuantidadeProcedimentoExit(Sender: TObject);
     procedure edtValorTotalProcedimentoExit(Sender: TObject);
+    procedure BtnConcluirFaturamentoClick(Sender: TObject);
+    procedure BtnNaoCobrarClick(Sender: TObject);
   private
     FController: TControllerConsumosAtendimento;
     function CalcularTotalMatMeds: Double;
@@ -130,6 +133,22 @@ begin
     end;
 
     FreeAndNil(frmMatMed);
+  end;
+end;
+
+procedure TfrmConsumosAtendimentos.BtnConcluirFaturamentoClick(Sender: TObject);
+begin
+  frmConcluirFaturamento := TfrmConcluirFaturamento.Create(self);
+  try
+    frmFundo.Show;
+    frmConcluirFaturamento.FAtendimento := StrToInt(edtAtendimento.Text);
+    frmConcluirFaturamento.ShowModal;
+  finally
+    if frmConcluirFaturamento.bConcluiu then
+      Self.Close;
+
+    frmFundo.Hide;
+    FreeAndNil(frmConcluirFaturamento);
   end;
 end;
 
@@ -273,6 +292,22 @@ begin
     FController.ConsultarProcedimentosAtendimento(vAtendimento);
     CalcularTotais(vAtendimento);
     LimparProcedimentos;
+  end;
+end;
+
+procedure TfrmConsumosAtendimentos.BtnNaoCobrarClick(Sender: TObject);
+begin
+  frmNaoCobrar := TfrmNaoCobrar.Create(self);
+  try
+    frmFundo.Show;
+    frmNaoCobrar.FAtendimento := StrToInt(edtAtendimento.Text);
+    frmNaoCobrar.ShowModal;
+  finally
+    if frmNaoCobrar.bConcluiu then
+      Self.Close;
+
+    frmFundo.Hide;
+    FreeAndNil(frmNaoCobrar);
   end;
 end;
 

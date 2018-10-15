@@ -922,6 +922,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         94FFCFA393FFCEA393FFCEA393FFCEA292FFCEA292FFCDA292FFCDA292FFCDA1
         91FFCDA090FFCCA090FFCC9F8FFFCB9E8EFFCB9E8EFF967469C3}
       TabOrder = 0
+      OnClick = BtnConcluirFaturamentoClick
     end
     object BtnNaoCobrar: TBitBtn
       Left = 448
@@ -965,6 +966,7 @@ object frmConsumosAtendimentos: TfrmConsumosAtendimentos
         94FFCFA393FFCEA393FFCEA393FFCEA292FFCEA292FFCDA292FFCDA292FFCDA1
         91FFCDA090FFCCA090FFCC9F8FFFCB9E8EFFCB9E8EFF967469C3}
       TabOrder = 1
+      OnClick = BtnNaoCobrarClick
     end
     object BtnSair: TBitBtn
       Left = 779

@@ -1,0 +1,130 @@
+unit unFrmFaturas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
+  Controller.Faturas, unConstantes, unFrmConvenios, u_FrmBase, Vcl.Mask;
+
+type
+  TFrmFaturas = class(TFrmBaseBasico)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    lblConvenio: TLabel;
+    Label6: TLabel;
+    edtDescricao: TEdit;
+    edtID: TEdit;
+    edtIDConvenio: TEdit;
+    CbxStatus: TComboBox;
+    SpdBtnBuscaConvenio: TSpeedButton;
+    Label5: TLabel;
+    Label7: TLabel;
+    mskDataFechamento: TMaskEdit;
+    mskDataAbertura: TMaskEdit;
+    procedure BtnNovoClick(Sender: TObject);
+    procedure TbShCadastroShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edtIDConvenioExit(Sender: TObject);
+    procedure SpdBtnBuscaConvenioClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure alimentaModel; override;
+    procedure carregarCampos; override;
+    procedure consultar; override;
+    procedure alterar; override;
+  end;
+
+var
+  FrmFaturas: TFrmFaturas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmFaturas.alimentaModel;
+begin
+  inherited;
+  TControllerFaturas(FController).Model.Descricao := edtDescricao.Text;
+  TControllerFaturas(FController).Model.Status := CbxStatus.ItemIndex;
+  TControllerFaturas(FController).Model.Id_Convenio := StrToInt(edtIDConvenio.Text);
+end;
+
+procedure TFrmFaturas.alterar;
+begin
+  inherited;
+  TControllerFaturas(FController).Model.Id := StrToInt(edtID.Text);
+  TControllerFaturas(FController).FDao.Salvar(TControllerFaturas(FController).Model)
+end;
+
+procedure TFrmFaturas.BtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+procedure TFrmFaturas.carregarCampos;
+begin
+  inherited;
+  edtID.Text := IntToStr(TControllerFaturas(FController).Model.Id);
+  edtDescricao.Text := TControllerFaturas(FController).Model.Descricao;
+  CbxStatus.ItemIndex := TControllerFaturas(FController).Model.Status;
+  edtIDConvenio.Text := IntToStr(TControllerFaturas(FController).Model.Id_Convenio);
+end;
+
+procedure TFrmFaturas.consultar;
+begin
+  TControllerFaturas(FController).Model.Situacao := sATIVO;
+
+  case CbxConsulta.ItemIndex of
+    iID:
+      TControllerFaturas(FController).Model.Id := StrToInt(trim(edtConsulta.Text));
+    iNOME:
+      TControllerFaturas(FController).Model.Descricao := '%'+trim(edtConsulta.Text)+'%';
+  end;
+  TControllerFaturas(FController).consultar(CbxConsulta.Text,CbxOrdenarPor.Text);
+end;
+
+procedure TFrmFaturas.edtIDConvenioExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtIDConvenio.Text,vValue) then
+    lblConvenio.Caption := TControllerFaturas(FController).GetNomeConvenio(vValue,iINCLUINDO);
+end;
+
+procedure TFrmFaturas.FormCreate(Sender: TObject);
+begin
+  FController := TControllerFaturas.Create;
+  inherited;
+end;
+
+procedure TFrmFaturas.SpdBtnBuscaConvenioClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmConvenios := TfrmConvenios.Create(Self,toConsulta);
+    frmConvenios.ShowModal;
+  finally
+    edtIDConvenio.Text := IntToStr(frmConvenios.FValueFieldKey);
+
+    if TryStrToInt(edtIDConvenio.Text,vValue) then
+      lblConvenio.Caption := TControllerFaturas(FController).GetNomeConvenio(vValue,iINCLUINDO);
+
+    FreeAndNil(frmConvenios);
+  end;
+end;
+
+procedure TFrmFaturas.TbShCadastroShow(Sender: TObject);
+begin
+  inherited;
+  edtDescricao.SetFocus;
+end;
+
+end.

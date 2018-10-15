@@ -328,6 +328,24 @@
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas"/>
         <DCCReference Include="Classes\Model\Model.Itens_Atendimento.pas"/>
+        <DCCReference Include="Classes\Model\Model.Faturas.pas"/>
+        <DCCReference Include="Forms\unFrmFaturas.pas">
+            <Form>frmFaturas</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.Faturas.pas"/>
+        <DCCReference Include="Classes\Model\Model.Competencias.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Competencias.pas"/>
+        <DCCReference Include="Forms\unFrmCompetencias.pas">
+            <Form>frmCompetencias</Form>
+        </DCCReference>
+        <DCCReference Include="Forms\unFrmConcluirFaturamento.pas">
+            <Form>frmConcluirFaturamento</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.ConclusaoFaturamento.pas"/>
+        <DCCReference Include="Classes\Model\Model.Atendimentos_Fatura.pas"/>
+        <DCCReference Include="Forms\unFrmNaoCobrar.pas">
+            <Form>frmNaoCobrar</Form>
+        </DCCReference>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>

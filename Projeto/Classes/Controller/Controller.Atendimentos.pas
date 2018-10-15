@@ -48,7 +48,8 @@ type
       function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
         IDPaciente: integer;Status: string; TipoAtendimento: integer): integer; overload;
 
-      function ConsultarAtendimento(IDAtendimento: integer;TipoAtendimento: integer): integer; overload;
+      function ConsultarAtendimento(IDAtendimento: integer;TipoAtendimento: integer):
+        integer; overload;
 
       constructor Create;
       destructor Destroy; override;

@@ -13,7 +13,7 @@ uses
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
   unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
   unFrmProcedimentos, unFrmCidades, unFrmAtendimentos, unFrmResponsavelPaciente,
-  unConstantes, dxGDIPlusClasses;
+  unConstantes, dxGDIPlusClasses, unFrmFaturas, unFrmCompetencias;
 
 type
   TfrmPrincipal = class(TForm)
@@ -64,6 +64,9 @@ type
     SpeedButton1: TSpeedButton;
     SpeedButton2: TSpeedButton;
     Image1: TImage;
+    N5: TMenuItem;
+    Competncias1: TMenuItem;
+    Faturas1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -96,6 +99,8 @@ type
     procedure UnidadesdeMedida1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
+    procedure Faturas1Click(Sender: TObject);
+    procedure Competncias1Click(Sender: TObject);
   private
 
   public
@@ -212,6 +217,18 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.Competncias1Click(Sender: TObject);
+begin
+  FrmCompetencias := TFrmCompetencias.Create(self,toCadastro);
+  try
+    frmFundo.Show;
+    FrmCompetencias.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(FrmCompetencias);
+  end;
+end;
+
 procedure TfrmPrincipal.Convnios1Click(Sender: TObject);
 begin
   try
@@ -229,6 +246,18 @@ begin
     frmDiagnosticoEnfermagem.ShowModal;
   finally
     FreeAndNil(frmDiagnosticoEnfermagem);
+  end;
+end;
+
+procedure TfrmPrincipal.Faturas1Click(Sender: TObject);
+begin
+  FrmFaturas := TFrmFaturas.Create(self,toCadastro);
+  try
+    frmFundo.Show;
+    FrmFaturas.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(FrmFaturas);
   end;
 end;
 

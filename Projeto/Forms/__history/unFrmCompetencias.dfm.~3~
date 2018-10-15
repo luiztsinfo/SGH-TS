@@ -1,0 +1,36 @@
+inherited frmCompetencias: TfrmCompetencias
+  Caption = 'frmCompetencias'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PgCtrlCadastro: TPageControl
+    ActivePage = TbShCadastro
+    inherited TbShConsulta: TTabSheet
+      inherited PnFiltro: TPanel
+        inherited CbxConsulta: TComboBox
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO'
+            'STATUS'
+            'ID_CONVENIO')
+        end
+        inherited CbxOrdenarPor: TComboBox
+          ItemIndex = 1
+          Text = 'DESCRICAO'
+          Items.Strings = (
+            'ID'
+            'DESCRICAO'
+            'STATUS'
+            'ID_CONVENIO')
+        end
+      end
+    end
+    inherited TbShCadastro: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 639
+      ExplicitHeight = 287
+    end
+  end
+end

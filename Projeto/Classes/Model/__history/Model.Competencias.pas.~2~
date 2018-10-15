@@ -1,0 +1,29 @@
+unit Model.Competencias;
+
+interface
+
+uses
+  Lca.Orm.Base, Lca.Orm.Atributos;
+
+type
+  [attTabela('faturamentos.competencias')]
+  TCompetencias = class(TTabela)
+    private
+    FId_Convenio: integer;
+    FDescricao: string;
+    FId: integer;
+    FStatus: string;
+    FSituacao: string;
+
+    public
+      [attPk]
+      property Id: integer read FId write FId;
+      property Descricao: string read FDescricao write FDescricao;
+      property Status: string read FStatus write FStatus;
+      property Id_Convenio: integer read FId_Convenio write FId_Convenio;
+      property Situacao: string read FSituacao write FSituacao;
+  end;
+
+implementation
+
+end.

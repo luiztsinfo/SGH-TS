@@ -1,0 +1,104 @@
+unit Controller.Competencias;
+
+interface
+
+uses Controller.Interfaces, Model.Competencias, Lca.Orm.Comp.Firedac,
+  Conexao, Data.DB, unConstantes;
+
+type
+  TControllerCompetencias = class(TInterfacedObject, iControllerCadastros)
+    private
+      FModel                 : TCompetencias;
+      FConexao               : TConexao;
+      FRegistros             : TDataSet;
+      FDs                    : TDataSource;
+      function GetDataSource : TDataSource;
+    public
+      FDao: TDaoFireDac;
+      constructor Create;
+      destructor  Destroy; override;
+      procedure   Excluir;
+      procedure   Consultar(sCampoWhere, sOrderBy: string);
+      procedure   MostraDados;
+      procedure   AlimentaCamposModel;
+      procedure   Incluir;
+      function    ExisteRegistro: Boolean;
+      property    Model: TCompetencias read FModel;
+      property    DataSource: TDataSource read GetDataSource;
+  end;
+
+implementation
+
+ { TControllerCompetencias }
+
+procedure TControllerCompetencias.AlimentaCamposModel;
+begin
+  //Preencher com FModel.Campo := FRegistros(campo).AsInteger
+end;
+
+procedure TControllerCompetencias.Consultar(sCampoWhere, sOrderBy: string);
+begin
+  FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao',sCampoWhere],sOrderBy,comLike);
+
+  FDs.DataSet := FRegistros;
+  alimentaCamposModel;
+end;
+
+constructor TControllerCompetencias.Create;
+begin
+  FConexao         := TConexao.Create;
+  FDs              := TDataSource.Create(nil);
+  FModel           := TCompetencias.Create;
+  FDao             := TDaoFireDac.Create(FConexao.FdCon,FConexao.FdTran);
+  inherited;
+end;
+
+destructor TControllerCompetencias.Destroy;
+begin
+  inherited;
+  FConexao.Free;
+  FDs.Free;
+  FModel.Free;
+  FDao.Free;
+end;
+
+procedure TControllerCompetencias.Excluir;
+begin
+  Model.Situacao := SINATIVO;
+  FDao.Salvar(Model);
+end;
+
+function TControllerCompetencias.ExisteRegistro: Boolean;
+begin
+  Result := false;
+
+  if Model.Id > 0 then
+    Result := True;
+end;
+
+function TControllerCompetencias.GetDataSource: TDataSource;
+begin
+  Result := FDs;
+end;
+
+procedure TControllerCompetencias.Incluir;
+begin
+  Model.Id := FDao.GetID(Model,'id');
+  FDao.Inserir(Model);
+end;
+
+procedure TControllerCompetencias.MostraDados;
+begin
+  try
+    FModel.Situacao := sATIVO;
+
+    FRegistros := FDao.ConsultaTab(FModel,['*'],['situacao'],[],semLike);
+
+    FDs.DataSet := FRegistros;
+    alimentaCamposModel;
+  finally
+
+  end;
+end;
+end.
+

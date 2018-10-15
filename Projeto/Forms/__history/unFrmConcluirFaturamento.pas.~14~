@@ -1,0 +1,111 @@
+unit unFrmConcluirFaturamento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Controller.ConclusaoFaturamento, unFrmFaturas, u_FrmBase, unConstantes;
+
+type
+  TfrmConcluirFaturamento = class(TForm)
+    PnDadosConclusao: TPanel;
+    PnBotoes: TPanel;
+    lblFatura: TLabel;
+    edtIDFatura: TEdit;
+    Label3: TLabel;
+    SpdBtnBuscaFatura: TSpeedButton;
+    BtnConcluir: TBitBtn;
+    BtnCancelar: TBitBtn;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtIDFaturaExit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure SpdBtnBuscaFaturaClick(Sender: TObject);
+    procedure BtnCancelarClick(Sender: TObject);
+    procedure BtnConcluirClick(Sender: TObject);
+  private
+    FController: TControllerConclusaoFaturamento;
+  public
+    FAtendimento: integer;
+    bConcluiu: boolean;
+  end;
+
+var
+  frmConcluirFaturamento: TfrmConcluirFaturamento;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmConcluirFaturamento.BtnCancelarClick(Sender: TObject);
+begin
+  bConcluiu := False;
+  Self.Close;
+end;
+
+procedure TfrmConcluirFaturamento.BtnConcluirClick(Sender: TObject);
+var
+  vFatura: integer;
+begin
+  if TryStrToInt(edtIDFatura.Text,vFatura) then
+  begin
+    if FController.AlterarStatusAtendimento(FAtendimento) and
+    FController.IncluirContaFatura(FAtendimento,vFatura) then
+    begin
+      bConcluiu := True;
+      Self.Close;
+    end
+  end
+  else
+  begin
+    MessageDlg('Fatura não informada!',mtWarning,[mbOk],0);
+    edtIDFatura.SetFocus;
+  end;
+end;
+
+procedure TfrmConcluirFaturamento.edtIDFaturaExit(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  if TryStrToInt(edtIDFatura.Text,vValue) then
+    lblFatura.Caption := FController.GetDescricaoFatura(vValue,iINCLUINDO);
+end;
+
+procedure TfrmConcluirFaturamento.FormCreate(Sender: TObject);
+begin
+  FController := TControllerConclusaoFaturamento.Create;
+end;
+
+procedure TfrmConcluirFaturamento.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FController);
+end;
+
+procedure TfrmConcluirFaturamento.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = vk_escape then
+    Self.Close;
+end;
+
+procedure TfrmConcluirFaturamento.SpdBtnBuscaFaturaClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    FrmFaturas := TFrmFaturas.Create(Self,toConsulta);
+    FrmFaturas.ShowModal;
+  finally
+    edtIDFatura.Text := IntToStr(FrmFaturas.FValueFieldKey);
+
+    if TryStrToInt(edtIDFatura.Text,vValue) then
+      lblFatura.Caption := FController.GetDescricaoFatura(vValue,iINCLUINDO);
+
+    FreeAndNil(FrmFaturas);
+  end;
+end;
+
+end.

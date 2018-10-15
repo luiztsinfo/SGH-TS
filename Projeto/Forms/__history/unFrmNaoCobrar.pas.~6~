@@ -1,0 +1,46 @@
+unit unFrmNaoCobrar;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfrmNaoCobrar = class(TForm)
+    pnDadosNaoCobranca: TPanel;
+    pnBotoes: TPanel;
+    BtnConcluir: TBitBtn;
+    BtnCancelar: TBitBtn;
+    Label1: TLabel;
+    CbxMotivo: TComboBox;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BtnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    FAtendimento: integer;
+    bConcluiu: integer;
+  end;
+
+var
+  frmNaoCobrar: TfrmNaoCobrar;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmNaoCobrar.BtnCancelarClick(Sender: TObject);
+begin
+  bConcluiu := False;
+  Self.Close;
+end;
+
+procedure TfrmNaoCobrar.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_ESCAPE then
+    Self.Close;
+end;
+
+end.

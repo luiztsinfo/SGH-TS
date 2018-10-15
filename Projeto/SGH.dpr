@@ -159,7 +159,17 @@ uses
   Model.Itens_Tabela_Preco_Procedimento in 'Classes\Model\Model.Itens_Tabela_Preco_Procedimento.pas',
   unFrmItensTabelaPrecoMatMed in 'Forms\unFrmItensTabelaPrecoMatMed.pas' {frmItensTabelaPrecoMatMed},
   Controller.Item_Tabela_Preco_Procedimento in 'Classes\Controller\Controller.Item_Tabela_Preco_Procedimento.pas',
-  Model.Itens_Atendimento in 'Classes\Model\Model.Itens_Atendimento.pas';
+  Model.Itens_Atendimento in 'Classes\Model\Model.Itens_Atendimento.pas',
+  Model.Faturas in 'Classes\Model\Model.Faturas.pas',
+  unFrmFaturas in 'Forms\unFrmFaturas.pas' {frmFaturas},
+  Controller.Faturas in 'Classes\Controller\Controller.Faturas.pas',
+  Model.Competencias in 'Classes\Model\Model.Competencias.pas',
+  Controller.Competencias in 'Classes\Controller\Controller.Competencias.pas',
+  unFrmCompetencias in 'Forms\unFrmCompetencias.pas' {frmCompetencias},
+  unFrmConcluirFaturamento in 'Forms\unFrmConcluirFaturamento.pas' {frmConcluirFaturamento},
+  Controller.ConclusaoFaturamento in 'Classes\Controller\Controller.ConclusaoFaturamento.pas',
+  Model.Atendimentos_Fatura in 'Classes\Model\Model.Atendimentos_Fatura.pas',
+  unFrmNaoCobrar in 'Forms\unFrmNaoCobrar.pas' {frmNaoCobrar};
 
 {$R *.res}
 
@@ -171,6 +181,13 @@ begin
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.Run;
 end.
+
+
+
+
+
+
+
 
 
 
