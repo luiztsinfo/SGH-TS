@@ -38,6 +38,7 @@ begin
     FAtendimento.Id := pIDAtendimento;
     FAtendimento.Status_Faturamento := 'NC';
     FAtendimento.Motivo_Nao_Cobranca := pMotivo;
+    FAtendimento.Valor_Total := pValorTotal;
     FDao.Salvar(FAtendimento,['status_faturamento','motivo_nao_cobranca','valor_total']);
     Result := true;
   except
@@ -55,6 +56,7 @@ begin
   try
     FAtendimento.Id := pIDAtendimento;
     FAtendimento.Status_Faturamento := 'C';
+    FAtendimento.Valor_Total := pValorTotal;
     FDao.Salvar(FAtendimento,['status_faturamento','valor_total']);
     Result := true;
   except

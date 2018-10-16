@@ -14,10 +14,11 @@ type
       FFatura: TFaturas;
       FAtendimento: TAtendimento;
       FAtendimentos_Fatura: TAtendimentos_Fatura;
+
     public
       function GetDescricaoFatura(AID,iOperacao: integer): string;
-      function AlterarStatusAtendimento(pIDAtendimento:integer): boolean;
-      function AlterarStatusAtendimento(pIDAtendimento,pMotivo:integer): boolean;
+      function AlterarStatusAtendimento(pIDAtendimento:integer;pValorTotal: Double): boolean; overload;
+      function AlterarStatusAtendimento(pIDAtendimento,pMotivo:integer;pValorTotal: Double): boolean; overload;
       function IncluirContaFatura(pIDAtendimento,pIDFatura: integer): boolean;
       constructor Create;
       destructor Destroy; override;
@@ -30,16 +31,31 @@ uses
 
 { TControllerConclusaoFaturamento }
 
-function TControllerConclusaoFaturamento.AlterarStatusAtendimento
-  (pIDAtendimento: integer;pStatus: string): boolean;
+function TControllerConclusaoFaturamento.AlterarStatusAtendimento(
+  pIDAtendimento, pMotivo: integer;pValorTotal: Double): boolean;
 begin
-  FAtendimento.Id := pIDAtendimento;
-  FAtendimento.Status_Faturamento := pStatus;
-
-  if pStatus = 'NC' then
-    FAtendimento.Motivo_Nao_Cobranca :=
   try
-    FDao.Salvar(FAtendimento,['status_faturamento']);
+    FAtendimento.Id := pIDAtendimento;
+    FAtendimento.Status_Faturamento := 'NC';
+    FAtendimento.Motivo_Nao_Cobranca := pMotivo;
+    FDao.Salvar(FAtendimento,['status_faturamento','motivo_nao_cobranca','valor_total']);
+    Result := true;
+  except
+    on e: Exception do
+    begin
+      Result := False;
+      raise Exception.Create('Erro ao atualizar status do atendimento para faturado!' +#13+ e.Message);
+    end;
+  end;
+end;
+
+function TControllerConclusaoFaturamento.AlterarStatusAtendimento(
+  pIDAtendimento: integer;pValorTotal: Double): boolean;
+begin
+  try
+    FAtendimento.Id := pIDAtendimento;
+    FAtendimento.Status_Faturamento := 'C';
+    FDao.Salvar(FAtendimento,['status_faturamento','valor_total']);
     Result := true;
   except
     on e: Exception do

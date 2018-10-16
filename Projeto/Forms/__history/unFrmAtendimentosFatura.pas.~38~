@@ -18,9 +18,7 @@ type
     mskInicial: TMaskEdit;
     mskFinal: TMaskEdit;
     Label3: TLabel;
-    edtAtendimento: TEdit;
     Label4: TLabel;
-    edtPaciente: TEdit;
     lblPaciente: TLabel;
     SpdBtnPaciente: TSpeedButton;
     GrdAtendimentos: TDBGrid;
@@ -28,6 +26,8 @@ type
     BtnSair: TBitBtn;
     BtnConsultar: TBitBtn;
     lblTotalFatura: TLabel;
+    edtAtendimento: TEdit;
+    edtIDPaciente: TEdit;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BtnSairClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -39,6 +39,7 @@ type
     procedure SpdBtnPacienteClick(Sender: TObject);
   private
     FController: TControllerAtendimentosFatura;
+    procedure CalcularTotalFatura;
   public
     vFatura: integer;
   end;
@@ -55,11 +56,13 @@ begin
   if (edtAtendimento.Text <> trim('')) and (edtAtendimento.Text <> trim('0')) then
     FController.BuscarAtendimentos(vFatura,StrToInt(edtAtendimento.Text))
   else
-  if (edtPaciente.Text <> trim('')) and (edtPaciente.Text <> trim('0')) then
-    FController.BuscarAtendimentos(vFatura,StrToInt(edtPaciente.Text),
+  if (edtIDPaciente.Text <> trim('')) and (edtIDPaciente.Text <> trim('0')) then
+    FController.BuscarAtendimentos(vFatura,StrToInt(edtIDPaciente.Text),
       StrToDate(mskInicial.Text),StrToDate(mskFinal.Text))
   else
   FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
+
+  CalcularTotalFatura;
 end;
 
 procedure TfrmAtendimentoFatura.BtnReabrirClick(Sender: TObject);
@@ -73,12 +76,27 @@ begin
   Self.Close;
 end;
 
+procedure TfrmAtendimentoFatura.CalcularTotalFatura;
+var
+  vTotalGeral: Currency;
+begin
+  vTotalGeral := 0;
+  FController.Registros.First;
+  while not(FController.Registros.Eof) do
+  begin
+    vTotalGeral := FController.Registros.FieldByName('valor_total').AsFloat + vTotalGeral;
+    FController.Registros.Next;
+  end;
+
+  lblTotalFatura.Caption := 'Total Geral: '+ FloatToStr(vTotalGeral);
+end;
+
 procedure TfrmAtendimentoFatura.edtPacienteExit(Sender: TObject);
 var
   vValue: integer;
 begin
   inherited;
-  if TryStrToInt(edtPaciente.Text,vValue) then
+  if TryStrToInt(edtIDPaciente.Text,vValue) then
     lblPaciente.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
 end;
 
@@ -106,24 +124,23 @@ end;
 
 procedure TfrmAtendimentoFatura.FormShow(Sender: TObject);
 begin
-    FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
-  lblTotalFatura.Caption := 'Total Geral: '+ FloatToStr(FController.Registros.FieldByName('TotalGeral').AsFloat);
+  FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
+  CalcularTotalFatura;
 end;
 
 procedure TfrmAtendimentoFatura.SpdBtnPacienteClick(Sender: TObject);
 var
   vValue: integer;
 begin
-  inherited;
   try
     frmPacientes := TfrmPacientes.Create(Self,toConsulta);
     frmPacientes.ShowModal;
+
+    edtIDPaciente.Text := IntToStr(frmPacientes.FValueFieldKey);
+
+    if TryStrToInt(edtIDPaciente.Text,vValue) then
+      lblPaciente.Caption := FController.GetNomePaciente(frmPacientes.FValueFieldKey,iINCLUINDO);
   finally
-    edtPaciente.Text := IntToStr(frmPacientes.FValueFieldKey);
-
-    if TryStrToInt(edtPaciente.Text,vValue) then
-      lblPaciente.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
-
     FreeAndNil(frmPacientes);
   end;
 end;

@@ -37,6 +37,8 @@ type
     procedure BtnConsultarClick(Sender: TObject);
     procedure edtPacienteExit(Sender: TObject);
     procedure SpdBtnPacienteClick(Sender: TObject);
+    procedure edtPacienteChange(Sender: TObject);
+    procedure edtAtendimentoChange(Sender: TObject);
   private
     FController: TControllerAtendimentosFatura;
   public
@@ -60,6 +62,8 @@ begin
       StrToDate(mskInicial.Text),StrToDate(mskFinal.Text))
   else
   FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
+
+  lblTotalFatura.Caption := 'Total Geral: '+ FloatToStr(FController.Registros.FieldByName('TotalGeral').AsFloat);
 end;
 
 procedure TfrmAtendimentoFatura.BtnReabrirClick(Sender: TObject);
@@ -71,6 +75,16 @@ end;
 procedure TfrmAtendimentoFatura.BtnSairClick(Sender: TObject);
 begin
   Self.Close;
+end;
+
+procedure TfrmAtendimentoFatura.edtAtendimentoChange(Sender: TObject);
+begin
+  edtPaciente.Clear;
+end;
+
+procedure TfrmAtendimentoFatura.edtPacienteChange(Sender: TObject);
+begin
+  edtAtendimento.Clear;
 end;
 
 procedure TfrmAtendimentoFatura.edtPacienteExit(Sender: TObject);
@@ -105,9 +119,18 @@ begin
 end;
 
 procedure TfrmAtendimentoFatura.FormShow(Sender: TObject);
+var
+  vTotalGeral: Double;
 begin
   FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
-  lblTotalFatura.Caption := 'Total Geral: '+ FloatToStr(FController.Registros.FieldByName('TotalGeral').AsFloat);
+
+  while not(FController.Registros.Eof) do
+  begin
+    vTotalGeral := FController.Registros.FieldByName('valor_total').AsFloat;
+    FController.Registros.Next;
+  end;
+
+  lblTotalFatura.Caption := 'Total Geral: '+ FloatToStr(vTotalGeral);
 end;
 
 procedure TfrmAtendimentoFatura.SpdBtnPacienteClick(Sender: TObject);

@@ -131,33 +131,31 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
       TabOrder = 1
       Text = '01/01/2099'
     end
+    object BtnConsultar: TBitBtn
+      Left = 599
+      Top = 13
+      Width = 105
+      Height = 34
+      Caption = 'CONSULTAR'
+      TabOrder = 2
+      OnClick = BtnConsultarClick
+    end
     object edtAtendimento: TEdit
-      Left = 166
+      Left = 165
       Top = 23
-      Width = 83
+      Width = 84
       Height = 21
       NumbersOnly = True
-      TabOrder = 2
-      OnChange = edtAtendimentoChange
+      TabOrder = 3
     end
-    object edtPaciente: TEdit
+    object edtIDPaciente: TEdit
       Left = 255
       Top = 23
       Width = 58
       Height = 21
       NumbersOnly = True
-      TabOrder = 3
-      OnChange = edtPacienteChange
-      OnExit = edtPacienteExit
-    end
-    object BtnConsultar: TBitBtn
-      Left = 600
-      Top = 8
-      Width = 105
-      Height = 34
-      Caption = 'CONSULTAR'
       TabOrder = 4
-      OnClick = BtnConsultarClick
+      OnExit = edtIDPacienteExit
     end
   end
   object pnAtendimentos: TPanel

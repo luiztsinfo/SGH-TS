@@ -28,7 +28,6 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
     Height = 57
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 609
     object Label1: TLabel
       Left = 8
       Top = 8
@@ -110,26 +109,27 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
         A2FC62504B900404031000000002000000000000000000000000000000000000
         000000000003241F1D3486726BADB69B91E6CCADA1FFB99C92E988736CB22822
         1F3E000000060000000100000000000000000000000000000000}
+      OnClick = SpdBtnPacienteClick
     end
     object mskInicial: TMaskEdit
       Left = 8
       Top = 23
-      Width = 73
+      Width = 72
       Height = 21
       EditMask = '99/99/9999;1;_'
       MaxLength = 10
       TabOrder = 0
-      Text = '  /  /    '
+      Text = '01/01/2000'
     end
     object mskFinal: TMaskEdit
       Left = 87
       Top = 23
-      Width = 73
+      Width = 72
       Height = 21
       EditMask = '99/99/9999;1;_'
       MaxLength = 10
       TabOrder = 1
-      Text = '  /  /    '
+      Text = '01/01/2099'
     end
     object edtAtendimento: TEdit
       Left = 166
@@ -138,6 +138,7 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
       Height = 21
       NumbersOnly = True
       TabOrder = 2
+      OnChange = edtAtendimentoChange
     end
     object edtPaciente: TEdit
       Left = 255
@@ -146,14 +147,17 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
       Height = 21
       NumbersOnly = True
       TabOrder = 3
+      OnChange = edtPacienteChange
+      OnExit = edtPacienteExit
     end
     object BtnConsultar: TBitBtn
-      Left = 600
-      Top = 8
+      Left = 599
+      Top = 13
       Width = 105
       Height = 34
       Caption = 'CONSULTAR'
       TabOrder = 4
+      OnClick = BtnConsultarClick
     end
   end
   object pnAtendimentos: TPanel
@@ -163,7 +167,6 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
     Height = 408
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 609
     object GrdAtendimentos: TDBGrid
       Left = 1
       Top = 1
@@ -220,8 +223,6 @@ object frmAtendimentoFatura: TfrmAtendimentoFatura
     Height = 48
     Align = alTop
     TabOrder = 2
-    ExplicitTop = 441
-    ExplicitWidth = 609
     object lblTotalFatura: TLabel
       Left = 8
       Top = 6

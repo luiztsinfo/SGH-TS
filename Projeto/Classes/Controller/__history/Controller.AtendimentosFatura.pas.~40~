@@ -36,12 +36,50 @@ uses
 
 { TControllerAtendimentosFatura }
 
+{function TControllerAtendimentosFatura.BuscarAtendimentos(
+  pIDFatura: integer): boolean;
+var
+  ConsultaSQL: TStringBuilder;
+begin
+  ConsultaSQL := TStringBuilder.Create;
+
+  try
+    ConsultaSQL.Append(' SELECT af.id_atendimento, p.nome AS Paciente,');
+    ConsultaSQL.Append(' SUM(a.valor_total) As TotalGeral, a.valor_total,');
+    ConsultaSQL.Append(' CASE WHEN a.tipo = 1 THEN :amb');
+    ConsultaSQL.Append(' WHEN a.tipo = 2 THEN :int END AS Tipo');
+    ConsultaSQL.Append(' FROM faturamento.atendimentos_fatura af');
+    ConsultaSQL.Append(' INNER JOIN atendimentos.atendimentos a');
+    ConsultaSQL.Append(' ON a.id = af.id_atendimento');
+    ConsultaSQL.Append(' INNER JOIN pacientes p');
+    ConsultaSQL.Append(' ON p.id = a.id_paciente');
+    ConsultaSQL.Append(' WHERE af.id_fatura = :fatura');
+    ConsultaSQL.Append(' AND a.status_faturamento = :status');
+    ConsultaSQL.Append(' GROUP BY af.id_atendimento, p.nome, a.valor_total, a.tipo');
+    FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,['Ambulatorial','Internação',pIDFatura,'C']);
+
+    TNumericField(FRegistros.FieldByName('valor_total')).DisplayFormat := ',0.00;-,0.00';
+    TNumericField(FRegistros.FieldByName('TotalGeral')).DisplayFormat := ',0.00;-,0.00';
+
+    FDs.DataSet := FRegistros;
+    FreeAndNil(ConsultaSQL);
+    Result := True;
+  except
+    on e: Exception do
+    begin
+      raise Exception.Create('Erro ao buscar atendimentos da fatura!' +#13+ e.Message);
+      Result := False;
+    end;
+  end;
+end;          }
+
 function TControllerAtendimentosFatura.BuscarAtendimentos(pIDFatura,pPaciente: integer;pDataInicial,
   pDataFinal: TDateTime): boolean;
 var
   ConsultaSQL: TStringBuilder;
 begin
   ConsultaSQL := TStringBuilder.Create;
+
   try
     ConsultaSQL.Append(' SELECT af.id_atendimento, p.nome AS Paciente,');
     ConsultaSQL.Append(' SUM(a.valor_total) As TotalGeral, a.valor_total,');
@@ -62,6 +100,7 @@ begin
       pIDFatura,'C',pPaciente,pDataInicial,pDataFinal]);
 
     TNumericField(FRegistros.FieldByName('valor_total')).DisplayFormat := ',0.00;-,0.00';
+    TNumericField(FRegistros.FieldByName('TotalGeral')).DisplayFormat := ',0.00;-,0.00';
 
     FDs.DataSet := FRegistros;
     FreeAndNil(ConsultaSQL);
@@ -101,6 +140,7 @@ begin
       pIDFatura,'C',pIDAtendimento]);
 
     TNumericField(FRegistros.FieldByName('valor_total')).DisplayFormat := ',0.00;-,0.00';
+    TNumericField(FRegistros.FieldByName('TotalGeral')).DisplayFormat := ',0.00;-,0.00';
 
     FDs.DataSet := FRegistros;
     FreeAndNil(ConsultaSQL);
@@ -140,6 +180,7 @@ begin
       pIDFatura,'C',pDataInicial,pDataFinal]);
 
     TNumericField(FRegistros.FieldByName('valor_total')).DisplayFormat := ',0.00;-,0.00';
+    TNumericField(FRegistros.FieldByName('TotalGeral')).DisplayFormat := ',0.00;-,0.00';
 
     FDs.DataSet := FRegistros;
     FreeAndNil(ConsultaSQL);

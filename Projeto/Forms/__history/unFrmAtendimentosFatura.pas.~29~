@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,
   Vcl.Buttons, Data.DB, Vcl.Grids, Vcl.DBGrids, Controller.AtendimentosFatura,
-  unConstantes;
+  unConstantes, unFrmPacientes, u_FrmBase;
 
 type
   TfrmAtendimentoFatura = class(TForm)
@@ -36,6 +36,9 @@ type
     procedure BtnReabrirClick(Sender: TObject);
     procedure BtnConsultarClick(Sender: TObject);
     procedure edtPacienteExit(Sender: TObject);
+    procedure SpdBtnPacienteClick(Sender: TObject);
+    procedure edtPacienteChange(Sender: TObject);
+    procedure edtAtendimentoChange(Sender: TObject);
   private
     FController: TControllerAtendimentosFatura;
   public
@@ -72,6 +75,16 @@ begin
   Self.Close;
 end;
 
+procedure TfrmAtendimentoFatura.edtAtendimentoChange(Sender: TObject);
+begin
+  edtPaciente.Clear;
+end;
+
+procedure TfrmAtendimentoFatura.edtPacienteChange(Sender: TObject);
+begin
+  edtAtendimento.Clear;
+end;
+
 procedure TfrmAtendimentoFatura.edtPacienteExit(Sender: TObject);
 var
   vValue: integer;
@@ -105,8 +118,26 @@ end;
 
 procedure TfrmAtendimentoFatura.FormShow(Sender: TObject);
 begin
-    FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
+  FController.BuscarAtendimentos(vFatura,StrToDate(mskInicial.Text),StrToDate(mskFinal.Text));
   lblTotalFatura.Caption := 'Total Geral: '+ FloatToStr(FController.Registros.FieldByName('TotalGeral').AsFloat);
+end;
+
+procedure TfrmAtendimentoFatura.SpdBtnPacienteClick(Sender: TObject);
+var
+  vValue: integer;
+begin
+  inherited;
+  try
+    frmPacientes := TfrmPacientes.Create(Self,toConsulta);
+    frmPacientes.ShowModal;
+  finally
+    edtPaciente.Text := IntToStr(frmPacientes.FValueFieldKey);
+
+    if TryStrToInt(edtPaciente.Text,vValue) then
+      lblPaciente.Caption := FController.GetNomePaciente(vValue,iINCLUINDO);
+
+    FreeAndNil(frmPacientes);
+  end;
 end;
 
 end.

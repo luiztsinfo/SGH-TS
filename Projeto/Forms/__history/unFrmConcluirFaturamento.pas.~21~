@@ -23,10 +23,13 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure SpdBtnBuscaFaturaClick(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
+    procedure BtnConcluirClick(Sender: TObject);
   private
     FController: TControllerConclusaoFaturamento;
   public
     FAtendimento: integer;
+    bConcluiu: boolean;
+    vValorTotal: Double;
   end;
 
 var
@@ -38,7 +41,28 @@ implementation
 
 procedure TfrmConcluirFaturamento.BtnCancelarClick(Sender: TObject);
 begin
+  bConcluiu := False;
   Self.Close;
+end;
+
+procedure TfrmConcluirFaturamento.BtnConcluirClick(Sender: TObject);
+var
+  vFatura: integer;
+begin
+  if TryStrToInt(edtIDFatura.Text,vFatura) then
+  begin
+  if FController.AlterarStatusAtendimento(FAtendimento,vValorTotal) and
+    FController.IncluirContaFatura(FAtendimento,vFatura) then
+  begin
+    bConcluiu := True;
+    Self.Close;
+  end
+  end
+  else
+  begin
+    MessageDlg('Fatura não informada!',mtWarning,[mbOk],0);
+    edtIDFatura.SetFocus;
+  end;
 end;
 
 procedure TfrmConcluirFaturamento.edtIDFaturaExit(Sender: TObject);
@@ -53,6 +77,7 @@ end;
 procedure TfrmConcluirFaturamento.FormCreate(Sender: TObject);
 begin
   FController := TControllerConclusaoFaturamento.Create;
+  bConcluiu := False;
 end;
 
 procedure TfrmConcluirFaturamento.FormDestroy(Sender: TObject);

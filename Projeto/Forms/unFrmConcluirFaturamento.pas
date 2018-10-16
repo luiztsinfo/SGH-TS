@@ -52,7 +52,7 @@ begin
   if TryStrToInt(edtIDFatura.Text,vFatura) then
   begin
     if FController.AlterarStatusAtendimento(FAtendimento,vValorTotal) and
-    FController.IncluirContaFatura(FAtendimento,vFatura) then
+      FController.IncluirContaFatura(FAtendimento,vFatura) then
     begin
       bConcluiu := True;
       Self.Close;
