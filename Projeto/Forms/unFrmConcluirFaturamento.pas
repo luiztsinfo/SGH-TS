@@ -29,6 +29,7 @@ type
   public
     FAtendimento: integer;
     bConcluiu: boolean;
+    vValorTotal: Double;
   end;
 
 var
@@ -50,7 +51,7 @@ var
 begin
   if TryStrToInt(edtIDFatura.Text,vFatura) then
   begin
-    if FController.AlterarStatusAtendimento(FAtendimento) and
+    if FController.AlterarStatusAtendimento(FAtendimento,vValorTotal) and
     FController.IncluirContaFatura(FAtendimento,vFatura) then
     begin
       bConcluiu := True;

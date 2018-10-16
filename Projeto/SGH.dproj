@@ -346,6 +346,10 @@
         <DCCReference Include="Forms\unFrmNaoCobrar.pas">
             <Form>frmNaoCobrar</Form>
         </DCCReference>
+        <DCCReference Include="Forms\unFrmAtendimentosFatura.pas">
+            <Form>frmAtendimentoFatura</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.AtendimentosFatura.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>

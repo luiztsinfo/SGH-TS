@@ -1,12 +1,17 @@
 inherited frmFaturas: TfrmFaturas
   Caption = '::. FATURAS .::'
+  ClientWidth = 726
   OnCreate = FormCreate
+  ExplicitWidth = 732
   PixelsPerInch = 96
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
+    Width = 726
     inherited TbShConsulta: TTabSheet
       inherited PnDados: TPanel
+        Width = 718
         inherited GrdDados: TDBGrid
+          Width = 712
           Columns = <
             item
               Alignment = taCenter
@@ -61,6 +66,7 @@ inherited frmFaturas: TfrmFaturas
         end
       end
       inherited PnFiltro: TPanel
+        Width = 718
         inherited CbxConsulta: TComboBox
           ItemIndex = 1
           Text = 'DESCRICAO'
@@ -85,6 +91,7 @@ inherited frmFaturas: TfrmFaturas
       ExplicitWidth = 639
       ExplicitHeight = 287
       inherited PnCampos: TPanel
+        Width = 718
         object Label1: TLabel
           Left = 10
           Top = 17
@@ -245,6 +252,32 @@ inherited frmFaturas: TfrmFaturas
           Text = '  /  /    '
         end
       end
+    end
+  end
+  inherited PnBotoes: TPanel
+    Width = 726
+    inherited BtnRelatorios: TBitBtn
+      Left = 455
+      ExplicitLeft = 455
+    end
+    inherited BtnSair: TBitBtn
+      Left = 599
+      ExplicitLeft = 599
+    end
+    object BtnAtendimentos: TBitBtn
+      Left = 336
+      Top = 5
+      Width = 115
+      Height = 38
+      Caption = 'ATENDIMENTOS'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 7
+      OnClick = BtnAtendimentosClick
     end
   end
 end

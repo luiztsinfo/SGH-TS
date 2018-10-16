@@ -41,6 +41,7 @@ type
     FId_quarto: integer;
     FStatus_Faturamento: string;
     FMotivo_Nao_Cobranca: integer;
+    FValor_Total: Double;
 
   public
     [attPK]
@@ -79,6 +80,7 @@ type
     property Tipo: integer read FTipo write FTipo;
     property Status_Faturamento : string read FStatus_Faturamento write FStatus_Faturamento;
     property Motivo_Nao_Cobranca: integer read FMotivo_Nao_Cobranca write FMotivo_Nao_Cobranca;
+    property Valor_Total: Double read FValor_Total write FValor_Total;
 
   end;
 

@@ -17,8 +17,8 @@ type
 
     public
       function GetDescricaoFatura(AID,iOperacao: integer): string;
-      function AlterarStatusAtendimento(pIDAtendimento:integer): boolean; overload;
-      function AlterarStatusAtendimento(pIDAtendimento,pMotivo:integer): boolean; overload;
+      function AlterarStatusAtendimento(pIDAtendimento:integer;pValorTotal: Double): boolean; overload;
+      function AlterarStatusAtendimento(pIDAtendimento,pMotivo:integer;pValorTotal: Double): boolean; overload;
       function IncluirContaFatura(pIDAtendimento,pIDFatura: integer): boolean;
       constructor Create;
       destructor Destroy; override;
@@ -32,13 +32,13 @@ uses
 { TControllerConclusaoFaturamento }
 
 function TControllerConclusaoFaturamento.AlterarStatusAtendimento(
-  pIDAtendimento, pMotivo: integer): boolean;
+  pIDAtendimento, pMotivo: integer;pValorTotal: Double): boolean;
 begin
   try
     FAtendimento.Id := pIDAtendimento;
     FAtendimento.Status_Faturamento := 'NC';
     FAtendimento.Motivo_Nao_Cobranca := pMotivo;
-    FDao.Salvar(FAtendimento,['status_faturamento','motivo_nao_cobranca']);
+    FDao.Salvar(FAtendimento,['status_faturamento','motivo_nao_cobranca','valor_total']);
     Result := true;
   except
     on e: Exception do
@@ -50,12 +50,12 @@ begin
 end;
 
 function TControllerConclusaoFaturamento.AlterarStatusAtendimento(
-  pIDAtendimento: integer): boolean;
+  pIDAtendimento: integer;pValorTotal: Double): boolean;
 begin
   try
     FAtendimento.Id := pIDAtendimento;
     FAtendimento.Status_Faturamento := 'C';
-    FDao.Salvar(FAtendimento,['status_faturamento']);
+    FDao.Salvar(FAtendimento,['status_faturamento','valor_total']);
     Result := true;
   except
     on e: Exception do

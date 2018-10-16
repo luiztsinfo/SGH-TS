@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, unFrmBaseBasico, Data.DB, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls,
-  Controller.Faturas, unConstantes, unFrmConvenios, u_FrmBase, Vcl.Mask;
+  Controller.Faturas, unConstantes, unFrmConvenios, u_FrmBase, Vcl.Mask,
+  unFrmAtendimentosFatura, unFrmFundo;
 
 type
   TFrmFaturas = class(TfrmBaseBasico)
@@ -24,12 +25,14 @@ type
     Label7: TLabel;
     mskDataFechamento: TMaskEdit;
     mskDataAbertura: TMaskEdit;
+    BtnAtendimentos: TBitBtn;
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edtIDConvenioExit(Sender: TObject);
     procedure SpdBtnBuscaConvenioClick(Sender: TObject);
     procedure GrdDadosDblClick(Sender: TObject);
+    procedure BtnAtendimentosClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -71,6 +74,20 @@ begin
   inherited;
   TControllerFaturas(FController).Model.Id := StrToInt(edtID.Text);
   TControllerFaturas(FController).FDao.Salvar(TControllerFaturas(FController).Model)
+end;
+
+procedure TFrmFaturas.BtnAtendimentosClick(Sender: TObject);
+begin
+  inherited;
+  frmAtendimentoFatura := TfrmAtendimentoFatura.Create(self);
+  try
+    frmFundo.Show;
+    frmAtendimentoFatura.vFatura := TControllerFaturas(FController).Model.Id;
+    frmAtendimentoFatura.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmAtendimentoFatura);
+  end;
 end;
 
 procedure TFrmFaturas.BtnNovoClick(Sender: TObject);

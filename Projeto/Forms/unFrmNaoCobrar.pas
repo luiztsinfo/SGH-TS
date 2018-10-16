@@ -25,6 +25,7 @@ type
   public
     FAtendimento: integer;
     bConcluiu: boolean;
+    vValorTotal: Double;
   end;
 
 var
@@ -44,7 +45,8 @@ procedure TfrmNaoCobrar.BtnConcluirClick(Sender: TObject);
 begin
   if CbxMotivo.ItemIndex > 0 then
   begin
-    if FControllerConclusaoFaturamento.AlterarStatusAtendimento(FAtendimento,CbxMotivo.ItemIndex) then
+    if FControllerConclusaoFaturamento.AlterarStatusAtendimento(FAtendimento,
+      CbxMotivo.ItemIndex,vValorTotal) then
     begin
       bConcluiu := True;
       Self.Close;

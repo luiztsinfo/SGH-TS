@@ -477,7 +477,7 @@ begin
     sql.Add('select * from ' + ATabela);
     if AWhere <> '' then
       sql.Add('where ' + AWhere);
-    SQL.SaveToFile('C:\logs\atendimentoid.txt');
+    SQL.SaveToFile('C:\logs\atendimentoid.sql');
     Open;
   end;
   Result := AQry;

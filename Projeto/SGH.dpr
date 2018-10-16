@@ -169,7 +169,9 @@ uses
   unFrmConcluirFaturamento in 'Forms\unFrmConcluirFaturamento.pas' {frmConcluirFaturamento},
   Controller.ConclusaoFaturamento in 'Classes\Controller\Controller.ConclusaoFaturamento.pas',
   Model.Atendimentos_Fatura in 'Classes\Model\Model.Atendimentos_Fatura.pas',
-  unFrmNaoCobrar in 'Forms\unFrmNaoCobrar.pas' {frmNaoCobrar};
+  unFrmNaoCobrar in 'Forms\unFrmNaoCobrar.pas' {frmNaoCobrar},
+  unFrmAtendimentosFatura in 'Forms\unFrmAtendimentosFatura.pas' {frmAtendimentoFatura},
+  Controller.AtendimentosFatura in 'Classes\Controller\Controller.AtendimentosFatura.pas';
 
 {$R *.res}
 
@@ -181,6 +183,7 @@ begin
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.Run;
 end.
+
 
 
 

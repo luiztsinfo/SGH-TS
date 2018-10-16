@@ -141,6 +141,7 @@ begin
   frmConcluirFaturamento := TfrmConcluirFaturamento.Create(self);
   try
     frmFundo.Show;
+    frmConcluirFaturamento.vValorTotal := StrToFloat(lblTotalGeral.Caption);
     frmConcluirFaturamento.FAtendimento := StrToInt(edtAtendimento.Text);
     frmConcluirFaturamento.ShowModal;
   finally
@@ -300,6 +301,7 @@ begin
   frmNaoCobrar := TfrmNaoCobrar.Create(self);
   try
     frmFundo.Show;
+    frmNaoCobrar.vValorTotal := StrToFloat(lblTotalGeral.Caption);
     frmNaoCobrar.FAtendimento := StrToInt(edtAtendimento.Text);
     frmNaoCobrar.ShowModal;
   finally
