@@ -458,8 +458,6 @@ begin
          else
            Params[i].Value := ParamList[i];
        end;
-
-    SQL.SaveToFile('C:\logs\between.sql');
     Open;
   end;
   Result := AQry;
@@ -477,7 +475,7 @@ begin
     sql.Add('select * from ' + ATabela);
     if AWhere <> '' then
       sql.Add('where ' + AWhere);
-    SQL.SaveToFile('C:\logs\atendimentoid.sql');
+    SQL.SaveToFile('C:\logs\consultawhen.sql');
     Open;
   end;
   Result := AQry;

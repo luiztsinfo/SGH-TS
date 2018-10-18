@@ -1,20 +1,20 @@
-object DMRel: TDMRel
+object DMRelatorios: TDMRelatorios
   OldCreateOrder = False
-  Height = 154
-  Width = 394
+  Height = 333
+  Width = 425
   object Con: TFDConnection
     Params.Strings = (
-      'Database=tshosp'
+      'Database=sgh'
       'User_Name=postgres'
       'Password=Teste123'
       'Server=127.0.0.1'
       'DriverID=PG')
     Connected = True
+    LoginPrompt = False
     Left = 40
     Top = 16
   end
   object qryPrincipal: TFDQuery
-    Active = True
     Connection = Con
     SQL.Strings = (
       
@@ -464,5 +464,284 @@ object DMRel: TDMRel
     Connection = Con
     Left = 176
     Top = 72
+  end
+  object qryFaturamentoConvenio: TFDQuery
+    Connection = Con
+    SQL.Strings = (
+      
+        'SELECT atend.id, atend.data_atendimento, atend.hora_atendimento,' +
+        ' pac.nome, atend.valor_total'
+      'FROM atendimentos.atendimentos atend'
+      'INNER JOIN pacientes pac'
+      'ON pac.id = atend.id_paciente'
+      'INNER JOIN faturamento.atendimentos_fatura afat'
+      'ON afat.id_atendimento = atend.id '
+      '')
+    Left = 56
+    Top = 160
+  end
+  object frxFaturamentoConvenio: TfrxReport
+    Version = '5.6.1'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Padr'#227'o'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 43391.384916851900000000
+    ReportOptions.LastChange = 43391.394966319400000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      ''
+      'begin'
+      ''
+      'end.')
+    Left = 56
+    Top = 208
+    Datasets = <
+      item
+        DataSet = frxDSFaturamentoConvenio
+        DataSetName = 'frxDSFaturamentoConvenio'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      object ReportTitle1: TfrxReportTitle
+        FillType = ftBrush
+        Height = 52.913420000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo2: TfrxMemoView
+          Left = 219.212740000000000000
+          Top = 11.338590000000000000
+          Width = 291.023810000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Relat'#243'rio de Atendimentos - Sint'#233'tico')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+      end
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        Height = 22.677180000000000000
+        Top = 177.637910000000000000
+        Width = 718.110700000000000000
+        DataSet = frxDSFaturamentoConvenio
+        DataSetName = 'frxDSFaturamentoConvenio'
+        RowCount = 0
+        object frxDSFaturamentoConvenioid: TfrxMemoView
+          Left = 3.779530000000000000
+          Top = 3.779530000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataField = 'id'
+          DataSet = frxDSFaturamentoConvenio
+          DataSetName = 'frxDSFaturamentoConvenio'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[frxDSFaturamentoConvenio."id"]')
+          ParentFont = False
+        end
+        object frxDSFaturamentoConveniodata_atendimento: TfrxMemoView
+          Left = 98.267780000000000000
+          Top = 3.779530000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataField = 'data_atendimento'
+          DataSet = frxDSFaturamentoConvenio
+          DataSetName = 'frxDSFaturamentoConvenio'
+          Memo.UTF8W = (
+            '[frxDSFaturamentoConvenio."data_atendimento"]')
+        end
+        object frxDSFaturamentoConveniohora_atendimento: TfrxMemoView
+          Left = 192.756030000000000000
+          Top = 3.779530000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataField = 'hora_atendimento'
+          DataSet = frxDSFaturamentoConvenio
+          DataSetName = 'frxDSFaturamentoConvenio'
+          Memo.UTF8W = (
+            '[frxDSFaturamentoConvenio."hora_atendimento"]')
+        end
+        object frxDSFaturamentoConvenionome: TfrxMemoView
+          Left = 283.464750000000000000
+          Top = 3.779530000000000000
+          Width = 347.716760000000000000
+          Height = 18.897650000000000000
+          DataField = 'nome'
+          DataSet = frxDSFaturamentoConvenio
+          DataSetName = 'frxDSFaturamentoConvenio'
+          Memo.UTF8W = (
+            '[frxDSFaturamentoConvenio."nome"]')
+        end
+        object frxDSFaturamentoConveniovalor_total: TfrxMemoView
+          Left = 634.961040000000000000
+          Top = 3.779530000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDSFaturamentoConvenio
+          DataSetName = 'frxDSFaturamentoConvenio'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Memo.UTF8W = (
+            '[frxDSFaturamentoConvenio."valor_total"]')
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        Height = 22.677180000000000000
+        Top = 317.480520000000000000
+        Width = 718.110700000000000000
+        object Memo1: TfrxMemoView
+          Left = 642.520100000000000000
+          Width = 75.590600000000000000
+          Height = 18.897650000000000000
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[Page#]')
+        end
+      end
+      object Header1: TfrxHeader
+        FillType = ftBrush
+        Height = 22.677180000000000000
+        Top = 132.283550000000000000
+        Width = 718.110700000000000000
+        object Memo3: TfrxMemoView
+          Left = 3.779530000000000000
+          Width = 86.929190000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Atendimento')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          Left = 98.267780000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Data')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          Left = 192.756030000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Hora')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          Left = 283.464750000000000000
+          Width = 117.165430000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Nome do Paciente')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          Left = 634.961040000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Valor Total')
+          ParentFont = False
+        end
+        object Line1: TfrxLineView
+          Left = 3.779530000000000000
+          Top = 18.897650000000000000
+          Width = 706.772110000000000000
+          Color = clBlack
+          Frame.Typ = [ftTop]
+        end
+      end
+      object ColumnFooter1: TfrxColumnFooter
+        FillType = ftBrush
+        Height = 34.015770000000000000
+        Top = 260.787570000000000000
+        Width = 718.110700000000000000
+        object SysMemo1: TfrxSysMemoView
+          Left = 510.236550000000000000
+          Top = 11.338590000000000000
+          Width = 204.094620000000000000
+          Height = 18.897650000000000000
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            
+              'Total Geral: R$ [SUM(<frxDSFaturamentoConvenio."valor_total">,Ma' +
+              'sterData1,2)]')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object frxDSFaturamentoConvenio: TfrxDBDataset
+    UserName = 'frxDSFaturamentoConvenio'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'id=id'
+      'data_atendimento=data_atendimento'
+      'hora_atendimento=hora_atendimento'
+      'nome=nome'
+      'valor_total=valor_total')
+    DataSet = qryFaturamentoConvenio
+    BCDToCurrency = False
+    Left = 56
+    Top = 256
   end
 end

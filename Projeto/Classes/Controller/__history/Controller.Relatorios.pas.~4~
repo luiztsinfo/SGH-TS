@@ -1,0 +1,54 @@
+unit Controller.Relatorios;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Conexao, unDMRel, FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TControllerRelatorios = class
+    private
+      FDao : TDaoFireDac;
+      FConexao : TConexao;
+    public
+      procedure PassarSQL(aQuery: TFDQuery; aSQL: TStringBuilder);
+      procedure RelFaturamentoSintetico(aFatura: integer);
+      constructor Create;
+      destructor Destroy; override;
+  end;
+
+implementation
+
+{ TControllerRelatorios }
+
+constructor TControllerRelatorios.Create;
+begin
+
+end;
+
+destructor TControllerRelatorios.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TControllerRelatorios.PassarSQL(aQuery: TFDQuery;
+  aSQL: TStringBuilder);
+var
+  aQueryRel: TFDQuery;
+begin
+  try
+    aQueryRel := DMRelatorios.FindComponent(aQuery);
+    aQueryRel.SQL := aSQL.ToString;
+    aQueryRel.Active := True;
+  except
+    raise Exception.Create('Erro ao passar SQL do relatório!');
+  end;
+end;
+
+procedure TControllerRelatorios.RelFaturamentoSintetico(aFatura: integer);
+begin
+
+end;
+
+end.

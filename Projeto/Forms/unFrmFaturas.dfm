@@ -7,9 +7,12 @@ inherited frmFaturas: TfrmFaturas
   TextHeight = 13
   inherited PgCtrlCadastro: TPageControl
     Width = 726
+    ExplicitWidth = 726
     inherited TbShConsulta: TTabSheet
+      ExplicitWidth = 718
       inherited PnDados: TPanel
         Width = 718
+        ExplicitWidth = 718
         inherited GrdDados: TDBGrid
           Width = 712
           Columns = <
@@ -67,6 +70,7 @@ inherited frmFaturas: TfrmFaturas
       end
       inherited PnFiltro: TPanel
         Width = 718
+        ExplicitWidth = 718
         inherited CbxConsulta: TComboBox
           ItemIndex = 1
           Text = 'DESCRICAO'
@@ -92,6 +96,7 @@ inherited frmFaturas: TfrmFaturas
       ExplicitHeight = 287
       inherited PnCampos: TPanel
         Width = 718
+        ExplicitWidth = 718
         object Label1: TLabel
           Left = 10
           Top = 17
@@ -256,6 +261,7 @@ inherited frmFaturas: TfrmFaturas
   end
   inherited PnBotoes: TPanel
     Width = 726
+    ExplicitWidth = 726
     inherited BtnRelatorios: TBitBtn
       Left = 455
       ExplicitLeft = 455

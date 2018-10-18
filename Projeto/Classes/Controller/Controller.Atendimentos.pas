@@ -43,10 +43,10 @@ type
       function CarregarDadosAtendimento: boolean;
 
       function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
-        Status: string; TipoAtendimento: integer): integer; overload;
+        Status,StatusFaturamento: string; TipoAtendimento: integer): integer; overload;
 
       function ConsultarAtendimento(DataInicial,DataFinal: TDateTime;
-        IDPaciente: integer;Status: string; TipoAtendimento: integer): integer; overload;
+        IDPaciente: integer;Status,StatusFaturamento: string; TipoAtendimento: integer): integer; overload;
 
       function ConsultarAtendimento(IDAtendimento: integer;TipoAtendimento: integer):
         integer; overload;
@@ -128,7 +128,7 @@ begin
   Model.Tipo_atendimento := 0;
   Model.Id_convenio := 0;
   Model.Id_responsavel := 0;
-  Model.Responsavel_paciente := 0;
+  Model.Responsavel_Paciente := 0;
   Model.Data_alta := 0;
   Model.Id_cid_definitivo := '';
   Model.Motivo_alta := 0;
@@ -161,6 +161,14 @@ begin
     pParams[0] := IDAtendimento;
 
     ConsultaSQL.Append(' SELECT atend.*, pac.nome');
+   { ConsultaSQL.Append(' CASE WHEN atend.tipo = :aa THEN :amb');
+    ConsultaSQL.Append(' WHEN atend.tipo = :ii THEN :int END AS Tipo,');
+    ConsultaSQL.Append(' CASE WHEN atend.status = :a THEN :aberto');
+    ConsultaSQL.Append(' WHEN atend.status = :e THEN :encerrado');
+    ConsultaSQL.Append(' WHEN atend.status = :c THEN :cancelado END AS Status,');
+    ConsultaSQL.Append(' CASE WHEN atend.status_faturamento = :vazio THEN :EmAberto');
+    ConsultaSQL.Append(' WHEN atend.status_faturamento = :nc THEN :naocobrado');
+    ConsultaSQL.Append(' WHEN atend.status_faturamento = :c THEN :cobrado END AS Status_Faturamento');}
     ConsultaSQL.Append(' FROM atendimentos.atendimentos atend');
     ConsultaSQL.Append(' LEFT JOIN pacientes pac');
     ConsultaSQL.Append(' ON pac.id = atend.id_paciente');
@@ -180,7 +188,7 @@ begin
 end;
 
 function TControllerAtendimento.ConsultarAtendimento(DataInicial,
-  DataFinal: TDateTime; IDPaciente: integer; Status: string;
+  DataFinal: TDateTime; IDPaciente: integer; Status,StatusFaturamento: string;
   TipoAtendimento: integer): integer;
 var
   ConsultaSQL: TStringBuilder;
@@ -209,10 +217,17 @@ begin
       Inc(i);
     end;
 
+    if StatusFaturamento <> 'TODOS' then
+    begin
+      pParams[i] := StatusFaturamento;
+      ConsultaSQL.Append(' AND atend.status_faturamento = :param5');
+      Inc(i);
+    end;
+
     if Status <> stTODOS then
     begin
       pParams[i] := Status;
-      ConsultaSQL.Append(' AND atend.status = :param5');
+      ConsultaSQL.Append(' AND atend.status = :param6');
     end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);
@@ -223,7 +238,8 @@ begin
 end;
 
 function TControllerAtendimento.ConsultarAtendimento(DataInicial,
-  DataFinal: TDateTime; Status: string; TipoAtendimento: integer): integer;
+  DataFinal: TDateTime; Status,StatusFaturamento: string;
+  TipoAtendimento: integer): integer;
 var
   ConsultaSQL: TStringBuilder;
   pParams: array[0..3] of Variant;
@@ -253,10 +269,17 @@ begin
       Inc(i);
     end;
 
+    if StatusFaturamento <> 'TODOS' then
+    begin
+      pParams[i] := StatusFaturamento;
+      ConsultaSQL.Append(' AND atend.status_faturamento = :param4');
+      Inc(i);
+    end;
+
     if ((TipoAtendimento = iTpAMBULATORIAL) or (TipoAtendimento = iTpINTERNACAO)) then
     begin
       pParams[i] := TipoAtendimento;
-      ConsultaSQL.Append(' AND atend.tipo = :param4');
+      ConsultaSQL.Append(' AND atend.tipo = :param5');
     end;
 
     FRegistros := FDao.ConsultaSql(ConsultaSQL.ToString,pParams);

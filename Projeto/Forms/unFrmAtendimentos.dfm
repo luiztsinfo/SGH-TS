@@ -35,29 +35,29 @@ object frmAtendimentos: TfrmAtendimentos
         Left = 0
         Top = 0
         Width = 1073
-        Height = 89
+        Height = 81
         Align = alTop
         Color = clMoneyGreen
         ParentBackground = False
         TabOrder = 0
         object Label1: TLabel
           Left = 128
-          Top = 13
+          Top = 15
           Width = 65
           Height = 13
           Caption = 'Consulta por:'
         end
         object Label22: TLabel
           Left = 13
-          Top = 13
+          Top = 15
           Width = 84
           Height = 13
           Caption = 'Tipo Atendimento'
         end
         object GrpBxAtendimento: TGroupBox
-          Left = 607
-          Top = 13
-          Width = 355
+          Left = 644
+          Top = 2
+          Width = 306
           Height = 66
           Caption = 'Atendimento'
           TabOrder = 3
@@ -73,15 +73,15 @@ object frmAtendimentos: TfrmAtendimentos
           end
         end
         object GrpBxPaciente: TGroupBox
-          Left = 607
-          Top = 13
-          Width = 355
+          Left = 644
+          Top = 2
+          Width = 306
           Height = 66
           Caption = 'Paciente'
           TabOrder = 2
           object lblPaciente: TLabel
             Left = 104
-            Top = 34
+            Top = 31
             Width = 240
             Height = 16
             AutoSize = False
@@ -155,7 +155,7 @@ object frmAtendimentos: TfrmAtendimentos
         end
         object BtnConsulta: TBitBtn
           Left = 968
-          Top = 29
+          Top = 20
           Width = 97
           Height = 50
           Caption = 'CONSULTA'
@@ -170,7 +170,7 @@ object frmAtendimentos: TfrmAtendimentos
         end
         object CbxConsultaPor: TComboBox
           Left = 128
-          Top = 44
+          Top = 34
           Width = 105
           Height = 24
           Style = csDropDownList
@@ -190,9 +190,9 @@ object frmAtendimentos: TfrmAtendimentos
             'PACIENTE')
         end
         object GrpBxDatas: TGroupBox
-          Left = 248
-          Top = 13
-          Width = 353
+          Left = 237
+          Top = 2
+          Width = 401
           Height = 66
           Caption = 'Filtros'
           TabOrder = 1
@@ -213,9 +213,16 @@ object frmAtendimentos: TfrmAtendimentos
           object Label28: TLabel
             Left = 201
             Top = 16
-            Width = 31
+            Width = 95
             Height = 13
-            Caption = 'Status'
+            Caption = 'Status Atendimento'
+          end
+          object Label4: TLabel
+            Left = 306
+            Top = 16
+            Width = 96
+            Height = 13
+            Caption = 'Status Faturamento'
           end
           object mskInicial: TMaskEdit
             Left = 9
@@ -256,7 +263,7 @@ object frmAtendimentos: TfrmAtendimentos
           object CbxStatus: TComboBox
             Left = 199
             Top = 31
-            Width = 151
+            Width = 103
             Height = 24
             Style = csDropDownList
             Ctl3D = False
@@ -265,21 +272,42 @@ object frmAtendimentos: TfrmAtendimentos
             Font.Height = -13
             Font.Name = 'Tahoma'
             Font.Style = [fsBold]
-            ItemIndex = 1
+            ItemIndex = 2
             ParentCtl3D = False
             ParentFont = False
             TabOrder = 2
-            Text = 'ABERTO'
+            Text = 'ENCERRADO'
             Items.Strings = (
               'TODOS'
               'ABERTO'
               'ENCERRADO'
               'CANCELADO')
           end
+          object CbxStatusFaturamento: TComboBox
+            Left = 305
+            Top = 31
+            Width = 84
+            Height = 24
+            Style = csDropDownList
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ItemIndex = 0
+            ParentFont = False
+            TabOrder = 3
+            Text = 'TODOS'
+            Items.Strings = (
+              'TODOS'
+              'EM ABERTO'
+              'COBRADO'
+              'N'#195'O COBRADO')
+          end
         end
         object CbxConsultaTipoAtendimento: TComboBox
           Left = 13
-          Top = 44
+          Top = 34
           Width = 109
           Height = 24
           Style = csDropDownList
@@ -300,16 +328,16 @@ object frmAtendimentos: TfrmAtendimentos
       end
       object PnAtendimentos: TPanel
         Left = 0
-        Top = 89
+        Top = 81
         Width = 1073
-        Height = 550
+        Height = 558
         Align = alClient
         TabOrder = 1
         object GrdAmbulatoriais: TDBGrid
           Left = 1
           Top = 1
           Width = 1071
-          Height = 548
+          Height = 556
           Align = alClient
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           TabOrder = 0
@@ -332,11 +360,13 @@ object frmAtendimentos: TfrmAtendimentos
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               Title.Alignment = taCenter
+              Title.Caption = 'Atendimento'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clMenuHighlight
               Title.Font.Height = -11
               Title.Font.Name = 'Tahoma'
               Title.Font.Style = [fsBold]
+              Width = 91
               Visible = True
             end
             item
@@ -391,7 +421,7 @@ object frmAtendimentos: TfrmAtendimentos
               Title.Font.Height = -11
               Title.Font.Name = 'Tahoma'
               Title.Font.Style = [fsBold]
-              Width = 162
+              Width = 98
               Visible = True
             end
             item
@@ -416,13 +446,65 @@ object frmAtendimentos: TfrmAtendimentos
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               Title.Alignment = taCenter
-              Title.Caption = 'Data/Hora Alta'
+              Title.Caption = 'Data Alta'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clMenuHighlight
               Title.Font.Height = -11
               Title.Font.Name = 'Tahoma'
               Title.Font.Style = [fsBold]
-              Width = 155
+              Width = 106
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'HORA_ALTA'
+              Title.Alignment = taCenter
+              Title.Caption = 'Hora Alta'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'STATUS'
+              Title.Alignment = taCenter
+              Title.Caption = 'Status'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Visible = True
+            end
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'STATUS_FATURAMENTO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Faturamento'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Width = 94
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TIPO'
+              Title.Alignment = taCenter
+              Title.Caption = 'Tipo'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clMenuHighlight
+              Title.Font.Height = -11
+              Title.Font.Name = 'Tahoma'
+              Title.Font.Style = [fsBold]
+              Width = 88
               Visible = True
             end>
         end

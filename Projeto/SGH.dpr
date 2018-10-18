@@ -86,7 +86,7 @@ uses
   Model.Risco_Queda_HE in 'Classes\Model\Model.Risco_Queda_HE.pas',
   Model.Prescricao_Enfermagem_HE in 'Classes\Model\Model.Prescricao_Enfermagem_HE.pas',
   Model.Aprazamento_Prescricao_HE in 'Classes\Model\Model.Aprazamento_Prescricao_HE.pas',
-  unDMRel in 'Classes\unDMRel.pas' {DMRel: TDataModule},
+  unDMRel in 'Classes\unDMRel.pas' {DMRelatorios: TDataModule},
   Controller.Interfaces in 'Classes\Controller\Controller.Interfaces.pas',
   unFrmNacionalidades in 'Forms\unFrmNacionalidades.pas' {frmNacionalidades},
   Controller.Nacionalidade in 'Classes\Controller\Controller.Nacionalidade.pas',
@@ -171,18 +171,24 @@ uses
   Model.Atendimentos_Fatura in 'Classes\Model\Model.Atendimentos_Fatura.pas',
   unFrmNaoCobrar in 'Forms\unFrmNaoCobrar.pas' {frmNaoCobrar},
   unFrmAtendimentosFatura in 'Forms\unFrmAtendimentosFatura.pas' {frmAtendimentoFatura},
-  Controller.AtendimentosFatura in 'Classes\Controller\Controller.AtendimentosFatura.pas';
+  Controller.AtendimentosFatura in 'Classes\Controller\Controller.AtendimentosFatura.pas',
+  unFrmRelFaturamentoConvenioSintetico in 'Forms\unFrmRelFaturamentoConvenioSintetico.pas' {frmRelFaturamentoConvenioSintetico},
+  Controller.ConsultasFK in 'Classes\Controller\Controller.ConsultasFK.pas',
+  Controller.Relatorios in 'Classes\Controller\Controller.Relatorios.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TDMRel, DMRel);
+  Application.CreateForm(TDMRelatorios, DMRelatorios);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.Run;
 end.
+
+
+
 
 
 

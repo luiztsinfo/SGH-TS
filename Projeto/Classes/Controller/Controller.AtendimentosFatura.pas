@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils, System.Variants;
 
 { TControllerAtendimentosFatura }
 

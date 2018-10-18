@@ -1,0 +1,59 @@
+unit Controller.Relatorios;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Conexao, unDMRel, FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TControllerRelatorios = class
+    private
+      FDao : TDaoFireDac;
+      FConexao : TConexao;
+    public
+      procedure PassarSQL(aQuery: string; aSQL: TStringBuilder);
+      procedure RelFaturamentoSintetico(aFatura: integer);
+      constructor Create;
+      destructor Destroy; override;
+  end;
+
+implementation
+
+{ TControllerRelatorios }
+
+constructor TControllerRelatorios.Create;
+begin
+
+end;
+
+destructor TControllerRelatorios.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TControllerRelatorios.PassarSQL(aQuery: string; aSQL: TStringBuilder);
+var
+  aQueryRel: TFDQuery;
+begin
+  try
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).Close;
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).SQL.Clear;
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).SQL := aSQL.ToString;
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).Active := True;
+  except
+    raise Exception.Create('Erro ao efetuar consulta para o relatório!');
+  end;
+end;
+
+procedure TControllerRelatorios.RelFaturamentoSintetico(aFatura: integer);
+var
+  SQL: TStringBuilder;
+begin
+  SQL := TStringBuilder.Create;
+  SQL.Append('');
+
+  PassarSQL('qryFaturamentoConvenio');
+end;
+
+end.

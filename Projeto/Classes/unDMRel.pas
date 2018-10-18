@@ -8,14 +8,17 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.PG,
   FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet;
+  FireDAC.Comp.DataSet, frxClass, frxDBSet;
 
 type
-  TDMRel = class(TDataModule)
+  TDMRelatorios = class(TDataModule)
     Con: TFDConnection;
     qryPrincipal: TFDQuery;
     qryFamiliar: TFDQuery;
     qryPessoal: TFDQuery;
+    qryFaturamentoConvenio: TFDQuery;
+    frxFaturamentoConvenio: TfrxReport;
+    frxDSFaturamentoConvenio: TfrxDBDataset;
   private
     { Private declarations }
   public
@@ -23,7 +26,7 @@ type
   end;
 
 var
-  DMRel: TDMRel;
+  DMRelatorios: TDMRelatorios;
 
 implementation
 

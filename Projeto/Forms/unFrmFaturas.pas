@@ -36,6 +36,7 @@ type
   private
     { Private declarations }
   public
+    vConvenio: integer;
     procedure alimentaModel; override;
     procedure carregarCampos; override;
     procedure consultar; override;

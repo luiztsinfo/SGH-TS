@@ -21,6 +21,7 @@ type
       FTipo_Apresentacao: integer;
       FSituacao: string;
       FValor_Padrao: Double;
+      FMaterial: integer;
 
     public
       [attPk]
@@ -36,6 +37,7 @@ type
       property Id_unidade: integer read FId_unidade write FId_unidade;
       property Situacao: string read FSituacao write FSituacao;
       property Valor_Padrao: Double read FValor_Padrao write FValor_Padrao;
+      property Material: integer read FMaterial write FMaterial;
   end;
 
 implementation

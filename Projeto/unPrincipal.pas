@@ -13,7 +13,8 @@ uses
   unFrmTabelasPrecoMatMed, unFrmTabelasPrecoProcedimentos, unFrmConvenios,
   unFrmFornecedor, unFrmSetores, unFrmQuartos, unFrmLeitos, unFrmPacientes,
   unFrmProcedimentos, unFrmCidades, unFrmAtendimentos, unFrmResponsavelPaciente,
-  unConstantes, dxGDIPlusClasses, unFrmFaturas, unFrmCompetencias;
+  unConstantes, dxGDIPlusClasses, unFrmFaturas, unFrmCompetencias,
+  unFrmRelFaturamentoConvenioSintetico;
 
 type
   TfrmPrincipal = class(TForm)
@@ -67,6 +68,11 @@ type
     N5: TMenuItem;
     Competncias1: TMenuItem;
     Faturas1: TMenuItem;
+    SpdBtnFaturas: TSpeedButton;
+    Relatrios1: TMenuItem;
+    Faturamento2: TMenuItem;
+    AtendimentosporConvnioSinttico1: TMenuItem;
+    AtendimentosporConvnioDetalhado1: TMenuItem;
     procedure Pacientes1Click(Sender: TObject);
     procedure Colaboradores1Click(Sender: TObject);
     procedure Prescies1Click(Sender: TObject);
@@ -101,6 +107,8 @@ type
     procedure SpeedButton2Click(Sender: TObject);
     procedure Faturas1Click(Sender: TObject);
     procedure Competncias1Click(Sender: TObject);
+    procedure SpdBtnFaturasClick(Sender: TObject);
+    procedure AtendimentosporConvnioSinttico1Click(Sender: TObject);
   private
 
   public
@@ -164,6 +172,18 @@ begin
     frmAntecedentes.ShowModal;
   finally
     FreeAndNil(frmAntecedentes);
+  end;
+end;
+
+procedure TfrmPrincipal.AtendimentosporConvnioSinttico1Click(Sender: TObject);
+begin
+  frmRelFaturamentoConvenioSintetico := TfrmRelFaturamentoConvenioSintetico.Create(self);
+  try
+    frmFundo.Show;
+    frmRelFaturamentoConvenioSintetico.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(frmRelFaturamentoConvenioSintetico);
   end;
 end;
 
@@ -445,6 +465,18 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.SpdBtnFaturasClick(Sender: TObject);
+begin
+  FrmFaturas := TFrmFaturas.Create(self,toCadastro);
+  try
+    frmFundo.Show;
+    FrmFaturas.ShowModal;
+  finally
+    frmFundo.Hide;
+    FreeAndNil(FrmFaturas);
+  end;
+end;
+
 procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
 begin
   try
@@ -459,10 +491,12 @@ end;
 
 procedure TfrmPrincipal.SpeedButton2Click(Sender: TObject);
 begin
-  try
     frmAtendimentos := TfrmAtendimentos.Create(self,tpAmbulatorial);
+  try
+    frmFundo.Show;
     frmAtendimentos.ShowModal;
   finally
+    frmFundo.Hide;
     FreeAndNil(frmAtendimentos);
   end;
 end;

@@ -1,0 +1,26 @@
+unit unFrmRelFaturamentoConvenioSintetico;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+
+type
+  TfrmRelFaturamentoConvenioSintetico = class(TForm)
+    pnFiltro: TPanel;
+    pnBotoes: TPanel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRelFaturamentoConvenioSintetico: TfrmRelFaturamentoConvenioSintetico;
+
+implementation
+
+{$R *.dfm}
+
+end.

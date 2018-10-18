@@ -1,0 +1,73 @@
+unit Controller.Relatorios;
+
+interface
+
+uses
+  Lca.Orm.Comp.FireDac, Conexao, unDMRel, FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TControllerRelatorios = class
+    private
+      FDao : TDaoFireDac;
+      FConexao : TConexao;
+    public
+      procedure PassarSQL(aQuery: string; aSQL: TStringBuilder; aParams: array of Variant);
+      procedure RelFaturamentoSintetico(aFatura: integer);
+      constructor Create;
+      destructor Destroy; override;
+  end;
+
+implementation
+
+{ TControllerRelatorios }
+
+constructor TControllerRelatorios.Create;
+begin
+
+end;
+
+destructor TControllerRelatorios.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TControllerRelatorios.PassarSQL(aQuery: string; aSQL: TStringBuilder; aParams: array of Variant);
+var
+  aQueryRel: TFDQuery;
+begin
+  try
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).Close;
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).SQL.Clear;
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).SQL.Text := aSQL.ToString;
+
+    for Length(aParams) := 0 to -1 do
+    begin
+
+    end;
+
+    TFDQuery(DMRelatorios.FindComponent(aQuery)).Active := True;
+  except
+    raise Exception.Create('Erro ao efetuar consulta para o relatório!');
+  end;
+end;
+
+procedure TControllerRelatorios.RelFaturamentoSintetico(aFatura: integer);
+var
+  SQL: TStringBuilder;
+begin
+  SQL := TStringBuilder.Create;
+  SQL.Append(' SELECT atend.id, atend.data_atendimento, atend.hora_atendimento,');
+  SQL.Append(' pac.nome, atend.valor_total');
+  SQL.Append(' FROM atendimentos.atendimentos atend');
+  SQL.Append(' INNER JOIN pacientes pac');
+  SQL.Append(' ON pac.id = atend.id_paciente');
+  SQL.Append(' INNER JOIN faturamento.atendimentos_fatura afat');
+  SQL.Append(' ON afat.id_atendimento = atend.id');
+  SQL.Append(' WHERE afat.id_fatura = :fatura');
+
+  PassarSQL('qryFaturamentoConvenio',SQL);
+  FreeAndNil(SQL);
+end;
+
+end.

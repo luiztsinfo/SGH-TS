@@ -39,6 +39,8 @@ type
     BtnBuscaLocal: TBitBtn;
     Label10: TLabel;
     edtValorPadrao: TEdit;
+    Label12: TLabel;
+    CbxMaterial: TComboBox;
     procedure BtnNovoClick(Sender: TObject);
     procedure TbShCadastroShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -91,6 +93,8 @@ begin
 
   if TryStrToInt(edtGrupo.Text,vGrupo) then
     TControllerMatMed(FController).Model.Id_grupo := vGrupo;
+
+  TControllerMatMed(FController).Model.Material := CbxMaterial.ItemIndex;
 end;
 
 procedure TFrmMatMeds.alterar;
@@ -186,6 +190,8 @@ begin
   lblLocal.Caption := TControllerMatMed(FController).
                             GetDescricaoLocal(TControllerMatMed(FController).
                               Model.Id_unidade, iALTERANDO);
+
+  CbxMaterial.ItemIndex := TControllerMatMed(FController).Model.Material;
 end;
 
 procedure TFrmMatMeds.consultar;

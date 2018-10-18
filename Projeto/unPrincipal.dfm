@@ -2342,6 +2342,21 @@ object frmPrincipal: TfrmPrincipal
       ParentFont = False
       OnClick = SpeedButton2Click
     end
+    object SpdBtnFaturas: TSpeedButton
+      Left = 248
+      Top = 8
+      Width = 97
+      Height = 81
+      Caption = 'Faturas'
+      Flat = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = SpdBtnFaturasClick
+    end
   end
   object MnMnuPrincipal: TMainMenu
     OwnerDraw = True
@@ -2508,6 +2523,19 @@ object frmPrincipal: TfrmPrincipal
       object HistoricodeEvoluo1: TMenuItem
         Caption = 'Historico de Evolu'#231#227'o'
         OnClick = HistoricodeEvoluo1Click
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object Faturamento2: TMenuItem
+        Caption = 'Faturamento'
+        object AtendimentosporConvnioSinttico1: TMenuItem
+          Caption = 'Atendimentos por Conv'#234'nio - Sint'#233'tico'
+          OnClick = AtendimentosporConvnioSinttico1Click
+        end
+        object AtendimentosporConvnioDetalhado1: TMenuItem
+          Caption = 'Atendimentos por Conv'#234'nio - Detalhado'
+        end
       end
     end
   end

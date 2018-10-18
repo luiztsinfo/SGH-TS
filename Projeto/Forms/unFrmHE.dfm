@@ -20247,7 +20247,7 @@ object frmHE: TfrmHE
       'estado_civil=estado_civil'
       'tratado=tratado'
       'tratamento=tratamento')
-    DataSet = DMRel.qryPrincipal
+    DataSet = DMRelatorios.qryPrincipal
     BCDToCurrency = False
     Left = 40
     Top = 289

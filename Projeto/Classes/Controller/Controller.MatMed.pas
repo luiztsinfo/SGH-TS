@@ -53,6 +53,7 @@ begin
   FModel.Valor_Padrao := FRegistros.FieldByName('valor_padrao').AsFloat;
   TNumericField(FRegistros.FieldByName('valor_padrao')).DisplayFormat := ',0.00;-,0.00';
   FModel.Id_unidade := FRegistros.FieldByName('id_unidade').AsInteger;
+  FModel.Material := FRegistros.FieldByName('material').AsInteger;
 end;
 
 procedure TControllerMatMed.Consultar(sCampoWhere, sOrderBy: string);

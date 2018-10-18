@@ -200,7 +200,7 @@
         <DCCReference Include="Classes\Model\Model.Prescricao_Enfermagem_HE.pas"/>
         <DCCReference Include="Classes\Model\Model.Aprazamento_Prescricao_HE.pas"/>
         <DCCReference Include="Classes\unDMRel.pas">
-            <Form>DMRel</Form>
+            <Form>DMRelatorios</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.Interfaces.pas"/>
@@ -350,6 +350,11 @@
             <Form>frmAtendimentoFatura</Form>
         </DCCReference>
         <DCCReference Include="Classes\Controller\Controller.AtendimentosFatura.pas"/>
+        <DCCReference Include="Forms\unFrmRelFaturamentoConvenioSintetico.pas">
+            <Form>frmRelFaturamentoConvenioSintetico</Form>
+        </DCCReference>
+        <DCCReference Include="Classes\Controller\Controller.ConsultasFK.pas"/>
+        <DCCReference Include="Classes\Controller\Controller.Relatorios.pas"/>
         <None Include="ModelSupport_SGH\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\default.txvpck"/>
         <None Include="ModelSupport_SGH\Lca\Orm\default.txvpck"/>
